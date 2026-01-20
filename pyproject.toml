@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "proxmoxer-stubs"
+version = "0.1.0"
+description = "stub files and type containers for proxmoxer"
+authors = ["credativ GmbH"]
+packages = [
+    { include = "proxmoxer-stubs" },
+    { include = "proxmoxer_types" },
+]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/credativ/proxmoxer-stubs"
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Typing :: Stubs Only",
+]
+
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/credativ/proxmoxer-stubs/issues"
+
+[tool.poetry.dependencies]
+python = ">= 3.11"
+
+[tool.poetry.group.dev.dependencies]
+proxmoxer = "^2.2.0"
+requests = "^2.32.5"
+types-requests = "^2.32.4.20260107"
+mypy = "^1.19.1"
+pytest = "^9.0.2"
+pytest-mypy = "^1.0.1"
+pydantic = "^2.12.5"
+jinja2 = "^3.1.6"
+paramiko = "^4.0.0"
+openssh-wrapper = "^0.4"
+pyright = "^1.1.408"
+black = "^26.1.0"
+isort = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+strict = "True"
+
+[tool.pytest]
+addopts = [
+    "proxmoxer-stubs",
+    "proxmoxer_types",
+    "stubgen.py",
+    "tests",
+]
+
+[tool.pyright]
+exclude = ["src"]

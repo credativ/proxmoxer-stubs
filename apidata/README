@@ -1,0 +1,5 @@
+apidata.json files have been obtained from [1] and have been slightly modified into a JSON file.
+Their LICENSE file has been obtained from [2].
+
+[1] https://github.com/proxmox/pve-docs/blob/master/api-viewer/apidata.js
+[2] https://raw.githubusercontent.com/proxmox/pve-docs/refs/heads/master/LICENSE
