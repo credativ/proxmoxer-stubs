@@ -54,7 +54,7 @@ strict = "True"
 addopts = [
     "proxmoxer-stubs",
     "proxmoxer_types",
-    "stubgen.py",
+    "stubgen",
     "tests",
 ]
 
