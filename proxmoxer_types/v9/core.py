@@ -1713,6 +1713,9 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "rule": str,
+                            "nodes": NotRequired[str],
+                            "resources": NotRequired[str],
+                            "type": str,
                         },
                     )
 
@@ -5802,7 +5805,7 @@ class ProxmoxAPI:
                                     "mapped-resource-info": dict[Any, Any],
                                     "mapped-resources": list[str],
                                     "not_allowed_nodes": NotRequired[
-                                        _NotAllowedNodes.TypedDict
+                                        dict[str, _NotAllowedNodes.TypedDict]
                                     ],
                                     "running": bool,
                                 },
@@ -6118,6 +6121,7 @@ class ProxmoxAPI:
                             "template": NotRequired[bool],
                             "uptime": NotRequired[int],
                             "vmid": int,
+                            "disk": NotRequired[int],
                         },
                     )
 
@@ -11344,7 +11348,7 @@ class ProxmoxAPI:
 
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
+                ) -> builtins.list[dict[str, float]]:
                     return []
 
             @cached_property
@@ -11750,6 +11754,8 @@ class ProxmoxAPI:
                     "ssl_fingerprint": NotRequired[str],
                     "status": Literal["unknown", "online", "offline"],
                     "uptime": NotRequired[int],
+                    "disk": NotRequired[int],
+                    "maxdisk": NotRequired[int],
                 },
             )
 
@@ -12667,6 +12673,7 @@ class ProxmoxAPI:
                             "storage": NotRequired[str],
                             "type": Literal["qemu", "lxc", "openvz", "storage"],
                             "vmid": NotRequired[int],
+                            "name": str,
                         },
                     )
 

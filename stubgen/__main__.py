@@ -2,6 +2,7 @@ import argparse
 import json
 from pathlib import Path
 from . import ApiSchema
+from .patches import Patch as BasePatch
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -16,15 +17,34 @@ parser.add_argument(
     "--stubs",
     type=Path,
     help="stub destination",
-    default=Path("proxmoxer-stubs/core.pyi"),
 )
 parser.add_argument(
     "--types",
     type=Path,
     help="type destination, e.g. proxmoxer_types/v*/core.py",
 )
+parser.add_argument(
+    "--apiversion",
+    type=str,
+    choices=('v6', 'v7', 'v8', 'v9'),
+    help="PVE major version of the JSON schema",
+    required=True,
+)
 
 args = parser.parse_args()
+
+Patch: type[BasePatch]
+
+if args.apiversion == "v6":
+    from .patches.v6 import Patch
+elif args.apiversion == "v7":
+    from .patches.v7 import Patch
+elif args.apiversion == "v8":
+    from .patches.v8 import Patch
+elif args.apiversion == "v9":
+    from .patches.v9 import Patch
+else:
+    raise RuntimeError(f"API-Version {args.apiversion} unsupported")
 
 with args.config.open() as src:
     schema = ApiSchema(children=json.load(src))
@@ -40,4 +60,4 @@ for todo in (
                 file=dst,
             )
             print(file=dst)
-            print(todo[1](), file=dst)
+            print(todo[1](Patch()), file=dst)

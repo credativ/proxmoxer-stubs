@@ -54857,7 +54857,7 @@
                                           "properties" : {
                                              "index" : {
                                                 "description" : "Index of the associated repository within the file.",
-                                                "type" : "integer"
+                                                "type" : "string"
                                              },
                                              "kind" : {
                                                 "description" : "Kind of the information (e.g. warning).",
