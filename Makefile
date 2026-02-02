@@ -2,6 +2,7 @@
 
 APIFILES := $(notdir $(wildcard apidata/apidata-v*.json))
 VERSIONS := $(patsubst apidata-%.json,%,$(APIFILES))
+LATEST := v9
 
 .PHONY: help
 
@@ -14,14 +15,14 @@ all: proxmoxer-stubs proxmoxer_types pretty ## proxmoxer-stubs, proxmoxer_types 
 
 proxmoxer-stubs: poetry clean-stubs ## Create stubs
 	cp -r src/stubs/common proxmoxer-stubs
-	poetry run ./stubgen.py --config apidata/apidata.json --stubs proxmoxer-stubs/core.pyi ; \
+	poetry run python3 -m stubgen --config apidata/apidata-$(LATEST).json --stubs proxmoxer-stubs/core.pyi --apiversion $(LATEST) ; \
 
 
 proxmoxer_types: poetry clean-types ## Create type containers
 	cp -r src/types/common proxmoxer_types
 	for V in $(VERSIONS) ; do \
 		cp -r src/types/each proxmoxer_types/$$V ; \
-		poetry run ./stubgen.py --config apidata/apidata-$$V.json --types proxmoxer_types/$$V/core.py ; \
+		poetry run python3 -m stubgen --config apidata/apidata-$$V.json --types proxmoxer_types/$$V/core.py --apiversion $$V ; \
 	done
 
 
