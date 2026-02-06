@@ -466,12 +466,18 @@ class ApiSchemaItem(BaseModel):
                 {%   endif -%}
                 {% endif %}
                 {%- if path[-1].is_param %}
-                def __call__(self, {{ path[-1] }}: {% if info %}{{ info.param_type(path[-1].as_param) }}{% else %}str{% endif %}) -> {{ path[-1].as_class }}: return self.{{ path[-1].as_class }}()
+                def __call__(self, {{ path[-1] }}: {% if info %}{{ info.param_type(path[-1].as_param) }}{% else %}str{% endif %}) -> {{ path[-1].as_class }}:
+                    return self.{{ path[-1].as_class }}()
                 {%- else %}
                 @cached_property
-                {% if type_check_only %}@type_check_only{% endif %}
-                def {{ path[-1] }}(self) -> {% if return_prefix %}{{ return_prefix }}{% endif %}{{ path[-1].as_class }}: {% if type_check_only %}...{% else %}return self.{{ path[-1].as_class }}(){% endif %}
-                {% endif %}
+                {%    if type_check_only -%}
+                @type_check_only
+                def {{ path[-1] }}(self) -> {% if return_prefix %}{{ return_prefix }}{% endif %}{{ path[-1].as_class }}: ...
+                {%    else -%}
+                def {{ path[-1] }}(self) -> {% if return_prefix %}{{ return_prefix }}{% endif %}{{ path[-1].as_class }}:
+                    return self.{{ path[-1].as_class }}()
+                {%    endif -%}
+                {% endif -%}
                 """,
                 childcodes=(child.dump(type_check_only=type_check_only, recurse=True, return_prefix='', patch=patch) for child in self.children) if self.children else None,
                 info=self.info,
