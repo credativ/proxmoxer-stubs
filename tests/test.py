@@ -7,7 +7,7 @@ def typechecks() -> None:
     import proxmoxer_types.v8 as proxmoxer8
     import proxmoxer_types.v9 as proxmoxer9
 
-    assert_type(proxmoxer6.ProxmoxAPI().cluster.ceph.metadata.get(), dict[Any, Any])
+    assert_type(proxmoxer6.ProxmoxAPI().cluster.ceph.metadata.get(), dict[str, Any])
     assert_type(proxmoxer6.ProxmoxAPI().cluster.ceph.metadata.get()["mon"], Any)
     assert_type(proxmoxer6.ProxmoxAPI().cluster.ceph.metadata.get()["mon"]["{id}"]["ceph_version"], Any)
 
@@ -17,8 +17,8 @@ def typechecks() -> None:
 
     assert_type(proxmoxer8.ProxmoxAPI().cluster.ceph.metadata.get(), proxmoxer8.core.ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict)
     assert_type(proxmoxer8.ProxmoxAPI().cluster.ceph.metadata.get()["mon"]["{id}"]["ceph_version"], str)
-    assert_type(proxmoxer8.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], dict[Any, Any])
-    assert_type(proxmoxer8.ProxmoxAPI().cluster.replication("some-id").get(), dict[Any, Any])
+    assert_type(proxmoxer8.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], dict[str, Any])
+    assert_type(proxmoxer8.ProxmoxAPI().cluster.replication("some-id").get(), dict[str, Any])
 
     assert_type(proxmoxer9.ProxmoxAPI().cluster.ceph.metadata.get(), proxmoxer9.core.ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict)
     assert_type(proxmoxer9.ProxmoxAPI().cluster.ceph.metadata.get()["mon"]["{id}"]["ceph_version"], str)

@@ -33,19 +33,85 @@ class ProxmoxAPI:
             @dataclass
             class Id:
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.replication(self.id).delete(
-                        *args, **kwargs
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.replication(self.id).delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.replication(
+                            self.id
+                        ).delete(*args, **kwargs)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.cluster.replication(self.id).get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.cluster.replication(self.id).get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.replication(self.id).put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.replication(self.id).put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.cluster.replication(self.id).get(
-                        *args, **kwargs
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.replication(self.id).put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
                     )
 
                 set = put
@@ -60,16 +126,49 @@ class ProxmoxAPI:
                     id=id,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.replication.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.replication.get(*args, **kwargs)
 
-            def post(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.cluster.replication.post(*args, **kwargs)
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.replication.get(
+                        *args, **kwargs
+                    )
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.cluster.replication.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.cluster.replication.post(
+                        *args, **kwargs
+                    )
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -93,26 +192,114 @@ class ProxmoxAPI:
                 @dataclass
                 class Id:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.metrics.server(self.id).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.metrics.server(
+                                self.id
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.metrics.server(
+                                self.id
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.metrics.server(self.id).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.metrics.server(
+                                self.id
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.metrics.server(
+                                self.id
+                            ).post(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.metrics.server(
+                                self.id
+                            ).post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.metrics.server(self.id).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.metrics.server(
+                                self.id
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.metrics.server(self.id).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
-                    def post(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.metrics.server(self.id).post(
-                            *args, **kwargs
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
                     create = post
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.metrics.server(self.id).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
                     set = put
@@ -147,21 +334,33 @@ class ProxmoxAPI:
                         server: str
                         type: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Metrics.Server._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.metrics.server.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.metrics.server.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Metrics.Server._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Metrics.Server._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.metrics.server.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -171,13 +370,25 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.metrics.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.metrics.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.metrics.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -195,9 +406,28 @@ class ProxmoxAPI:
             @dataclass
             class Apiversion:
 
-                def get(self, *args: Any, **kwargs: Any) -> int:
-                    return self.proxmox_api.cluster.config.apiversion.get(
-                        *args, **kwargs
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> int:
+                        return self.proxmox_api.cluster.config.apiversion.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> int:
+                        class validate(pydantic.BaseModel):
+                            data: int
+
+                        data: Any = self.proxmox_api.cluster.config.apiversion.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
                     )
 
                 proxmox_api: ProxmoxerProxmoxAPI
@@ -217,6 +447,26 @@ class ProxmoxAPI:
                 class Node:
 
                     @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.config.nodes(
+                                self.node
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.config.nodes(
+                                self.node
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
                     class _Post:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -232,6 +482,8 @@ class ProxmoxAPI:
                             corosync_conf: str
                             warnings: list[str]
 
+                        Model.__name__ = "ProxmoxAPI.Cluster.Config.Nodes.Node._Post"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
@@ -246,14 +498,19 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model"
+
                             data: Any = self.proxmox_api.cluster.config.nodes(
                                 self.node
                             ).post(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.config.nodes(self.node).delete(
-                            *args, **kwargs
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     @property
@@ -287,19 +544,33 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         node: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Config.Nodes._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.config.nodes.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.cluster.config.nodes.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Config.Nodes._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Config.Nodes._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.config.nodes.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -337,6 +608,8 @@ class ProxmoxAPI:
                             quorum_votes: int
                             ring0_addr: Optional[str] = None
 
+                        Model.__name__ = "ProxmoxAPI.Cluster.Config.Join._Get._Nodelist"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                     TypedDict = typing.TypedDict(
@@ -347,7 +620,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Config.Join._Get._Nodelist.TypedDict"
                             ],
                             "preferred_node": str,
-                            "totem": dict[Any, Any],
+                            "totem": dict[str, Any],
                         },
                     )
 
@@ -357,7 +630,9 @@ class ProxmoxAPI:
                             "ProxmoxAPI.Cluster.Config.Join._Get._Nodelist.Model"
                         ]
                         preferred_node: str
-                        totem: dict[Any, Any]
+                        totem: dict[str, Any]
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Config.Join._Get"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -369,10 +644,31 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Config.Join._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Cluster.Config.Join._Get.Model"
+
                         data: Any = self.proxmox_api.cluster.config.join.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.cluster.config.join.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.cluster.config.join.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -380,8 +676,11 @@ class ProxmoxAPI:
                         proxmox_api=self.proxmox_api,
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.cluster.config.join.post(*args, **kwargs)
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -397,8 +696,29 @@ class ProxmoxAPI:
             @dataclass
             class Totem:
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.cluster.config.totem.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.cluster.config.totem.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.cluster.config.totem.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -412,8 +732,29 @@ class ProxmoxAPI:
             @dataclass
             class Qdevice:
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.cluster.config.qdevice.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.cluster.config.qdevice.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.cluster.config.qdevice.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -423,16 +764,45 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.config.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.config.get(*args, **kwargs)
 
-            def post(self, *args: Any, **kwargs: Any) -> str:
-                return self.proxmox_api.cluster.config.post(*args, **kwargs)
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.config.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                    return self.proxmox_api.cluster.config.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> str:
+                    class validate(pydantic.BaseModel):
+                        data: str
+
+                    data: Any = self.proxmox_api.cluster.config.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -459,6 +829,28 @@ class ProxmoxAPI:
                     # /cluster/firewall/groups/{group}/{pos}
                     @dataclass
                     class Pos:
+
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            group: str
+
+                            pos: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.firewall.groups(
+                                    self.group
+                                )(self.pos).delete(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.firewall.groups(
+                                    self.group
+                                )(self.pos).delete(*args, **kwargs)
+                                return validate(data=data).data
 
                         @dataclass
                         class _Get:
@@ -502,7 +894,7 @@ class ProxmoxAPI:
                                 dport: Optional[str] = None
                                 enable: Optional[int] = None
                                 icmp_type: Optional[str] = pydantic.Field(
-                                    alias="icmp-type"
+                                    alias="icmp-type", default=None
                                 )
                                 iface: Optional[str] = None
                                 ipversion: Optional[int] = None
@@ -526,6 +918,10 @@ class ProxmoxAPI:
                                 sport: Optional[str] = None
                                 type: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             group: str
@@ -542,15 +938,43 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model"
+
                                 data: Any = self.proxmox_api.cluster.firewall.groups(
                                     self.group
                                 )(self.pos).get(*args, **kwargs)
-                                return self.Model(**data)
+                                return validate(data=data).data
 
-                        def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.groups(self.group)(
-                                self.pos
-                            ).delete(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            group: str
+
+                            pos: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.firewall.groups(
+                                    self.group
+                                )(self.pos).put(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.firewall.groups(
+                                    self.group
+                                )(self.pos).put(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                group=self.group,
+                                pos=self.pos,
+                            )
 
                         @property
                         def get(self) -> _Get:
@@ -560,10 +984,13 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.groups(self.group)(
-                                self.pos
-                            ).put(*args, **kwargs)
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                group=self.group,
+                                pos=self.pos,
+                            )
 
                         set = put
 
@@ -580,6 +1007,26 @@ class ProxmoxAPI:
                         )
 
                     @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.groups(
+                                self.group
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.groups(
+                                self.group
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -591,35 +1038,76 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             pos: int
 
+                        Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         group: str
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.groups(
-                            self.group
-                        ).delete(*args, **kwargs)
-
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.cluster.firewall.groups(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.cluster.firewall.groups(
                                 self.group
                             ).get(*args, **kwargs)
-                        ).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.groups(
-                            self.group
-                        ).post(*args, **kwargs)
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.Model"
+                        ]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.cluster.firewall.groups(
+                                self.group
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.groups(
+                                self.group
+                            ).post(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.groups(
+                                self.group
+                            ).post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            group=self.group,
+                        )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            group=self.group,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            group=self.group,
+                        )
 
                     create = post
 
@@ -649,25 +1137,56 @@ class ProxmoxAPI:
                         digest: str
                         group: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Groups._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.firewall.groups.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.firewall.groups.get(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.firewall.groups.post(
-                        *args, **kwargs
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Groups._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Firewall.Groups._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.firewall.groups.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.firewall.groups.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.firewall.groups.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
                     )
 
                 create = post
@@ -687,6 +1206,26 @@ class ProxmoxAPI:
                 # /cluster/firewall/rules/{pos}
                 @dataclass
                 class Pos:
+
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        pos: int
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.rules(
+                                self.pos
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.rules(
+                                self.pos
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
 
                     @dataclass
                     class _Get:
@@ -729,7 +1268,9 @@ class ProxmoxAPI:
                             dest: Optional[str] = None
                             dport: Optional[str] = None
                             enable: Optional[int] = None
-                            icmp_type: Optional[str] = pydantic.Field(alias="icmp-type")
+                            icmp_type: Optional[str] = pydantic.Field(
+                                alias="icmp-type", default=None
+                            )
                             iface: Optional[str] = None
                             ipversion: Optional[int] = None
                             log: Optional[
@@ -752,6 +1293,8 @@ class ProxmoxAPI:
                             sport: Optional[str] = None
                             type: str
 
+                        Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         pos: int
@@ -766,14 +1309,39 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model"
+
                             data: Any = self.proxmox_api.cluster.firewall.rules(
                                 self.pos
                             ).get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.rules(self.pos).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        pos: int
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.rules(
+                                self.pos
+                            ).put(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.rules(
+                                self.pos
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            pos=self.pos,
                         )
 
                     @property
@@ -783,9 +1351,11 @@ class ProxmoxAPI:
                             pos=self.pos,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.rules(self.pos).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            pos=self.pos,
                         )
 
                     set = put
@@ -812,24 +1382,57 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         pos: int
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Rules._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.firewall.rules.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.firewall.rules.get(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.firewall.rules.post(*args, **kwargs)
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Rules._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Firewall.Rules._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.firewall.rules.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.firewall.rules.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.firewall.rules.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -853,20 +1456,99 @@ class ProxmoxAPI:
                     @dataclass
                     class Cidr:
 
-                        def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.ipset(self.name)(
-                                self.cidr
-                            ).delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return self.proxmox_api.cluster.firewall.ipset(self.name)(
-                                self.cidr
-                            ).get(*args, **kwargs)
+                            name: str
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.ipset(self.name)(
-                                self.cidr
-                            ).put(*args, **kwargs)
+                            cidr: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.firewall.ipset(
+                                    self.name
+                                )(self.cidr).delete(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(
+                                    self.name
+                                )(self.cidr).delete(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            name: str
+
+                            cidr: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                return self.proxmox_api.cluster.firewall.ipset(
+                                    self.name
+                                )(self.cidr).get(*args, **kwargs)
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                class validate(pydantic.BaseModel):
+                                    data: dict[str, Any]
+
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(
+                                    self.name
+                                )(self.cidr).get(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            name: str
+
+                            cidr: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.firewall.ipset(
+                                    self.name
+                                )(self.cidr).put(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(
+                                    self.name
+                                )(self.cidr).put(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                name=self.name,
+                                cidr=self.cidr,
+                            )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                name=self.name,
+                                cidr=self.cidr,
+                            )
+
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                name=self.name,
+                                cidr=self.cidr,
+                            )
 
                         set = put
 
@@ -881,6 +1563,26 @@ class ProxmoxAPI:
                             cidr=cidr,
                             name=self.name,
                         )
+
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.ipset(
+                                self.name
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(
+                                self.name
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
 
                     @dataclass
                     class _Get:
@@ -900,34 +1602,73 @@ class ProxmoxAPI:
                             digest: str
                             nomatch: Optional[bool] = None
 
+                        Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         name: str
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.ipset(
-                            self.name
-                        ).delete(*args, **kwargs)
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.cluster.firewall.ipset(
+                                self.name
+                            ).get(*args, **kwargs)
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
-                            ]
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.Model"
+                                ]
 
-                        return validate(
-                            data=self.proxmox_api.cluster.firewall.ipset(self.name).get(
-                                *args, **kwargs
-                            )
-                        ).data
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(
+                                self.name
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.ipset(self.name).post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.ipset(
+                                self.name
+                            ).post(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(
+                                self.name
+                            ).post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
+                        )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
                         )
 
                     create = post
@@ -958,24 +1699,57 @@ class ProxmoxAPI:
                         digest: str
                         name: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Ipset._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.firewall.ipset.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.firewall.ipset.get(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.firewall.ipset.post(*args, **kwargs)
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.firewall.ipset.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.firewall.ipset.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.firewall.ipset.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -995,19 +1769,85 @@ class ProxmoxAPI:
                 @dataclass
                 class Name:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.aliases(
-                            self.name
-                        ).delete(*args, **kwargs)
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.firewall.aliases(self.name).get(
-                            *args, **kwargs
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.aliases(
+                                self.name
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(
+                                self.name
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.firewall.aliases(
+                                self.name
+                            ).get(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(
+                                self.name
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.aliases(
+                                self.name
+                            ).put(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(
+                                self.name
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.aliases(self.name).put(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
+                        )
+
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
                         )
 
                     set = put
@@ -1040,27 +1880,56 @@ class ProxmoxAPI:
                         digest: str
                         name: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Aliases._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[
-                    "ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"
-                ]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.firewall.aliases.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.firewall.aliases.get(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.firewall.aliases.post(
-                        *args, **kwargs
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Aliases._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Firewall.Aliases._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.firewall.aliases.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.firewall.aliases.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.firewall.aliases.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
                     )
 
                 create = post
@@ -1101,6 +1970,8 @@ class ProxmoxAPI:
                         policy_in: Optional[Literal["ACCEPT", "REJECT", "DROP"]] = None
                         policy_out: Optional[Literal["ACCEPT", "REJECT", "DROP"]] = None
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Options._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(
@@ -1113,10 +1984,31 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Cluster.Firewall.Options._Get.Model"
+
                         data: Any = self.proxmox_api.cluster.firewall.options.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.firewall.options.put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.firewall.options.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -1124,9 +2016,10 @@ class ProxmoxAPI:
                         proxmox_api=self.proxmox_api,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.firewall.options.put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
                     )
 
                 set = put
@@ -1157,21 +2050,33 @@ class ProxmoxAPI:
                         descr: str
                         macro: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Macros._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.firewall.macros.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.firewall.macros.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Macros._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Firewall.Macros._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.firewall.macros.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1203,19 +2108,33 @@ class ProxmoxAPI:
                         ref: str
                         type: Literal["alias", "ipset"]
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Refs._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.firewall.refs.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.cluster.firewall.refs.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Firewall.Refs._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Firewall.Refs._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.firewall.refs.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1225,13 +2144,25 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.firewall.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.firewall.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.firewall.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1275,6 +2206,8 @@ class ProxmoxAPI:
                                     name: str
                                     reason: str
 
+                                Model.__name__ = "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children._Children"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 id: str
@@ -1303,6 +2236,8 @@ class ProxmoxAPI:
                                 name: Optional[str] = None
                                 type: Literal["qemu", "lxc", "unknown"]
 
+                            Model.__name__ = "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             id: str
@@ -1321,6 +2256,10 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children.Model"
                             ]
 
+                        Model.__name__ = (
+                            "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get"
+                        )
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         id: str
@@ -1335,10 +2274,13 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model"
+
                             data: Any = self.proxmox_api.cluster.backup(
                                 self.id
                             ).included_volumes.get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
                     @property
                     def get(self) -> _Get:
@@ -1358,16 +2300,86 @@ class ProxmoxAPI:
                         id=self.id,
                     )
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.backup(self.id).delete(
-                        *args, **kwargs
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.backup(self.id).delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.backup(self.id).delete(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.cluster.backup(self.id).get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.cluster.backup(self.id).get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.backup(self.id).put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.backup(self.id).put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.cluster.backup(self.id).get(*args, **kwargs)
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
+                    )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.backup(self.id).put(*args, **kwargs)
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
+                    )
 
                 set = put
 
@@ -1393,20 +2405,49 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     id: str
 
+                Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]:
+                    return self.proxmox_api.cluster.backup.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.cluster.backup.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Backup._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Backup._Get.Model"]
 
-            def post(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.cluster.backup.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.backup.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.cluster.backup.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.cluster.backup.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -1442,23 +2483,39 @@ class ProxmoxAPI:
                         type: Literal["qemu", "lxc"]
                         vmid: int
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Backupinfo.NotBackedUp._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[
-                    "ProxmoxAPI.Cluster.Backupinfo.NotBackedUp._Get.TypedDict"
-                ]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Backupinfo.NotBackedUp._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.backupinfo.not_backed_up.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[
+                        "ProxmoxAPI.Cluster.Backupinfo.NotBackedUp._Get.TypedDict"
+                    ]:
+                        return self.proxmox_api.cluster.backupinfo.not_backed_up.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Backupinfo.NotBackedUp._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list[
+                                "ProxmoxAPI.Cluster.Backupinfo.NotBackedUp._Get.Model"
+                            ]
+
+                        data: Any = (
+                            self.proxmox_api.cluster.backupinfo.not_backed_up.get(
+                                *args, **kwargs
+                            )
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1468,8 +2525,25 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> str:
-                return self.proxmox_api.cluster.backupinfo.get(*args, **kwargs)
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                    return self.proxmox_api.cluster.backupinfo.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> str:
+                    class validate(pydantic.BaseModel):
+                        data: str
+
+                    data: Any = self.proxmox_api.cluster.backupinfo.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1495,10 +2569,32 @@ class ProxmoxAPI:
                     @dataclass
                     class Migrate:
 
-                        def post(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ha.resources(
-                                self.sid
-                            ).migrate.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            sid: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.ha.resources(
+                                    self.sid
+                                ).migrate.post(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.ha.resources(
+                                    self.sid
+                                ).migrate.post(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                sid=self.sid,
+                            )
 
                         create = post
 
@@ -1517,10 +2613,32 @@ class ProxmoxAPI:
                     @dataclass
                     class Relocate:
 
-                        def post(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ha.resources(
-                                self.sid
-                            ).relocate.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            sid: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.ha.resources(
+                                    self.sid
+                                ).relocate.post(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.ha.resources(
+                                    self.sid
+                                ).relocate.post(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                sid=self.sid,
+                            )
 
                         create = post
 
@@ -1534,6 +2652,26 @@ class ProxmoxAPI:
                             proxmox_api=self.proxmox_api,
                             sid=self.sid,
                         )
+
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        sid: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.ha.resources(
+                                self.sid
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ha.resources(
+                                self.sid
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
 
                     @dataclass
                     class _Get:
@@ -1577,6 +2715,8 @@ class ProxmoxAPI:
                             ] = None
                             type: str
 
+                        Model.__name__ = "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         sid: str
@@ -1591,14 +2731,39 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model"
+
                             data: Any = self.proxmox_api.cluster.ha.resources(
                                 self.sid
                             ).get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ha.resources(self.sid).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        sid: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.ha.resources(self.sid).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ha.resources(
+                                self.sid
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            sid=self.sid,
                         )
 
                     @property
@@ -1608,9 +2773,11 @@ class ProxmoxAPI:
                             sid=self.sid,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ha.resources(self.sid).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            sid=self.sid,
                         )
 
                     set = put
@@ -1637,22 +2804,57 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         sid: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Ha.Resources._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.ha.resources.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.cluster.ha.resources.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ha.Resources._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Ha.Resources._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.ha.resources.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ha.resources.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.ha.resources.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.ha.resources.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -1672,19 +2874,85 @@ class ProxmoxAPI:
                 @dataclass
                 class Group:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ha.groups(self.group).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.ha.groups(
+                                self.group
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ha.groups(
+                                self.group
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.ha.groups(self.group).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.ha.groups(
+                                self.group
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.ha.groups(self.group).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ha.groups(
+                                self.group
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            group=self.group,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.ha.groups(self.group).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            group=self.group,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ha.groups(self.group).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            group=self.group,
                         )
 
                     set = put
@@ -1711,22 +2979,53 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         group: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Ha.Groups._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.ha.groups.get(*args, **kwargs)
 
-                    return validate(
-                        data=self.proxmox_api.cluster.ha.groups.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ha.Groups._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Ha.Groups._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.ha.groups.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ha.groups.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.ha.groups.post(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.ha.groups.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -1746,9 +3045,28 @@ class ProxmoxAPI:
                 @dataclass
                 class Current:
 
-                    def get(self, *args: Any, **kwargs: Any) -> list[Any]:
-                        return self.proxmox_api.cluster.ha.status.current.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> list[Any]:
+                            return self.proxmox_api.cluster.ha.status.current.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> list[Any]:
+                            class validate(pydantic.BaseModel):
+                                data: list[Any]
+
+                            data: Any = self.proxmox_api.cluster.ha.status.current.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -1763,9 +3081,32 @@ class ProxmoxAPI:
                 @dataclass
                 class ManagerStatus:
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.ha.status.manager_status.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return (
+                                self.proxmox_api.cluster.ha.status.manager_status.get(
+                                    *args, **kwargs
+                                )
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = (
+                                self.proxmox_api.cluster.ha.status.manager_status.get(
+                                    *args, **kwargs
+                                )
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -1776,15 +3117,29 @@ class ProxmoxAPI:
                         proxmox_api=self.proxmox_api,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.cluster.ha.status.get(*args, **kwargs)
-                    ).data
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.cluster.ha.status.get(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.cluster.ha.status.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1806,17 +3161,29 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     id: str
 
+                Model.__name__ = "ProxmoxAPI.Cluster.Ha._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]:
+                    return self.proxmox_api.cluster.ha.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.cluster.ha.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Ha._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Ha._Get.Model"]
+
+                    data: Any = self.proxmox_api.cluster.ha.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1838,19 +3205,85 @@ class ProxmoxAPI:
                 @dataclass
                 class Id:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.acme.plugins(self.id).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.acme.plugins(
+                                self.id
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.acme.plugins(
+                                self.id
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.acme.plugins(self.id).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.acme.plugins(
+                                self.id
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.acme.plugins(self.id).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.acme.plugins(
+                                self.id
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.acme.plugins(self.id).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.acme.plugins(self.id).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
                         )
 
                     set = put
@@ -1877,22 +3310,57 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         plugin: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Acme.Plugins._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.acme.plugins.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.cluster.acme.plugins.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Acme.Plugins._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Acme.Plugins._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.acme.plugins.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.acme.plugins.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.acme.plugins.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.acme.plugins.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -1913,11 +3381,31 @@ class ProxmoxAPI:
                 class Name:
 
                     @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.cluster.acme.account(
+                                self.name
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.cluster.acme.account(
+                                self.name
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "account": NotRequired[dict[Any, Any]],
+                                "account": NotRequired[dict[str, Any]],
                                 "directory": NotRequired[str],
                                 "location": NotRequired[str],
                                 "tos": NotRequired[str],
@@ -1925,10 +3413,12 @@ class ProxmoxAPI:
                         )
 
                         class Model(pydantic.BaseModel):
-                            account: Optional[dict[Any, Any]] = None
+                            account: Optional[dict[str, Any]] = None
                             directory: Optional[str] = None
                             location: Optional[str] = None
                             tos: Optional[str] = None
+
+                        Model.__name__ = "ProxmoxAPI.Cluster.Acme.Account.Name._Get"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1944,14 +3434,39 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model"
+
                             data: Any = self.proxmox_api.cluster.acme.account(
                                 self.name
                             ).get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
-                    def delete(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.cluster.acme.account(self.name).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.cluster.acme.account(self.name).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.cluster.acme.account(
+                                self.name
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
                         )
 
                     @property
@@ -1961,9 +3476,11 @@ class ProxmoxAPI:
                             name=self.name,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.cluster.acme.account(self.name).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
                         )
 
                     set = put
@@ -1978,18 +3495,55 @@ class ProxmoxAPI:
                         name=name,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.cluster.acme.account.get(*args, **kwargs)
-                    ).data
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.cluster.acme.account.get(
+                            *args, **kwargs
+                        )
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.cluster.acme.account.post(*args, **kwargs)
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.cluster.acme.account.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.cluster.acme.account.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.cluster.acme.account.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -2005,8 +3559,27 @@ class ProxmoxAPI:
             @dataclass
             class Tos:
 
-                def get(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.cluster.acme.tos.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.cluster.acme.tos.get(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.cluster.acme.tos.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2034,23 +3607,33 @@ class ProxmoxAPI:
                         name: str
                         url: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Acme.Directories._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[
-                    "ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"
-                ]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.acme.directories.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.acme.directories.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Acme.Directories._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Acme.Directories._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.acme.directories.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2071,7 +3654,7 @@ class ProxmoxAPI:
                         {
                             "id": str,
                             "name": str,
-                            "schema": dict[Any, Any],
+                            "schema": dict[str, Any],
                             "type": str,
                         },
                     )
@@ -2079,26 +3662,38 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         id: str
                         name: str
-                        schema_: dict[Any, Any] = pydantic.Field(alias="schema")
+                        schema_: dict[str, Any] = pydantic.Field(alias="schema")
                         type: str
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[
-                    "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"
-                ]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.acme.challenge_schema.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.acme.challenge_schema.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list[
+                                "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.Model"
+                            ]
+
+                        data: Any = self.proxmox_api.cluster.acme.challenge_schema.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2108,13 +3703,25 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.acme.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.acme.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.acme.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2132,8 +3739,29 @@ class ProxmoxAPI:
             @dataclass
             class Metadata:
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.cluster.ceph.metadata.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.cluster.ceph.metadata.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.cluster.ceph.metadata.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2147,8 +3775,27 @@ class ProxmoxAPI:
             @dataclass
             class Status:
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.cluster.ceph.status.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.cluster.ceph.status.get(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.cluster.ceph.status.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2166,14 +3813,58 @@ class ProxmoxAPI:
                 @dataclass
                 class Flag:
 
-                    def get(self, *args: Any, **kwargs: Any) -> bool:
-                        return self.proxmox_api.cluster.ceph.flags(self.flag).get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        flag: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> bool:
+                            return self.proxmox_api.cluster.ceph.flags(self.flag).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> bool:
+                            class validate(pydantic.BaseModel):
+                                data: bool
+
+                            data: Any = self.proxmox_api.cluster.ceph.flags(
+                                self.flag
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        flag: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.ceph.flags(self.flag).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ceph.flags(
+                                self.flag
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            flag=self.flag,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ceph.flags(self.flag).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            flag=self.flag,
                         )
 
                     set = put
@@ -2224,22 +3915,53 @@ class ProxmoxAPI:
                             "pause",
                         ]
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Flags._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.ceph.flags.get(*args, **kwargs)
 
-                    return validate(
-                        data=self.proxmox_api.cluster.ceph.flags.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ceph.Flags._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Ceph.Flags._Get.Model"]
 
-                def put(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.cluster.ceph.flags.put(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ceph.flags.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.cluster.ceph.flags.put(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.cluster.ceph.flags.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 set = put
 
@@ -2251,13 +3973,25 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.ceph.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.ceph.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.ceph.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2287,25 +4021,110 @@ class ProxmoxAPI:
                         @dataclass
                         class Subnet:
 
-                            def delete(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                    .subnets(self.subnet)
-                                    .delete(*args, **kwargs)
+                            @dataclass
+                            class _Delete:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                vnet: str
+
+                                subnet: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                        .subnets(self.subnet)
+                                        .delete(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                        .subnets(self.subnet)
+                                        .delete(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                vnet: str
+
+                                subnet: str
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                        .subnets(self.subnet)
+                                        .get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                        .subnets(self.subnet)
+                                        .get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Put:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                vnet: str
+
+                                subnet: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                        .subnets(self.subnet)
+                                        .put(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                        .subnets(self.subnet)
+                                        .put(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def delete(self) -> _Delete:
+                                return self._Delete(
+                                    proxmox_api=self.proxmox_api,
+                                    vnet=self.vnet,
+                                    subnet=self.subnet,
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                    .subnets(self.subnet)
-                                    .get(*args, **kwargs)
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    vnet=self.vnet,
+                                    subnet=self.subnet,
                                 )
 
-                            def put(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                    .subnets(self.subnet)
-                                    .put(*args, **kwargs)
+                            @property
+                            def put(self) -> _Put:
+                                return self._Put(
+                                    proxmox_api=self.proxmox_api,
+                                    vnet=self.vnet,
+                                    subnet=self.subnet,
                                 )
 
                             set = put
@@ -2322,22 +4141,63 @@ class ProxmoxAPI:
                                 vnet=self.vnet,
                             )
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.cluster.sdn.vnets(
+                            vnet: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return self.proxmox_api.cluster.sdn.vnets(
                                     self.vnet
                                 ).subnets.get(*args, **kwargs)
-                            ).data
 
-                        def post(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.vnets(
-                                self.vnet
-                            ).subnets.post(*args, **kwargs)
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(
+                                    self.vnet
+                                ).subnets.get(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            vnet: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return self.proxmox_api.cluster.sdn.vnets(
+                                    self.vnet
+                                ).subnets.post(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(
+                                    self.vnet
+                                ).subnets.post(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                vnet=self.vnet,
+                            )
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                vnet=self.vnet,
+                            )
 
                         create = post
 
@@ -2352,19 +4212,85 @@ class ProxmoxAPI:
                             vnet=self.vnet,
                         )
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.vnets(self.vnet).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        vnet: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.vnets(self.vnet).delete(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(
+                                self.vnet
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        vnet: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.sdn.vnets(self.vnet).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(
+                                self.vnet
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        vnet: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.vnets(self.vnet).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(
+                                self.vnet
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            vnet=self.vnet,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.sdn.vnets(self.vnet).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            vnet=self.vnet,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.vnets(self.vnet).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            vnet=self.vnet,
                         )
 
                     set = put
@@ -2379,18 +4305,51 @@ class ProxmoxAPI:
                         vnet=vnet,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.cluster.sdn.vnets.get(*args, **kwargs)
-                    ).data
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.cluster.sdn.vnets.get(*args, **kwargs)
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.sdn.vnets.post(*args, **kwargs)
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.cluster.sdn.vnets.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.sdn.vnets.post(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.sdn.vnets.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -2410,19 +4369,85 @@ class ProxmoxAPI:
                 @dataclass
                 class Zone:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.zones(self.zone).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        zone: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.zones(self.zone).delete(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.zones(
+                                self.zone
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        zone: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.sdn.zones(self.zone).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.sdn.zones(
+                                self.zone
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        zone: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.zones(self.zone).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.zones(
+                                self.zone
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            zone=self.zone,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.sdn.zones(self.zone).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            zone=self.zone,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.zones(self.zone).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            zone=self.zone,
                         )
 
                     set = put
@@ -2447,7 +4472,7 @@ class ProxmoxAPI:
                             "ipam": NotRequired[str],
                             "mtu": NotRequired[int],
                             "nodes": NotRequired[str],
-                            "pending": NotRequired[dict[Any, Any]],
+                            "pending": NotRequired[dict[str, Any]],
                             "reversedns": NotRequired[str],
                             "state": NotRequired[str],
                             "type": str,
@@ -2461,28 +4486,59 @@ class ProxmoxAPI:
                         ipam: Optional[str] = None
                         mtu: Optional[int] = None
                         nodes: Optional[str] = None
-                        pending: Optional[dict[Any, Any]] = None
+                        pending: Optional[dict[str, Any]] = None
                         reversedns: Optional[str] = None
                         state: Optional[str] = None
                         type: str
                         zone: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Zones._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.sdn.zones.get(*args, **kwargs)
 
-                    return validate(
-                        data=self.proxmox_api.cluster.sdn.zones.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Zones._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Sdn.Zones._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.sdn.zones.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.zones.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.sdn.zones.post(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.sdn.zones.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -2502,20 +4558,86 @@ class ProxmoxAPI:
                 @dataclass
                 class Controller:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.controllers(
-                            self.controller
-                        ).delete(*args, **kwargs)
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.sdn.controllers(
-                            self.controller
-                        ).get(*args, **kwargs)
+                        controller: str
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.controllers(
-                            self.controller
-                        ).put(*args, **kwargs)
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.controllers(
+                                self.controller
+                            ).delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(
+                                self.controller
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        controller: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.sdn.controllers(
+                                self.controller
+                            ).get(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(
+                                self.controller
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        controller: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.controllers(
+                                self.controller
+                            ).put(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(
+                                self.controller
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            controller=self.controller,
+                        )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            controller=self.controller,
+                        )
+
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            controller=self.controller,
+                        )
 
                     set = put
 
@@ -2535,7 +4657,7 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "controller": str,
-                            "pending": NotRequired[dict[Any, Any]],
+                            "pending": NotRequired[dict[str, Any]],
                             "state": NotRequired[str],
                             "type": str,
                         },
@@ -2543,29 +4665,60 @@ class ProxmoxAPI:
 
                     class Model(pydantic.BaseModel):
                         controller: str
-                        pending: Optional[dict[Any, Any]] = None
+                        pending: Optional[dict[str, Any]] = None
                         state: Optional[str] = None
                         type: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Controllers._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.cluster.sdn.controllers.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.sdn.controllers.get(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.sdn.controllers.post(
-                        *args, **kwargs
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.sdn.controllers.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.sdn.controllers.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.sdn.controllers.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
                     )
 
                 create = post
@@ -2586,19 +4739,85 @@ class ProxmoxAPI:
                 @dataclass
                 class Ipam:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.ipams(self.ipam).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        ipam: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.ipams(self.ipam).delete(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(
+                                self.ipam
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        ipam: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.sdn.ipams(self.ipam).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(
+                                self.ipam
+                            ).get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        ipam: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.ipams(self.ipam).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(
+                                self.ipam
+                            ).put(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            ipam=self.ipam,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.sdn.ipams(self.ipam).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            ipam=self.ipam,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.ipams(self.ipam).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            ipam=self.ipam,
                         )
 
                     set = put
@@ -2627,22 +4846,53 @@ class ProxmoxAPI:
                         ipam: str
                         type: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Ipams._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"
-                        ]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.sdn.ipams.get(*args, **kwargs)
 
-                    return validate(
-                        data=self.proxmox_api.cluster.sdn.ipams.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.sdn.ipams.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.ipams.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.sdn.ipams.post(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.sdn.ipams.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -2662,19 +4912,85 @@ class ProxmoxAPI:
                 @dataclass
                 class Dns:
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.dns(self.dns).delete(
-                            *args, **kwargs
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        dns: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.dns(self.dns).delete(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.dns(
+                                self.dns
+                            ).delete(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        dns: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.cluster.sdn.dns(self.dns).get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        dns: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.sdn.dns(self.dns).put(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).put(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            dns=self.dns,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.cluster.sdn.dns(self.dns).get(
-                            *args, **kwargs
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            dns=self.dns,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.dns(self.dns).put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            dns=self.dns,
                         )
 
                     set = put
@@ -2703,20 +5019,53 @@ class ProxmoxAPI:
                         dns: str
                         type: str
 
+                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Dns._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]:
+                        return self.proxmox_api.cluster.sdn.dns.get(*args, **kwargs)
 
-                    return validate(
-                        data=self.proxmox_api.cluster.sdn.dns.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.Dns._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Sdn.Dns._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.sdn.dns.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.dns.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.cluster.sdn.dns.post(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.sdn.dns.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
@@ -2740,20 +5089,49 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     id: str
 
+                Model.__name__ = "ProxmoxAPI.Cluster.Sdn._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]:
+                    return self.proxmox_api.cluster.sdn.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.cluster.sdn.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Sdn._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Sdn._Get.Model"]
 
-            def put(self, *args: Any, **kwargs: Any) -> str:
-                return self.proxmox_api.cluster.sdn.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.sdn.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Put:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                    return self.proxmox_api.cluster.sdn.put(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> str:
+                    class validate(pydantic.BaseModel):
+                        data: str
+
+                    data: Any = self.proxmox_api.cluster.sdn.put(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def put(self) -> _Put:
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                )
 
             set = put
 
@@ -2769,13 +5147,25 @@ class ProxmoxAPI:
         @dataclass
         class Log:
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.cluster.log.get(*args, **kwargs)
-                ).data
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.cluster.log.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.log.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2837,17 +5227,29 @@ class ProxmoxAPI:
                     ]
                     uptime: Optional[int] = None
 
+                Model.__name__ = "ProxmoxAPI.Cluster.Resources._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]:
+                    return self.proxmox_api.cluster.resources.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.cluster.resources.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Resources._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Resources._Get.Model"]
+
+                    data: Any = self.proxmox_api.cluster.resources.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2873,17 +5275,29 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     upid: str
 
+                Model.__name__ = "ProxmoxAPI.Cluster.Tasks._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]:
+                    return self.proxmox_api.cluster.tasks.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.cluster.tasks.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Tasks._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Tasks._Get.Model"]
+
+                    data: Any = self.proxmox_api.cluster.tasks.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2897,11 +5311,45 @@ class ProxmoxAPI:
         @dataclass
         class Options:
 
-            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return self.proxmox_api.cluster.options.get(*args, **kwargs)
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-            def put(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.cluster.options.put(*args, **kwargs)
+                def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    return self.proxmox_api.cluster.options.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    class validate(pydantic.BaseModel):
+                        data: dict[str, Any]
+
+                    data: Any = self.proxmox_api.cluster.options.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Put:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.cluster.options.put(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.cluster.options.put(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def put(self) -> _Put:
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                )
 
             set = put
 
@@ -2949,17 +5397,29 @@ class ProxmoxAPI:
                     type: Literal["cluster", "node"]
                     version: Optional[int] = None
 
+                Model.__name__ = "ProxmoxAPI.Cluster.Status._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]:
+                    return self.proxmox_api.cluster.status.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.cluster.status.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Cluster.Status._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Status._Get.Model"]
+
+                    data: Any = self.proxmox_api.cluster.status.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2973,8 +5433,25 @@ class ProxmoxAPI:
         @dataclass
         class Nextid:
 
-            def get(self, *args: Any, **kwargs: Any) -> int:
-                return self.proxmox_api.cluster.nextid.get(*args, **kwargs)
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> int:
+                    return self.proxmox_api.cluster.nextid.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> int:
+                    class validate(pydantic.BaseModel):
+                        data: int
+
+                    data: Any = self.proxmox_api.cluster.nextid.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2984,11 +5461,25 @@ class ProxmoxAPI:
                 proxmox_api=self.proxmox_api,
             )
 
-        def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-            class validate(pydantic.BaseModel):
-                data: builtins.list[dict[Any, Any]]
+        @dataclass
+        class _Get:
+            proxmox_api: ProxmoxerProxmoxAPI
 
-            return validate(data=self.proxmox_api.cluster.get(*args, **kwargs)).data
+            def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                return self.proxmox_api.cluster.get(*args, **kwargs)
+
+            def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                class validate(pydantic.BaseModel):
+                    data: list[dict[str, Any]]
+
+                data: Any = self.proxmox_api.cluster.get(*args, **kwargs)
+                return validate(data=data).data
+
+        @property
+        def get(self) -> _Get:
+            return self._Get(
+                proxmox_api=self.proxmox_api,
+            )
 
         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3025,6 +5516,38 @@ class ProxmoxAPI:
                             # /nodes/{node}/qemu/{vmid}/firewall/rules/{pos}
                             @dataclass
                             class Pos:
+
+                                @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    pos: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .delete(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .delete(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
 
                                 @dataclass
                                 class _Get:
@@ -3068,7 +5591,7 @@ class ProxmoxAPI:
                                         dport: Optional[str] = None
                                         enable: Optional[int] = None
                                         icmp_type: Optional[str] = pydantic.Field(
-                                            alias="icmp-type"
+                                            alias="icmp-type", default=None
                                         )
                                         iface: Optional[str] = None
                                         ipversion: Optional[int] = None
@@ -3092,6 +5615,8 @@ class ProxmoxAPI:
                                         sport: Optional[str] = None
                                         type: str
 
+                                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get"
+
                                     proxmox_api: ProxmoxerProxmoxAPI
 
                                     node: str
@@ -3113,20 +5638,56 @@ class ProxmoxAPI:
                                     def model(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model":
+                                        class validate(pydantic.BaseModel):
+                                            data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model"
+
                                         data: Any = (
                                             self.proxmox_api.nodes(self.node)
                                             .qemu(self.vmid)
                                             .firewall.rules(self.pos)
                                             .get(*args, **kwargs)
                                         )
-                                        return self.Model(**data)
+                                        return validate(data=data).data
 
-                                def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.rules(self.pos)
-                                        .delete(*args, **kwargs)
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    pos: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .put(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .put(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        pos=self.pos,
                                     )
 
                                 @property
@@ -3138,12 +5699,13 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.rules(self.pos)
-                                        .put(*args, **kwargs)
+                                @property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        pos=self.pos,
                                     )
 
                                 set = put
@@ -3174,33 +5736,82 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     pos: int
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.rules.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.rules.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.Model"
+                                        ]
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.rules.post(*args, **kwargs)
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.rules.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.rules.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.rules.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3226,30 +5837,129 @@ class ProxmoxAPI:
                             @dataclass
                             class Name:
 
-                                def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases(self.name)
-                                        .delete(*args, **kwargs)
+                                @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Get:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        class validate(pydantic.BaseModel):
+                                            data: dict[str, Any]
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .put(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .put(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> dict[Any, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases(self.name)
-                                        .get(*args, **kwargs)
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
-                                def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases(self.name)
-                                        .put(*args, **kwargs)
+                                @property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
                                 set = put
@@ -3286,33 +5996,82 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.aliases.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.Model"
+                                        ]
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.aliases.post(*args, **kwargs)
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3342,30 +6101,142 @@ class ProxmoxAPI:
                                 @dataclass
                                 class Cidr:
 
-                                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)(self.cidr)
-                                            .delete(*args, **kwargs)
+                                    @dataclass
+                                    class _Delete:
+                                        proxmox_api: ProxmoxerProxmoxAPI
+
+                                        node: str
+
+                                        vmid: int
+
+                                        name: str
+
+                                        cidr: str
+
+                                        def __call__(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            return (
+                                                self.proxmox_api.nodes(self.node)
+                                                .qemu(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .delete(*args, **kwargs)
+                                            )
+
+                                        def model(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            class validate(pydantic.BaseModel):
+                                                data: None
+
+                                            data: Any = (
+                                                self.proxmox_api.nodes(self.node)
+                                                .qemu(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .delete(*args, **kwargs)
+                                            )
+                                            return validate(data=data).data
+
+                                    @dataclass
+                                    class _Get:
+                                        proxmox_api: ProxmoxerProxmoxAPI
+
+                                        node: str
+
+                                        vmid: int
+
+                                        name: str
+
+                                        cidr: str
+
+                                        def __call__(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> dict[str, Any]:
+                                            return (
+                                                self.proxmox_api.nodes(self.node)
+                                                .qemu(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .get(*args, **kwargs)
+                                            )
+
+                                        def model(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> dict[str, Any]:
+                                            class validate(pydantic.BaseModel):
+                                                data: dict[str, Any]
+
+                                            data: Any = (
+                                                self.proxmox_api.nodes(self.node)
+                                                .qemu(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .get(*args, **kwargs)
+                                            )
+                                            return validate(data=data).data
+
+                                    @dataclass
+                                    class _Put:
+                                        proxmox_api: ProxmoxerProxmoxAPI
+
+                                        node: str
+
+                                        vmid: int
+
+                                        name: str
+
+                                        cidr: str
+
+                                        def __call__(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            return (
+                                                self.proxmox_api.nodes(self.node)
+                                                .qemu(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .put(*args, **kwargs)
+                                            )
+
+                                        def model(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            class validate(pydantic.BaseModel):
+                                                data: None
+
+                                            data: Any = (
+                                                self.proxmox_api.nodes(self.node)
+                                                .qemu(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .put(*args, **kwargs)
+                                            )
+                                            return validate(data=data).data
+
+                                    @property
+                                    def delete(self) -> _Delete:
+                                        return self._Delete(
+                                            proxmox_api=self.proxmox_api,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                            cidr=self.cidr,
                                         )
 
-                                    def get(
-                                        self, *args: Any, **kwargs: Any
-                                    ) -> dict[Any, Any]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)(self.cidr)
-                                            .get(*args, **kwargs)
+                                    @property
+                                    def get(self) -> _Get:
+                                        return self._Get(
+                                            proxmox_api=self.proxmox_api,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                            cidr=self.cidr,
                                         )
 
-                                    def put(self, *args: Any, **kwargs: Any) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)(self.cidr)
-                                            .put(*args, **kwargs)
+                                    @property
+                                    def put(self) -> _Put:
+                                        return self._Put(
+                                            proxmox_api=self.proxmox_api,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                            cidr=self.cidr,
                                         )
 
                                     set = put
@@ -3387,6 +6258,38 @@ class ProxmoxAPI:
                                     )
 
                                 @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
                                 class _Get:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -3404,6 +6307,8 @@ class ProxmoxAPI:
                                         digest: str
                                         nomatch: Optional[bool] = None
 
+                                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get"
+
                                     proxmox_api: ProxmoxerProxmoxAPI
 
                                     node: str
@@ -3412,37 +6317,93 @@ class ProxmoxAPI:
 
                                     name: str
 
-                                def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset(self.name)
-                                        .delete(*args, **kwargs)
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                    ]:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.Model"
+                                    ]:
+                                        class validate(pydantic.BaseModel):
+                                            data: list[
+                                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.Model"
+                                            ]
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Post:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .post(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .post(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
-                                ]:
-                                    class validate(pydantic.BaseModel):
-                                        data: builtins.list[
-                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
-                                        ]
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
+                                    )
 
-                                    return validate(
-                                        data=self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset(self.name)
-                                        .get(*args, **kwargs)
-                                    ).data
-
-                                def post(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset(self.name)
-                                        .post(*args, **kwargs)
+                                @property
+                                def post(self) -> _Post:
+                                    return self._Post(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
                                 create = post
@@ -3477,33 +6438,82 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.ipset.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.Model"
+                                        ]
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.ipset.post(*args, **kwargs)
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3611,6 +6621,8 @@ class ProxmoxAPI:
                                     ] = None
                                     radv: Optional[bool] = None
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
@@ -3629,12 +6641,41 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .qemu(self.vmid)
                                         .firewall.options.get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Put:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.options.put(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.options.put(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
 
                             @property
                             def get(self) -> _Get:
@@ -3644,11 +6685,12 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            def put(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.options.put(*args, **kwargs)
+                            @property
+                            def put(self) -> _Put:
+                                return self._Put(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             set = put
@@ -3684,27 +6726,51 @@ class ProxmoxAPI:
                                     n: int
                                     t: str
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.log.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.log.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.log.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3739,27 +6805,51 @@ class ProxmoxAPI:
                                     name: str
                                     type: Literal["alias", "ipset"]
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.refs.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.refs.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.refs.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3774,17 +6864,43 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .firewall.get(*args, **kwargs)
-                            ).data
+                            node: str
+
+                            vmid: int
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3807,11 +6923,42 @@ class ProxmoxAPI:
                         @dataclass
                         class FsfreezeFreeze:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.fsfreeze_freeze.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fsfreeze_freeze.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fsfreeze_freeze.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3833,11 +6980,42 @@ class ProxmoxAPI:
                         @dataclass
                         class FsfreezeStatus:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.fsfreeze_status.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fsfreeze_status.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fsfreeze_status.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3859,11 +7037,42 @@ class ProxmoxAPI:
                         @dataclass
                         class FsfreezeThaw:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.fsfreeze_thaw.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fsfreeze_thaw.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fsfreeze_thaw.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3885,11 +7094,42 @@ class ProxmoxAPI:
                         @dataclass
                         class Fstrim:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.fstrim.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fstrim.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.fstrim.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -3911,11 +7151,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetFsinfo:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_fsinfo.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_fsinfo.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_fsinfo.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -3935,11 +7206,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetHostName:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_host_name.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_host_name.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_host_name.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -3959,11 +7261,46 @@ class ProxmoxAPI:
                         @dataclass
                         class GetMemoryBlockInfo:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_memory_block_info.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_memory_block_info.get(
+                                            *args, **kwargs
+                                        )
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_memory_block_info.get(
+                                            *args, **kwargs
+                                        )
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -3983,11 +7320,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetMemoryBlocks:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_memory_blocks.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_memory_blocks.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_memory_blocks.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4007,11 +7375,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetOsinfo:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_osinfo.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_osinfo.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_osinfo.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4031,11 +7430,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetTime:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_time.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_time.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_time.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4055,11 +7485,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetTimezone:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_timezone.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_timezone.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_timezone.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4079,11 +7540,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetUsers:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_users.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_users.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_users.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4103,11 +7595,42 @@ class ProxmoxAPI:
                         @dataclass
                         class GetVcpus:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get_vcpus.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_vcpus.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.get_vcpus.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4127,11 +7650,42 @@ class ProxmoxAPI:
                         @dataclass
                         class Info:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.info.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.info.get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.info.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4151,11 +7705,46 @@ class ProxmoxAPI:
                         @dataclass
                         class NetworkGetInterfaces:
 
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.network_get_interfaces.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.network_get_interfaces.get(
+                                            *args, **kwargs
+                                        )
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.network_get_interfaces.get(
+                                            *args, **kwargs
+                                        )
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -4175,11 +7764,42 @@ class ProxmoxAPI:
                         @dataclass
                         class Ping:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.ping.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.ping.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.ping.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4201,11 +7821,42 @@ class ProxmoxAPI:
                         @dataclass
                         class Shutdown:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.shutdown.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.shutdown.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.shutdown.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4227,11 +7878,42 @@ class ProxmoxAPI:
                         @dataclass
                         class SuspendDisk:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.suspend_disk.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.suspend_disk.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.suspend_disk.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4253,11 +7935,42 @@ class ProxmoxAPI:
                         @dataclass
                         class SuspendHybrid:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.suspend_hybrid.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.suspend_hybrid.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.suspend_hybrid.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4279,11 +7992,42 @@ class ProxmoxAPI:
                         @dataclass
                         class SuspendRam:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.suspend_ram.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.suspend_ram.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.suspend_ram.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4305,11 +8049,42 @@ class ProxmoxAPI:
                         @dataclass
                         class SetUserPassword:
 
-                            def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.set_user_password.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.set_user_password.post(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.set_user_password.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4343,6 +8118,10 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     pid: int
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
@@ -4361,12 +8140,15 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .qemu(self.vmid)
                                         .agent.exec.post(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
 
                             @property
                             def post(self) -> _Post:
@@ -4412,20 +8194,22 @@ class ProxmoxAPI:
 
                                 class Model(pydantic.BaseModel):
                                     err_data: Optional[str] = pydantic.Field(
-                                        alias="err-data"
+                                        alias="err-data", default=None
                                     )
                                     err_truncated: Optional[bool] = pydantic.Field(
-                                        alias="err-truncated"
+                                        alias="err-truncated", default=None
                                     )
                                     exitcode: Optional[int] = None
                                     exited: bool
                                     out_data: Optional[str] = pydantic.Field(
-                                        alias="out-data"
+                                        alias="out-data", default=None
                                     )
                                     out_truncated: Optional[bool] = pydantic.Field(
-                                        alias="out-truncated"
+                                        alias="out-truncated", default=None
                                     )
                                     signal: Optional[int] = None
+
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get"
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4445,12 +8229,15 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .qemu(self.vmid)
                                         .agent.exec_status.get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
 
                             @property
                             def get(self) -> _Get:
@@ -4491,6 +8278,8 @@ class ProxmoxAPI:
                                     content: str
                                     truncated: Optional[bool] = None
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
@@ -4509,12 +8298,15 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .qemu(self.vmid)
                                         .agent.file_read.get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
 
                             @property
                             def get(self) -> _Get:
@@ -4541,11 +8333,38 @@ class ProxmoxAPI:
                         @dataclass
                         class FileWrite:
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.file_write.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.file_write.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.file_write.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -4563,23 +8382,80 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .agent.get(*args, **kwargs)
-                            ).data
+                            node: str
 
-                        def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .agent.post(*args, **kwargs)
+                            vmid: int
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.post(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                class validate(pydantic.BaseModel):
+                                    data: dict[str, Any]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -4613,6 +8489,8 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 filename: str
 
+                            Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -4631,12 +8509,17 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: (
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model"
+                                    )
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .rrd.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -4663,17 +8546,43 @@ class ProxmoxAPI:
                     @dataclass
                     class Rrddata:
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .rrddata.get(*args, **kwargs)
-                            ).data
+                            node: str
+
+                            vmid: int
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .rrddata.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .rrddata.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4871,13 +8780,15 @@ class ProxmoxAPI:
                                 freeze: Optional[bool] = None
                                 hookscript: Optional[str] = None
                                 hostpcin: Optional[str] = pydantic.Field(
-                                    alias="hostpci[n]"
+                                    alias="hostpci[n]", default=None
                                 )
                                 hotplug: Optional[str] = None
                                 hugepages: Optional[Literal["any", "2", "1024"]] = None
-                                iden: Optional[str] = pydantic.Field(alias="ide[n]")
+                                iden: Optional[str] = pydantic.Field(
+                                    alias="ide[n]", default=None
+                                )
                                 ipconfign: Optional[str] = pydantic.Field(
-                                    alias="ipconfig[n]"
+                                    alias="ipconfig[n]", default=None
                                 )
                                 ivshmem: Optional[str] = None
                                 keephugepages: Optional[bool] = None
@@ -4931,9 +8842,13 @@ class ProxmoxAPI:
                                 migrate_speed: Optional[int] = None
                                 name: Optional[str] = None
                                 nameserver: Optional[str] = None
-                                netn: Optional[str] = pydantic.Field(alias="net[n]")
+                                netn: Optional[str] = pydantic.Field(
+                                    alias="net[n]", default=None
+                                )
                                 numa: Optional[bool] = None
-                                numan: Optional[str] = pydantic.Field(alias="numa[n]")
+                                numan: Optional[str] = pydantic.Field(
+                                    alias="numa[n]", default=None
+                                )
                                 onboot: Optional[bool] = None
                                 ostype: Optional[
                                     Literal[
@@ -4952,13 +8867,17 @@ class ProxmoxAPI:
                                     ]
                                 ] = None
                                 paralleln: Optional[str] = pydantic.Field(
-                                    alias="parallel[n]"
+                                    alias="parallel[n]", default=None
                                 )
                                 protection: Optional[bool] = None
                                 reboot: Optional[bool] = None
                                 rng0: Optional[str] = None
-                                satan: Optional[str] = pydantic.Field(alias="sata[n]")
-                                scsin: Optional[str] = pydantic.Field(alias="scsi[n]")
+                                satan: Optional[str] = pydantic.Field(
+                                    alias="sata[n]", default=None
+                                )
+                                scsin: Optional[str] = pydantic.Field(
+                                    alias="scsi[n]", default=None
+                                )
                                 scsihw: Optional[
                                     Literal[
                                         "lsi",
@@ -4971,7 +8890,7 @@ class ProxmoxAPI:
                                 ] = None
                                 searchdomain: Optional[str] = None
                                 serialn: Optional[str] = pydantic.Field(
-                                    alias="serial[n]"
+                                    alias="serial[n]", default=None
                                 )
                                 shares: Optional[int] = None
                                 smbios1: Optional[str] = None
@@ -4986,17 +8905,23 @@ class ProxmoxAPI:
                                 tdf: Optional[bool] = None
                                 template: Optional[bool] = None
                                 unusedn: Optional[str] = pydantic.Field(
-                                    alias="unused[n]"
+                                    alias="unused[n]", default=None
                                 )
-                                usbn: Optional[str] = pydantic.Field(alias="usb[n]")
+                                usbn: Optional[str] = pydantic.Field(
+                                    alias="usb[n]", default=None
+                                )
                                 vcpus: Optional[int] = None
                                 vga: Optional[str] = None
                                 virtion: Optional[str] = pydantic.Field(
-                                    alias="virtio[n]"
+                                    alias="virtio[n]", default=None
                                 )
                                 vmgenid: Optional[str] = None
                                 vmstatestorage: Optional[str] = None
                                 watchdog: Optional[str] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get"
+                            )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5018,12 +8943,67 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .config.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .config.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .config.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .config.put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .config.put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -5033,20 +9013,22 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .config.post(*args, **kwargs)
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .config.put(*args, **kwargs)
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         set = put
@@ -5086,27 +9068,51 @@ class ProxmoxAPI:
                                 pending: Optional[str] = None
                                 value: Optional[str] = None
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             vmid: int
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .pending.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .pending.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .pending.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5125,11 +9131,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Unlink:
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .unlink.put(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .unlink.put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .unlink.put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         set = put
@@ -5173,6 +9206,10 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -5191,12 +9228,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .vncproxy.post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def post(self) -> _Post:
@@ -5243,6 +9283,10 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -5263,12 +9307,15 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model"
                             ):
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .termproxy.post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def post(self) -> _Post:
@@ -5309,6 +9356,10 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 port: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -5327,12 +9378,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .vncwebsocket.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -5379,6 +9433,10 @@ class ProxmoxAPI:
                                 tls_port: int = pydantic.Field(alias="tls-port")
                                 type: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -5399,12 +9457,15 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model"
                             ):
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .spiceproxy.post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def post(self) -> _Post:
@@ -5444,7 +9505,7 @@ class ProxmoxAPI:
                                     {
                                         "agent": NotRequired[bool],
                                         "cpus": NotRequired[float],
-                                        "ha": dict[Any, Any],
+                                        "ha": dict[str, Any],
                                         "lock": NotRequired[str],
                                         "maxdisk": NotRequired[int],
                                         "maxmem": NotRequired[int],
@@ -5464,7 +9525,7 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     agent: Optional[bool] = None
                                     cpus: Optional[float] = None
-                                    ha: dict[Any, Any]
+                                    ha: dict[str, Any]
                                     lock: Optional[str] = None
                                     maxdisk: Optional[int] = None
                                     maxmem: Optional[int] = None
@@ -5472,16 +9533,18 @@ class ProxmoxAPI:
                                     pid: Optional[int] = None
                                     qmpstatus: Optional[str] = None
                                     running_machine: Optional[str] = pydantic.Field(
-                                        alias="running-machine"
+                                        alias="running-machine", default=None
                                     )
                                     running_qemu: Optional[str] = pydantic.Field(
-                                        alias="running-qemu"
+                                        alias="running-qemu", default=None
                                     )
                                     spice: Optional[bool] = None
                                     status: Literal["stopped", "running"]
                                     tags: Optional[str] = None
                                     uptime: Optional[int] = None
                                     vmid: int
+
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get"
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5501,12 +9564,15 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .qemu(self.vmid)
                                         .status.current.get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
 
                             @property
                             def get(self) -> _Get:
@@ -5533,11 +9599,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Start:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.start.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.start.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.start.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5559,11 +9652,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Stop:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.stop.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.stop.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.stop.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5585,11 +9705,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Reset:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.reset.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.reset.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.reset.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5611,11 +9758,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Shutdown:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.shutdown.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.shutdown.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.shutdown.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5637,11 +9811,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Reboot:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.reboot.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.reboot.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.reboot.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5663,11 +9864,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Suspend:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.suspend.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.suspend.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.suspend.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5689,11 +9917,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Resume:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.resume.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.resume.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.resume.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -5723,27 +9978,51 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 subdir: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             vmid: int
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .status.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5762,11 +10041,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Sendkey:
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .sendkey.put(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .sendkey.put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .sendkey.put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         set = put
@@ -5802,6 +10108,10 @@ class ProxmoxAPI:
                                 has_feature: bool = pydantic.Field(alias="hasFeature")
                                 nodes: list[str]
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -5822,12 +10132,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .feature.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -5854,11 +10167,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Clone:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .clone.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .clone.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .clone.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -5880,11 +10220,38 @@ class ProxmoxAPI:
                     @dataclass
                     class MoveDisk:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .move_disk.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .move_disk.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .move_disk.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -5914,7 +10281,7 @@ class ProxmoxAPI:
                                     "allowed_nodes": NotRequired[list[Any]],
                                     "local_disks": list[Any],
                                     "local_resources": list[Any],
-                                    "not_allowed_nodes": NotRequired[dict[Any, Any]],
+                                    "not_allowed_nodes": NotRequired[dict[str, Any]],
                                     "running": bool,
                                 },
                             )
@@ -5923,8 +10290,12 @@ class ProxmoxAPI:
                                 allowed_nodes: Optional[list[Any]] = None
                                 local_disks: list[Any]
                                 local_resources: list[Any]
-                                not_allowed_nodes: Optional[dict[Any, Any]] = None
+                                not_allowed_nodes: Optional[dict[str, Any]] = None
                                 running: bool
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get"
+                            )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5946,12 +10317,41 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
                                     .migrate.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .migrate.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .migrate.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -5961,11 +10361,12 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .migrate.post(*args, **kwargs)
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -5987,11 +10388,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Monitor:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .monitor.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .monitor.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .monitor.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -6013,11 +10441,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Resize:
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .resize.put(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .resize.put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .resize.put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         set = put
@@ -6047,22 +10502,88 @@ class ProxmoxAPI:
                             @dataclass
                             class Config:
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> dict[Any, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .config.get(*args, **kwargs)
+                                @dataclass
+                                class _Get:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    snapname: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.get(*args, **kwargs)
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        class validate(pydantic.BaseModel):
+                                            data: dict[str, Any]
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.get(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    snapname: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.put(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.put(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        snapname=self.snapname,
                                     )
 
-                                def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .config.put(*args, **kwargs)
+                                @property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        snapname=self.snapname,
                                     )
 
                                 set = put
@@ -6086,12 +10607,45 @@ class ProxmoxAPI:
                             @dataclass
                             class Rollback:
 
-                                def post(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .rollback.post(*args, **kwargs)
+                                @dataclass
+                                class _Post:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    snapname: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> str:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .rollback.post(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> str:
+                                        class validate(pydantic.BaseModel):
+                                            data: str
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .rollback.post(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def post(self) -> _Post:
+                                    return self._Post(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        snapname=self.snapname,
                                     )
 
                                 create = post
@@ -6111,26 +10665,87 @@ class ProxmoxAPI:
                                     snapname=self.snapname,
                                 )
 
-                            def delete(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .snapshot(self.snapname)
-                                    .delete(*args, **kwargs)
+                            @dataclass
+                            class _Delete:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                snapname: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .delete(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .delete(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                snapname: str
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[dict[str, Any]]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[dict[str, Any]]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[dict[str, Any]]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def delete(self) -> _Delete:
+                                return self._Delete(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
                                 )
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[dict[Any, Any]]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[dict[Any, Any]]
-
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .snapshot(self.snapname)
-                                    .get(*args, **kwargs)
-                                ).data
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6166,33 +10781,84 @@ class ProxmoxAPI:
                                 snaptime: Optional[int] = None
                                 vmstate: Optional[bool] = None
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             vmid: int
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .snapshot.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .snapshot.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.Model"
+                                    ]
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .snapshot.post(*args, **kwargs)
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .snapshot.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .snapshot.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .snapshot.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -6214,11 +10880,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Template:
 
-                        def post(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .template.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .template.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .template.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -6244,11 +10937,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Dump:
 
-                            def get(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .cloudinit.dump.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .cloudinit.dump.get(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .cloudinit.dump.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -6278,6 +10998,32 @@ class ProxmoxAPI:
                         )
 
                     @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        vmid: int
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .delete(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -6289,34 +11035,51 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
                         vmid: int
 
-                    def delete(self, *args: Any, **kwargs: Any) -> str:
-                        return (
-                            self.proxmox_api.nodes(self.node)
-                            .qemu(self.vmid)
-                            .delete(*args, **kwargs)
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .get(*args, **kwargs)
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.Model"]
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .get(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
                         )
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node)
-                            .qemu(self.vmid)
-                            .get(*args, **kwargs)
-                        ).data
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6360,32 +11123,73 @@ class ProxmoxAPI:
                         pid: Optional[int] = None
                         qmpstatus: Optional[str] = None
                         running_machine: Optional[str] = pydantic.Field(
-                            alias="running-machine"
+                            alias="running-machine", default=None
                         )
                         running_qemu: Optional[str] = pydantic.Field(
-                            alias="running-qemu"
+                            alias="running-qemu", default=None
                         )
                         status: Literal["stopped", "running"]
                         tags: Optional[str] = None
                         uptime: Optional[int] = None
                         vmid: int
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).qemu.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).qemu.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Qemu._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Qemu._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).qemu.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.nodes(self.node).qemu.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).qemu.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).qemu.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 create = post
 
@@ -6420,19 +11224,36 @@ class ProxmoxAPI:
                         name: str
                         vendor: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Cpu._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Cpu._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list["ProxmoxAPI.Nodes.Node.Cpu._Get.TypedDict"]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Cpu._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).cpu.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).cpu.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Cpu._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Cpu._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).cpu.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6559,9 +11380,13 @@ class ProxmoxAPI:
                                 ] = None
                                 lxc: Optional[list[list[str]]] = None
                                 memory: Optional[int] = None
-                                mpn: Optional[str] = pydantic.Field(alias="mp[n]")
+                                mpn: Optional[str] = pydantic.Field(
+                                    alias="mp[n]", default=None
+                                )
                                 nameserver: Optional[str] = None
-                                netn: Optional[str] = pydantic.Field(alias="net[n]")
+                                netn: Optional[str] = pydantic.Field(
+                                    alias="net[n]", default=None
+                                )
                                 onboot: Optional[bool] = None
                                 ostype: Optional[
                                     Literal[
@@ -6588,8 +11413,12 @@ class ProxmoxAPI:
                                 tty: Optional[int] = None
                                 unprivileged: Optional[bool] = None
                                 unusedn: Optional[str] = pydantic.Field(
-                                    alias="unused[n]"
+                                    alias="unused[n]", default=None
                                 )
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get"
+                            )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6609,12 +11438,41 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .config.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .config.put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .config.put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -6624,11 +11482,12 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .config.put(*args, **kwargs)
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         set = put
@@ -6660,7 +11519,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "cpus": NotRequired[float],
-                                        "ha": dict[Any, Any],
+                                        "ha": dict[str, Any],
                                         "lock": NotRequired[str],
                                         "maxdisk": NotRequired[int],
                                         "maxmem": NotRequired[int],
@@ -6675,7 +11534,7 @@ class ProxmoxAPI:
 
                                 class Model(pydantic.BaseModel):
                                     cpus: Optional[float] = None
-                                    ha: dict[Any, Any]
+                                    ha: dict[str, Any]
                                     lock: Optional[str] = None
                                     maxdisk: Optional[int] = None
                                     maxmem: Optional[int] = None
@@ -6685,6 +11544,10 @@ class ProxmoxAPI:
                                     tags: Optional[str] = None
                                     uptime: Optional[int] = None
                                     vmid: int
+
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get"
+                                )
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6704,12 +11567,15 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .lxc(self.vmid)
                                         .status.current.get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
 
                             @property
                             def get(self) -> _Get:
@@ -6736,11 +11602,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Start:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.start.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.start.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.start.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -6762,11 +11655,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Stop:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.stop.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.stop.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.stop.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -6788,11 +11708,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Shutdown:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.shutdown.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.shutdown.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.shutdown.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -6814,11 +11761,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Suspend:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.suspend.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.suspend.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.suspend.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -6840,11 +11814,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Resume:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.resume.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.resume.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.resume.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -6866,11 +11867,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Reboot:
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.reboot.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.reboot.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.reboot.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -6900,27 +11928,51 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 subdir: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             vmid: int
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .status.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6947,12 +11999,45 @@ class ProxmoxAPI:
                             @dataclass
                             class Rollback:
 
-                                def post(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .rollback.post(*args, **kwargs)
+                                @dataclass
+                                class _Post:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    snapname: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> str:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .rollback.post(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> str:
+                                        class validate(pydantic.BaseModel):
+                                            data: str
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .rollback.post(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def post(self) -> _Post:
+                                    return self._Post(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        snapname=self.snapname,
                                     )
 
                                 create = post
@@ -6976,22 +12061,88 @@ class ProxmoxAPI:
                             @dataclass
                             class Config:
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> dict[Any, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .config.get(*args, **kwargs)
+                                @dataclass
+                                class _Get:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    snapname: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.get(*args, **kwargs)
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        class validate(pydantic.BaseModel):
+                                            data: dict[str, Any]
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.get(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    snapname: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.put(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .snapshot(self.snapname)
+                                            .config.put(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        snapname=self.snapname,
                                     )
 
-                                def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .config.put(*args, **kwargs)
+                                @property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        snapname=self.snapname,
                                     )
 
                                 set = put
@@ -7011,26 +12162,87 @@ class ProxmoxAPI:
                                     snapname=self.snapname,
                                 )
 
-                            def delete(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .snapshot(self.snapname)
-                                    .delete(*args, **kwargs)
+                            @dataclass
+                            class _Delete:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                snapname: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .delete(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .delete(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                snapname: str
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[dict[str, Any]]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .get(*args, **kwargs)
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[dict[str, Any]]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[dict[str, Any]]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def delete(self) -> _Delete:
+                                return self._Delete(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
                                 )
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[dict[Any, Any]]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[dict[Any, Any]]
-
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .snapshot(self.snapname)
-                                    .get(*args, **kwargs)
-                                ).data
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7064,33 +12276,84 @@ class ProxmoxAPI:
                                 parent: Optional[str] = None
                                 snaptime: Optional[int] = None
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             vmid: int
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .snapshot.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .snapshot.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.Model"
+                                    ]
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .snapshot.post(*args, **kwargs)
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .snapshot.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .snapshot.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .snapshot.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -7119,6 +12382,38 @@ class ProxmoxAPI:
                             # /nodes/{node}/lxc/{vmid}/firewall/rules/{pos}
                             @dataclass
                             class Pos:
+
+                                @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    pos: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .delete(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .delete(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
 
                                 @dataclass
                                 class _Get:
@@ -7162,7 +12457,7 @@ class ProxmoxAPI:
                                         dport: Optional[str] = None
                                         enable: Optional[int] = None
                                         icmp_type: Optional[str] = pydantic.Field(
-                                            alias="icmp-type"
+                                            alias="icmp-type", default=None
                                         )
                                         iface: Optional[str] = None
                                         ipversion: Optional[int] = None
@@ -7186,6 +12481,8 @@ class ProxmoxAPI:
                                         sport: Optional[str] = None
                                         type: str
 
+                                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get"
+
                                     proxmox_api: ProxmoxerProxmoxAPI
 
                                     node: str
@@ -7207,20 +12504,56 @@ class ProxmoxAPI:
                                     def model(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model":
+                                        class validate(pydantic.BaseModel):
+                                            data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model"
+
                                         data: Any = (
                                             self.proxmox_api.nodes(self.node)
                                             .lxc(self.vmid)
                                             .firewall.rules(self.pos)
                                             .get(*args, **kwargs)
                                         )
-                                        return self.Model(**data)
+                                        return validate(data=data).data
 
-                                def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.rules(self.pos)
-                                        .delete(*args, **kwargs)
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    pos: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .put(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .put(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        pos=self.pos,
                                     )
 
                                 @property
@@ -7232,12 +12565,13 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.rules(self.pos)
-                                        .put(*args, **kwargs)
+                                @property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        pos=self.pos,
                                     )
 
                                 set = put
@@ -7268,33 +12602,84 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     pos: int
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.rules.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.rules.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.Model"
+                                        ]
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.rules.post(*args, **kwargs)
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.rules.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.rules.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.rules.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -7320,30 +12705,129 @@ class ProxmoxAPI:
                             @dataclass
                             class Name:
 
-                                def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases(self.name)
-                                        .delete(*args, **kwargs)
+                                @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Get:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> dict[str, Any]:
+                                        class validate(pydantic.BaseModel):
+                                            data: dict[str, Any]
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .put(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.aliases(self.name)
+                                            .put(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> dict[Any, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases(self.name)
-                                        .get(*args, **kwargs)
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
-                                def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases(self.name)
-                                        .put(*args, **kwargs)
+                                @property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
                                 set = put
@@ -7380,33 +12864,82 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.aliases.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.Model"
+                                        ]
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.aliases.post(*args, **kwargs)
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -7436,30 +12969,142 @@ class ProxmoxAPI:
                                 @dataclass
                                 class Cidr:
 
-                                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)(self.cidr)
-                                            .delete(*args, **kwargs)
+                                    @dataclass
+                                    class _Delete:
+                                        proxmox_api: ProxmoxerProxmoxAPI
+
+                                        node: str
+
+                                        vmid: int
+
+                                        name: str
+
+                                        cidr: str
+
+                                        def __call__(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            return (
+                                                self.proxmox_api.nodes(self.node)
+                                                .lxc(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .delete(*args, **kwargs)
+                                            )
+
+                                        def model(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            class validate(pydantic.BaseModel):
+                                                data: None
+
+                                            data: Any = (
+                                                self.proxmox_api.nodes(self.node)
+                                                .lxc(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .delete(*args, **kwargs)
+                                            )
+                                            return validate(data=data).data
+
+                                    @dataclass
+                                    class _Get:
+                                        proxmox_api: ProxmoxerProxmoxAPI
+
+                                        node: str
+
+                                        vmid: int
+
+                                        name: str
+
+                                        cidr: str
+
+                                        def __call__(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> dict[str, Any]:
+                                            return (
+                                                self.proxmox_api.nodes(self.node)
+                                                .lxc(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .get(*args, **kwargs)
+                                            )
+
+                                        def model(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> dict[str, Any]:
+                                            class validate(pydantic.BaseModel):
+                                                data: dict[str, Any]
+
+                                            data: Any = (
+                                                self.proxmox_api.nodes(self.node)
+                                                .lxc(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .get(*args, **kwargs)
+                                            )
+                                            return validate(data=data).data
+
+                                    @dataclass
+                                    class _Put:
+                                        proxmox_api: ProxmoxerProxmoxAPI
+
+                                        node: str
+
+                                        vmid: int
+
+                                        name: str
+
+                                        cidr: str
+
+                                        def __call__(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            return (
+                                                self.proxmox_api.nodes(self.node)
+                                                .lxc(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .put(*args, **kwargs)
+                                            )
+
+                                        def model(
+                                            self, *args: Any, **kwargs: Any
+                                        ) -> None:
+                                            class validate(pydantic.BaseModel):
+                                                data: None
+
+                                            data: Any = (
+                                                self.proxmox_api.nodes(self.node)
+                                                .lxc(self.vmid)
+                                                .firewall.ipset(self.name)(self.cidr)
+                                                .put(*args, **kwargs)
+                                            )
+                                            return validate(data=data).data
+
+                                    @property
+                                    def delete(self) -> _Delete:
+                                        return self._Delete(
+                                            proxmox_api=self.proxmox_api,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                            cidr=self.cidr,
                                         )
 
-                                    def get(
-                                        self, *args: Any, **kwargs: Any
-                                    ) -> dict[Any, Any]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)(self.cidr)
-                                            .get(*args, **kwargs)
+                                    @property
+                                    def get(self) -> _Get:
+                                        return self._Get(
+                                            proxmox_api=self.proxmox_api,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                            cidr=self.cidr,
                                         )
 
-                                    def put(self, *args: Any, **kwargs: Any) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)(self.cidr)
-                                            .put(*args, **kwargs)
+                                    @property
+                                    def put(self) -> _Put:
+                                        return self._Put(
+                                            proxmox_api=self.proxmox_api,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                            cidr=self.cidr,
                                         )
 
                                     set = put
@@ -7481,6 +13126,38 @@ class ProxmoxAPI:
                                     )
 
                                 @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .delete(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
                                 class _Get:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -7498,6 +13175,8 @@ class ProxmoxAPI:
                                         digest: str
                                         nomatch: Optional[bool] = None
 
+                                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get"
+
                                     proxmox_api: ProxmoxerProxmoxAPI
 
                                     node: str
@@ -7506,37 +13185,93 @@ class ProxmoxAPI:
 
                                     name: str
 
-                                def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset(self.name)
-                                        .delete(*args, **kwargs)
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                    ]:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.Model"
+                                    ]:
+                                        class validate(pydantic.BaseModel):
+                                            data: list[
+                                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.Model"
+                                            ]
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .get(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Post:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .post(*args, **kwargs)
+                                        )
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)
+                                            .post(*args, **kwargs)
+                                        )
+                                        return validate(data=data).data
+
+                                @property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
-                                ]:
-                                    class validate(pydantic.BaseModel):
-                                        data: builtins.list[
-                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
-                                        ]
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
+                                    )
 
-                                    return validate(
-                                        data=self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset(self.name)
-                                        .get(*args, **kwargs)
-                                    ).data
-
-                                def post(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset(self.name)
-                                        .post(*args, **kwargs)
+                                @property
+                                def post(self) -> _Post:
+                                    return self._Post(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
                                     )
 
                                 create = post
@@ -7571,33 +13306,84 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.ipset.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.Model"
+                                        ]
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.ipset.post(*args, **kwargs)
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             create = post
@@ -7705,6 +13491,8 @@ class ProxmoxAPI:
                                     ] = None
                                     radv: Optional[bool] = None
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
@@ -7723,12 +13511,41 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .lxc(self.vmid)
                                         .firewall.options.get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Put:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.options.put(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.options.put(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
 
                             @property
                             def get(self) -> _Get:
@@ -7738,11 +13555,12 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            def put(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.options.put(*args, **kwargs)
+                            @property
+                            def put(self) -> _Put:
+                                return self._Put(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
                                 )
 
                             set = put
@@ -7778,27 +13596,51 @@ class ProxmoxAPI:
                                     n: int
                                     t: str
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.log.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.log.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.log.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7833,27 +13675,51 @@ class ProxmoxAPI:
                                     name: str
                                     type: Literal["alias", "ipset"]
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 vmid: int
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.refs.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.refs.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.refs.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7868,17 +13734,43 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .firewall.get(*args, **kwargs)
-                            ).data
+                            node: str
+
+                            vmid: int
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7909,6 +13801,8 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 filename: str
 
+                            Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -7927,12 +13821,17 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: (
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model"
+                                    )
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .rrd.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -7959,17 +13858,43 @@ class ProxmoxAPI:
                     @dataclass
                     class Rrddata:
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .rrddata.get(*args, **kwargs)
-                            ).data
+                            node: str
+
+                            vmid: int
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .rrddata.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .rrddata.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8008,6 +13933,10 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -8026,12 +13955,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .vncproxy.post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def post(self) -> _Post:
@@ -8078,6 +14010,10 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -8096,12 +14032,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .termproxy.post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def post(self) -> _Post:
@@ -8142,6 +14081,10 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 port: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -8162,12 +14105,15 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model"
                             ):
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .vncwebsocket.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -8214,6 +14160,10 @@ class ProxmoxAPI:
                                 tls_port: int = pydantic.Field(alias="tls-port")
                                 type: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -8234,12 +14184,15 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model"
                             ):
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .spiceproxy.post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def post(self) -> _Post:
@@ -8268,11 +14221,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Migrate:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .migrate.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .migrate.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .migrate.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -8306,6 +14286,10 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 has_feature: bool = pydantic.Field(alias="hasFeature")
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -8326,12 +14310,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
                                     .feature.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -8358,11 +14345,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Template:
 
-                        def post(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .template.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .template.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .template.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -8384,11 +14398,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Clone:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .clone.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .clone.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .clone.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -8410,11 +14451,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Resize:
 
-                        def put(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .resize.put(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .resize.put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .resize.put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         set = put
@@ -8436,11 +14504,38 @@ class ProxmoxAPI:
                     @dataclass
                     class MoveVolume:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .move_volume.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .move_volume.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .move_volume.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
                             )
 
                         create = post
@@ -8480,27 +14575,51 @@ class ProxmoxAPI:
                                 pending: Optional[str] = None
                                 value: Optional[str] = None
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             vmid: int
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .pending.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .pending.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .pending.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8516,6 +14635,32 @@ class ProxmoxAPI:
                         )
 
                     @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        vmid: int
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .delete(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8527,32 +14672,51 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
                         vmid: int
 
-                    def delete(self, *args: Any, **kwargs: Any) -> str:
-                        return (
-                            self.proxmox_api.nodes(self.node)
-                            .lxc(self.vmid)
-                            .delete(*args, **kwargs)
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .get(*args, **kwargs)
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.Model"]
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .get(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
                         )
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node)
-                            .lxc(self.vmid)
-                            .get(*args, **kwargs)
-                        ).data
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8596,22 +14760,63 @@ class ProxmoxAPI:
                         uptime: Optional[int] = None
                         vmid: int
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).lxc.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).lxc.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Lxc._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Lxc._Get.Model"]
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).lxc.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.nodes(self.node).lxc.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).lxc.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).lxc.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 create = post
 
@@ -8642,11 +14847,38 @@ class ProxmoxAPI:
                         @dataclass
                         class In:
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .in_.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                osdid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .in_.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .in_.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    osdid=self.osdid,
                                 )
 
                             create = post
@@ -8668,11 +14900,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Out:
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .out.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                osdid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .out.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .out.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    osdid=self.osdid,
                                 )
 
                             create = post
@@ -8694,11 +14953,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Scrub:
 
-                            def post(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .scrub.post(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                osdid: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .scrub.post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .scrub.post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    osdid=self.osdid,
                                 )
 
                             create = post
@@ -8716,11 +15002,38 @@ class ProxmoxAPI:
                                 osdid=self.osdid,
                             )
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.osd(self.osdid)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            osdid: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.osd(self.osdid)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.osd(self.osdid)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                osdid=self.osdid,
                             )
 
                         proxmox_api: ProxmoxerProxmoxAPI
@@ -8735,14 +15048,58 @@ class ProxmoxAPI:
                             node=self.node,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.nodes(self.node).ceph.osd.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.nodes(self.node).ceph.osd.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.osd.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.post(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.osd.post(
-                            *args, **kwargs
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -8766,18 +15123,72 @@ class ProxmoxAPI:
                     @dataclass
                     class Name:
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.mds(self.name)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mds(self.name)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mds(self.name)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mds(self.name)
+                                    .post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mds(self.name)
+                                    .post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.mds(self.name)
-                                .post(*args, **kwargs)
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
                             )
 
                         create = post
@@ -8801,7 +15212,7 @@ class ProxmoxAPI:
                             {
                                 "addr": NotRequired[str],
                                 "host": NotRequired[str],
-                                "name": dict[Any, Any],
+                                "name": dict[str, Any],
                                 "rank": NotRequired[int],
                                 "standby_replay": NotRequired[bool],
                                 "state": str,
@@ -8811,28 +15222,41 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             addr: Optional[str] = None
                             host: Optional[str] = None
-                            name: dict[Any, Any]
+                            name: dict[str, Any]
                             rank: Optional[int] = None
                             standby_replay: Optional[bool] = None
                             state: str
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Mds._Get"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.mds.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.mds.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mds.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8853,18 +15277,72 @@ class ProxmoxAPI:
                     @dataclass
                     class Id:
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.mgr(self.id)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            id: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mgr(self.id)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mgr(self.id)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            id: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mgr(self.id)
+                                    .post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mgr(self.id)
+                                    .post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                id=self.id,
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.mgr(self.id)
-                                .post(*args, **kwargs)
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                id=self.id,
                             )
 
                         create = post
@@ -8888,7 +15366,7 @@ class ProxmoxAPI:
                             {
                                 "addr": NotRequired[str],
                                 "host": NotRequired[str],
-                                "name": dict[Any, Any],
+                                "name": dict[str, Any],
                                 "state": str,
                             },
                         )
@@ -8896,26 +15374,39 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             addr: Optional[str] = None
                             host: Optional[str] = None
-                            name: dict[Any, Any]
+                            name: dict[str, Any]
                             state: str
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.mgr.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.mgr.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mgr.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8936,18 +15427,72 @@ class ProxmoxAPI:
                     @dataclass
                     class Monid:
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.mon(self.monid)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            monid: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mon(self.monid)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mon(self.monid)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            monid: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mon(self.monid)
+                                    .post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.mon(self.monid)
+                                    .post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                monid=self.monid,
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.mon(self.monid)
-                                .post(*args, **kwargs)
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                monid=self.monid,
                             )
 
                         create = post
@@ -8980,23 +15525,36 @@ class ProxmoxAPI:
                             host: Optional[str] = None
                             name: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Mon._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.mon.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.mon.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mon.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9017,11 +15575,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Name:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.fs(self.name)
-                                .post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.fs(self.name)
+                                    .post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.fs(self.name)
+                                    .post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
                             )
 
                         create = post
@@ -9054,23 +15639,36 @@ class ProxmoxAPI:
                             metadata_pool: str
                             name: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Fs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.fs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.fs.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.fs.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9092,6 +15690,32 @@ class ProxmoxAPI:
                     class Name:
 
                         @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.pools(self.name)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.pools(self.name)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9100,7 +15724,7 @@ class ProxmoxAPI:
                                         Literal["rbd", "cephfs", "rgw"]
                                     ],
                                     "application_list": NotRequired[list[Any]],
-                                    "autoscale_status": NotRequired[dict[Any, Any]],
+                                    "autoscale_status": NotRequired[dict[str, Any]],
                                     "crush_rule": NotRequired[str],
                                     "fast_read": bool,
                                     "hashpspool": bool,
@@ -9119,7 +15743,7 @@ class ProxmoxAPI:
                                     "pg_num_min": NotRequired[int],
                                     "pgp_num": int,
                                     "size": NotRequired[int],
-                                    "statistics": NotRequired[dict[Any, Any]],
+                                    "statistics": NotRequired[dict[str, Any]],
                                     "target_size": NotRequired[str],
                                     "target_size_ratio": NotRequired[float],
                                     "use_gmt_hitset": bool,
@@ -9132,7 +15756,7 @@ class ProxmoxAPI:
                                     Literal["rbd", "cephfs", "rgw"]
                                 ] = None
                                 application_list: Optional[list[Any]] = None
-                                autoscale_status: Optional[dict[Any, Any]] = None
+                                autoscale_status: Optional[dict[str, Any]] = None
                                 crush_rule: Optional[str] = None
                                 fast_read: bool
                                 hashpspool: bool
@@ -9153,11 +15777,15 @@ class ProxmoxAPI:
                                 pg_num_min: Optional[int] = None
                                 pgp_num: int
                                 size: Optional[int] = None
-                                statistics: Optional[dict[Any, Any]] = None
+                                statistics: Optional[dict[str, Any]] = None
                                 target_size: Optional[str] = None
                                 target_size_ratio: Optional[float] = None
                                 use_gmt_hitset: bool
                                 write_fadvise_dontneed: bool
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get"
+                            )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9177,18 +15805,48 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .ceph.pools(self.name)
                                     .get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.pools(self.name)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.pools(self.name)
+                                    .put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.pools(self.name)
+                                    .put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
                             )
 
                         @property
@@ -9199,11 +15857,12 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        def put(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.pools(self.name)
-                                .put(*args, **kwargs)
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
                             )
 
                         set = put
@@ -9225,7 +15884,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "autoscale_status": NotRequired[dict[Any, Any]],
+                                "autoscale_status": NotRequired[dict[str, Any]],
                                 "bytes_used": int,
                                 "crush_rule": int,
                                 "crush_rule_name": str,
@@ -9244,7 +15903,7 @@ class ProxmoxAPI:
                         )
 
                         class Model(pydantic.BaseModel):
-                            autoscale_status: Optional[dict[Any, Any]] = None
+                            autoscale_status: Optional[dict[str, Any]] = None
                             bytes_used: int
                             crush_rule: int
                             crush_rule_name: str
@@ -9260,29 +15919,64 @@ class ProxmoxAPI:
                             target_size: Optional[int] = None
                             target_size_ratio: Optional[float] = None
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Pools._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.pools.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.pools.get(
                                 *args, **kwargs
                             )
-                        ).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.pools.post(
-                            *args, **kwargs
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.pools.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.pools.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.pools.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -9328,25 +16022,38 @@ class ProxmoxAPI:
                             used: Optional[str] = None
                             vendor: Optional[str] = None
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Disks._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Ceph.Disks._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Disks._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.disks.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Disks._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.disks.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Disks._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Ceph.Disks._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.disks.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9363,9 +16070,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Config:
 
-                    def get(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.config.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.config.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.config.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -9405,25 +16134,38 @@ class ProxmoxAPI:
                             section: str
                             value: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.configdb.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.configdb.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.configdb.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9440,9 +16182,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Init:
 
-                    def post(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).ceph.init.post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.nodes(self.node).ceph.init.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.init.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -9462,9 +16226,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Stop:
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.stop.post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.stop.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.stop.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -9484,9 +16270,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Start:
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.start.post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.start.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.start.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -9506,9 +16314,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Restart:
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.restart.post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.restart.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.restart.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -9528,9 +16358,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Status:
 
-                    def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return self.proxmox_api.nodes(self.node).ceph.status.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            return self.proxmox_api.nodes(self.node).ceph.status.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.status.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -9552,18 +16404,72 @@ class ProxmoxAPI:
                     @dataclass
                     class Flag:
 
-                        def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.flags(self.flag)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            flag: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.flags(self.flag)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.flags(self.flag)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            flag: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.flags(self.flag)
+                                    .post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.flags(self.flag)
+                                    .post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                flag=self.flag,
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .ceph.flags(self.flag)
-                                .post(*args, **kwargs)
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                flag=self.flag,
                             )
 
                         create = post
@@ -9580,9 +16486,31 @@ class ProxmoxAPI:
                             node=self.node,
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.flags.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.flags.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.flags.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -9600,9 +16528,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Crush:
 
-                    def get(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).ceph.crush.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).ceph.crush.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.crush.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -9634,23 +16584,36 @@ class ProxmoxAPI:
                             n: int
                             t: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Log._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.log.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).ceph.log.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.log.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9667,17 +16630,36 @@ class ProxmoxAPI:
                 @dataclass
                 class Rules:
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).ceph.rules.get(
+                        node: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return self.proxmox_api.nodes(self.node).ceph.rules.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.rules.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9690,15 +16672,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).ceph.get(*args, **kwargs)
-                    ).data
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).ceph.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).ceph.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9769,7 +16770,7 @@ class ProxmoxAPI:
                             dumpdir: Optional[str] = None
                             exclude: Optional[str] = None
                             exclude_path: Optional[str] = pydantic.Field(
-                                alias="exclude-path"
+                                alias="exclude-path", default=None
                             )
                             ionice: Optional[int] = None
                             lockwait: Optional[int] = None
@@ -9785,7 +16786,7 @@ class ProxmoxAPI:
                             pigz: Optional[int] = None
                             pool: Optional[str] = None
                             prune_backups: Optional[str] = pydantic.Field(
-                                alias="prune-backups"
+                                alias="prune-backups", default=None
                             )
                             quiet: Optional[bool] = None
                             remove: Optional[bool] = None
@@ -9798,6 +16799,8 @@ class ProxmoxAPI:
                             tmpdir: Optional[str] = None
                             vmid: Optional[str] = None
                             zstd: Optional[int] = None
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9813,10 +16816,13 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model"
+
                             data: Any = self.proxmox_api.nodes(
                                 self.node
                             ).vzdump.defaults.get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
                     @property
                     def get(self) -> _Get:
@@ -9840,10 +16846,32 @@ class ProxmoxAPI:
                 @dataclass
                 class Extractconfig:
 
-                    def get(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(
-                            self.node
-                        ).vzdump.extractconfig.get(*args, **kwargs)
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).vzdump.extractconfig.get(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).vzdump.extractconfig.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9856,9 +16884,31 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).vzdump.post(
-                        *args, **kwargs
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).vzdump.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).vzdump.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -9886,11 +16936,42 @@ class ProxmoxAPI:
                     @dataclass
                     class State:
 
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .state.get(*args, **kwargs)
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            service: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .state.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                class validate(pydantic.BaseModel):
+                                    data: dict[str, Any]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .state.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                service=self.service,
                             )
 
                         proxmox_api: ProxmoxerProxmoxAPI
@@ -9910,11 +16991,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Start:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .start.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            service: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .start.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .start.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                service=self.service,
                             )
 
                         create = post
@@ -9936,11 +17044,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Stop:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .stop.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            service: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .stop.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .stop.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                service=self.service,
                             )
 
                         create = post
@@ -9962,11 +17097,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Restart:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .restart.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            service: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .restart.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .restart.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                service=self.service,
                             )
 
                         create = post
@@ -9988,11 +17150,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Reload:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .reload.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            service: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .reload.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .services(self.service)
+                                    .reload.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                service=self.service,
                             )
 
                         create = post
@@ -10022,27 +17211,47 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Services.Service._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
                         service: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
-                            ]
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
+                        ]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .get(*args, **kwargs)
+                            )
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node)
-                            .services(self.service)
-                            .get(*args, **kwargs)
-                        ).data
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Services.Service._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Services.Service._Get.Model"
+                                ]
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .get(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            service=self.service,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10056,17 +17265,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).services.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).services.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).services.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10083,26 +17309,114 @@ class ProxmoxAPI:
             @dataclass
             class Subscription:
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).subscription.delete(
-                        *args, **kwargs
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).subscription.delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(
+                            self.node
+                        ).subscription.delete(*args, **kwargs)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.nodes(self.node).subscription.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).subscription.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).subscription.put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.nodes(self.node).subscription.get(
-                        *args, **kwargs
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).subscription.post(
-                        *args, **kwargs
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).subscription.put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 set = put
@@ -10127,6 +17441,32 @@ class ProxmoxAPI:
                 class Iface:
 
                     @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        iface: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .network(self.iface)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .network(self.iface)
+                                .delete(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -10139,6 +17479,8 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             method: str
                             type: str
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Network.Iface._Get"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10158,18 +17500,48 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model"
+
                             data: Any = (
                                 self.proxmox_api.nodes(self.node)
                                 .network(self.iface)
                                 .get(*args, **kwargs)
                             )
-                            return self.Model(**data)
+                            return validate(data=data).data
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return (
-                            self.proxmox_api.nodes(self.node)
-                            .network(self.iface)
-                            .delete(*args, **kwargs)
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        iface: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .network(self.iface)
+                                .put(*args, **kwargs)
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .network(self.iface)
+                                .put(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            iface=self.iface,
                         )
 
                     @property
@@ -10180,11 +17552,12 @@ class ProxmoxAPI:
                             iface=self.iface,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return (
-                            self.proxmox_api.nodes(self.node)
-                            .network(self.iface)
-                            .put(*args, **kwargs)
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            iface=self.iface,
                         )
 
                     set = put
@@ -10201,33 +17574,116 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).network.delete(
-                        *args, **kwargs
-                    )
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                    node: str
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).network.get(
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).network.delete(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).network.post(
-                        *args, **kwargs
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).network.delete(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).network.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).network.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).network.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).network.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).network.put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).network.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
 
-                def put(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).network.put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 set = put
@@ -10269,27 +17725,49 @@ class ProxmoxAPI:
                                 n: int
                                 t: str
 
+                            Model.__name__ = "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             upid: str
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .tasks(self.upid)
+                                    .log.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .tasks(self.upid)
-                                .log.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .tasks(self.upid)
+                                    .log.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                upid=self.upid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10322,6 +17800,10 @@ class ProxmoxAPI:
                                 pid: int
                                 status: Literal["running", "stopped"]
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -10342,12 +17824,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .tasks(self.upid)
                                     .status.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -10370,24 +17855,77 @@ class ProxmoxAPI:
                             upid=self.upid,
                         )
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return (
-                            self.proxmox_api.nodes(self.node)
-                            .tasks(self.upid)
-                            .delete(*args, **kwargs)
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        upid: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .tasks(self.upid)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .tasks(self.upid)
+                                .delete(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        upid: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .tasks(self.upid)
+                                .get(*args, **kwargs)
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .tasks(self.upid)
+                                .get(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            upid=self.upid,
                         )
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node)
-                            .tasks(self.upid)
-                            .get(*args, **kwargs)
-                        ).data
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            upid=self.upid,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10431,23 +17969,36 @@ class ProxmoxAPI:
                         upid: str
                         user: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Tasks._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).tasks.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).tasks.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Tasks._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Tasks._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).tasks.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10482,23 +18033,36 @@ class ProxmoxAPI:
                             options: str
                             path: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Nfs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.nfs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.nfs.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).scan.nfs.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10529,25 +18093,36 @@ class ProxmoxAPI:
                             description: str
                             share: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Cifs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.cifs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.cifs.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).scan.cifs.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10578,23 +18153,36 @@ class ProxmoxAPI:
                             comment: Optional[str] = None
                             store: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Pbs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.pbs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.pbs.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).scan.pbs.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10623,25 +18211,40 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             volname: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.glusterfs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.nodes(self.node).scan.glusterfs.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).scan.glusterfs.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10672,25 +18275,38 @@ class ProxmoxAPI:
                             portal: str
                             target: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.iscsi.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.iscsi.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).scan.iscsi.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10719,23 +18335,36 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             vg: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Lvm._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.lvm.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.lvm.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).scan.lvm.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10764,25 +18393,38 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             lv: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.lvmthin.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.lvmthin.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).scan.lvmthin.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10811,23 +18453,36 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             pool: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Zfs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.zfs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.zfs.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).scan.zfs.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10878,23 +18533,36 @@ class ProxmoxAPI:
                             usbpath: Optional[str] = None
                             vendid: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Usb._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Usb._Get.TypedDict"]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Scan.Usb._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).scan.usb.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Usb._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).scan.usb.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Scan.Usb._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Scan.Usb._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).scan.usb.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10919,19 +18587,36 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         method: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).scan.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).scan.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Scan._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Scan._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).scan.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10976,27 +18661,51 @@ class ProxmoxAPI:
                                     description: str
                                     type: str
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 pciid: str
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .hardware.pci(self.pciid)
+                                        .mdev.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .hardware.pci(self.pciid)
-                                    .mdev.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .hardware.pci(self.pciid)
+                                        .mdev.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    pciid=self.pciid,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11023,27 +18732,51 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 method: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             pciid: str
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .hardware.pci(self.pciid)
+                                    .get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .hardware.pci(self.pciid)
-                                .get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .hardware.pci(self.pciid)
+                                    .get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                pciid=self.pciid,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11091,25 +18824,38 @@ class ProxmoxAPI:
                             vendor: str
                             vendor_name: Optional[str] = None
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).hardware.pci.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).hardware.pci.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).hardware.pci.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11160,25 +18906,38 @@ class ProxmoxAPI:
                             usbpath: Optional[str] = None
                             vendid: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).hardware.usb.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).hardware.usb.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).hardware.usb.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11203,23 +18962,36 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         type: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Hardware._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).hardware.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).hardware.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Hardware._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Hardware._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).hardware.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11260,25 +19032,44 @@ class ProxmoxAPI:
                                 type: Literal["q35", "i440fx"]
                                 version: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
-                                ]
-
-                            return validate(
-                                data=self.proxmox_api.nodes(
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
+                            ]:
+                                return self.proxmox_api.nodes(
                                     self.node
                                 ).capabilities.qemu.machines.get(*args, **kwargs)
-                            ).data
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.Model"
+                                    ]
+
+                                data: Any = self.proxmox_api.nodes(
+                                    self.node
+                                ).capabilities.qemu.machines.get(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11291,17 +19082,36 @@ class ProxmoxAPI:
                             node=self.node,
                         )
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                        return validate(
-                            data=self.proxmox_api.nodes(
+                        node: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return self.proxmox_api.nodes(
                                 self.node
                             ).capabilities.qemu.get(*args, **kwargs)
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).capabilities.qemu.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11314,17 +19124,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).capabilities.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).capabilities.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).capabilities.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11350,6 +19177,32 @@ class ProxmoxAPI:
                     class Prunebackups:
 
                         @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .prunebackups.delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .prunebackups.delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -11369,34 +19222,57 @@ class ProxmoxAPI:
                                 vmid: Optional[int] = None
                                 volid: str
 
+                            Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             storage: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .prunebackups.delete(*args, **kwargs)
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .prunebackups.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .prunebackups.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
                             )
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
-                                ]
-
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .prunebackups.get(*args, **kwargs)
-                            ).data
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11420,6 +19296,36 @@ class ProxmoxAPI:
                         class Volume:
 
                             @dataclass
+                            class _Delete:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
+
+                                volume: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .delete(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .delete(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -11438,6 +19344,8 @@ class ProxmoxAPI:
                                     path: str
                                     size: int
                                     used: int
+
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get"
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11460,20 +19368,84 @@ class ProxmoxAPI:
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model":
+                                    class validate(pydantic.BaseModel):
+                                        data: "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model"
+
                                     data: Any = (
                                         self.proxmox_api.nodes(self.node)
                                         .storage(self.storage)
                                         .content(self.volume)
                                         .get(*args, **kwargs)
                                     )
-                                    return self.Model(**data)
+                                    return validate(data=data).data
 
-                            def delete(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content(self.volume)
-                                    .delete(*args, **kwargs)
+                            @dataclass
+                            class _Post:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
+
+                                volume: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .post(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> str:
+                                    class validate(pydantic.BaseModel):
+                                        data: str
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .post(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Put:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
+
+                                volume: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .put(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .put(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def delete(self) -> _Delete:
+                                return self._Delete(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    storage=self.storage,
+                                    volume=self.volume,
                                 )
 
                             @property
@@ -11485,22 +19457,24 @@ class ProxmoxAPI:
                                     volume=self.volume,
                                 )
 
-                            def post(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content(self.volume)
-                                    .post(*args, **kwargs)
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    storage=self.storage,
+                                    volume=self.volume,
                                 )
 
                             create = post
 
-                            def put(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content(self.volume)
-                                    .put(*args, **kwargs)
+                            @property
+                            def put(self) -> _Put:
+                                return self._Put(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    storage=self.storage,
+                                    volume=self.volume,
                                 )
 
                             set = put
@@ -11534,6 +19508,8 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     state: str
                                     upid: str
+
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get._Verification"
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11573,33 +19549,84 @@ class ProxmoxAPI:
                                 vmid: Optional[int] = None
                                 volid: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             storage: str
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .content.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.Model"
+                                    ]
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .content.post(*args, **kwargs)
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
                             )
 
                         create = post
@@ -11647,27 +19674,49 @@ class ProxmoxAPI:
                                     text: str
                                     type: str
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 storage: str
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .file_restore.list.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .file_restore.list.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .file_restore.list.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    storage=self.storage,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11686,11 +19735,38 @@ class ProxmoxAPI:
                         @dataclass
                         class Download:
 
-                            def get(self, *args: Any, **kwargs: Any) -> Any:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .file_restore.download.get(*args, **kwargs)
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> Any:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .file_restore.download.get(*args, **kwargs)
+                                    )
+
+                                def model(self, *args: Any, **kwargs: Any) -> Any:
+                                    class validate(pydantic.BaseModel):
+                                        data: Any
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .file_restore.download.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    storage=self.storage,
                                 )
 
                             proxmox_api: ProxmoxerProxmoxAPI
@@ -11723,11 +19799,42 @@ class ProxmoxAPI:
                     @dataclass
                     class Status:
 
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .status.get(*args, **kwargs)
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .status.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                class validate(pydantic.BaseModel):
+                                    data: dict[str, Any]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .status.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
                             )
 
                         proxmox_api: ProxmoxerProxmoxAPI
@@ -11759,6 +19866,10 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 filename: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -11777,12 +19888,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .storage(self.storage)
                                     .rrd.get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -11809,17 +19923,43 @@ class ProxmoxAPI:
                     @dataclass
                     class Rrddata:
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[dict[Any, Any]]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[dict[Any, Any]]
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .rrddata.get(*args, **kwargs)
-                            ).data
+                            node: str
+
+                            storage: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .rrddata.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .rrddata.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11838,11 +19978,38 @@ class ProxmoxAPI:
                     @dataclass
                     class Upload:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .upload.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .upload.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .upload.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
                             )
 
                         create = post
@@ -11872,27 +20039,47 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage.Storage._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
                         storage: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
-                            ]
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
+                        ]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .get(*args, **kwargs)
+                            )
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node)
-                            .storage(self.storage)
-                            .get(*args, **kwargs)
-                        ).data
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Storage.Storage._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.Model"
+                                ]
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .get(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11936,23 +20123,36 @@ class ProxmoxAPI:
                         used: Optional[int] = None
                         used_fraction: Optional[float] = None
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).storage.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).storage.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Storage._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Storage._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).storage.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11995,6 +20195,8 @@ class ProxmoxAPI:
                                     name: str
                                     size: int
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children._Children"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
@@ -12025,6 +20227,10 @@ class ProxmoxAPI:
                                 name: str
                                 size: int
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -12045,6 +20251,8 @@ class ProxmoxAPI:
                             ]
                             leaf: bool
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
@@ -12059,10 +20267,33 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model"
+
                             data: Any = self.proxmox_api.nodes(self.node).disks.lvm.get(
                                 *args, **kwargs
                             )
-                            return self.Model(**data)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).disks.lvm.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.lvm.post(*args, **kwargs)
+                            return validate(data=data).data
 
                     @property
                     def get(self) -> _Get:
@@ -12071,9 +20302,11 @@ class ProxmoxAPI:
                             node=self.node,
                         )
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).disks.lvm.post(
-                            *args, **kwargs
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -12113,29 +20346,64 @@ class ProxmoxAPI:
                             metadata_used: int
                             used: int
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).disks.lvmthin.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).disks.lvmthin.get(
                                 *args, **kwargs
                             )
-                        ).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).disks.lvmthin.post(
-                            *args, **kwargs
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.lvmthin.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).disks.lvmthin.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.lvmthin.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -12175,29 +20443,66 @@ class ProxmoxAPI:
                             type: str
                             unitfile: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Directory._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
-                            ]
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).disks.directory.get(*args, **kwargs)
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).disks.directory.get(
-                                *args, **kwargs
-                            )
-                        ).data
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.Directory._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.Model"
+                                ]
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).disks.directory.post(
-                            *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.directory.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).disks.directory.post(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.directory.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -12245,6 +20550,8 @@ class ProxmoxAPI:
                                     state: Optional[str] = None
                                     write: Optional[float] = None
 
+                                Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get._Children"
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
@@ -12277,6 +20584,8 @@ class ProxmoxAPI:
                                 state: str
                                 status: Optional[str] = None
 
+                            Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -12295,12 +20604,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .disks.zfs(self.name)
                                     .get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @property
                         def get(self) -> _Get:
@@ -12346,29 +20658,62 @@ class ProxmoxAPI:
                             name: str
                             size: int
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Zfs._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).disks.zfs.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).disks.zfs.get(
                                 *args, **kwargs
                             )
-                        ).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).disks.zfs.post(
-                            *args, **kwargs
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).disks.zfs.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).disks.zfs.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.zfs.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -12420,25 +20765,38 @@ class ProxmoxAPI:
                             vendor: Optional[str] = None
                             wwn: Optional[str] = None
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.List._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).disks.list.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).disks.list.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Disks.List._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.List._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.list.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12473,6 +20831,8 @@ class ProxmoxAPI:
                             text: Optional[str] = None
                             type: Optional[str] = None
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Disks.Smart._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
@@ -12487,10 +20847,13 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model"
+
                             data: Any = self.proxmox_api.nodes(
                                 self.node
                             ).disks.smart.get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
                     @property
                     def get(self) -> _Get:
@@ -12514,9 +20877,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Initgpt:
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).disks.initgpt.post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).disks.initgpt.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.initgpt.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -12532,17 +20917,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).disks.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).disks.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).disks.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12563,21 +20965,62 @@ class ProxmoxAPI:
                 @dataclass
                 class Update:
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).apt.update.get(
+                        node: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return self.proxmox_api.nodes(self.node).apt.update.get(
                                 *args, **kwargs
                             )
-                        ).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).apt.update.post(
-                            *args, **kwargs
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).apt.update.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).apt.update.post(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).apt.update.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -12597,9 +21040,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Changelog:
 
-                    def get(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).apt.changelog.get(
-                            *args, **kwargs
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.nodes(self.node).apt.changelog.get(
+                                *args, **kwargs
+                            )
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).apt.changelog.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     proxmox_api: ProxmoxerProxmoxAPI
@@ -12617,17 +21082,36 @@ class ProxmoxAPI:
                 @dataclass
                 class Versions:
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).apt.versions.get(
+                        node: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return self.proxmox_api.nodes(self.node).apt.versions.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).apt.versions.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12652,19 +21136,36 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         id: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Apt._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).apt.get(
+                            *args, **kwargs
+                        )
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).apt.get(*args, **kwargs)
-                    ).data
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Apt._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Apt._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).apt.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12688,6 +21189,32 @@ class ProxmoxAPI:
                     # /nodes/{node}/firewall/rules/{pos}
                     @dataclass
                     class Pos:
+
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            pos: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .firewall.rules(self.pos)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .firewall.rules(self.pos)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
 
                         @dataclass
                         class _Get:
@@ -12731,7 +21258,7 @@ class ProxmoxAPI:
                                 dport: Optional[str] = None
                                 enable: Optional[int] = None
                                 icmp_type: Optional[str] = pydantic.Field(
-                                    alias="icmp-type"
+                                    alias="icmp-type", default=None
                                 )
                                 iface: Optional[str] = None
                                 ipversion: Optional[int] = None
@@ -12755,6 +21282,10 @@ class ProxmoxAPI:
                                 sport: Optional[str] = None
                                 type: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -12773,18 +21304,48 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
                                     .firewall.rules(self.pos)
                                     .get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
-                        def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .firewall.rules(self.pos)
-                                .delete(*args, **kwargs)
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            pos: int
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .firewall.rules(self.pos)
+                                    .put(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .firewall.rules(self.pos)
+                                    .put(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                pos=self.pos,
                             )
 
                         @property
@@ -12795,11 +21356,12 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .firewall.rules(self.pos)
-                                .put(*args, **kwargs)
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                pos=self.pos,
                             )
 
                         set = put
@@ -12828,29 +21390,66 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             pos: int
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).firewall.rules.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.nodes(self.node).firewall.rules.get(
                                 *args, **kwargs
                             )
-                        ).data
 
-                    def post(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).firewall.rules.post(
-                            *args, **kwargs
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.rules.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.rules.post(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.rules.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     create = post
@@ -13010,6 +21609,8 @@ class ProxmoxAPI:
                             ] = None
                             tcpflags: Optional[bool] = None
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Firewall.Options._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
@@ -13024,10 +21625,35 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: (
+                                    "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model"
+                                )
+
                             data: Any = self.proxmox_api.nodes(
                                 self.node
                             ).firewall.options.get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.options.put(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.options.put(*args, **kwargs)
+                            return validate(data=data).data
 
                     @property
                     def get(self) -> _Get:
@@ -13036,9 +21662,11 @@ class ProxmoxAPI:
                             node=self.node,
                         )
 
-                    def put(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).firewall.options.put(
-                            *args, **kwargs
+                    @property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
                         )
 
                     set = put
@@ -13072,25 +21700,38 @@ class ProxmoxAPI:
                             n: int
                             t: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Firewall.Log._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).firewall.log.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).firewall.log.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Firewall.Log._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.log.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13103,17 +21744,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).firewall.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).firewall.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).firewall.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13138,11 +21796,42 @@ class ProxmoxAPI:
                     @dataclass
                     class Status:
 
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .replication(self.id)
-                                .status.get(*args, **kwargs)
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            id: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .replication(self.id)
+                                    .status.get(*args, **kwargs)
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> dict[str, Any]:
+                                class validate(pydantic.BaseModel):
+                                    data: dict[str, Any]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .replication(self.id)
+                                    .status.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                id=self.id,
                             )
 
                         proxmox_api: ProxmoxerProxmoxAPI
@@ -13176,27 +21865,51 @@ class ProxmoxAPI:
                                 n: int
                                 t: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             id: str
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .replication(self.id)
+                                    .log.get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .replication(self.id)
-                                .log.get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .replication(self.id)
+                                    .log.get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                id=self.id,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13215,11 +21928,38 @@ class ProxmoxAPI:
                     @dataclass
                     class ScheduleNow:
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .replication(self.id)
-                                .schedule_now.post(*args, **kwargs)
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            id: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .replication(self.id)
+                                    .schedule_now.post(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .replication(self.id)
+                                    .schedule_now.post(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                id=self.id,
                             )
 
                         create = post
@@ -13237,17 +21977,43 @@ class ProxmoxAPI:
                             id=self.id,
                         )
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node)
-                            .replication(self.id)
-                            .get(*args, **kwargs)
-                        ).data
+                        node: str
+
+                        id: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .replication(self.id)
+                                .get(*args, **kwargs)
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .replication(self.id)
+                                .get(*args, **kwargs)
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            id=self.id,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13273,23 +22039,36 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         id: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Replication._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).replication.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).replication.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Replication._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Replication._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).replication.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13314,22 +22093,88 @@ class ProxmoxAPI:
                     @dataclass
                     class Certificate:
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.acme.certificate.delete(*args, **kwargs)
+                        @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.acme.certificate.post(*args, **kwargs)
+                            node: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return self.proxmox_api.nodes(
+                                    self.node
+                                ).certificates.acme.certificate.delete(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = self.proxmox_api.nodes(
+                                    self.node
+                                ).certificates.acme.certificate.delete(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return self.proxmox_api.nodes(
+                                    self.node
+                                ).certificates.acme.certificate.post(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = self.proxmox_api.nodes(
+                                    self.node
+                                ).certificates.acme.certificate.post(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Put:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                return self.proxmox_api.nodes(
+                                    self.node
+                                ).certificates.acme.certificate.put(*args, **kwargs)
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = self.proxmox_api.nodes(
+                                    self.node
+                                ).certificates.acme.certificate.put(*args, **kwargs)
+                                return validate(data=data).data
+
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                            )
+
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                            )
 
                         create = post
 
-                        def put(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.acme.certificate.put(*args, **kwargs)
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                            )
 
                         set = put
 
@@ -13344,17 +22189,36 @@ class ProxmoxAPI:
                             node=self.node,
                         )
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[dict[Any, Any]]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[dict[Any, Any]]
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
-                        return validate(
-                            data=self.proxmox_api.nodes(
+                        node: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            return self.proxmox_api.nodes(
                                 self.node
                             ).certificates.acme.get(*args, **kwargs)
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[dict[str, Any]]:
+                            class validate(pydantic.BaseModel):
+                                data: list[dict[str, Any]]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.acme.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13397,33 +22261,48 @@ class ProxmoxAPI:
                             notbefore: Optional[int] = None
                             pem: Optional[str] = None
                             public_key_bits: Optional[int] = pydantic.Field(
-                                alias="public-key-bits"
+                                alias="public-key-bits", default=None
                             )
                             public_key_type: Optional[str] = pydantic.Field(
-                                alias="public-key-type"
+                                alias="public-key-type", default=None
                             )
                             san: Optional[list[str]] = None
                             subject: Optional[str] = None
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Certificates.Info._Get"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.nodes(
                                 self.node
                             ).certificates.info.get(*args, **kwargs)
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Certificates.Info._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.info.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13439,6 +22318,26 @@ class ProxmoxAPI:
                 # /nodes/{node}/certificates/custom
                 @dataclass
                 class Custom:
+
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.custom.delete(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.custom.delete(*args, **kwargs)
+                            return validate(data=data).data
 
                     @dataclass
                     class _Post:
@@ -13466,13 +22365,17 @@ class ProxmoxAPI:
                             notbefore: Optional[int] = None
                             pem: Optional[str] = None
                             public_key_bits: Optional[int] = pydantic.Field(
-                                alias="public-key-bits"
+                                alias="public-key-bits", default=None
                             )
                             public_key_type: Optional[str] = pydantic.Field(
-                                alias="public-key-type"
+                                alias="public-key-type", default=None
                             )
                             san: Optional[list[str]] = None
                             subject: Optional[str] = None
+
+                        Model.__name__ = (
+                            "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post"
+                        )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13490,15 +22393,20 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model"
+
                             data: Any = self.proxmox_api.nodes(
                                 self.node
                             ).certificates.custom.post(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
-                    def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(
-                            self.node
-                        ).certificates.custom.delete(*args, **kwargs)
+                    @property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     @property
                     def post(self) -> _Post:
@@ -13520,17 +22428,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).certificates.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).certificates.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).certificates.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13547,11 +22472,59 @@ class ProxmoxAPI:
             @dataclass
             class Config:
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.nodes(self.node).config.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).config.put(*args, **kwargs)
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.nodes(self.node).config.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.nodes(self.node).config.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).config.put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).config.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 set = put
 
@@ -13598,27 +22571,51 @@ class ProxmoxAPI:
                                     statusmsg: Optional[str] = None
                                     vnet: str
 
+                                Model.__name__ = (
+                                    "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get"
+                                )
+
                                 proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
 
                                 zone: str
 
-                            def get(
-                                self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
-                            ]:
-                                class validate(pydantic.BaseModel):
-                                    data: builtins.list[
-                                        "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
-                                    ]
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
+                                ]:
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .sdn.zones(self.zone)
+                                        .content.get(*args, **kwargs)
+                                    )
 
-                                return validate(
-                                    data=self.proxmox_api.nodes(self.node)
-                                    .sdn.zones(self.zone)
-                                    .content.get(*args, **kwargs)
-                                ).data
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> list[
+                                    "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.Model"
+                                ]:
+                                    class validate(pydantic.BaseModel):
+                                        data: list[
+                                            "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.Model"
+                                        ]
+
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .sdn.zones(self.zone)
+                                        .content.get(*args, **kwargs)
+                                    )
+                                    return validate(data=data).data
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    zone=self.zone,
+                                )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13645,27 +22642,49 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 subdir: str
 
+                            Model.__name__ = "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get"
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
 
                             zone: str
 
-                        def get(
-                            self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
-                        ]:
-                            class validate(pydantic.BaseModel):
-                                data: builtins.list[
-                                    "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
-                                ]
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
+                            ]:
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .sdn.zones(self.zone)
+                                    .get(*args, **kwargs)
+                                )
 
-                            return validate(
-                                data=self.proxmox_api.nodes(self.node)
-                                .sdn.zones(self.zone)
-                                .get(*args, **kwargs)
-                            ).data
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.Model"
+                                    ]
+
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .sdn.zones(self.zone)
+                                    .get(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                zone=self.zone,
+                            )
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13693,25 +22712,36 @@ class ProxmoxAPI:
                             status: Literal["available", "pending", "error"]
                             zone: str
 
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Sdn.Zones._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.nodes(self.node).sdn.zones.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"]:
+                            return self.proxmox_api.nodes(self.node).sdn.zones.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list["ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.Model"]
+
+                            data: Any = self.proxmox_api.nodes(self.node).sdn.zones.get(
+                                *args, **kwargs
+                            )
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13724,15 +22754,34 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).sdn.get(*args, **kwargs)
-                    ).data
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).sdn.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).sdn.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13765,6 +22814,8 @@ class ProxmoxAPI:
                         repoid: str
                         version: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Version._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -13779,10 +22830,13 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Version._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Version._Get.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).version.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -13806,12 +22860,58 @@ class ProxmoxAPI:
             @dataclass
             class Status:
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.nodes(self.node).status.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).status.post(
-                        *args, **kwargs
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.nodes(self.node).status.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.nodes(self.node).status.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).status.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).status.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -13831,17 +22931,34 @@ class ProxmoxAPI:
             @dataclass
             class Netstat:
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).netstat.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).netstat.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).netstat.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13858,9 +22975,31 @@ class ProxmoxAPI:
             @dataclass
             class Execute:
 
-                def post(self, *args: Any, **kwargs: Any) -> list[Any]:
-                    return self.proxmox_api.nodes(self.node).execute.post(
-                        *args, **kwargs
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> list[Any]:
+                        return self.proxmox_api.nodes(self.node).execute.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[Any]:
+                        class validate(pydantic.BaseModel):
+                            data: list[Any]
+
+                        data: Any = self.proxmox_api.nodes(self.node).execute.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -13880,9 +23019,31 @@ class ProxmoxAPI:
             @dataclass
             class Wakeonlan:
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).wakeonlan.post(
-                        *args, **kwargs
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).wakeonlan.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).wakeonlan.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -13914,6 +23075,8 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         filename: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Rrd._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -13928,10 +23091,13 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Rrd._Get.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).rrd.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -13955,17 +23121,34 @@ class ProxmoxAPI:
             @dataclass
             class Rrddata:
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).rrddata.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).rrddata.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).rrddata.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13996,23 +23179,36 @@ class ProxmoxAPI:
                         n: int
                         t: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Syslog._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[
-                            "ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"
-                        ]
-
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).syslog.get(
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"]:
+                        return self.proxmox_api.nodes(self.node).syslog.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Nodes.Node.Syslog._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Nodes.Node.Syslog._Get.Model"]
+
+                        data: Any = self.proxmox_api.nodes(self.node).syslog.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14029,15 +23225,32 @@ class ProxmoxAPI:
             @dataclass
             class Journal:
 
-                def get(self, *args: Any, **kwargs: Any) -> builtins.list[str]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[str]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).journal.get(
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> list[str]:
+                        return self.proxmox_api.nodes(self.node).journal.get(
                             *args, **kwargs
                         )
-                    ).data
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[str]:
+                        class validate(pydantic.BaseModel):
+                            data: list[str]
+
+                        data: Any = self.proxmox_api.nodes(self.node).journal.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14074,6 +23287,8 @@ class ProxmoxAPI:
                         upid: str
                         user: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Vncshell._Post"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14088,10 +23303,13 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Vncshell._Post.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).vncshell.post(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
                 @property
                 def post(self) -> _Post:
@@ -14135,6 +23353,8 @@ class ProxmoxAPI:
                         upid: str
                         user: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Termproxy._Post"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14149,10 +23369,13 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Termproxy._Post.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).termproxy.post(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
                 @property
                 def post(self) -> _Post:
@@ -14190,6 +23413,8 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         port: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14204,10 +23429,13 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).vncwebsocket.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -14251,6 +23479,8 @@ class ProxmoxAPI:
                         tls_port: int = pydantic.Field(alias="tls-port")
                         type: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Spiceshell._Post"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14265,10 +23495,13 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).spiceshell.post(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
                 @property
                 def post(self) -> _Post:
@@ -14312,6 +23545,8 @@ class ProxmoxAPI:
                         dns3: Optional[str] = None
                         search: Optional[str] = None
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Dns._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14326,10 +23561,33 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Dns._Get.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).dns.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).dns.put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).dns.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -14338,8 +23596,12 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).dns.put(*args, **kwargs)
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 set = put
 
@@ -14374,6 +23636,8 @@ class ProxmoxAPI:
                         time: int
                         timezone: str
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Time._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14388,10 +23652,33 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Time._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Time._Get.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).time.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).time.put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).time.put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -14400,8 +23687,12 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).time.put(*args, **kwargs)
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 set = put
 
@@ -14420,21 +23711,60 @@ class ProxmoxAPI:
             @dataclass
             class Aplinfo:
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    class validate(pydantic.BaseModel):
-                        data: builtins.list[dict[Any, Any]]
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                    return validate(
-                        data=self.proxmox_api.nodes(self.node).aplinfo.get(
+                    node: str
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        return self.proxmox_api.nodes(self.node).aplinfo.get(
                             *args, **kwargs
                         )
-                    ).data
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).aplinfo.post(
-                        *args, **kwargs
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).aplinfo.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -14454,8 +23784,32 @@ class ProxmoxAPI:
             @dataclass
             class Report:
 
-                def get(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).report.get(*args, **kwargs)
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).report.get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).report.get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14472,9 +23826,31 @@ class ProxmoxAPI:
             @dataclass
             class Startall:
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).startall.post(
-                        *args, **kwargs
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).startall.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).startall.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -14494,9 +23870,31 @@ class ProxmoxAPI:
             @dataclass
             class Stopall:
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).stopall.post(
-                        *args, **kwargs
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).stopall.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).stopall.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -14516,9 +23914,31 @@ class ProxmoxAPI:
             @dataclass
             class Migrateall:
 
-                def post(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.nodes(self.node).migrateall.post(
-                        *args, **kwargs
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        return self.proxmox_api.nodes(self.node).migrateall.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.nodes(self.node).migrateall.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
                     )
 
                 create = post
@@ -14552,6 +23972,8 @@ class ProxmoxAPI:
                         data: str
                         digest: Optional[str] = None
 
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Hosts._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
@@ -14566,10 +23988,33 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Nodes.Node.Hosts._Get.Model"
+
                         data: Any = self.proxmox_api.nodes(self.node).hosts.get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.nodes(self.node).hosts.post(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.nodes(self.node).hosts.post(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @property
                 def get(self) -> _Get:
@@ -14578,8 +24023,12 @@ class ProxmoxAPI:
                         node=self.node,
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.nodes(self.node).hosts.post(*args, **kwargs)
+                @property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 create = post
 
@@ -14594,13 +24043,28 @@ class ProxmoxAPI:
                     node=self.node,
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list[dict[Any, Any]]
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
 
-                return validate(
-                    data=self.proxmox_api.nodes(self.node).get(*args, **kwargs)
-                ).data
+                node: str
+
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    return self.proxmox_api.nodes(self.node).get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.nodes(self.node).get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14640,15 +24104,29 @@ class ProxmoxAPI:
                 status: Literal["unknown", "online", "offline"]
                 uptime: Optional[int] = None
 
+            Model.__name__ = "ProxmoxAPI.Nodes._Get"
+
             proxmox_api: ProxmoxerProxmoxAPI
 
-        def get(
-            self, *args: Any, **kwargs: Any
-        ) -> builtins.list["ProxmoxAPI.Nodes._Get.TypedDict"]:
-            class validate(pydantic.BaseModel):
-                data: builtins.list["ProxmoxAPI.Nodes._Get.TypedDict"]
+            def __call__(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Nodes._Get.TypedDict"]:
+                return self.proxmox_api.nodes.get(*args, **kwargs)
 
-            return validate(data=self.proxmox_api.nodes.get(*args, **kwargs)).data
+            def model(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Nodes._Get.Model"]:
+                class validate(pydantic.BaseModel):
+                    data: list["ProxmoxAPI.Nodes._Get.Model"]
+
+                data: Any = self.proxmox_api.nodes.get(*args, **kwargs)
+                return validate(data=data).data
+
+        @property
+        def get(self) -> _Get:
+            return self._Get(
+                proxmox_api=self.proxmox_api,
+            )
 
         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14667,6 +24145,44 @@ class ProxmoxAPI:
         class Storage:
 
             @dataclass
+            class _Delete:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                storage: str
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.storage(self.storage).delete(
+                        *args, **kwargs
+                    )
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.storage(self.storage).delete(
+                        *args, **kwargs
+                    )
+                    return validate(data=data).data
+
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                storage: str
+
+                def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    return self.proxmox_api.storage(self.storage).get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    class validate(pydantic.BaseModel):
+                        data: dict[str, Any]
+
+                    data: Any = self.proxmox_api.storage(self.storage).get(
+                        *args, **kwargs
+                    )
+                    return validate(data=data).data
+
+            @dataclass
             class _Put:
                 @dataclass
                 class _Config:
@@ -14679,8 +24195,10 @@ class ProxmoxAPI:
 
                     class Model(pydantic.BaseModel):
                         encryption_key: Optional[str] = pydantic.Field(
-                            alias="encryption-key"
+                            alias="encryption-key", default=None
                         )
+
+                    Model.__name__ = "ProxmoxAPI.Storage.Storage._Put._Config"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14734,6 +24252,8 @@ class ProxmoxAPI:
                         "zfspool",
                     ]
 
+                Model.__name__ = "ProxmoxAPI.Storage.Storage._Put"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 storage: str
@@ -14746,16 +24266,27 @@ class ProxmoxAPI:
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Storage.Storage._Put.Model":
+                    class validate(pydantic.BaseModel):
+                        data: "ProxmoxAPI.Storage.Storage._Put.Model"
+
                     data: Any = self.proxmox_api.storage(self.storage).put(
                         *args, **kwargs
                     )
-                    return self.Model(**data)
+                    return validate(data=data).data
 
-            def delete(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.storage(self.storage).delete(*args, **kwargs)
+            @property
+            def delete(self) -> _Delete:
+                return self._Delete(
+                    proxmox_api=self.proxmox_api,
+                    storage=self.storage,
+                )
 
-            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return self.proxmox_api.storage(self.storage).get(*args, **kwargs)
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                    storage=self.storage,
+                )
 
             @property
             def put(self) -> _Put:
@@ -14788,7 +24319,23 @@ class ProxmoxAPI:
             class Model(pydantic.BaseModel):
                 storage: str
 
+            Model.__name__ = "ProxmoxAPI.Storage._Get"
+
             proxmox_api: ProxmoxerProxmoxAPI
+
+            def __call__(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Storage._Get.TypedDict"]:
+                return self.proxmox_api.storage.get(*args, **kwargs)
+
+            def model(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Storage._Get.Model"]:
+                class validate(pydantic.BaseModel):
+                    data: list["ProxmoxAPI.Storage._Get.Model"]
+
+                data: Any = self.proxmox_api.storage.get(*args, **kwargs)
+                return validate(data=data).data
 
         @dataclass
         class _Post:
@@ -14803,8 +24350,10 @@ class ProxmoxAPI:
 
                 class Model(pydantic.BaseModel):
                     encryption_key: Optional[str] = pydantic.Field(
-                        alias="encryption-key"
+                        alias="encryption-key", default=None
                     )
+
+                Model.__name__ = "ProxmoxAPI.Storage._Post._Config"
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14852,6 +24401,8 @@ class ProxmoxAPI:
                     "zfspool",
                 ]
 
+            Model.__name__ = "ProxmoxAPI.Storage._Post"
+
             proxmox_api: ProxmoxerProxmoxAPI
 
             def __call__(
@@ -14862,16 +24413,17 @@ class ProxmoxAPI:
             def model(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Storage._Post.Model":
+                class validate(pydantic.BaseModel):
+                    data: "ProxmoxAPI.Storage._Post.Model"
+
                 data: Any = self.proxmox_api.storage.post(*args, **kwargs)
-                return self.Model(**data)
+                return validate(data=data).data
 
-        def get(
-            self, *args: Any, **kwargs: Any
-        ) -> builtins.list["ProxmoxAPI.Storage._Get.TypedDict"]:
-            class validate(pydantic.BaseModel):
-                data: builtins.list["ProxmoxAPI.Storage._Get.TypedDict"]
-
-            return validate(data=self.proxmox_api.storage.get(*args, **kwargs)).data
+        @property
+        def get(self) -> _Get:
+            return self._Get(
+                proxmox_api=self.proxmox_api,
+            )
 
         @property
         def post(self) -> _Post:
@@ -14919,6 +24471,8 @@ class ProxmoxAPI:
                             realm: Optional[Literal["oath", "yubico"]] = None
                             user: Optional[Literal["oath", "u2f"]] = None
 
+                        Model.__name__ = "ProxmoxAPI.Access.Users.Userid.Tfa._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         userid: str
@@ -14933,10 +24487,13 @@ class ProxmoxAPI:
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model":
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model"
+
                             data: Any = self.proxmox_api.access.users(
                                 self.userid
                             ).tfa.get(*args, **kwargs)
-                            return self.Model(**data)
+                            return validate(data=data).data
 
                     @property
                     def get(self) -> _Get:
@@ -14965,6 +24522,32 @@ class ProxmoxAPI:
                     class Tokenid:
 
                         @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            userid: str
+
+                            tokenid: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .delete(*args, **kwargs)
+                                )
+                                return validate(data=data).data
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -14979,6 +24562,10 @@ class ProxmoxAPI:
                                 comment: Optional[str] = None
                                 expire: Optional[int] = None
                                 privsep: Optional[bool] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get"
+                            )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14998,12 +24585,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model"
+
                                 data: Any = (
                                     self.proxmox_api.access.users(self.userid)
                                     .token(self.tokenid)
                                     .get(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @dataclass
                         class _Post:
@@ -15022,6 +24612,8 @@ class ProxmoxAPI:
                                     comment: Optional[str] = None
                                     expire: Optional[int] = None
                                     privsep: Optional[bool] = None
+
+                                Model.__name__ = "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post._Info"
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15043,6 +24635,10 @@ class ProxmoxAPI:
                                 info: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post._Info.Model"
                                 value: str
 
+                            Model.__name__ = (
+                                "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             userid: str
@@ -15061,12 +24657,15 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model"
+
                                 data: Any = (
                                     self.proxmox_api.access.users(self.userid)
                                     .token(self.tokenid)
                                     .post(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
                         @dataclass
                         class _Put:
@@ -15083,6 +24682,10 @@ class ProxmoxAPI:
                                 comment: Optional[str] = None
                                 expire: Optional[int] = None
                                 privsep: Optional[bool] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put"
+                            )
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15102,18 +24705,22 @@ class ProxmoxAPI:
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model"
+
                                 data: Any = (
                                     self.proxmox_api.access.users(self.userid)
                                     .token(self.tokenid)
                                     .put(*args, **kwargs)
                                 )
-                                return self.Model(**data)
+                                return validate(data=data).data
 
-                        def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.access.users(self.userid)
-                                .token(self.tokenid)
-                                .delete(*args, **kwargs)
+                        @property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                userid=self.userid,
+                                tokenid=self.tokenid,
                             )
 
                         @property
@@ -15174,25 +24781,40 @@ class ProxmoxAPI:
                             privsep: Optional[bool] = None
                             tokenid: str
 
+                        Model.__name__ = "ProxmoxAPI.Access.Users.Userid.Token._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         userid: str
 
-                    def get(
-                        self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[
-                        "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
-                    ]:
-                        class validate(pydantic.BaseModel):
-                            data: builtins.list[
-                                "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
-                            ]
-
-                        return validate(
-                            data=self.proxmox_api.access.users(self.userid).token.get(
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
+                        ]:
+                            return self.proxmox_api.access.users(self.userid).token.get(
                                 *args, **kwargs
                             )
-                        ).data
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Access.Users.Userid.Token._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Access.Users.Userid.Token._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.access.users(
+                                self.userid
+                            ).token.get(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            userid=self.userid,
+                        )
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15204,6 +24826,26 @@ class ProxmoxAPI:
                         proxmox_api=self.proxmox_api,
                         userid=self.userid,
                     )
+
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.users(self.userid).delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.users(self.userid).delete(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @dataclass
                 class _Get:
@@ -15218,7 +24860,7 @@ class ProxmoxAPI:
                             "groups": NotRequired[list[str]],
                             "keys": NotRequired[str],
                             "lastname": NotRequired[str],
-                            "tokens": NotRequired[dict[Any, Any]],
+                            "tokens": NotRequired[dict[str, Any]],
                         },
                     )
 
@@ -15231,7 +24873,9 @@ class ProxmoxAPI:
                         groups: Optional[list[str]] = None
                         keys: Optional[str] = None
                         lastname: Optional[str] = None
-                        tokens: Optional[dict[Any, Any]] = None
+                        tokens: Optional[dict[str, Any]] = None
+
+                    Model.__name__ = "ProxmoxAPI.Access.Users.Userid._Get"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15247,14 +24891,39 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Users.Userid._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Access.Users.Userid._Get.Model"
+
                         data: Any = self.proxmox_api.access.users(self.userid).get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.users(self.userid).delete(
-                        *args, **kwargs
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.users(self.userid).put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.users(self.userid).put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        userid=self.userid,
                     )
 
                 @property
@@ -15264,9 +24933,11 @@ class ProxmoxAPI:
                         userid=self.userid,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.users(self.userid).put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        userid=self.userid,
                     )
 
                 set = put
@@ -15300,6 +24971,8 @@ class ProxmoxAPI:
                         expire: Optional[int] = None
                         privsep: Optional[bool] = None
                         tokenid: str
+
+                    Model.__name__ = "ProxmoxAPI.Access.Users._Get._Tokens"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15335,20 +25008,49 @@ class ProxmoxAPI:
                     ] = None
                     userid: str
 
+                Model.__name__ = "ProxmoxAPI.Access.Users._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Access.Users._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Access.Users._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Users._Get.TypedDict"]:
+                    return self.proxmox_api.access.users.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.access.users.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Users._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Access.Users._Get.Model"]
 
-            def post(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.users.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.users.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.users.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.users.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -15369,6 +25071,26 @@ class ProxmoxAPI:
             class Groupid:
 
                 @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    groupid: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.groups(self.groupid).delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.groups(self.groupid).delete(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -15381,6 +25103,8 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         comment: Optional[str] = None
                         members: list[str]
+
+                    Model.__name__ = "ProxmoxAPI.Access.Groups.Groupid._Get"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15396,14 +25120,39 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Access.Groups.Groupid._Get.Model"
+
                         data: Any = self.proxmox_api.access.groups(self.groupid).get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.groups(self.groupid).delete(
-                        *args, **kwargs
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    groupid: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.groups(self.groupid).put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.groups(self.groupid).put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        groupid=self.groupid,
                     )
 
                 @property
@@ -15413,9 +25162,11 @@ class ProxmoxAPI:
                         groupid=self.groupid,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.groups(self.groupid).put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        groupid=self.groupid,
                     )
 
                 set = put
@@ -15446,20 +25197,49 @@ class ProxmoxAPI:
                     groupid: str
                     users: Optional[str] = None
 
+                Model.__name__ = "ProxmoxAPI.Access.Groups._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Access.Groups._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Access.Groups._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Groups._Get.TypedDict"]:
+                    return self.proxmox_api.access.groups.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.access.groups.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Groups._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Access.Groups._Get.Model"]
 
-            def post(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.groups.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.groups.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.groups.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.groups.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -15478,6 +25258,26 @@ class ProxmoxAPI:
             # /access/roles/{roleid}
             @dataclass
             class Roleid:
+
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    roleid: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.roles(self.roleid).delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.roles(self.roleid).delete(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
 
                 @dataclass
                 class _Get:
@@ -15524,86 +25324,112 @@ class ProxmoxAPI:
 
                     class Model(pydantic.BaseModel):
                         datastore_allocate: Optional[bool] = pydantic.Field(
-                            alias="Datastore.Allocate"
+                            alias="Datastore.Allocate", default=None
                         )
                         datastore_allocate_space: Optional[bool] = pydantic.Field(
-                            alias="Datastore.AllocateSpace"
+                            alias="Datastore.AllocateSpace", default=None
                         )
                         datastore_allocate_template: Optional[bool] = pydantic.Field(
-                            alias="Datastore.AllocateTemplate"
+                            alias="Datastore.AllocateTemplate", default=None
                         )
                         datastore_audit: Optional[bool] = pydantic.Field(
-                            alias="Datastore.Audit"
+                            alias="Datastore.Audit", default=None
                         )
                         group_allocate: Optional[bool] = pydantic.Field(
-                            alias="Group.Allocate"
+                            alias="Group.Allocate", default=None
                         )
                         permissions_modify: Optional[bool] = pydantic.Field(
-                            alias="Permissions.Modify"
+                            alias="Permissions.Modify", default=None
                         )
                         pool_allocate: Optional[bool] = pydantic.Field(
-                            alias="Pool.Allocate"
+                            alias="Pool.Allocate", default=None
                         )
                         realm_allocate: Optional[bool] = pydantic.Field(
-                            alias="Realm.Allocate"
+                            alias="Realm.Allocate", default=None
                         )
                         realm_allocate_user: Optional[bool] = pydantic.Field(
-                            alias="Realm.AllocateUser"
+                            alias="Realm.AllocateUser", default=None
                         )
                         sdnallocate: Optional[bool] = pydantic.Field(
-                            alias="SDN.Allocate"
+                            alias="SDN.Allocate", default=None
                         )
-                        sdnaudit: Optional[bool] = pydantic.Field(alias="SDN.Audit")
-                        sys_audit: Optional[bool] = pydantic.Field(alias="Sys.Audit")
+                        sdnaudit: Optional[bool] = pydantic.Field(
+                            alias="SDN.Audit", default=None
+                        )
+                        sys_audit: Optional[bool] = pydantic.Field(
+                            alias="Sys.Audit", default=None
+                        )
                         sys_console: Optional[bool] = pydantic.Field(
-                            alias="Sys.Console"
+                            alias="Sys.Console", default=None
                         )
-                        sys_modify: Optional[bool] = pydantic.Field(alias="Sys.Modify")
+                        sys_modify: Optional[bool] = pydantic.Field(
+                            alias="Sys.Modify", default=None
+                        )
                         sys_power_mgmt: Optional[bool] = pydantic.Field(
-                            alias="Sys.PowerMgmt"
+                            alias="Sys.PowerMgmt", default=None
                         )
-                        sys_syslog: Optional[bool] = pydantic.Field(alias="Sys.Syslog")
+                        sys_syslog: Optional[bool] = pydantic.Field(
+                            alias="Sys.Syslog", default=None
+                        )
                         user_modify: Optional[bool] = pydantic.Field(
-                            alias="User.Modify"
+                            alias="User.Modify", default=None
                         )
-                        vmallocate: Optional[bool] = pydantic.Field(alias="VM.Allocate")
-                        vmaudit: Optional[bool] = pydantic.Field(alias="VM.Audit")
-                        vmbackup: Optional[bool] = pydantic.Field(alias="VM.Backup")
-                        vmclone: Optional[bool] = pydantic.Field(alias="VM.Clone")
+                        vmallocate: Optional[bool] = pydantic.Field(
+                            alias="VM.Allocate", default=None
+                        )
+                        vmaudit: Optional[bool] = pydantic.Field(
+                            alias="VM.Audit", default=None
+                        )
+                        vmbackup: Optional[bool] = pydantic.Field(
+                            alias="VM.Backup", default=None
+                        )
+                        vmclone: Optional[bool] = pydantic.Field(
+                            alias="VM.Clone", default=None
+                        )
                         vmconfig_cdrom: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.CDROM"
+                            alias="VM.Config.CDROM", default=None
                         )
                         vmconfig_cpu: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.CPU"
+                            alias="VM.Config.CPU", default=None
                         )
                         vmconfig_cloudinit: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.Cloudinit"
+                            alias="VM.Config.Cloudinit", default=None
                         )
                         vmconfig_disk: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.Disk"
+                            alias="VM.Config.Disk", default=None
                         )
                         vmconfig_hwtype: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.HWType"
+                            alias="VM.Config.HWType", default=None
                         )
                         vmconfig_memory: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.Memory"
+                            alias="VM.Config.Memory", default=None
                         )
                         vmconfig_network: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.Network"
+                            alias="VM.Config.Network", default=None
                         )
                         vmconfig_options: Optional[bool] = pydantic.Field(
-                            alias="VM.Config.Options"
+                            alias="VM.Config.Options", default=None
                         )
-                        vmconsole: Optional[bool] = pydantic.Field(alias="VM.Console")
-                        vmmigrate: Optional[bool] = pydantic.Field(alias="VM.Migrate")
-                        vmmonitor: Optional[bool] = pydantic.Field(alias="VM.Monitor")
+                        vmconsole: Optional[bool] = pydantic.Field(
+                            alias="VM.Console", default=None
+                        )
+                        vmmigrate: Optional[bool] = pydantic.Field(
+                            alias="VM.Migrate", default=None
+                        )
+                        vmmonitor: Optional[bool] = pydantic.Field(
+                            alias="VM.Monitor", default=None
+                        )
                         vmpower_mgmt: Optional[bool] = pydantic.Field(
-                            alias="VM.PowerMgmt"
+                            alias="VM.PowerMgmt", default=None
                         )
-                        vmsnapshot: Optional[bool] = pydantic.Field(alias="VM.Snapshot")
+                        vmsnapshot: Optional[bool] = pydantic.Field(
+                            alias="VM.Snapshot", default=None
+                        )
                         vmsnapshot_rollback: Optional[bool] = pydantic.Field(
-                            alias="VM.Snapshot.Rollback"
+                            alias="VM.Snapshot.Rollback", default=None
                         )
+
+                    Model.__name__ = "ProxmoxAPI.Access.Roles.Roleid._Get"
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15619,14 +25445,39 @@ class ProxmoxAPI:
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Access.Roles.Roleid._Get.Model"
+
                         data: Any = self.proxmox_api.access.roles(self.roleid).get(
                             *args, **kwargs
                         )
-                        return self.Model(**data)
+                        return validate(data=data).data
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.roles(self.roleid).delete(
-                        *args, **kwargs
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    roleid: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.roles(self.roleid).put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.roles(self.roleid).put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        roleid=self.roleid,
                     )
 
                 @property
@@ -15636,9 +25487,11 @@ class ProxmoxAPI:
                         roleid=self.roleid,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.roles(self.roleid).put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        roleid=self.roleid,
                     )
 
                 set = put
@@ -15669,20 +25522,49 @@ class ProxmoxAPI:
                     roleid: str
                     special: Optional[bool] = None
 
+                Model.__name__ = "ProxmoxAPI.Access.Roles._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Access.Roles._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Access.Roles._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Roles._Get.TypedDict"]:
+                    return self.proxmox_api.access.roles.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.access.roles.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Roles._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Access.Roles._Get.Model"]
 
-            def post(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.roles.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.roles.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.roles.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.roles.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -15718,20 +25600,49 @@ class ProxmoxAPI:
                     type: Literal["user", "group", "token"]
                     ugid: str
 
+                Model.__name__ = "ProxmoxAPI.Access.Acl._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Access.Acl._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Access.Acl._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Acl._Get.TypedDict"]:
+                    return self.proxmox_api.access.acl.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.access.acl.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Acl._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Access.Acl._Get.Model"]
 
-            def put(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.acl.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.acl.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Put:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.acl.put(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.acl.put(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def put(self) -> _Put:
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                )
 
             set = put
 
@@ -15755,9 +25666,31 @@ class ProxmoxAPI:
                 @dataclass
                 class Sync:
 
-                    def post(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.access.domains(self.realm).sync.post(
-                            *args, **kwargs
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        realm: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            return self.proxmox_api.access.domains(
+                                self.realm
+                            ).sync.post(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.access.domains(
+                                self.realm
+                            ).sync.post(*args, **kwargs)
+                            return validate(data=data).data
+
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            realm=self.realm,
                         )
 
                     create = post
@@ -15773,19 +25706,85 @@ class ProxmoxAPI:
                         realm=self.realm,
                     )
 
-                def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.domains(self.realm).delete(
-                        *args, **kwargs
+                @dataclass
+                class _Delete:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    realm: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.domains(self.realm).delete(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.domains(self.realm).delete(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    realm: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        return self.proxmox_api.access.domains(self.realm).get(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        class validate(pydantic.BaseModel):
+                            data: dict[str, Any]
+
+                        data: Any = self.proxmox_api.access.domains(self.realm).get(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @dataclass
+                class _Put:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    realm: str
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        return self.proxmox_api.access.domains(self.realm).put(
+                            *args, **kwargs
+                        )
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.access.domains(self.realm).put(
+                            *args, **kwargs
+                        )
+                        return validate(data=data).data
+
+                @property
+                def delete(self) -> _Delete:
+                    return self._Delete(
+                        proxmox_api=self.proxmox_api,
+                        realm=self.realm,
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return self.proxmox_api.access.domains(self.realm).get(
-                        *args, **kwargs
+                @property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        realm=self.realm,
                     )
 
-                def put(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.domains(self.realm).put(
-                        *args, **kwargs
+                @property
+                def put(self) -> _Put:
+                    return self._Put(
+                        proxmox_api=self.proxmox_api,
+                        realm=self.realm,
                     )
 
                 set = put
@@ -15818,20 +25817,49 @@ class ProxmoxAPI:
                     tfa: Optional[Literal["yubico", "oath"]] = None
                     type: str
 
+                Model.__name__ = "ProxmoxAPI.Access.Domains._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-            def get(
-                self, *args: Any, **kwargs: Any
-            ) -> builtins.list["ProxmoxAPI.Access.Domains._Get.TypedDict"]:
-                class validate(pydantic.BaseModel):
-                    data: builtins.list["ProxmoxAPI.Access.Domains._Get.TypedDict"]
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Domains._Get.TypedDict"]:
+                    return self.proxmox_api.access.domains.get(*args, **kwargs)
 
-                return validate(
-                    data=self.proxmox_api.access.domains.get(*args, **kwargs)
-                ).data
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> list["ProxmoxAPI.Access.Domains._Get.Model"]:
+                    class validate(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Access.Domains._Get.Model"]
 
-            def post(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.domains.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.domains.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Post:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.domains.post(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.domains.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @property
+            def post(self) -> _Post:
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
@@ -15848,6 +25876,20 @@ class ProxmoxAPI:
         class Ticket:
 
             @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.ticket.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.ticket.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
             class _Post:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -15861,11 +25903,13 @@ class ProxmoxAPI:
 
                 class Model(pydantic.BaseModel):
                     csrfprevention_token: Optional[str] = pydantic.Field(
-                        alias="CSRFPreventionToken"
+                        alias="CSRFPreventionToken", default=None
                     )
                     clustername: Optional[str] = None
                     ticket: Optional[str] = None
                     username: str
+
+                Model.__name__ = "ProxmoxAPI.Access.Ticket._Post"
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15877,11 +25921,17 @@ class ProxmoxAPI:
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Ticket._Post.Model":
-                    data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)
-                    return self.Model(**data)
+                    class validate(pydantic.BaseModel):
+                        data: "ProxmoxAPI.Access.Ticket._Post.Model"
 
-            def get(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.ticket.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             @property
             def post(self) -> _Post:
@@ -15903,8 +25953,25 @@ class ProxmoxAPI:
         @dataclass
         class Password:
 
-            def put(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.access.password.put(*args, **kwargs)
+            @dataclass
+            class _Put:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.access.password.put(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.access.password.put(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def put(self) -> _Put:
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                )
 
             set = put
 
@@ -15932,6 +25999,8 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     ticket: str
 
+                Model.__name__ = "ProxmoxAPI.Access.Tfa._Post"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(
@@ -15942,8 +26011,25 @@ class ProxmoxAPI:
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Tfa._Post.Model":
+                    class validate(pydantic.BaseModel):
+                        data: "ProxmoxAPI.Access.Tfa._Post.Model"
+
                     data: Any = self.proxmox_api.access.tfa.post(*args, **kwargs)
-                    return self.Model(**data)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Put:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    return self.proxmox_api.access.tfa.put(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    class validate(pydantic.BaseModel):
+                        data: dict[str, Any]
+
+                    data: Any = self.proxmox_api.access.tfa.put(*args, **kwargs)
+                    return validate(data=data).data
 
             @property
             def post(self) -> _Post:
@@ -15953,8 +26039,11 @@ class ProxmoxAPI:
 
             create = post
 
-            def put(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return self.proxmox_api.access.tfa.put(*args, **kwargs)
+            @property
+            def put(self) -> _Put:
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                )
 
             set = put
 
@@ -15970,8 +26059,25 @@ class ProxmoxAPI:
         @dataclass
         class Permissions:
 
-            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return self.proxmox_api.access.permissions.get(*args, **kwargs)
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    return self.proxmox_api.access.permissions.get(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    class validate(pydantic.BaseModel):
+                        data: dict[str, Any]
+
+                    data: Any = self.proxmox_api.access.permissions.get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15993,15 +26099,29 @@ class ProxmoxAPI:
             class Model(pydantic.BaseModel):
                 subdir: str
 
+            Model.__name__ = "ProxmoxAPI.Access._Get"
+
             proxmox_api: ProxmoxerProxmoxAPI
 
-        def get(
-            self, *args: Any, **kwargs: Any
-        ) -> builtins.list["ProxmoxAPI.Access._Get.TypedDict"]:
-            class validate(pydantic.BaseModel):
-                data: builtins.list["ProxmoxAPI.Access._Get.TypedDict"]
+            def __call__(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Access._Get.TypedDict"]:
+                return self.proxmox_api.access.get(*args, **kwargs)
 
-            return validate(data=self.proxmox_api.access.get(*args, **kwargs)).data
+            def model(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Access._Get.Model"]:
+                class validate(pydantic.BaseModel):
+                    data: list["ProxmoxAPI.Access._Get.Model"]
+
+                data: Any = self.proxmox_api.access.get(*args, **kwargs)
+                return validate(data=data).data
+
+        @property
+        def get(self) -> _Get:
+            return self._Get(
+                proxmox_api=self.proxmox_api,
+            )
 
         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16018,6 +26138,24 @@ class ProxmoxAPI:
         # /pools/{poolid}
         @dataclass
         class Poolid:
+
+            @dataclass
+            class _Delete:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                poolid: str
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.pools(self.poolid).delete(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.pools(self.poolid).delete(
+                        *args, **kwargs
+                    )
+                    return validate(data=data).data
 
             @dataclass
             class _Get:
@@ -16041,6 +26179,8 @@ class ProxmoxAPI:
                         type: Literal["qemu", "lxc", "openvz", "storage"]
                         vmid: Optional[int] = None
 
+                    Model.__name__ = "ProxmoxAPI.Pools.Poolid._Get._Members"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     poolid: str
@@ -16059,6 +26199,8 @@ class ProxmoxAPI:
                     comment: Optional[str] = None
                     members: list["ProxmoxAPI.Pools.Poolid._Get._Members.Model"]
 
+                Model.__name__ = "ProxmoxAPI.Pools.Poolid._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 poolid: str
@@ -16071,11 +26213,34 @@ class ProxmoxAPI:
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Pools.Poolid._Get.Model":
-                    data: Any = self.proxmox_api.pools(self.poolid).get(*args, **kwargs)
-                    return self.Model(**data)
+                    class validate(pydantic.BaseModel):
+                        data: "ProxmoxAPI.Pools.Poolid._Get.Model"
 
-            def delete(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.pools(self.poolid).delete(*args, **kwargs)
+                    data: Any = self.proxmox_api.pools(self.poolid).get(*args, **kwargs)
+                    return validate(data=data).data
+
+            @dataclass
+            class _Put:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                poolid: str
+
+                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                    return self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
+
+                def model(self, *args: Any, **kwargs: Any) -> None:
+                    class validate(pydantic.BaseModel):
+                        data: None
+
+                    data: Any = self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
+                    return validate(data=data).data
+
+            @property
+            def delete(self) -> _Delete:
+                return self._Delete(
+                    proxmox_api=self.proxmox_api,
+                    poolid=self.poolid,
+                )
 
             @property
             def get(self) -> _Get:
@@ -16084,8 +26249,12 @@ class ProxmoxAPI:
                     poolid=self.poolid,
                 )
 
-            def put(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
+            @property
+            def put(self) -> _Put:
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                    poolid=self.poolid,
+                )
 
             set = put
 
@@ -16111,18 +26280,49 @@ class ProxmoxAPI:
             class Model(pydantic.BaseModel):
                 poolid: str
 
+            Model.__name__ = "ProxmoxAPI.Pools._Get"
+
             proxmox_api: ProxmoxerProxmoxAPI
 
-        def get(
-            self, *args: Any, **kwargs: Any
-        ) -> builtins.list["ProxmoxAPI.Pools._Get.TypedDict"]:
-            class validate(pydantic.BaseModel):
-                data: builtins.list["ProxmoxAPI.Pools._Get.TypedDict"]
+            def __call__(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Pools._Get.TypedDict"]:
+                return self.proxmox_api.pools.get(*args, **kwargs)
 
-            return validate(data=self.proxmox_api.pools.get(*args, **kwargs)).data
+            def model(
+                self, *args: Any, **kwargs: Any
+            ) -> list["ProxmoxAPI.Pools._Get.Model"]:
+                class validate(pydantic.BaseModel):
+                    data: list["ProxmoxAPI.Pools._Get.Model"]
 
-        def post(self, *args: Any, **kwargs: Any) -> None:
-            return self.proxmox_api.pools.post(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.get(*args, **kwargs)
+                return validate(data=data).data
+
+        @dataclass
+        class _Post:
+            proxmox_api: ProxmoxerProxmoxAPI
+
+            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                return self.proxmox_api.pools.post(*args, **kwargs)
+
+            def model(self, *args: Any, **kwargs: Any) -> None:
+                class validate(pydantic.BaseModel):
+                    data: None
+
+                data: Any = self.proxmox_api.pools.post(*args, **kwargs)
+                return validate(data=data).data
+
+        @property
+        def get(self) -> _Get:
+            return self._Get(
+                proxmox_api=self.proxmox_api,
+            )
+
+        @property
+        def post(self) -> _Post:
+            return self._Post(
+                proxmox_api=self.proxmox_api,
+            )
 
         create = post
 
@@ -16154,6 +26354,8 @@ class ProxmoxAPI:
                 repoid: str
                 version: str
 
+            Model.__name__ = "ProxmoxAPI.Version._Get"
+
             proxmox_api: ProxmoxerProxmoxAPI
 
             def __call__(
@@ -16164,8 +26366,11 @@ class ProxmoxAPI:
             def model(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Version._Get.Model":
+                class validate(pydantic.BaseModel):
+                    data: "ProxmoxAPI.Version._Get.Model"
+
                 data: Any = self.proxmox_api.version.get(*args, **kwargs)
-                return self.Model(**data)
+                return validate(data=data).data
 
         @property
         def get(self) -> _Get:
