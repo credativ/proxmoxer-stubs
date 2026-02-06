@@ -3348,7 +3348,7 @@ class ProxmoxAPI:
                                 "state": NotRequired[str],
                                 "status": str,
                                 "timestamp": NotRequired[int],
-                                "type": dict[Any, Any],
+                                "type": Literal["quorum", "master", "lrm", "service"],
                             },
                         )
 
@@ -3365,7 +3365,7 @@ class ProxmoxAPI:
                             state: Optional[str] = None
                             status: str
                             timestamp: Optional[int] = None
-                            type: dict[Any, Any]
+                            type: Literal["quorum", "master", "lrm", "service"]
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
