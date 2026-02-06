@@ -43,7 +43,6 @@ class Code(pydantic.BaseModel):
 
 
 class Path:
-    orig: str
 
     class Segment(pydantic.BaseModel):
         orig: str
@@ -92,6 +91,7 @@ class Path:
             else:
                 return False
 
+    orig: str
     segments: list[Segment]
 
     @property
@@ -119,9 +119,6 @@ class Path:
             else:
                 ret += "/" + segment.orig
         return repr(ret)
-
-    def repr(self) -> str:
-        return self.__repr__()
 
     @property
     def as_classpath(self) -> str:
