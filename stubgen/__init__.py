@@ -235,7 +235,7 @@ class BaseModel(pydantic.BaseModel):
             ),
             tail=render(
                 """
-                @property
+                @cached_property
                 def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
                     return self.{{ path[-1].as_class }}(
                         proxmox_api=self.proxmox_api,
@@ -246,9 +246,11 @@ class BaseModel(pydantic.BaseModel):
                 {%-  endif %}
                     )
                 {% if path[-1] == "post" -%}
-                create = {{ path[-1] }}
+                @property
+                def create(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                 {% elif path[-1] == "put" -%}
-                set = {{ path[-1] }}
+                @property
+                def set(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                 {% endif -%}
                 """,
                 path=path,
@@ -358,7 +360,7 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 head=head,
                 tail=render(
                     """
-                    @property
+                    @cached_property
                     def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
                         return self.{{ path[-1].as_class }}(
                             proxmox_api=self.proxmox_api,
@@ -369,9 +371,11 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                     {%-  endif %}
                         )
                     {% if path[-1] == "post" -%}
-                    create = {{ path[-1] }}
+                    @property
+                    def create(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% elif path[-1] == "put" -%}
-                    set = {{ path[-1] }}
+                    @property
+                    def set(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% endif -%}
                     """,
                     path=path.copy_append(Path.CodeSegment(orig=name)),
@@ -413,7 +417,7 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 ),
                 tail=render(
                     """
-                    @property
+                    @cached_property
                     def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
                         return self.{{ path[-1].as_class }}(
                             proxmox_api=self.proxmox_api,
@@ -424,9 +428,11 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                     {%-  endif %}
                         )
                     {% if path[-1] == "post" -%}
-                    create = {{ path[-1] }}
+                    @property
+                    def create(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% elif path[-1] == "put" -%}
-                    set = {{ path[-1] }}
+                    @property
+                    def set(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% endif -%}
                     """,
                     path=path,
@@ -502,7 +508,7 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 ),
                 tail=render(
                     """
-                    @property
+                    @cached_property
                     def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
                         return self.{{ path[-1].as_class }}(
                             proxmox_api=self.proxmox_api,
@@ -513,9 +519,11 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     {%-  endif %}
                         )
                     {% if path[-1] == "post" -%}
-                    create = {{ path[-1] }}
+                    @property
+                    def create(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% elif path[-1] == "put" -%}
-                    set = {{ path[-1] }}
+                    @property
+                    def set(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% endif -%}
                     """,
                     path=path,
@@ -566,7 +574,7 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 ),
                 tail=render(
                     """
-                    @property
+                    @cached_property
                     def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
                         return self.{{ path[-1].as_class }}(
                             proxmox_api=self.proxmox_api,
@@ -577,9 +585,11 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     {%-  endif %}
                         )
                     {% if path[-1] == "post" -%}
-                    create = {{ path[-1] }}
+                    @property
+                    def create(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% elif path[-1] == "put" -%}
-                    set = {{ path[-1] }}
+                    @property
+                    def set(self) -> {{ path[-1].as_class }}: return self.{{ path[-1] }}
                     {% endif -%}
                     """,
                     path=path,
@@ -702,16 +712,21 @@ class ApiSchemaItem(BaseModel):
                 {%   endif %}
                 {% endif %}
                 {%- if path[-1].is_param %}
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache({{ path[-1] }}: {% if info %}{{ info.param_type(path[-1].as_param) }}{% else %}str{% endif %}) -> {{ path.as_classpath }}:
+                        return self.{{ path[-1].as_class }}(
+                            proxmox_api=self.proxmox_api,
+                            {{ path[-1] }}={{ path[-1] }},
+                    {%   if path.params %}
+                    {%     for param in path.params[:-1] %}
+                            {{ param }}=self.{{ param }},
+                    {%-    endfor %}
+                    {%-  endif %}
+                        )
+                    self.__cache = cache
                 def __call__(self, {{ path[-1] }}: {% if info %}{{ info.param_type(path[-1].as_param) }}{% else %}str{% endif %}) -> {{ path[-1].as_class }}:
-                    return self.{{ path[-1].as_class }}(
-                        proxmox_api=self.proxmox_api,
-                        {{ path[-1] }}={{ path[-1] }},
-                {%   if path.params %}
-                {%     for param in path.params[:-1] %}
-                        {{ param }}=self.{{ param }},
-                {%-    endfor %}
-                {%-  endif %}
-                    )
+                    return self.__cache({{ path[-1] }})
                 {%- else %}
                 @cached_property
                 {%    if type_check_only -%}
@@ -814,7 +829,7 @@ class ApiSchema(BaseModel):
                 import pydantic
                 import typing
                 from dataclasses import dataclass
-                from functools import cached_property
+                from functools import cached_property, lru_cache
                 from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
 
                 if TYPE_CHECKING:
