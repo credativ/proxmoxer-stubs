@@ -163,9 +163,7 @@ class Return(pydantic.BaseModel):
 class BaseModel(pydantic.BaseModel):
     optional: bool = False
 
-    def _dump(
-        self, path: Path, name: str, optional: bool, type_: str, sample: Any, patch: Patch,
-    ) -> Return:
+    def _dump(self, name: str, optional: bool, type_: str, sample: Any) -> Return:
         code = Code(
             tail=render(
                 """
@@ -176,8 +174,7 @@ class BaseModel(pydantic.BaseModel):
                 set = {{ name }}
                 {% endif -%}
                 """,
-                name=Path.Segment(orig=name),
-                path=path,
+                name=name,
                 sample=sample,
                 type=type_,
             )
@@ -189,56 +186,46 @@ class ApiSchemaItemInfoMethodReturnsString(BaseModel):
     type: Literal["string"]
     enum: list[str] | None = None
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
+    def dump(self, name: str, **kwargs: Any) -> Return:
         if self.enum:
-            return self._dump(path=path, name=name, optional=self.optional, type_=f"Literal{repr(self.enum)}", sample=self.enum[0], patch=patch(self))
+            return self._dump(name=name, optional=self.optional, type_=f"Literal{repr(self.enum)}", sample=self.enum[0])
         else:
-            return self._dump(path=path, name=name, optional=self.optional, type_="str", sample="", patch=patch(self))
+            return self._dump(name=name, optional=self.optional, type_="str", sample="")
 
 
 class ApiSchemaItemInfoMethodReturnsInteger(BaseModel):
     type: Literal["integer"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="int", sample=0, patch=patch(self),
-        )
+    def dump(self, name: str, **kwargs: Any) -> Return:
+        return self._dump(name=name, optional=self.optional, type_="int", sample=0)
 
 
 class ApiSchemaItemInfoMethodReturnsNumber(BaseModel):
     type: Literal["number"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="float", sample=0.0, patch=patch(self),
-        )
+    def dump(self, name: str, **kwargs: Any) -> Return:
+        return self._dump(name=name, optional=self.optional, type_="float", sample=0.0)
 
 
 class ApiSchemaItemInfoMethodReturnsBoolean(BaseModel):
     type: Literal["boolean"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="bool", sample=False, patch=patch(self),
-        )
+    def dump(self, name: str, **kwargs: Any) -> Return:
+        return self._dump(name=name, optional=self.optional, type_="bool", sample=False)
 
 
 class ApiSchemaItemInfoMethodReturnsNull(BaseModel):
     type: Literal["null"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="None", sample=None, patch=patch(self),
-        )
+    def dump(self, name: str, **kwargs: Any) -> Return:
+        return self._dump(name=name, optional=self.optional, type_="None", sample=None)
 
 
 class ApiSchemaItemInfoMethodReturnsAny(BaseModel):
     type: Literal["any"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="Any", sample=None, patch=patch(self),
-        )
+    def dump(self, name: str, **kwargs: Any) -> Return:
+        return self._dump(name=name, optional=self.optional, type_="Any", sample=None)
 
 
 class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
@@ -294,24 +281,24 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
     properties: dict[str, ApiSchemaItemInfoMethodReturns] | None = None
     values: ApiSchemaItemInfoMethodReturns | None = None
 
-    def dump(self, path: Path, name: str, patch: Patch, root: bool = False) -> Return:
+    def dump(self, path: Path, name: str, patch: Patch, call: bool = False) -> Return:
         patch(self).hook()
         name_ = Path.Segment(orig=name)
         if self.properties:
             returns: dict[str, Return] = {
-                name: prop.dump(path=path, name=name, patch=patch(self, name=name)) for name, prop in self.properties.items()
+                key: prop.dump(path=path, name=key, patch=patch(self, name=key)) for key, prop in self.properties.items()
             }
             code = Code(
                 head=render(
                     """
                     class _{{ name.as_class }}:
-                    {%- for name, return in returns.items() %}{% if return.code %}{{ return.code.headcode(indent=True) }}{% endif %}{% endfor %}
+                    {%- for return in returns.values() %}{% if return.code %}{{ return.code.headcode(indent=True) }}{% endif %}{% endfor %}
                         TypedDict = typing.TypedDict('TypedDict', {
                     {%-    for name, return in returns.items() %}
-                            {{ name.__repr__() }}: {% if return.optional %}NotRequired[{{ return.type }}]{% else %}{{ return.type }}{% endif %},
+                            {{ repr(name) }}: {% if return.optional %}NotRequired[{{ return.type }}]{% else %}{{ return.type }}{% endif %},
                     {%-   endfor %}
                         })
-                    {%- if root %}
+                    {%- if call %}
                         def __call__(self, *args: Any, **kwargs: Any) -> "{{ path.as_classpath }}._{{ name.as_class }}.TypedDict":
                             return typing.cast({{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
                     {%- endif %}
@@ -319,7 +306,7 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     name=Path.Segment(orig=name),
                     path=path,
                     returns=returns,
-                    root=root,
+                    call=call,
                 ),
                 tail=render(
                     """
@@ -344,24 +331,11 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
             )
         elif self.values:
             values = self.values.dump(path=path, name=name, patch=patch(self))
-            code = Code(
-                head=values.code.head if values.code else "",
-                tail=render(
-                    """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
-                    {% if name == "post" -%}
-                    create = {{ name }}
-                    {% elif name == "put" -%}
-                    set = {{ name }}
-                    {% endif -%}
-                    """,
-                    name=name_,
-                    path=path,
-                    values=self.values,
-                )
-            )
             return Return(
-                code=code, optional=self.optional, primitive=values.primitive, type=f"dict[str, { values.type }]"
+                code=values.code,
+                optional=self.optional,
+                primitive=values.primitive,
+                type=f"dict[str, { values.type }]"
             )
         else:
             code = Code(
@@ -414,7 +388,7 @@ class ApiSchemaItemInfoMethod(BaseModel):
 
     def dump(self, path: Path, method: str, patch: Patch) -> Code | None:
         if isinstance(self.returns, ApiSchemaItemInfoMethodReturnsObject):
-            return self.returns.dump(path=path, name=method, patch=patch(self), root=True).code
+            return self.returns.dump(path=path, name=method, patch=patch(self), call=True).code
         else:
             return self.returns.dump(path=path, name=method, patch=patch(self)).code
 
@@ -468,8 +442,8 @@ class ApiSchemaItem(BaseModel):
         self,
         type_check_only: bool,
         patch: Patch,
-        return_prefix: str,
         recurse: bool,
+        return_prefix: str = "",
     ) -> Code:
         path = Path.new(self.path)
         return Code(
@@ -508,7 +482,7 @@ class ApiSchemaItem(BaseModel):
                 {%    endif -%}
                 {% endif -%}
                 """,
-                childcodes=(child.dump(type_check_only=type_check_only, recurse=True, return_prefix='', patch=patch) for child in self.children) if self.children else None,
+                childcodes=(child.dump(type_check_only=type_check_only, recurse=True, patch=patch) for child in self.children) if self.children else None,
                 info=self.info,
                 infodump=self.info.dump(path=path, patch=patch(self)) if self.info else None,
                 path=path,
@@ -597,6 +571,6 @@ class ApiSchema(BaseModel):
                 {{  code.headcode(indent=True) }}
                 {% endfor -%}
                 """,
-                childcodes=(child.dump(type_check_only=False, recurse=True, return_prefix='', patch=patch) for child in self.children),
+                childcodes=(child.dump(type_check_only=False, recurse=True, patch=patch) for child in self.children),
             )
         )
