@@ -149,18 +149,24 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict,
+                                None,
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict, None
-                        )
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post()
 
-                    def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict, None
-                        )
+                    @property
+                    def create(self) -> _Post:
+                        return self._Post()
 
                 def __call__(self, node: str) -> Node:
                     return self.Node()
@@ -210,10 +216,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Cluster.Config.Join._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Config.Join._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Config.Join._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
@@ -313,14 +325,20 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict,
+                                    None,
+                                )
+
                         def delete(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict,
-                                None,
-                            )
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
@@ -427,13 +445,20 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict,
+                                None,
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict, None
-                        )
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
@@ -623,10 +648,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -735,11 +766,17 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict,
-                            None,
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict,
+                                None,
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                 @cached_property
                 def included_volumes(self) -> IncludedVolumes:
@@ -894,13 +931,19 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict, None
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict, None
-                        )
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
@@ -1105,13 +1148,20 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict,
+                                None,
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict, None
-                        )
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def put(self, *args: Any, **kwargs: Any) -> str:
                         return ""
@@ -1316,10 +1366,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
             @cached_property
             def metadata(self) -> Metadata:
@@ -1957,16 +2013,20 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict":
+                                        return typing.cast(
+                                            ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict,
+                                            None,
+                                        )
+
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> _Get.TypedDict:
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict,
-                                        None,
-                                    )
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get()
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
@@ -2207,11 +2267,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
@@ -2649,21 +2715,21 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def post(
-                                self, *args: Any, **kwargs: Any
-                            ) -> _Post.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict,
+                                        None,
+                                    )
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> _Post.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict,
-                                    None,
-                                )
+                            @property
+                            def post(self) -> _Post:
+                                return self._Post()
+
+                            @property
+                            def create(self) -> _Post:
+                                return self._Post()
 
                         @cached_property
                         def exec(self) -> Exec:
@@ -2690,11 +2756,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def exec_status(self) -> ExecStatus:
@@ -2716,11 +2788,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def file_read(self) -> FileRead:
@@ -2776,10 +2854,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict, None
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def rrd(self) -> Rrd:
@@ -2961,11 +3046,19 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
@@ -3093,17 +3186,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def vncproxy(self) -> Vncproxy:
@@ -3127,17 +3224,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def termproxy(self) -> Termproxy:
@@ -3158,11 +3259,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def vncwebsocket(self) -> Vncwebsocket:
@@ -3187,17 +3294,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def spiceproxy(self) -> Spiceproxy:
@@ -3237,11 +3348,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def current(self) -> Current:
@@ -3419,11 +3536,19 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def feature(self) -> Feature:
@@ -3482,11 +3607,19 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
@@ -3677,17 +3810,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def mtunnel(self) -> Mtunnel:
@@ -3709,11 +3846,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def mtunnelwebsocket(self) -> Mtunnelwebsocket:
@@ -3869,11 +4012,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
@@ -3914,11 +4063,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def current(self) -> Current:
@@ -4189,16 +4344,20 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict":
+                                        return typing.cast(
+                                            ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict,
+                                            None,
+                                        )
+
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def get(
-                                    self, *args: Any, **kwargs: Any
-                                ) -> _Get.TypedDict:
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict,
-                                        None,
-                                    )
+                                @property
+                                def get(self) -> _Get:
+                                    return self._Get()
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
@@ -4439,11 +4598,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
@@ -4533,10 +4698,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict, None
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def rrd(self) -> Rrd:
@@ -4577,17 +4749,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def vncproxy(self) -> Vncproxy:
@@ -4611,17 +4787,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def termproxy(self) -> Termproxy:
@@ -4642,11 +4822,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def vncwebsocket(self) -> Vncwebsocket:
@@ -4671,17 +4857,21 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def spiceproxy(self) -> Spiceproxy:
@@ -4736,11 +4926,19 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def feature(self) -> Feature:
@@ -4858,17 +5056,23 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict,
+                                    None,
+                                )
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
+
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
                     @cached_property
                     def mtunnel(self) -> Mtunnel:
@@ -4890,11 +5094,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def mtunnelwebsocket(self) -> Mtunnelwebsocket:
@@ -5071,11 +5281,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def metadata(self) -> Metadata:
@@ -5101,11 +5317,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def lv_info(self) -> LvInfo:
@@ -5425,11 +5647,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict,
-                                    None,
-                                )
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict,
+                                        None,
+                                    )
+
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                         @cached_property
                         def status(self) -> Status:
@@ -5542,14 +5770,20 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.TypedDict,
+                                    None,
+                                )
+
                         def delete(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.TypedDict,
-                                None,
-                            )
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                         def put(self, *args: Any, **kwargs: Any) -> str:
                             return ""
@@ -5794,10 +6028,17 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict,
+                                None,
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                 @cached_property
                 def cmd_safety(self) -> CmdSafety:
@@ -5866,10 +6107,17 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict,
+                                None,
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                 @cached_property
                 def defaults(self) -> Defaults:
@@ -6068,13 +6316,19 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict, None
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict, None
-                        )
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
@@ -6167,11 +6421,19 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def status(self) -> Status:
@@ -6716,14 +6978,20 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict,
+                                        None,
+                                    )
+
                             def delete(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict,
-                                    None,
-                                )
+                            @property
+                            def get(self) -> _Get:
+                                return self._Get()
 
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
@@ -6870,11 +7138,17 @@ class ProxmoxAPI:
                                 },
                             )
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict,
-                                None,
-                            )
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict,
+                                    None,
+                                )
+
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     @cached_property
                     def rrd(self) -> Rrd:
@@ -7032,10 +7306,16 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict, None
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
@@ -7178,14 +7458,20 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict,
+                                    None,
+                                )
+
                         def delete(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict,
-                                None,
-                            )
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -7272,10 +7558,16 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict, None
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                 @cached_property
                 def smart(self) -> Smart:
@@ -7448,10 +7740,17 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict,
+                                None,
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
@@ -7552,14 +7851,20 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict,
+                                    None,
+                                )
+
                         def delete(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict,
-                                None,
-                            )
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
@@ -7675,10 +7980,17 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict,
+                                None,
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
@@ -7918,20 +8230,26 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> (
+                            "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict"
+                        ):
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict,
+                                None,
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict,
-                            None,
-                        )
+                    @property
+                    def post(self) -> _Post:
+                        return self._Post()
 
-                    def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict,
-                            None,
-                        )
+                    @property
+                    def create(self) -> _Post:
+                        return self._Post()
 
                 @cached_property
                 def custom(self) -> Custom:
@@ -7967,10 +8285,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Config._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Config._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Config._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -8086,10 +8410,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Version._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Version._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Version._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
             @cached_property
             def version(self) -> Version:
@@ -8179,8 +8509,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict, None)
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
             @cached_property
             def rrd(self) -> Rrd:
@@ -8256,15 +8594,20 @@ class ProxmoxAPI:
                         },
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict, None
+                        )
 
-                def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict, None
-                    )
+                @property
+                def post(self) -> _Post:
+                    return self._Post()
+
+                @property
+                def create(self) -> _Post:
+                    return self._Post()
 
             @cached_property
             def vncshell(self) -> Vncshell:
@@ -8287,15 +8630,20 @@ class ProxmoxAPI:
                         },
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict, None
+                        )
 
-                def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict, None
-                    )
+                @property
+                def post(self) -> _Post:
+                    return self._Post()
+
+                @property
+                def create(self) -> _Post:
+                    return self._Post()
 
             @cached_property
             def termproxy(self) -> Termproxy:
@@ -8315,10 +8663,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
             @cached_property
             def vncwebsocket(self) -> Vncwebsocket:
@@ -8342,15 +8696,20 @@ class ProxmoxAPI:
                         },
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict, None
+                        )
 
-                def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict, None
-                    )
+                @property
+                def post(self) -> _Post:
+                    return self._Post()
+
+                @property
+                def create(self) -> _Post:
+                    return self._Post()
 
             @cached_property
             def spiceshell(self) -> Spiceshell:
@@ -8373,8 +8732,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict, None)
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -8402,8 +8769,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(ProxmoxAPI.Nodes.Node.Time._Get.TypedDict, None)
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Time._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Time._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -8452,10 +8827,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
             @cached_property
             def query_url_metadata(self) -> QueryUrlMetadata:
@@ -8537,8 +8918,16 @@ class ProxmoxAPI:
                         },
                     )
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict, None)
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict, None
+                        )
+
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -8624,17 +9013,24 @@ class ProxmoxAPI:
                     },
                 )
 
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Storage.Storage._Put.TypedDict":
+                    return typing.cast(ProxmoxAPI.Storage.Storage._Put.TypedDict, None)
+
             def delete(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                 return {}
 
-            def put(self, *args: Any, **kwargs: Any) -> _Put.TypedDict:
-                return typing.cast(ProxmoxAPI.Storage.Storage._Put.TypedDict, None)
+            @property
+            def put(self) -> _Put:
+                return self._Put()
 
-            def set(self, *args: Any, **kwargs: Any) -> _Put.TypedDict:
-                return typing.cast(ProxmoxAPI.Storage.Storage._Put.TypedDict, None)
+            @property
+            def set(self) -> _Put:
+                return self._Put()
 
         def __call__(self, storage: str) -> Storage:
             return self.Storage()
@@ -8680,14 +9076,21 @@ class ProxmoxAPI:
                 },
             )
 
+            def __call__(
+                self, *args: Any, **kwargs: Any
+            ) -> "ProxmoxAPI.Storage._Post.TypedDict":
+                return typing.cast(ProxmoxAPI.Storage._Post.TypedDict, None)
+
         def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
             return []
 
-        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-            return typing.cast(ProxmoxAPI.Storage._Post.TypedDict, None)
+        @property
+        def post(self) -> _Post:
+            return self._Post()
 
-        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-            return typing.cast(ProxmoxAPI.Storage._Post.TypedDict, None)
+        @property
+        def create(self) -> _Post:
+            return self._Post()
 
     @cached_property
     def storage(self) -> Storage:
@@ -8731,10 +9134,16 @@ class ProxmoxAPI:
                             },
                         )
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict, None
-                        )
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict, None
+                            )
+
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                 @cached_property
                 def tfa(self) -> Tfa:
@@ -8761,6 +9170,14 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict,
+                                    None,
+                                )
+
                         class _Post:
                             class _Info:
                                 TypedDict = typing.TypedDict(
@@ -8781,6 +9198,14 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict,
+                                    None,
+                                )
+
                         class _Put:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8791,38 +9216,36 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict":
+                                return typing.cast(
+                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict,
+                                    None,
+                                )
+
                         def delete(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict,
-                                None,
-                            )
+                        @property
+                        def get(self) -> _Get:
+                            return self._Get()
 
-                        def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def post(self) -> _Post:
+                            return self._Post()
 
-                        def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict,
-                                None,
-                            )
+                        @property
+                        def create(self) -> _Post:
+                            return self._Post()
 
-                        def put(self, *args: Any, **kwargs: Any) -> _Put.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict,
-                                None,
-                            )
+                        @property
+                        def put(self) -> _Put:
+                            return self._Put()
 
-                        def set(self, *args: Any, **kwargs: Any) -> _Put.TypedDict:
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict,
-                                None,
-                            )
+                        @property
+                        def set(self) -> _Put:
+                            return self._Put()
 
                     def __call__(self, tokenid: str) -> Tokenid:
                         return self.Tokenid()
@@ -8867,13 +9290,19 @@ class ProxmoxAPI:
                         },
                     )
 
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Users.Userid._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Users.Userid._Get.TypedDict, None
+                        )
+
                 def delete(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Users.Userid._Get.TypedDict, None
-                    )
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -8945,13 +9374,19 @@ class ProxmoxAPI:
                         },
                     )
 
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict, None
+                        )
+
                 def delete(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict, None
-                    )
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -9039,13 +9474,19 @@ class ProxmoxAPI:
                         },
                     )
 
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict, None
+                        )
+
                 def delete(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict, None
-                    )
+                @property
+                def get(self) -> _Get:
+                    return self._Get()
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
@@ -9207,15 +9648,20 @@ class ProxmoxAPI:
                         },
                     )
 
-                def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Openid.Login._Post.TypedDict, None
-                    )
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Openid.Login._Post.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Openid.Login._Post.TypedDict, None
+                        )
 
-                def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Openid.Login._Post.TypedDict, None
-                    )
+                @property
+                def post(self) -> _Post:
+                    return self._Post()
+
+                @property
+                def create(self) -> _Post:
+                    return self._Post()
 
             @cached_property
             def login(self) -> Login:
@@ -9265,13 +9711,19 @@ class ProxmoxAPI:
                             },
                         )
 
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict":
+                            return typing.cast(
+                                ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict, None
+                            )
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                        return typing.cast(
-                            ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict, None
-                        )
+                    @property
+                    def get(self) -> _Get:
+                        return self._Get()
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
@@ -9308,20 +9760,25 @@ class ProxmoxAPI:
                         },
                     )
 
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict, None
+                        )
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[_Get.TypedDict]:
                     return []
 
-                def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict, None
-                    )
+                @property
+                def post(self) -> _Post:
+                    return self._Post()
 
-                def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                    return typing.cast(
-                        ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict, None
-                    )
+                @property
+                def create(self) -> _Post:
+                    return self._Post()
 
             def __call__(self, userid: str) -> Userid:
                 return self.Userid()
@@ -9357,14 +9814,21 @@ class ProxmoxAPI:
                     },
                 )
 
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Access.Tfa._Post.TypedDict":
+                    return typing.cast(ProxmoxAPI.Access.Tfa._Post.TypedDict, None)
+
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
                 return []
 
-            def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                return typing.cast(ProxmoxAPI.Access.Tfa._Post.TypedDict, None)
+            @property
+            def post(self) -> _Post:
+                return self._Post()
 
-            def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                return typing.cast(ProxmoxAPI.Access.Tfa._Post.TypedDict, None)
+            @property
+            def create(self) -> _Post:
+                return self._Post()
 
         @cached_property
         def tfa(self) -> Tfa:
@@ -9385,14 +9849,21 @@ class ProxmoxAPI:
                     },
                 )
 
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Access.Ticket._Post.TypedDict":
+                    return typing.cast(ProxmoxAPI.Access.Ticket._Post.TypedDict, None)
+
             def get(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def post(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                return typing.cast(ProxmoxAPI.Access.Ticket._Post.TypedDict, None)
+            @property
+            def post(self) -> _Post:
+                return self._Post()
 
-            def create(self, *args: Any, **kwargs: Any) -> _Post.TypedDict:
-                return typing.cast(ProxmoxAPI.Access.Ticket._Post.TypedDict, None)
+            @property
+            def create(self) -> _Post:
+                return self._Post()
 
         @cached_property
         def ticket(self) -> Ticket:
@@ -9469,11 +9940,17 @@ class ProxmoxAPI:
                     },
                 )
 
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Pools.Poolid._Get.TypedDict":
+                    return typing.cast(ProxmoxAPI.Pools.Poolid._Get.TypedDict, None)
+
             def delete(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-                return typing.cast(ProxmoxAPI.Pools.Poolid._Get.TypedDict, None)
+            @property
+            def get(self) -> _Get:
+                return self._Get()
 
             def put(self, *args: Any, **kwargs: Any) -> None:
                 return None
@@ -9520,8 +9997,14 @@ class ProxmoxAPI:
                 },
             )
 
-        def get(self, *args: Any, **kwargs: Any) -> _Get.TypedDict:
-            return typing.cast(ProxmoxAPI.Version._Get.TypedDict, None)
+            def __call__(
+                self, *args: Any, **kwargs: Any
+            ) -> "ProxmoxAPI.Version._Get.TypedDict":
+                return typing.cast(ProxmoxAPI.Version._Get.TypedDict, None)
+
+        @property
+        def get(self) -> _Get:
+            return self._Get()
 
     @cached_property
     def version(self) -> Version:

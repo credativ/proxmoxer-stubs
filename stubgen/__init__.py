@@ -265,7 +265,7 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
     properties: dict[str, ApiSchemaItemInfoMethodReturns] | None = None
     values: ApiSchemaItemInfoMethodReturns | None = None
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
+    def dump(self, path: Path, name: str, patch: Patch, root: bool = False) -> Return:
         patch(self).hook()
         name_ = Path.Segment(orig=name)
         if self.properties:
@@ -282,18 +282,29 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                             {{ name.__repr__() }}: {% if return.optional %}NotRequired[{{ return.type }}]{% else %}{{ return.type }}{% endif %},
                     {%-   endfor %}
                         })
+                    {%- if root %}
+                        def __call__(self, *args: Any, **kwargs: Any) -> "ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict":
+                            return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                    {%- endif %}
                     """,
                     name=Path.Segment(orig=name),
                     path=path,
                     returns=returns,
+                    root=root,
                 ),
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> _{{ name.as_class }}.TypedDict: return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                    @property
+                    def {{ name }}(self) -> _{{ name.as_class }}:
+                        return self._{{ name.as_class }}()
                     {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> _{{ name.as_class }}.TypedDict: return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                    @property
+                    def create(self) -> _{{ name.as_class }}:
+                        return self._{{ name.as_class }}()
                     {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> _{{ name.as_class }}.TypedDict: return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                    @property
+                    def set(self) -> _{{ name.as_class }}:
+                        return self._{{ name.as_class }}()
                     {% endif -%}
                     """,
                     name=name_,
@@ -377,7 +388,10 @@ class ApiSchemaItemInfoMethod(BaseModel):
         return self.parameters.properties.get(name) if self.parameters.properties else None
 
     def dump(self, path: Path, method: str, patch: Patch) -> Code | None:
-        return self.returns.dump(path=path, name=method, patch=patch(self)).code
+        if isinstance(self.returns, ApiSchemaItemInfoMethodReturnsObject):
+            return self.returns.dump(path=path, name=method, patch=patch(self), root=True).code
+        else:
+            return self.returns.dump(path=path, name=method, patch=patch(self)).code
 
 
 class ApiSchemaItemInfo(BaseModel):
