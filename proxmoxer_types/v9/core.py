@@ -59,8 +59,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             def __call__(self, id: str) -> Id:
                 return self.Id()
@@ -89,8 +88,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def replication(self) -> Replication:
@@ -119,14 +117,12 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -293,8 +289,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -324,8 +319,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def sendmail(self) -> Sendmail:
@@ -371,8 +365,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -399,8 +392,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def gotify(self) -> Gotify:
@@ -455,8 +447,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -492,8 +483,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def smtp(self) -> Smtp:
@@ -543,8 +533,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -575,8 +564,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def webhook(self) -> Webhook:
@@ -608,8 +596,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def create(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        create = post
 
                     @cached_property
                     def test(self) -> Test:
@@ -688,8 +675,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, name: str) -> Name:
                     return self.Name()
@@ -721,8 +707,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def matchers(self) -> Matchers:
@@ -785,9 +770,7 @@ class ProxmoxAPI:
                     def post(self) -> _Post:
                         return self._Post()
 
-                    @property
-                    def create(self) -> _Post:
-                        return self._Post()
+                    create = post
 
                 def __call__(self, node: str) -> Node:
                     return self.Node()
@@ -851,8 +834,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def join(self) -> Join:
@@ -886,8 +868,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> str:
                 return ""
 
-            def create(self, *args: Any, **kwargs: Any) -> str:
-                return ""
+            create = post
 
         @cached_property
         def config(self) -> Config:
@@ -964,8 +945,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, pos: int) -> Pos:
                         return self.Pos()
@@ -1017,8 +997,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 def __call__(self, group: str) -> Group:
                     return self.Group()
@@ -1041,8 +1020,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def groups(self) -> Groups:
@@ -1110,8 +1088,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, pos: int) -> Pos:
                     return self.Pos()
@@ -1158,8 +1135,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def rules(self) -> Rules:
@@ -1189,8 +1165,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, cidr: str) -> Cidr:
                         return self.Cidr()
@@ -1219,8 +1194,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 def __call__(self, name: str) -> Name:
                     return self.Name()
@@ -1243,8 +1217,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def ipset(self) -> Ipset:
@@ -1269,8 +1242,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, name: str) -> Name:
                     return self.Name()
@@ -1294,8 +1266,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def aliases(self) -> Aliases:
@@ -1336,8 +1307,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             @cached_property
             def options(self) -> Options:
@@ -1468,8 +1438,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             def __call__(self, id: str) -> Id:
                 return self.Id()
@@ -1488,8 +1457,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def backup(self) -> Backup:
@@ -1589,9 +1557,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def migrate(self) -> Migrate:
@@ -1637,9 +1603,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def relocate(self) -> Relocate:
@@ -1688,8 +1652,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, sid: str) -> Sid:
                     return self.Sid()
@@ -1710,8 +1673,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def resources(self) -> Resources:
@@ -1736,8 +1698,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, group: str) -> Group:
                     return self.Group()
@@ -1758,8 +1719,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def groups(self) -> Groups:
@@ -1801,8 +1761,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, rule: str) -> Rule:
                     return self.Rule()
@@ -1826,8 +1785,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def rules(self) -> Rules:
@@ -2111,8 +2069,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -2300,8 +2257,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def plugins(self) -> Plugins:
@@ -2346,8 +2302,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def set(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    set = put
 
                 def __call__(self, name: str) -> Name:
                     return self.Name()
@@ -2360,8 +2315,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def account(self) -> Account:
@@ -2618,8 +2572,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, flag: str) -> Flag:
                     return self.Flag()
@@ -2654,8 +2607,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def set(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                set = put
 
             @cached_property
             def flags(self) -> Flags:
@@ -2691,14 +2643,12 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -2788,8 +2738,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -2822,8 +2771,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def dir(self) -> Dir:
@@ -2848,8 +2796,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -2882,8 +2829,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def pci(self) -> Pci:
@@ -2908,8 +2854,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -2933,8 +2878,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def usb(self) -> Usb:
@@ -2962,8 +2906,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def start(self) -> Start:
@@ -2976,8 +2919,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def shutdown(self) -> Shutdown:
@@ -2990,8 +2932,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def suspend(self) -> Suspend:
@@ -3004,8 +2945,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def migrate(self) -> Migrate:
@@ -3106,8 +3046,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             def __call__(self, pos: int) -> Pos:
                                 return self.Pos()
@@ -3156,8 +3095,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def rules(self) -> Rules:
@@ -3208,8 +3146,7 @@ class ProxmoxAPI:
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def set(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            set = put
 
                         @cached_property
                         def options(self) -> Options:
@@ -3246,8 +3183,7 @@ class ProxmoxAPI:
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def set(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            set = put
 
                         def __call__(self, subnet: str) -> Subnet:
                             return self.Subnet()
@@ -3262,8 +3198,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def create(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        create = post
 
                     @cached_property
                     def subnets(self) -> Subnets:
@@ -3281,14 +3216,12 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def create(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        create = post
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     @cached_property
                     def ips(self) -> Ips:
@@ -3344,8 +3277,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, vnet: str) -> Vnet:
                     return self.Vnet()
@@ -3387,8 +3319,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def vnets(self) -> Vnets:
@@ -3492,8 +3423,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, zone: str) -> Zone:
                     return self.Zone()
@@ -3573,8 +3503,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def zones(self) -> Zones:
@@ -3649,8 +3578,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, controller: str) -> Controller:
                     return self.Controller()
@@ -3702,8 +3630,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def controllers(self) -> Controllers:
@@ -3741,8 +3668,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, ipam: str) -> Ipam:
                     return self.Ipam()
@@ -3764,8 +3690,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def ipams(self) -> Ipams:
@@ -3790,8 +3715,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, dns: str) -> Dns:
                     return self.Dns()
@@ -3813,8 +3737,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def dns(self) -> Dns:
@@ -3868,8 +3791,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, id: str) -> Id:
                         return self.Id()
@@ -3898,8 +3820,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def fabric(self) -> Fabric:
@@ -3953,8 +3874,7 @@ class ProxmoxAPI:
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def set(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            set = put
 
                         def __call__(self, node_id: str) -> NodeId:
                             return self.NodeId()
@@ -3984,8 +3904,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def create(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        create = post
 
                     def __call__(self, fabric_id: str) -> FabricId:
                         return self.FabricId()
@@ -4100,8 +4019,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def lock(self) -> Lock:
@@ -4114,8 +4032,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def rollback(self) -> Rollback:
@@ -4135,8 +4052,7 @@ class ProxmoxAPI:
             def put(self, *args: Any, **kwargs: Any) -> str:
                 return ""
 
-            def set(self, *args: Any, **kwargs: Any) -> str:
-                return ""
+            set = put
 
         @cached_property
         def sdn(self) -> Sdn:
@@ -4242,8 +4158,7 @@ class ProxmoxAPI:
             def put(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def set(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            set = put
 
         @cached_property
         def options(self) -> Options:
@@ -4380,8 +4295,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             def __call__(self, pos: int) -> Pos:
                                 return self.Pos()
@@ -4431,8 +4345,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def rules(self) -> Rules:
@@ -4461,8 +4374,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             def __call__(self, name: str) -> Name:
                                 return self.Name()
@@ -4489,8 +4401,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def aliases(self) -> Aliases:
@@ -4524,8 +4435,7 @@ class ProxmoxAPI:
                                     def put(self, *args: Any, **kwargs: Any) -> None:
                                         return None
 
-                                    def set(self, *args: Any, **kwargs: Any) -> None:
-                                        return None
+                                    set = put
 
                                 def __call__(self, cidr: str) -> Cidr:
                                     return self.Cidr()
@@ -4556,8 +4466,7 @@ class ProxmoxAPI:
                                 def post(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def create(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                create = post
 
                             def __call__(self, name: str) -> Name:
                                 return self.Name()
@@ -4583,8 +4492,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def ipset(self) -> Ipset:
@@ -4657,8 +4565,7 @@ class ProxmoxAPI:
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def set(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            set = put
 
                         @cached_property
                         def options(self) -> Options:
@@ -4743,10 +4650,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def fsfreeze_freeze(self) -> FsfreezeFreeze:
@@ -4762,10 +4666,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def fsfreeze_status(self) -> FsfreezeStatus:
@@ -4781,10 +4682,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def fsfreeze_thaw(self) -> FsfreezeThaw:
@@ -4800,10 +4698,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def fstrim(self) -> Fstrim:
@@ -4973,10 +4868,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def ping(self) -> Ping:
@@ -4992,10 +4884,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def shutdown(self) -> Shutdown:
@@ -5011,10 +4900,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def suspend_disk(self) -> SuspendDisk:
@@ -5030,10 +4916,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def suspend_hybrid(self) -> SuspendHybrid:
@@ -5049,10 +4932,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def suspend_ram(self) -> SuspendRam:
@@ -5068,10 +4948,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                                 return {}
 
-                            def create(
-                                self, *args: Any, **kwargs: Any
-                            ) -> dict[Any, Any]:
-                                return {}
+                            create = post
 
                         @cached_property
                         def set_user_password(self) -> SetUserPassword:
@@ -5104,9 +4981,7 @@ class ProxmoxAPI:
                             def post(self) -> _Post:
                                 return self._Post()
 
-                            @property
-                            def create(self) -> _Post:
-                                return self._Post()
+                            create = post
 
                         @cached_property
                         def exec(self) -> Exec:
@@ -5191,8 +5066,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def file_write(self) -> FileWrite:
@@ -5209,8 +5083,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
                             return {}
 
-                        def create(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return {}
+                        create = post
 
                     @cached_property
                     def agent(self) -> Agent:
@@ -5452,14 +5325,12 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     @cached_property
                     def config(self) -> Config:
@@ -5532,8 +5403,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     @cached_property
                     def cloudinit(self) -> Cloudinit:
@@ -5549,8 +5419,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     @cached_property
                     def unlink(self) -> Unlink:
@@ -5588,9 +5457,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def vncproxy(self) -> Vncproxy:
@@ -5626,9 +5493,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def termproxy(self) -> Termproxy:
@@ -5696,9 +5561,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def spiceproxy(self) -> Spiceproxy:
@@ -5780,8 +5643,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def start(self) -> Start:
@@ -5797,8 +5659,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def stop(self) -> Stop:
@@ -5814,8 +5675,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def reset(self) -> Reset:
@@ -5831,8 +5691,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def shutdown(self) -> Shutdown:
@@ -5848,8 +5707,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def reboot(self) -> Reboot:
@@ -5865,8 +5723,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def suspend(self) -> Suspend:
@@ -5882,8 +5739,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def resume(self) -> Resume:
@@ -5919,8 +5775,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     @cached_property
                     def sendkey(self) -> Sendkey:
@@ -5970,8 +5825,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def clone(self) -> Clone:
@@ -5987,8 +5841,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def move_disk(self) -> MoveDisk:
@@ -6067,8 +5920,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def migrate(self) -> Migrate:
@@ -6084,8 +5936,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def remote_migrate(self) -> RemoteMigrate:
@@ -6101,8 +5952,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def monitor(self) -> Monitor:
@@ -6118,8 +5968,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def set(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        set = put
 
                     @cached_property
                     def resize(self) -> Resize:
@@ -6149,8 +5998,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             @cached_property
                             def config(self) -> Config:
@@ -6167,8 +6015,7 @@ class ProxmoxAPI:
                                 def post(self, *args: Any, **kwargs: Any) -> str:
                                     return ""
 
-                                def create(self, *args: Any, **kwargs: Any) -> str:
-                                    return ""
+                                create = post
 
                             @cached_property
                             def rollback(self) -> Rollback:
@@ -6212,8 +6059,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def snapshot(self) -> Snapshot:
@@ -6229,8 +6075,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def template(self) -> Template:
@@ -6265,9 +6110,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def mtunnel(self) -> Mtunnel:
@@ -6315,8 +6158,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def create(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        create = post
 
                     @cached_property
                     def dbus_vmstate(self) -> DbusVmstate:
@@ -6390,8 +6232,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def qemu(self) -> Qemu:
@@ -6506,8 +6347,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     @cached_property
                     def config(self) -> Config:
@@ -6581,8 +6421,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def start(self) -> Start:
@@ -6598,8 +6437,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def stop(self) -> Stop:
@@ -6615,8 +6453,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def shutdown(self) -> Shutdown:
@@ -6632,8 +6469,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def suspend(self) -> Suspend:
@@ -6649,8 +6485,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def resume(self) -> Resume:
@@ -6666,8 +6501,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                         @cached_property
                         def reboot(self) -> Reboot:
@@ -6712,8 +6546,7 @@ class ProxmoxAPI:
                                 def post(self, *args: Any, **kwargs: Any) -> str:
                                     return ""
 
-                                def create(self, *args: Any, **kwargs: Any) -> str:
-                                    return ""
+                                create = post
 
                             @cached_property
                             def rollback(self) -> Rollback:
@@ -6735,8 +6568,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             @cached_property
                             def config(self) -> Config:
@@ -6779,8 +6611,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def snapshot(self) -> Snapshot:
@@ -6854,8 +6685,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             def __call__(self, pos: int) -> Pos:
                                 return self.Pos()
@@ -6905,8 +6735,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def rules(self) -> Rules:
@@ -6935,8 +6764,7 @@ class ProxmoxAPI:
                                 def put(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def set(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                set = put
 
                             def __call__(self, name: str) -> Name:
                                 return self.Name()
@@ -6963,8 +6791,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def aliases(self) -> Aliases:
@@ -6998,8 +6825,7 @@ class ProxmoxAPI:
                                     def put(self, *args: Any, **kwargs: Any) -> None:
                                         return None
 
-                                    def set(self, *args: Any, **kwargs: Any) -> None:
-                                        return None
+                                    set = put
 
                                 def __call__(self, cidr: str) -> Cidr:
                                     return self.Cidr()
@@ -7030,8 +6856,7 @@ class ProxmoxAPI:
                                 def post(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
-                                def create(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                create = post
 
                             def __call__(self, name: str) -> Name:
                                 return self.Name()
@@ -7057,8 +6882,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def ipset(self) -> Ipset:
@@ -7131,8 +6955,7 @@ class ProxmoxAPI:
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def set(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            set = put
 
                         @cached_property
                         def options(self) -> Options:
@@ -7281,9 +7104,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def vncproxy(self) -> Vncproxy:
@@ -7319,9 +7140,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def termproxy(self) -> Termproxy:
@@ -7389,9 +7208,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def spiceproxy(self) -> Spiceproxy:
@@ -7407,8 +7224,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def remote_migrate(self) -> RemoteMigrate:
@@ -7470,8 +7286,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def migrate(self) -> Migrate:
@@ -7520,8 +7335,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def create(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        create = post
 
                     @cached_property
                     def template(self) -> Template:
@@ -7537,8 +7351,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def clone(self) -> Clone:
@@ -7554,8 +7367,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def set(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        set = put
 
                     @cached_property
                     def resize(self) -> Resize:
@@ -7571,8 +7383,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def move_volume(self) -> MoveVolume:
@@ -7675,9 +7486,7 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                     @cached_property
                     def mtunnel(self) -> Mtunnel:
@@ -7777,8 +7586,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def lxc(self) -> Lxc:
@@ -7974,8 +7782,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def in_(self) -> In:
@@ -7991,8 +7798,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def out(self) -> Out:
@@ -8008,8 +7814,7 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def create(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            create = post
 
                         @cached_property
                         def scrub(self) -> Scrub:
@@ -8037,8 +7842,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def osd(self) -> Osd:
@@ -8061,8 +7865,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -8108,8 +7911,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     def __call__(self, id: str) -> Id:
                         return self.Id()
@@ -8153,8 +7955,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     def __call__(self, monid: str) -> Monid:
                         return self.Monid()
@@ -8201,8 +8002,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -8308,8 +8108,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def set(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        set = put
 
                     def __call__(self, name: str) -> Name:
                         return self.Name()
@@ -8348,8 +8147,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def pool(self) -> Pool:
@@ -8364,8 +8162,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def init(self) -> Init:
@@ -8380,8 +8177,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def stop(self) -> Stop:
@@ -8396,8 +8192,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def start(self) -> Start:
@@ -8412,8 +8207,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def restart(self) -> Restart:
@@ -8629,8 +8423,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def vzdump(self) -> Vzdump:
@@ -8744,8 +8537,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def start(self) -> Start:
@@ -8761,8 +8553,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def stop(self) -> Stop:
@@ -8778,8 +8569,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def restart(self) -> Restart:
@@ -8795,8 +8585,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def reload(self) -> Reload:
@@ -8948,14 +8737,12 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             @cached_property
             def subscription(self) -> Subscription:
@@ -8998,8 +8785,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, iface: str) -> Iface:
                     return self.Iface()
@@ -9104,14 +8890,12 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
                 def put(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def set(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                set = put
 
             @cached_property
             def network(self) -> Network:
@@ -9782,14 +9566,12 @@ class ProxmoxAPI:
                             def post(self, *args: Any, **kwargs: Any) -> str:
                                 return ""
 
-                            def create(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                            create = post
 
                             def put(self, *args: Any, **kwargs: Any) -> None:
                                 return None
 
-                            def set(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                            set = put
 
                         def __call__(self, volume: str) -> Volume:
                             return self.Volume()
@@ -9834,8 +9616,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def content(self) -> Content:
@@ -9990,8 +9771,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def upload(self) -> Upload:
@@ -10007,8 +9787,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def download_url(self) -> DownloadUrl:
@@ -10024,8 +9803,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def oci_registry_pull(self) -> OciRegistryPull:
@@ -10214,8 +9992,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def lvm(self) -> Lvm:
@@ -10261,8 +10038,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def lvmthin(self) -> Lvmthin:
@@ -10307,8 +10083,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def directory(self) -> Directory:
@@ -10394,8 +10169,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def zfs(self) -> Zfs:
@@ -10477,8 +10251,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def initgpt(self) -> Initgpt:
@@ -10493,8 +10266,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def set(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    set = put
 
                 @cached_property
                 def wipedisk(self) -> Wipedisk:
@@ -10554,8 +10326,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def update(self) -> Update:
@@ -10675,14 +10446,12 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 @cached_property
                 def repositories(self) -> Repositories:
@@ -10824,8 +10593,7 @@ class ProxmoxAPI:
                         def put(self, *args: Any, **kwargs: Any) -> None:
                             return None
 
-                        def set(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                        set = put
 
                     def __call__(self, pos: int) -> Pos:
                         return self.Pos()
@@ -10874,8 +10642,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def create(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    create = post
 
                 @cached_property
                 def rules(self) -> Rules:
@@ -10990,8 +10757,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 @cached_property
                 def options(self) -> Options:
@@ -11089,8 +10855,7 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                     @cached_property
                     def schedule_now(self) -> ScheduleNow:
@@ -11146,14 +10911,12 @@ class ProxmoxAPI:
                         def post(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def create(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        create = post
 
                         def put(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
-                        def set(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                        set = put
 
                     @cached_property
                     def certificate(self) -> Certificate:
@@ -11242,9 +11005,7 @@ class ProxmoxAPI:
                     def post(self) -> _Post:
                         return self._Post()
 
-                    @property
-                    def create(self) -> _Post:
-                        return self._Post()
+                    create = post
 
                 @cached_property
                 def custom(self) -> Custom:
@@ -11295,8 +11056,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             @cached_property
             def config(self) -> Config:
@@ -11743,8 +11503,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def status(self) -> Status:
@@ -11776,10 +11535,7 @@ class ProxmoxAPI:
                 ) -> builtins.list[dict[Any, Any]]:
                     return []
 
-                def create(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                create = post
 
             @cached_property
             def execute(self) -> Execute:
@@ -11794,8 +11550,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def wakeonlan(self) -> Wakeonlan:
@@ -11911,9 +11666,7 @@ class ProxmoxAPI:
                 def post(self) -> _Post:
                     return self._Post()
 
-                @property
-                def create(self) -> _Post:
-                    return self._Post()
+                create = post
 
             @cached_property
             def vncshell(self) -> Vncshell:
@@ -11947,9 +11700,7 @@ class ProxmoxAPI:
                 def post(self) -> _Post:
                     return self._Post()
 
-                @property
-                def create(self) -> _Post:
-                    return self._Post()
+                create = post
 
             @cached_property
             def termproxy(self) -> Termproxy:
@@ -12013,9 +11764,7 @@ class ProxmoxAPI:
                 def post(self) -> _Post:
                     return self._Post()
 
-                @property
-                def create(self) -> _Post:
-                    return self._Post()
+                create = post
 
             @cached_property
             def spiceshell(self) -> Spiceshell:
@@ -12052,8 +11801,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             @cached_property
             def dns(self) -> Dns:
@@ -12089,8 +11837,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             @cached_property
             def time(self) -> Time:
@@ -12110,8 +11857,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def aplinfo(self) -> Aplinfo:
@@ -12183,8 +11929,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def startall(self) -> Startall:
@@ -12199,8 +11944,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def stopall(self) -> Stopall:
@@ -12215,8 +11959,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def suspendall(self) -> Suspendall:
@@ -12231,8 +11974,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def migrateall(self) -> Migrateall:
@@ -12267,8 +12009,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def create(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                create = post
 
             @cached_property
             def hosts(self) -> Hosts:
@@ -12365,9 +12106,7 @@ class ProxmoxAPI:
             def put(self) -> _Put:
                 return self._Put()
 
-            @property
-            def set(self) -> _Put:
-                return self._Put()
+            set = put
 
         def __call__(self, storage: str) -> Storage:
             return self.Storage()
@@ -12425,9 +12164,7 @@ class ProxmoxAPI:
         def post(self) -> _Post:
             return self._Post()
 
-        @property
-        def create(self) -> _Post:
-            return self._Post()
+        create = post
 
     @cached_property
     def storage(self) -> Storage:
@@ -12495,8 +12232,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> bool:
                         return False
 
-                    def set(self, *args: Any, **kwargs: Any) -> bool:
-                        return False
+                    set = put
 
                 @cached_property
                 def unlock_tfa(self) -> UnlockTfa:
@@ -12588,17 +12324,13 @@ class ProxmoxAPI:
                         def post(self) -> _Post:
                             return self._Post()
 
-                        @property
-                        def create(self) -> _Post:
-                            return self._Post()
+                        create = post
 
                         @property
                         def put(self) -> _Put:
                             return self._Put()
 
-                        @property
-                        def set(self) -> _Put:
-                            return self._Put()
+                        set = put
 
                     def __call__(self, tokenid: str) -> Tokenid:
                         return self.Tokenid()
@@ -12660,8 +12392,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             def __call__(self, userid: str) -> Userid:
                 return self.Userid()
@@ -12703,8 +12434,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def users(self) -> Users:
@@ -12746,8 +12476,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             def __call__(self, groupid: str) -> Groupid:
                 return self.Groupid()
@@ -12768,8 +12497,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def groups(self) -> Groups:
@@ -12856,8 +12584,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             def __call__(self, roleid: str) -> Roleid:
                 return self.Roleid()
@@ -12878,8 +12605,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def roles(self) -> Roles:
@@ -12907,8 +12633,7 @@ class ProxmoxAPI:
             def put(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def set(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            set = put
 
         @cached_property
         def acl(self) -> Acl:
@@ -12931,8 +12656,7 @@ class ProxmoxAPI:
                     def post(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
-                    def create(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                    create = post
 
                 @cached_property
                 def sync(self) -> Sync:
@@ -12949,8 +12673,7 @@ class ProxmoxAPI:
                 def put(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
-                def set(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                set = put
 
             def __call__(self, realm: str) -> Realm:
                 return self.Realm()
@@ -12972,8 +12695,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def domains(self) -> Domains:
@@ -12990,8 +12712,7 @@ class ProxmoxAPI:
                 def post(self, *args: Any, **kwargs: Any) -> str:
                     return ""
 
-                def create(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                create = post
 
             @cached_property
             def auth_url(self) -> AuthUrl:
@@ -13024,9 +12745,7 @@ class ProxmoxAPI:
                 def post(self) -> _Post:
                     return self._Post()
 
-                @property
-                def create(self) -> _Post:
-                    return self._Post()
+                create = post
 
             @cached_property
             def login(self) -> Login:
@@ -13093,8 +12812,7 @@ class ProxmoxAPI:
                     def put(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
-                    def set(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                    set = put
 
                 def __call__(self, id: str) -> Id:
                     return self.Id()
@@ -13141,9 +12859,7 @@ class ProxmoxAPI:
                 def post(self) -> _Post:
                     return self._Post()
 
-                @property
-                def create(self) -> _Post:
-                    return self._Post()
+                create = post
 
             def __call__(self, userid: str) -> Userid:
                 return self.Userid()
@@ -13207,9 +12923,7 @@ class ProxmoxAPI:
             def post(self) -> _Post:
                 return self._Post()
 
-            @property
-            def create(self) -> _Post:
-                return self._Post()
+            create = post
 
         @cached_property
         def ticket(self) -> Ticket:
@@ -13222,8 +12936,7 @@ class ProxmoxAPI:
             def post(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def create(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            create = post
 
         @cached_property
         def vncticket(self) -> Vncticket:
@@ -13236,8 +12949,7 @@ class ProxmoxAPI:
             def put(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def set(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            set = put
 
         @cached_property
         def password(self) -> Password:
@@ -13316,8 +13028,7 @@ class ProxmoxAPI:
             def put(self, *args: Any, **kwargs: Any) -> None:
                 return None
 
-            def set(self, *args: Any, **kwargs: Any) -> None:
-                return None
+            set = put
 
         def __call__(self, poolid: str) -> Poolid:
             return self.Poolid()
@@ -13353,14 +13064,12 @@ class ProxmoxAPI:
         def post(self, *args: Any, **kwargs: Any) -> None:
             return None
 
-        def create(self, *args: Any, **kwargs: Any) -> None:
-            return None
+        create = post
 
         def put(self, *args: Any, **kwargs: Any) -> None:
             return None
 
-        def set(self, *args: Any, **kwargs: Any) -> None:
-            return None
+        set = put
 
     @cached_property
     def pools(self) -> Pools:

@@ -33,3 +33,11 @@ def typechecks() -> None:
     assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get()["jobnum"], int)
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get().get("log"), Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
+
+def aliases() -> None:
+    import proxmoxer
+    assert_type(proxmoxer.ProxmoxAPI().cluster.config.nodes("node").post()["warnings"], list[str])
+    assert_type(proxmoxer.ProxmoxAPI().cluster.config.nodes("node").create()["warnings"], list[str])
+
+    assert_type(proxmoxer.ProxmoxAPI().storage("storage").put()["type"], Literal['btrfs', 'cephfs', 'cifs', 'dir', 'esxi', 'iscsi', 'iscsidirect', 'lvm', 'lvmthin', 'nfs', 'pbs', 'rbd', 'zfs', 'zfspool'])
+    assert_type(proxmoxer.ProxmoxAPI().storage("storage").set()["type"], Literal['btrfs', 'cephfs', 'cifs', 'dir', 'esxi', 'iscsi', 'iscsidirect', 'lvm', 'lvmthin', 'nfs', 'pbs', 'rbd', 'zfs', 'zfspool'])

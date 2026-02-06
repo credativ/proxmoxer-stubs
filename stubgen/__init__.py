@@ -142,9 +142,9 @@ class BaseModel(pydantic.BaseModel):
                 """
                 def {{ name }}(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
                 {% if str(name) == "post" -%}
-                def create(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
+                create = {{ name }}
                 {% elif str(name) == "put" -%}
-                def set(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
+                set = {{ name }}
                 {% endif -%}
                 """,
                 name=Path.Segment(orig=name),
@@ -226,9 +226,9 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
                     {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
+                    create = {{ name }}
                     {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
+                    set = {{ name }}
                     {% endif -%}
                     """,
                     child=child,
@@ -247,9 +247,9 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> list[Any]: return []
                     {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> list[Any]: return []
+                    create = {{ name }}
                     {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> list[Any]: return []
+                    set = {{ name }}
                     {% endif -%}
                     """,
                     name=Path.Segment(orig=name),
@@ -298,13 +298,9 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     def {{ name }}(self) -> _{{ name.as_class }}:
                         return self._{{ name.as_class }}()
                     {% if str(name) == "post" -%}
-                    @property
-                    def create(self) -> _{{ name.as_class }}:
-                        return self._{{ name.as_class }}()
+                    create = {{ name }}
                     {% elif str(name) == "put" -%}
-                    @property
-                    def set(self) -> _{{ name.as_class }}:
-                        return self._{{ name.as_class }}()
+                    set = {{ name }}
                     {% endif -%}
                     """,
                     name=name_,
@@ -325,9 +321,9 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
                     {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
+                    create = {{ name }}
                     {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
+                    set = {{ name }}
                     {% endif -%}
                     """,
                     name=name_,
@@ -344,9 +340,9 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
                     {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
+                    create = {{ name }}
                     {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
+                    set = {{ name }}
                     {% endif -%}
                     """,
                     name=name_,
