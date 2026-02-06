@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "proxmoxer-stubs"
-version = "0.3.0"
+version = "0.3.1"
 description = "stub files and type containers for proxmoxer"
 authors = ["credativ GmbH"]
 packages = [
