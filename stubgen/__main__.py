@@ -60,4 +60,4 @@ for todo in (
                 file=dst,
             )
             print(file=dst)
-            print(todo[1](Patch()), file=dst)
+            print(todo[1](patch=Patch(), apiversion=args.apiversion), file=dst)

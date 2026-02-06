@@ -2,87 +2,132 @@
 
 
 import builtins
+import proxmoxer
 import pydantic
 import typing
+from dataclasses import dataclass
 from functools import cached_property
-from typing import Any, Literal, Optional, NotRequired
+from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..v7 import ProxmoxAPI as ProxmoxerProxmoxAPI
+else:
+    from proxmoxer import ProxmoxAPI as ProxmoxerProxmoxAPI
 
 
 class ProxmoxAPI:
+    proxmox_api: ProxmoxerProxmoxAPI
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self.proxmox_api = ProxmoxerProxmoxAPI(*args, **kwargs)
 
     # /cluster
-
+    @dataclass
     class Cluster:
 
         # /cluster/replication
-
+        @dataclass
         class Replication:
 
             # /cluster/replication/{id}
-
+            @dataclass
             class Id:
 
-                id: str
-
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.replication(self.id).delete(
+                        *args, **kwargs
+                    )
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.cluster.replication(self.id).get(
+                        *args, **kwargs
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.replication(self.id).put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                id: str
+
             def __call__(self, id: str) -> Id:
-                return self.Id()
+                return self.Id(
+                    proxmox_api=self.proxmox_api,
+                    id=id,
+                )
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.replication.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.cluster.replication.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def replication(self) -> Replication:
-            return self.Replication()
+            return self.Replication(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/metrics
-
+        @dataclass
         class Metrics:
 
             # /cluster/metrics/server
-
+            @dataclass
             class Server:
 
                 # /cluster/metrics/server/{id}
-
+                @dataclass
                 class Id:
 
-                    id: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.metrics.server(self.id).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.metrics.server(self.id).get(
+                            *args, **kwargs
+                        )
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.metrics.server(self.id).post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.metrics.server(self.id).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, id: str) -> Id:
-                    return self.Id()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    id: str
+
+                def __call__(self, id: str) -> Id:
+                    return self.Id(
+                        proxmox_api=self.proxmox_api,
+                        id=id,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -102,47 +147,76 @@ class ProxmoxAPI:
                         server: str
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.metrics.server.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def server(self) -> Server:
-                return self.Server()
+                return self.Server(
+                    proxmox_api=self.proxmox_api,
+                )
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.metrics.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def metrics(self) -> Metrics:
-            return self.Metrics()
+            return self.Metrics(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/config
-
+        @dataclass
         class Config:
 
             # /cluster/config/apiversion
-
+            @dataclass
             class Apiversion:
 
                 def get(self, *args: Any, **kwargs: Any) -> int:
-                    return 0
+                    return self.proxmox_api.cluster.config.apiversion.get(
+                        *args, **kwargs
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def apiversion(self) -> Apiversion:
-                return self.Apiversion()
+                return self.Apiversion(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/config/nodes
-
+            @dataclass
             class Nodes:
 
                 # /cluster/config/nodes/{node}
-
+                @dataclass
                 class Node:
 
-                    node: str
-
+                    @dataclass
                     class _Post:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -158,33 +232,50 @@ class ProxmoxAPI:
                             corosync_conf: str
                             warnings: list[str]
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.cluster.config.nodes(
+                                self.node
+                            ).post(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model, None
-                            )
+                            data: Any = self.proxmox_api.cluster.config.nodes(
+                                self.node
+                            ).post(*args, **kwargs)
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.config.nodes(self.node).delete(
+                            *args, **kwargs
+                        )
 
                     @property
                     def post(self) -> _Post:
-                        return self._Post()
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     create = post
 
-                def __call__(self, node: str) -> Node:
-                    return self.Node()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    node: str
+
+                def __call__(self, node: str) -> Node:
+                    return self.Node(
+                        proxmox_api=self.proxmox_api,
+                        node=node,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -196,20 +287,35 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         node: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.config.nodes.get(*args, **kwargs)
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def nodes(self) -> Nodes:
-                return self.Nodes()
+                return self.Nodes(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/config/join
-
+            @dataclass
             class Join:
 
+                @dataclass
                 class _Get:
+                    @dataclass
                     class _Nodelist:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -231,6 +337,8 @@ class ProxmoxAPI:
                             quorum_votes: int
                             ring0_addr: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
@@ -251,86 +359,108 @@ class ProxmoxAPI:
                         preferred_node: str
                         totem: dict[Any, Any]
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Config.Join._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Config.Join._Get.TypedDict, None
-                        )
+                        return self.proxmox_api.cluster.config.join.get(*args, **kwargs)
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Config.Join._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Config.Join._Get.Model, None
+                        data: Any = self.proxmox_api.cluster.config.join.get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.cluster.config.join.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def join(self) -> Join:
-                return self.Join()
+                return self.Join(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/config/totem
-
+            @dataclass
             class Totem:
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.cluster.config.totem.get(*args, **kwargs)
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def totem(self) -> Totem:
-                return self.Totem()
+                return self.Totem(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/config/qdevice
-
+            @dataclass
             class Qdevice:
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.cluster.config.qdevice.get(*args, **kwargs)
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def qdevice(self) -> Qdevice:
-                return self.Qdevice()
+                return self.Qdevice(
+                    proxmox_api=self.proxmox_api,
+                )
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.config.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> str:
-                return ""
+                return self.proxmox_api.cluster.config.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def config(self) -> Config:
-            return self.Config()
+            return self.Config(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/firewall
-
+        @dataclass
         class Firewall:
 
             # /cluster/firewall/groups
-
+            @dataclass
             class Groups:
 
                 # /cluster/firewall/groups/{group}
-
+                @dataclass
                 class Group:
 
                     # /cluster/firewall/groups/{group}/{pos}
-
+                    @dataclass
                     class Pos:
 
-                        group: str
-                        pos: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -396,39 +526,60 @@ class ProxmoxAPI:
                                 sport: Optional[str] = None
                                 type: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            group: str
+
+                            pos: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict,
-                                    None,
-                                )
+                                return self.proxmox_api.cluster.firewall.groups(
+                                    self.group
+                                )(self.pos).get(*args, **kwargs)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model,
-                                    None,
-                                )
+                                data: Any = self.proxmox_api.cluster.firewall.groups(
+                                    self.group
+                                )(self.pos).get(*args, **kwargs)
+                                return self.Model(**data)
 
                         def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return self.proxmox_api.cluster.firewall.groups(self.group)(
+                                self.pos
+                            ).delete(*args, **kwargs)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                group=self.group,
+                                pos=self.pos,
+                            )
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return self.proxmox_api.cluster.firewall.groups(self.group)(
+                                self.pos
+                            ).put(*args, **kwargs)
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+                        pos: int
+
                     def __call__(self, pos: int) -> Pos:
-                        return self.Pos()
+                        return self.Pos(
+                            proxmox_api=self.proxmox_api,
+                            pos=pos,
+                            group=self.group,
+                        )
 
-                    group: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -440,24 +591,49 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             pos: int
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        group: str
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.groups(
+                            self.group
+                        ).delete(*args, **kwargs)
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.cluster.firewall.groups(
+                                self.group
+                            ).get(*args, **kwargs)
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.groups(
+                            self.group
+                        ).post(*args, **kwargs)
 
                     create = post
 
-                def __call__(self, group: str) -> Group:
-                    return self.Group()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    group: str
+
+                def __call__(self, group: str) -> Group:
+                    return self.Group(
+                        proxmox_api=self.proxmox_api,
+                        group=group,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -473,30 +649,46 @@ class ProxmoxAPI:
                         digest: str
                         group: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.firewall.groups.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.firewall.groups.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def groups(self) -> Groups:
-                return self.Groups()
+                return self.Groups(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/firewall/rules
-
+            @dataclass
             class Rules:
 
                 # /cluster/firewall/rules/{pos}
-
+                @dataclass
                 class Pos:
 
-                    pos: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -560,36 +752,55 @@ class ProxmoxAPI:
                             sport: Optional[str] = None
                             type: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        pos: int
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.cluster.firewall.rules(
+                                self.pos
+                            ).get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.cluster.firewall.rules(
+                                self.pos
+                            ).get(*args, **kwargs)
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.rules(self.pos).delete(
+                            *args, **kwargs
+                        )
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            pos=self.pos,
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.rules(self.pos).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, pos: int) -> Pos:
-                    return self.Pos()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    pos: int
+
+                def __call__(self, pos: int) -> Pos:
+                    return self.Pos(
+                        proxmox_api=self.proxmox_api,
+                        pos=pos,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -601,51 +812,77 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         pos: int
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.firewall.rules.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.firewall.rules.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def rules(self) -> Rules:
-                return self.Rules()
+                return self.Rules(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/firewall/ipset
-
+            @dataclass
             class Ipset:
 
                 # /cluster/firewall/ipset/{name}
-
+                @dataclass
                 class Name:
 
                     # /cluster/firewall/ipset/{name}/{cidr}
-
+                    @dataclass
                     class Cidr:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.ipset(self.name)(
+                                self.cidr
+                            ).delete(*args, **kwargs)
+
+                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
+                            return self.proxmox_api.cluster.firewall.ipset(self.name)(
+                                self.cidr
+                            ).get(*args, **kwargs)
+
+                        def put(self, *args: Any, **kwargs: Any) -> None:
+                            return self.proxmox_api.cluster.firewall.ipset(self.name)(
+                                self.cidr
+                            ).put(*args, **kwargs)
+
+                        set = put
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         name: str
                         cidr: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return None
-
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return {}
-
-                        def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
-
-                        set = put
-
                     def __call__(self, cidr: str) -> Cidr:
-                        return self.Cidr()
+                        return self.Cidr(
+                            proxmox_api=self.proxmox_api,
+                            cidr=cidr,
+                            name=self.name,
+                        )
 
-                    name: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -663,24 +900,49 @@ class ProxmoxAPI:
                             digest: str
                             nomatch: Optional[bool] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.ipset(
+                            self.name
+                        ).delete(*args, **kwargs)
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.cluster.firewall.ipset(self.name).get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.ipset(self.name).post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                def __call__(self, name: str) -> Name:
-                    return self.Name()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    name: str
+
+                def __call__(self, name: str) -> Name:
+                    return self.Name(
+                        proxmox_api=self.proxmox_api,
+                        name=name,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -696,44 +958,71 @@ class ProxmoxAPI:
                         digest: str
                         name: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.firewall.ipset.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.firewall.ipset.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def ipset(self) -> Ipset:
-                return self.Ipset()
+                return self.Ipset(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/firewall/aliases
-
+            @dataclass
             class Aliases:
 
                 # /cluster/firewall/aliases/{name}
-
+                @dataclass
                 class Name:
 
-                    name: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.aliases(
+                            self.name
+                        ).delete(*args, **kwargs)
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.firewall.aliases(self.name).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.firewall.aliases(self.name).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, name: str) -> Name:
-                    return self.Name()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    name: str
+
+                def __call__(self, name: str) -> Name:
+                    return self.Name(
+                        proxmox_api=self.proxmox_api,
+                        name=name,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -751,26 +1040,44 @@ class ProxmoxAPI:
                         digest: str
                         name: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[
                     "ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"
                 ]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.firewall.aliases.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.firewall.aliases.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def aliases(self) -> Aliases:
-                return self.Aliases()
+                return self.Aliases(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/firewall/options
-
+            @dataclass
             class Options:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -794,37 +1101,49 @@ class ProxmoxAPI:
                         policy_in: Optional[Literal["ACCEPT", "REJECT", "DROP"]] = None
                         policy_out: Optional[Literal["ACCEPT", "REJECT", "DROP"]] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict, None
+                        return self.proxmox_api.cluster.firewall.options.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Firewall.Options._Get.Model, None
+                        data: Any = self.proxmox_api.cluster.firewall.options.get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.firewall.options.put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def options(self) -> Options:
-                return self.Options()
+                return self.Options(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/firewall/macros
-
+            @dataclass
             class Macros:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -838,19 +1157,35 @@ class ProxmoxAPI:
                         descr: str
                         macro: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.firewall.macros.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def macros(self) -> Macros:
-                return self.Macros()
+                return self.Macros(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/firewall/refs
-
+            @dataclass
             class Refs:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -868,38 +1203,61 @@ class ProxmoxAPI:
                         ref: str
                         type: Literal["alias", "ipset"]
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.firewall.refs.get(*args, **kwargs)
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def refs(self) -> Refs:
-                return self.Refs()
+                return self.Refs(
+                    proxmox_api=self.proxmox_api,
+                )
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.firewall.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def firewall(self) -> Firewall:
-            return self.Firewall()
+            return self.Firewall(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/backup
-
+        @dataclass
         class Backup:
 
             # /cluster/backup/{id}
-
+            @dataclass
             class Id:
 
                 # /cluster/backup/{id}/included_volumes
-
+                @dataclass
                 class IncludedVolumes:
 
-                    id: str
-
+                    @dataclass
                     class _Get:
+                        @dataclass
                         class _Children:
+                            @dataclass
                             class _Children:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -916,6 +1274,10 @@ class ProxmoxAPI:
                                     included: bool
                                     name: str
                                     reason: str
+
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                id: str
 
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -941,6 +1303,10 @@ class ProxmoxAPI:
                                 name: Optional[str] = None
                                 type: Literal["qemu", "lxc", "unknown"]
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            id: str
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
@@ -955,46 +1321,67 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children.Model"
                             ]
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.cluster.backup(
+                                self.id
+                            ).included_volumes.get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model,
-                                None,
-                            )
+                            data: Any = self.proxmox_api.cluster.backup(
+                                self.id
+                            ).included_volumes.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
 
                 @cached_property
                 def included_volumes(self) -> IncludedVolumes:
-                    return self.IncludedVolumes()
-
-                id: str
+                    return self.IncludedVolumes(
+                        proxmox_api=self.proxmox_api,
+                        id=self.id,
+                    )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.backup(self.id).delete(
+                        *args, **kwargs
+                    )
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.cluster.backup(self.id).get(*args, **kwargs)
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.backup(self.id).put(*args, **kwargs)
 
                 set = put
 
-            def __call__(self, id: str) -> Id:
-                return self.Id()
+                proxmox_api: ProxmoxerProxmoxAPI
 
+                id: str
+
+            def __call__(self, id: str) -> Id:
+                return self.Id(
+                    proxmox_api=self.proxmox_api,
+                    id=id,
+                )
+
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -1006,28 +1393,40 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     id: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.backup.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.cluster.backup.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def backup(self) -> Backup:
-            return self.Backup()
+            return self.Backup(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/backup-info
-
+        @dataclass
         class BackupInfo:
 
             # /cluster/backup-info/not-backed-up
-
+            @dataclass
             class NotBackedUp:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1043,17 +1442,33 @@ class ProxmoxAPI:
                         type: Literal["qemu", "lxc"]
                         vmid: int
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[
                     "ProxmoxAPI.Cluster.BackupInfo.NotBackedUp._Get.TypedDict"
                 ]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.BackupInfo.NotBackedUp._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.backup_info.not_backed_up.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def not_backed_up(self) -> NotBackedUp:
-                return self.NotBackedUp()
+                return self.NotBackedUp(
+                    proxmox_api=self.proxmox_api,
+                )
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -1065,59 +1480,83 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     subdir: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.BackupInfo._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.BackupInfo._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.backup_info.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def backup_info(self) -> BackupInfo:
-            return self.BackupInfo()
+            return self.BackupInfo(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/ha
-
+        @dataclass
         class Ha:
 
             # /cluster/ha/resources
-
+            @dataclass
             class Resources:
 
                 # /cluster/ha/resources/{sid}
-
+                @dataclass
                 class Sid:
 
                     # /cluster/ha/resources/{sid}/migrate
-
+                    @dataclass
                     class Migrate:
 
-                        sid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return self.proxmox_api.cluster.ha.resources(
+                                self.sid
+                            ).migrate.post(*args, **kwargs)
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        sid: str
 
                     @cached_property
                     def migrate(self) -> Migrate:
-                        return self.Migrate()
+                        return self.Migrate(
+                            proxmox_api=self.proxmox_api,
+                            sid=self.sid,
+                        )
 
                     # /cluster/ha/resources/{sid}/relocate
-
+                    @dataclass
                     class Relocate:
 
-                        sid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return self.proxmox_api.cluster.ha.resources(
+                                self.sid
+                            ).relocate.post(*args, **kwargs)
 
                         create = post
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        sid: str
+
                     @cached_property
                     def relocate(self) -> Relocate:
-                        return self.Relocate()
+                        return self.Relocate(
+                            proxmox_api=self.proxmox_api,
+                            sid=self.sid,
+                        )
 
-                    sid: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -1159,35 +1598,55 @@ class ProxmoxAPI:
                             ] = None
                             type: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        sid: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict, None
+                            return self.proxmox_api.cluster.ha.resources(self.sid).get(
+                                *args, **kwargs
                             )
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.resources(
+                                self.sid
+                            ).get(*args, **kwargs)
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.ha.resources(self.sid).delete(
+                            *args, **kwargs
+                        )
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            sid=self.sid,
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.ha.resources(self.sid).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, sid: str) -> Sid:
-                    return self.Sid()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    sid: str
+
+                def __call__(self, sid: str) -> Sid:
+                    return self.Sid(
+                        proxmox_api=self.proxmox_api,
+                        sid=sid,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1199,44 +1658,69 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         sid: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.ha.resources.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.ha.resources.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def resources(self) -> Resources:
-                return self.Resources()
+                return self.Resources(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/ha/groups
-
+            @dataclass
             class Groups:
 
                 # /cluster/ha/groups/{group}
-
+                @dataclass
                 class Group:
 
-                    group: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.ha.groups(self.group).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.ha.groups(self.group).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.ha.groups(self.group).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, group: str) -> Group:
-                    return self.Group()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    group: str
+
+                def __call__(self, group: str) -> Group:
+                    return self.Group(
+                        proxmox_api=self.proxmox_api,
+                        group=group,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1248,55 +1732,90 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         group: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.ha.groups.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.ha.groups.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def groups(self) -> Groups:
-                return self.Groups()
+                return self.Groups(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/ha/status
-
+            @dataclass
             class Status:
 
                 # /cluster/ha/status/current
-
+                @dataclass
                 class Current:
 
                     def get(self, *args: Any, **kwargs: Any) -> list[Any]:
-                        return []
+                        return self.proxmox_api.cluster.ha.status.current.get(
+                            *args, **kwargs
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                 @cached_property
                 def current(self) -> Current:
-                    return self.Current()
+                    return self.Current(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 # /cluster/ha/status/manager_status
-
+                @dataclass
                 class ManagerStatus:
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.ha.status.manager_status.get(
+                            *args, **kwargs
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                 @cached_property
                 def manager_status(self) -> ManagerStatus:
-                    return self.ManagerStatus()
+                    return self.ManagerStatus(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.ha.status.get(*args, **kwargs)
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def status(self) -> Status:
-                return self.Status()
+                return self.Status(
+                    proxmox_api=self.proxmox_api,
+                )
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -1308,43 +1827,66 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     id: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.ha.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def ha(self) -> Ha:
-            return self.Ha()
+            return self.Ha(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/acme
-
+        @dataclass
         class Acme:
 
             # /cluster/acme/plugins
-
+            @dataclass
             class Plugins:
 
                 # /cluster/acme/plugins/{id}
-
+                @dataclass
                 class Id:
 
-                    id: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.acme.plugins(self.id).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.acme.plugins(self.id).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.acme.plugins(self.id).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, id: str) -> Id:
-                    return self.Id()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    id: str
+
+                def __call__(self, id: str) -> Id:
+                    return self.Id(
+                        proxmox_api=self.proxmox_api,
+                        id=id,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1356,30 +1898,42 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         plugin: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.acme.plugins.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.acme.plugins.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def plugins(self) -> Plugins:
-                return self.Plugins()
+                return self.Plugins(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/acme/account
-
+            @dataclass
             class Account:
 
                 # /cluster/acme/account/{name}
-
+                @dataclass
                 class Name:
 
-                    name: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -1397,65 +1951,97 @@ class ProxmoxAPI:
                             location: Optional[str] = None
                             tos: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        name: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict,
-                                None,
+                            return self.proxmox_api.cluster.acme.account(self.name).get(
+                                *args, **kwargs
                             )
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.cluster.acme.account(
+                                self.name
+                            ).get(*args, **kwargs)
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.cluster.acme.account(self.name).delete(
+                            *args, **kwargs
+                        )
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            name=self.name,
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.cluster.acme.account(self.name).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    name: str
+
                 def __call__(self, name: str) -> Name:
-                    return self.Name()
+                    return self.Name(
+                        proxmox_api=self.proxmox_api,
+                        name=name,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.acme.account.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.cluster.acme.account.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def account(self) -> Account:
-                return self.Account()
+                return self.Account(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/acme/tos
-
+            @dataclass
             class Tos:
 
                 def get(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.cluster.acme.tos.get(*args, **kwargs)
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def tos(self) -> Tos:
-                return self.Tos()
+                return self.Tos(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/acme/directories
-
+            @dataclass
             class Directories:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1469,21 +2055,37 @@ class ProxmoxAPI:
                         name: str
                         url: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[
                     "ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"
                 ]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.acme.directories.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def directories(self) -> Directories:
-                return self.Directories()
+                return self.Directories(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/acme/challenge-schema
-
+            @dataclass
             class ChallengeSchema:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1501,34 +2103,61 @@ class ProxmoxAPI:
                         schema_: dict[Any, Any] = pydantic.Field(alias="schema")
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[
                     "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"
                 ]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.acme.challenge_schema.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def challenge_schema(self) -> ChallengeSchema:
-                return self.ChallengeSchema()
+                return self.ChallengeSchema(
+                    proxmox_api=self.proxmox_api,
+                )
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.acme.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def acme(self) -> Acme:
-            return self.Acme()
+            return self.Acme(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/ceph
-
+        @dataclass
         class Ceph:
 
             # /cluster/ceph/metadata
-
+            @dataclass
             class Metadata:
 
+                @dataclass
                 class _Get:
+                    @dataclass
                     class _Mds:
+                        @dataclass
                         class _Id:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -1553,6 +2182,8 @@ class ProxmoxAPI:
                                 mem_swap_kb: int
                                 mem_total_kb: int
                                 name: str
+
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -1566,7 +2197,11 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds._Id.Model"
                             ) = pydantic.Field(alias="{id}")
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                    @dataclass
                     class _Mgr:
+                        @dataclass
                         class _Id:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -1592,6 +2227,8 @@ class ProxmoxAPI:
                                 mem_total_kb: int
                                 name: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
@@ -1604,7 +2241,11 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr._Id.Model"
                             ) = pydantic.Field(alias="{id}")
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                    @dataclass
                     class _Mon:
+                        @dataclass
                         class _Id:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -1630,6 +2271,8 @@ class ProxmoxAPI:
                                 mem_total_kb: int
                                 name: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
@@ -1642,8 +2285,13 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon._Id.Model"
                             ) = pydantic.Field(alias="{id}")
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                    @dataclass
                     class _Node:
+                        @dataclass
                         class _Node:
+                            @dataclass
                             class _Version:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -1657,6 +2305,8 @@ class ProxmoxAPI:
                                     parts: list[Any]
                                     str: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
@@ -1669,6 +2319,8 @@ class ProxmoxAPI:
                                 buildcommit: str
                                 version: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node._Version.Model"
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
@@ -1680,6 +2332,8 @@ class ProxmoxAPI:
                             node: (
                                 "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node.Model"
                             ) = pydantic.Field(alias="{node}")
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1699,60 +2353,83 @@ class ProxmoxAPI:
                         node: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node.Model"
                         osd: list[Any]
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict, None
+                        return self.proxmox_api.cluster.ceph.metadata.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Ceph.Metadata._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Cluster.Ceph.Metadata._Get.Model, None
+                        data: Any = self.proxmox_api.cluster.ceph.metadata.get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def metadata(self) -> Metadata:
-                return self.Metadata()
+                return self.Metadata(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/ceph/status
-
+            @dataclass
             class Status:
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.cluster.ceph.status.get(*args, **kwargs)
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def status(self) -> Status:
-                return self.Status()
+                return self.Status(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/ceph/flags
-
+            @dataclass
             class Flags:
 
                 # /cluster/ceph/flags/{flag}
-
+                @dataclass
                 class Flag:
 
-                    flag: str
-
                     def get(self, *args: Any, **kwargs: Any) -> bool:
-                        return False
+                        return self.proxmox_api.cluster.ceph.flags(self.flag).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.ceph.flags(self.flag).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, flag: str) -> Flag:
-                    return self.Flag()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    flag: str
+
+                def __call__(self, flag: str) -> Flag:
+                    return self.Flag(
+                        proxmox_api=self.proxmox_api,
+                        flag=flag,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1792,35 +2469,58 @@ class ProxmoxAPI:
                         ]
                         value: bool
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.ceph.flags.get(*args, **kwargs)
+                    ).data
 
                 def put(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.cluster.ceph.flags.put(*args, **kwargs)
 
                 set = put
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def flags(self) -> Flags:
-                return self.Flags()
+                return self.Flags(
+                    proxmox_api=self.proxmox_api,
+                )
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.ceph.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def ceph(self) -> Ceph:
-            return self.Ceph()
+            return self.Ceph(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/jobs
-
+        @dataclass
         class Jobs:
 
             # /cluster/jobs/schedule-analyze
-
+            @dataclass
             class ScheduleAnalyze:
 
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -1834,17 +2534,33 @@ class ProxmoxAPI:
                         timestamp: int
                         utc: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[
                     "ProxmoxAPI.Cluster.Jobs.ScheduleAnalyze._Get.TypedDict"
                 ]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Jobs.ScheduleAnalyze._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.jobs.schedule_analyze.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             @cached_property
             def schedule_analyze(self) -> ScheduleAnalyze:
-                return self.ScheduleAnalyze()
+                return self.ScheduleAnalyze(
+                    proxmox_api=self.proxmox_api,
+                )
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -1856,122 +2572,197 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     subdir: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Jobs._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Jobs._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.jobs.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def jobs(self) -> Jobs:
-            return self.Jobs()
+            return self.Jobs(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/sdn
-
+        @dataclass
         class Sdn:
 
             # /cluster/sdn/vnets
-
+            @dataclass
             class Vnets:
 
                 # /cluster/sdn/vnets/{vnet}
-
+                @dataclass
                 class Vnet:
 
                     # /cluster/sdn/vnets/{vnet}/subnets
-
+                    @dataclass
                     class Subnets:
 
                         # /cluster/sdn/vnets/{vnet}/subnets/{subnet}
-
+                        @dataclass
                         class Subnet:
+
+                            def delete(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                    .subnets(self.subnet)
+                                    .delete(*args, **kwargs)
+                                )
+
+                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
+                                return (
+                                    self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                    .subnets(self.subnet)
+                                    .get(*args, **kwargs)
+                                )
+
+                            def put(self, *args: Any, **kwargs: Any) -> None:
+                                return (
+                                    self.proxmox_api.cluster.sdn.vnets(self.vnet)
+                                    .subnets(self.subnet)
+                                    .put(*args, **kwargs)
+                                )
+
+                            set = put
+
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             vnet: str
                             subnet: str
 
-                            def delete(self, *args: Any, **kwargs: Any) -> None:
-                                return None
-
-                            def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
-
-                            def put(self, *args: Any, **kwargs: Any) -> None:
-                                return None
-
-                            set = put
-
                         def __call__(self, subnet: str) -> Subnet:
-                            return self.Subnet()
-
-                        vnet: str
+                            return self.Subnet(
+                                proxmox_api=self.proxmox_api,
+                                subnet=subnet,
+                                vnet=self.vnet,
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.cluster.sdn.vnets(
+                                    self.vnet
+                                ).subnets.get(*args, **kwargs)
+                            ).data
 
                         def post(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return self.proxmox_api.cluster.sdn.vnets(
+                                self.vnet
+                            ).subnets.post(*args, **kwargs)
 
                         create = post
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        vnet: str
+
                     @cached_property
                     def subnets(self) -> Subnets:
-                        return self.Subnets()
-
-                    vnet: str
+                        return self.Subnets(
+                            proxmox_api=self.proxmox_api,
+                            vnet=self.vnet,
+                        )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.vnets(self.vnet).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.sdn.vnets(self.vnet).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.vnets(self.vnet).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    vnet: str
+
                 def __call__(self, vnet: str) -> Vnet:
-                    return self.Vnet()
+                    return self.Vnet(
+                        proxmox_api=self.proxmox_api,
+                        vnet=vnet,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.sdn.vnets.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.sdn.vnets.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def vnets(self) -> Vnets:
-                return self.Vnets()
+                return self.Vnets(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/sdn/zones
-
+            @dataclass
             class Zones:
 
                 # /cluster/sdn/zones/{zone}
-
+                @dataclass
                 class Zone:
 
-                    zone: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.zones(self.zone).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.sdn.zones(self.zone).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.zones(self.zone).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, zone: str) -> Zone:
-                    return self.Zone()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    zone: str
+
+                def __call__(self, zone: str) -> Zone:
+                    return self.Zone(
+                        proxmox_api=self.proxmox_api,
+                        zone=zone,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -2001,44 +2792,69 @@ class ProxmoxAPI:
                         type: str
                         zone: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.sdn.zones.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.sdn.zones.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def zones(self) -> Zones:
-                return self.Zones()
+                return self.Zones(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/sdn/controllers
-
+            @dataclass
             class Controllers:
 
                 # /cluster/sdn/controllers/{controller}
-
+                @dataclass
                 class Controller:
 
-                    controller: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.controllers(
+                            self.controller
+                        ).delete(*args, **kwargs)
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.sdn.controllers(
+                            self.controller
+                        ).get(*args, **kwargs)
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.controllers(
+                            self.controller
+                        ).put(*args, **kwargs)
 
                     set = put
 
-                def __call__(self, controller: str) -> Controller:
-                    return self.Controller()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    controller: str
+
+                def __call__(self, controller: str) -> Controller:
+                    return self.Controller(
+                        proxmox_api=self.proxmox_api,
+                        controller=controller,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -2056,44 +2872,73 @@ class ProxmoxAPI:
                         state: Optional[str] = None
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.sdn.controllers.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.sdn.controllers.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def controllers(self) -> Controllers:
-                return self.Controllers()
+                return self.Controllers(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/sdn/ipams
-
+            @dataclass
             class Ipams:
 
                 # /cluster/sdn/ipams/{ipam}
-
+                @dataclass
                 class Ipam:
 
-                    ipam: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.ipams(self.ipam).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.sdn.ipams(self.ipam).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.ipams(self.ipam).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, ipam: str) -> Ipam:
-                    return self.Ipam()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    ipam: str
+
+                def __call__(self, ipam: str) -> Ipam:
+                    return self.Ipam(
+                        proxmox_api=self.proxmox_api,
+                        ipam=ipam,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -2107,44 +2952,69 @@ class ProxmoxAPI:
                         ipam: str
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.sdn.ipams.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.sdn.ipams.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def ipams(self) -> Ipams:
-                return self.Ipams()
+                return self.Ipams(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /cluster/sdn/dns
-
+            @dataclass
             class Dns:
 
                 # /cluster/sdn/dns/{dns}
-
+                @dataclass
                 class Dns:
 
-                    dns: str
-
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.dns(self.dns).delete(
+                            *args, **kwargs
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.cluster.sdn.dns(self.dns).get(
+                            *args, **kwargs
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.cluster.sdn.dns(self.dns).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                def __call__(self, dns: str) -> Dns:
-                    return self.Dns()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
+                    dns: str
+
+                def __call__(self, dns: str) -> Dns:
+                    return self.Dns(
+                        proxmox_api=self.proxmox_api,
+                        dns=dns,
+                    )
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -2158,20 +3028,32 @@ class ProxmoxAPI:
                         dns: str
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]
+
+                    return validate(
+                        data=self.proxmox_api.cluster.sdn.dns.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.cluster.sdn.dns.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def dns(self) -> Dns:
-                return self.Dns()
+                return self.Dns(
+                    proxmox_api=self.proxmox_api,
+                )
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -2183,35 +3065,56 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     id: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.sdn.get(*args, **kwargs)
+                ).data
 
             def put(self, *args: Any, **kwargs: Any) -> str:
-                return ""
+                return self.proxmox_api.cluster.sdn.put(*args, **kwargs)
 
             set = put
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def sdn(self) -> Sdn:
-            return self.Sdn()
+            return self.Sdn(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/log
-
+        @dataclass
         class Log:
 
             def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.cluster.log.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def log(self) -> Log:
-            return self.Log()
+            return self.Log(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/resources
-
+        @dataclass
         class Resources:
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -2265,19 +3168,31 @@ class ProxmoxAPI:
                     uptime: Optional[int] = None
                     vmid: Optional[int] = None
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.resources.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def resources(self) -> Resources:
-            return self.Resources()
+            return self.Resources(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/tasks
-
+        @dataclass
         class Tasks:
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -2289,35 +3204,51 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     upid: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.tasks.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def tasks(self) -> Tasks:
-            return self.Tasks()
+            return self.Tasks(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/options
-
+        @dataclass
         class Options:
 
             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return {}
+                return self.proxmox_api.cluster.options.get(*args, **kwargs)
 
             def put(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.cluster.options.put(*args, **kwargs)
 
             set = put
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def options(self) -> Options:
-            return self.Options()
+            return self.Options(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/status
-
+        @dataclass
         class Status:
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -2349,65 +3280,84 @@ class ProxmoxAPI:
                     type: Literal["cluster", "node"]
                     version: Optional[int] = None
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.cluster.status.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def status(self) -> Status:
-            return self.Status()
+            return self.Status(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /cluster/nextid
-
+        @dataclass
         class Nextid:
 
             def get(self, *args: Any, **kwargs: Any) -> int:
-                return 0
+                return self.proxmox_api.cluster.nextid.get(*args, **kwargs)
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def nextid(self) -> Nextid:
-            return self.Nextid()
+            return self.Nextid(
+                proxmox_api=self.proxmox_api,
+            )
 
         def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-            return []
+            class validate(pydantic.BaseModel):
+                data: builtins.list[dict[Any, Any]]
+
+            return validate(data=self.proxmox_api.cluster.get(*args, **kwargs)).data
+
+        proxmox_api: ProxmoxerProxmoxAPI
 
     @cached_property
     def cluster(self) -> Cluster:
-        return self.Cluster()
+        return self.Cluster(
+            proxmox_api=self.proxmox_api,
+        )
 
     # /nodes
-
+    @dataclass
     class Nodes:
 
         # /nodes/{node}
-
+        @dataclass
         class Node:
 
             # /nodes/{node}/qemu
-
+            @dataclass
             class Qemu:
 
                 # /nodes/{node}/qemu/{vmid}
-
+                @dataclass
                 class Vmid:
 
                     # /nodes/{node}/qemu/{vmid}/firewall
-
+                    @dataclass
                     class Firewall:
 
                         # /nodes/{node}/qemu/{vmid}/firewall/rules
-
+                        @dataclass
                         class Rules:
 
                             # /nodes/{node}/qemu/{vmid}/firewall/rules/{pos}
-
+                            @dataclass
                             class Pos:
 
-                                node: str
-                                vmid: str
-                                pos: str
-
+                                @dataclass
                                 class _Get:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -2473,40 +3423,77 @@ class ProxmoxAPI:
                                         sport: Optional[str] = None
                                         type: str
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    pos: int
+
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict":
-                                        return typing.cast(
-                                            ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict,
-                                            None,
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .get(*args, **kwargs)
                                         )
 
                                     def model(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model":
-                                        return typing.cast(
-                                            ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model,
-                                            None,
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .get(*args, **kwargs)
                                         )
+                                        return self.Model(**data)
 
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.rules(self.pos)
+                                        .delete(*args, **kwargs)
+                                    )
 
                                 @property
                                 def get(self) -> _Get:
-                                    return self._Get()
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        pos=self.pos,
+                                    )
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.rules(self.pos)
+                                        .put(*args, **kwargs)
+                                    )
 
                                 set = put
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                pos: int
+
                             def __call__(self, pos: int) -> Pos:
-                                return self.Pos()
+                                return self.Pos(
+                                    proxmox_api=self.proxmox_api,
+                                    pos=pos,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -2518,53 +3505,101 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     pos: int
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.rules.get(*args, **kwargs)
+                                ).data
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.rules.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def rules(self) -> Rules:
-                            return self.Rules()
+                            return self.Rules(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/firewall/aliases
-
+                        @dataclass
                         class Aliases:
 
                             # /nodes/{node}/qemu/{vmid}/firewall/aliases/{name}
-
+                            @dataclass
                             class Name:
 
-                                node: str
-                                vmid: str
-                                name: str
-
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases(self.name)
+                                        .delete(*args, **kwargs)
+                                    )
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[Any, Any]:
-                                    return {}
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases(self.name)
+                                        .get(*args, **kwargs)
+                                    )
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.aliases(self.name)
+                                        .put(*args, **kwargs)
+                                    )
 
                                 set = put
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                name: str
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name()
+                                return self.Name(
+                                    proxmox_api=self.proxmox_api,
+                                    name=name,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -2582,59 +3617,107 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.aliases.get(*args, **kwargs)
+                                ).data
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.aliases.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def aliases(self) -> Aliases:
-                            return self.Aliases()
+                            return self.Aliases(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/firewall/ipset
-
+                        @dataclass
                         class Ipset:
 
                             # /nodes/{node}/qemu/{vmid}/firewall/ipset/{name}
-
+                            @dataclass
                             class Name:
 
                                 # /nodes/{node}/qemu/{vmid}/firewall/ipset/{name}/{cidr}
-
+                                @dataclass
                                 class Cidr:
 
-                                    node: str
-                                    vmid: str
-                                    name: str
-                                    cidr: str
-
                                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                                        return None
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)(self.cidr)
+                                            .delete(*args, **kwargs)
+                                        )
 
                                     def get(
                                         self, *args: Any, **kwargs: Any
                                     ) -> dict[Any, Any]:
-                                        return {}
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)(self.cidr)
+                                            .get(*args, **kwargs)
+                                        )
 
                                     def put(self, *args: Any, **kwargs: Any) -> None:
-                                        return None
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .qemu(self.vmid)
+                                            .firewall.ipset(self.name)(self.cidr)
+                                            .put(*args, **kwargs)
+                                        )
 
                                     set = put
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+                                    vmid: int
+                                    name: str
+                                    cidr: str
+
                                 def __call__(self, cidr: str) -> Cidr:
-                                    return self.Cidr()
+                                    return self.Cidr(
+                                        proxmox_api=self.proxmox_api,
+                                        cidr=cidr,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
+                                    )
 
-                                node: str
-                                vmid: str
-                                name: str
-
+                                @dataclass
                                 class _Get:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -2652,27 +3735,64 @@ class ProxmoxAPI:
                                         digest: str
                                         nomatch: Optional[bool] = None
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset(self.name)
+                                        .delete(*args, **kwargs)
+                                    )
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
                                 ) -> builtins.list[
                                     "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
                                 ]:
-                                    return []
+                                    class validate(pydantic.BaseModel):
+                                        data: builtins.list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                        ]
+
+                                    return validate(
+                                        data=self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset(self.name)
+                                        .get(*args, **kwargs)
+                                    ).data
 
                                 def post(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.ipset(self.name)
+                                        .post(*args, **kwargs)
+                                    )
 
                                 create = post
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                name: str
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name()
+                                return self.Name(
+                                    proxmox_api=self.proxmox_api,
+                                    name=name,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -2688,29 +3808,55 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.ipset.get(*args, **kwargs)
+                                ).data
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.ipset.post(*args, **kwargs)
+                                )
 
                             create = post
 
-                        @cached_property
-                        def ipset(self) -> Ipset:
-                            return self.Ipset()
-
-                        # /nodes/{node}/qemu/{vmid}/firewall/options
-
-                        class Options:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
-                            vmid: str
+                            vmid: int
 
+                        @cached_property
+                        def ipset(self) -> Ipset:
+                            return self.Ipset(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/firewall/options
+                        @dataclass
+                        class Options:
+
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -2796,42 +3942,66 @@ class ProxmoxAPI:
                                     ] = None
                                     radv: Optional[bool] = None
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.options.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .firewall.options.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             def put(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.options.put(*args, **kwargs)
+                                )
 
                             set = put
 
-                        @cached_property
-                        def options(self) -> Options:
-                            return self.Options()
-
-                        # /nodes/{node}/qemu/{vmid}/firewall/log
-
-                        class Log:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
-                            vmid: str
+                            vmid: int
 
+                        @cached_property
+                        def options(self) -> Options:
+                            return self.Options(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/firewall/log
+                        @dataclass
+                        class Log:
+
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -2845,24 +4015,46 @@ class ProxmoxAPI:
                                     n: int
                                     t: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.log.get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def log(self) -> Log:
-                            return self.Log()
+                            return self.Log(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/firewall/refs
-
+                        @dataclass
                         class Refs:
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -2878,354 +4070,599 @@ class ProxmoxAPI:
                                     name: str
                                     type: Literal["alias", "ipset"]
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .firewall.refs.get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def refs(self) -> Refs:
-                            return self.Refs()
-
-                        node: str
-                        vmid: str
+                            return self.Refs(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .firewall.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def firewall(self) -> Firewall:
-                        return self.Firewall()
+                        return self.Firewall(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/agent
-
+                    @dataclass
                     class Agent:
 
                         # /nodes/{node}/qemu/{vmid}/agent/fsfreeze-freeze
-
+                        @dataclass
                         class FsfreezeFreeze:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.fsfreeze_freeze.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def fsfreeze_freeze(self) -> FsfreezeFreeze:
-                            return self.FsfreezeFreeze()
+                            return self.FsfreezeFreeze(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/fsfreeze-status
-
+                        @dataclass
                         class FsfreezeStatus:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.fsfreeze_status.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def fsfreeze_status(self) -> FsfreezeStatus:
-                            return self.FsfreezeStatus()
+                            return self.FsfreezeStatus(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/fsfreeze-thaw
-
+                        @dataclass
                         class FsfreezeThaw:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.fsfreeze_thaw.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def fsfreeze_thaw(self) -> FsfreezeThaw:
-                            return self.FsfreezeThaw()
+                            return self.FsfreezeThaw(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/fstrim
-
+                        @dataclass
                         class Fstrim:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.fstrim.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def fstrim(self) -> Fstrim:
-                            return self.Fstrim()
+                            return self.Fstrim(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-fsinfo
-
+                        @dataclass
                         class GetFsinfo:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_fsinfo.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_fsinfo(self) -> GetFsinfo:
-                            return self.GetFsinfo()
+                            return self.GetFsinfo(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-host-name
-
+                        @dataclass
                         class GetHostName:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_host_name.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_host_name(self) -> GetHostName:
-                            return self.GetHostName()
+                            return self.GetHostName(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-memory-block-info
-
+                        @dataclass
                         class GetMemoryBlockInfo:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_memory_block_info.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_memory_block_info(self) -> GetMemoryBlockInfo:
-                            return self.GetMemoryBlockInfo()
+                            return self.GetMemoryBlockInfo(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-memory-blocks
-
+                        @dataclass
                         class GetMemoryBlocks:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_memory_blocks.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_memory_blocks(self) -> GetMemoryBlocks:
-                            return self.GetMemoryBlocks()
+                            return self.GetMemoryBlocks(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-osinfo
-
+                        @dataclass
                         class GetOsinfo:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_osinfo.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_osinfo(self) -> GetOsinfo:
-                            return self.GetOsinfo()
+                            return self.GetOsinfo(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-time
-
+                        @dataclass
                         class GetTime:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_time.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_time(self) -> GetTime:
-                            return self.GetTime()
+                            return self.GetTime(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-timezone
-
+                        @dataclass
                         class GetTimezone:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_timezone.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_timezone(self) -> GetTimezone:
-                            return self.GetTimezone()
+                            return self.GetTimezone(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-users
-
+                        @dataclass
                         class GetUsers:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_users.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_users(self) -> GetUsers:
-                            return self.GetUsers()
+                            return self.GetUsers(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/get-vcpus
-
+                        @dataclass
                         class GetVcpus:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.get_vcpus.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def get_vcpus(self) -> GetVcpus:
-                            return self.GetVcpus()
+                            return self.GetVcpus(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/info
-
+                        @dataclass
                         class Info:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.info.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def info(self) -> Info:
-                            return self.Info()
+                            return self.Info(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/network-get-interfaces
-
+                        @dataclass
                         class NetworkGetInterfaces:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.network_get_interfaces.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def network_get_interfaces(self) -> NetworkGetInterfaces:
-                            return self.NetworkGetInterfaces()
+                            return self.NetworkGetInterfaces(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/ping
-
+                        @dataclass
                         class Ping:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.ping.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def ping(self) -> Ping:
-                            return self.Ping()
+                            return self.Ping(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/shutdown
-
+                        @dataclass
                         class Shutdown:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.shutdown.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def shutdown(self) -> Shutdown:
-                            return self.Shutdown()
+                            return self.Shutdown(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/suspend-disk
-
+                        @dataclass
                         class SuspendDisk:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.suspend_disk.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def suspend_disk(self) -> SuspendDisk:
-                            return self.SuspendDisk()
+                            return self.SuspendDisk(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/suspend-hybrid
-
+                        @dataclass
                         class SuspendHybrid:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.suspend_hybrid.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def suspend_hybrid(self) -> SuspendHybrid:
-                            return self.SuspendHybrid()
+                            return self.SuspendHybrid(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/suspend-ram
-
+                        @dataclass
                         class SuspendRam:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.suspend_ram.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def suspend_ram(self) -> SuspendRam:
-                            return self.SuspendRam()
+                            return self.SuspendRam(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/set-user-password
-
+                        @dataclass
                         class SetUserPassword:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                                return {}
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.set_user_password.post(*args, **kwargs)
+                                )
 
                             create = post
 
-                        @cached_property
-                        def set_user_password(self) -> SetUserPassword:
-                            return self.SetUserPassword()
-
-                        # /nodes/{node}/qemu/{vmid}/agent/exec
-
-                        class Exec:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
-                            vmid: str
+                            vmid: int
 
+                        @cached_property
+                        def set_user_password(self) -> SetUserPassword:
+                            return self.SetUserPassword(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/agent/exec
+                        @dataclass
+                        class Exec:
+
+                            @dataclass
                             class _Post:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -3237,39 +4674,59 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     pid: int
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.exec.post(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.exec.post(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def post(self) -> _Post:
-                                return self._Post()
+                                return self._Post(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             create = post
 
-                        @cached_property
-                        def exec(self) -> Exec:
-                            return self.Exec()
-
-                        # /nodes/{node}/qemu/{vmid}/agent/exec-status
-
-                        class ExecStatus:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
-                            vmid: str
+                            vmid: int
 
+                        @cached_property
+                        def exec(self) -> Exec:
+                            return self.Exec(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/agent/exec-status
+                        @dataclass
+                        class ExecStatus:
+
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -3301,37 +4758,57 @@ class ProxmoxAPI:
                                     )
                                     signal: Optional[int] = None
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.exec_status.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.exec_status.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def exec_status(self) -> ExecStatus:
-                            return self.ExecStatus()
+                            return self.ExecStatus(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/file-read
-
+                        @dataclass
                         class FileRead:
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -3345,70 +4822,117 @@ class ProxmoxAPI:
                                     content: str
                                     truncated: Optional[bool] = None
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.file_read.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .agent.file_read.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def file_read(self) -> FileRead:
-                            return self.FileRead()
+                            return self.FileRead(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/agent/file-write
-
+                        @dataclass
                         class FileWrite:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .agent.file_write.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def file_write(self) -> FileWrite:
-                            return self.FileWrite()
-
-                        node: str
-                        vmid: str
+                            return self.FileWrite(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .agent.get(*args, **kwargs)
+                            ).data
 
                         def post(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return {}
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .agent.post(*args, **kwargs)
+                            )
 
                         create = post
 
-                    @cached_property
-                    def agent(self) -> Agent:
-                        return self.Agent()
-
-                    # /nodes/{node}/qemu/{vmid}/rrd
-
-                    class Rrd:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def agent(self) -> Agent:
+                        return self.Agent(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/rrd
+                    @dataclass
+                    class Rrd:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -3420,52 +4944,86 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 filename: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .rrd.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model, None
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .rrd.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def rrd(self) -> Rrd:
-                        return self.Rrd()
+                        return self.Rrd(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/rrddata
-
+                    @dataclass
                     class Rrddata:
-
-                        node: str
-                        vmid: str
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .rrddata.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def rrddata(self) -> Rrddata:
-                        return self.Rrddata()
+                        return self.Rrddata(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/config
-
+                    @dataclass
                     class Config:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -3777,49 +5335,77 @@ class ProxmoxAPI:
                                 vmstatestorage: Optional[str] = None
                                 watchdog: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .config.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .config.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .config.post(*args, **kwargs)
+                            )
 
                         create = post
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .config.put(*args, **kwargs)
+                            )
 
                         set = put
 
-                    @cached_property
-                    def config(self) -> Config:
-                        return self.Config()
-
-                    # /nodes/{node}/qemu/{vmid}/pending
-
-                    class Pending:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def config(self) -> Config:
+                        return self.Config(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/pending
+                    @dataclass
+                    class Pending:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -3837,38 +5423,70 @@ class ProxmoxAPI:
                                 pending: Optional[str] = None
                                 value: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .pending.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def pending(self) -> Pending:
-                        return self.Pending()
+                        return self.Pending(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/cloudinit
-
+                    @dataclass
                     class Cloudinit:
 
                         # /nodes/{node}/qemu/{vmid}/cloudinit/dump
-
+                        @dataclass
                         class Dump:
 
-                            node: str
-                            vmid: str
-
                             def get(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .cloudinit.dump.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def dump(self) -> Dump:
-                            return self.Dump()
+                            return self.Dump(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -3884,45 +5502,81 @@ class ProxmoxAPI:
                                 new: Optional[str] = None
                                 old: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Cloudinit._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Cloudinit._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .cloudinit.get(*args, **kwargs)
+                            ).data
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .cloudinit.put(*args, **kwargs)
+                            )
 
                         set = put
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def cloudinit(self) -> Cloudinit:
-                        return self.Cloudinit()
+                        return self.Cloudinit(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/unlink
-
+                    @dataclass
                     class Unlink:
 
-                        node: str
-                        vmid: str
-
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .unlink.put(*args, **kwargs)
+                            )
 
                         set = put
 
-                    @cached_property
-                    def unlink(self) -> Unlink:
-                        return self.Unlink()
-
-                    # /nodes/{node}/qemu/{vmid}/vncproxy
-
-                    class Vncproxy:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def unlink(self) -> Unlink:
+                        return self.Unlink(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/vncproxy
+                    @dataclass
+                    class Vncproxy:
+
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -3944,39 +5598,59 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .vncproxy.post(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .vncproxy.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
-                    @cached_property
-                    def vncproxy(self) -> Vncproxy:
-                        return self.Vncproxy()
-
-                    # /nodes/{node}/qemu/{vmid}/termproxy
-
-                    class Termproxy:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def vncproxy(self) -> Vncproxy:
+                        return self.Vncproxy(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/termproxy
+                    @dataclass
+                    class Termproxy:
+
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -3994,12 +5668,19 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .termproxy.post(*args, **kwargs)
                                 )
 
                             def model(
@@ -4007,28 +5688,41 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .termproxy.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
-                    @cached_property
-                    def termproxy(self) -> Termproxy:
-                        return self.Termproxy()
-
-                    # /nodes/{node}/qemu/{vmid}/vncwebsocket
-
-                    class Vncwebsocket:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def termproxy(self) -> Termproxy:
+                        return self.Termproxy(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/vncwebsocket
+                    @dataclass
+                    class Vncwebsocket:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4040,37 +5734,57 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 port: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .vncwebsocket.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .vncwebsocket.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def vncwebsocket(self) -> Vncwebsocket:
-                        return self.Vncwebsocket()
+                        return self.Vncwebsocket(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/spiceproxy
-
+                    @dataclass
                     class Spiceproxy:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4090,12 +5804,19 @@ class ProxmoxAPI:
                                 tls_port: int = pydantic.Field(alias="tls-port")
                                 type: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .spiceproxy.post(*args, **kwargs)
                                 )
 
                             def model(
@@ -4103,32 +5824,45 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .spiceproxy.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
+
                     @cached_property
                     def spiceproxy(self) -> Spiceproxy:
-                        return self.Spiceproxy()
+                        return self.Spiceproxy(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/status
-
+                    @dataclass
                     class Status:
 
                         # /nodes/{node}/qemu/{vmid}/status/current
-
+                        @dataclass
                         class Current:
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -4174,145 +5908,235 @@ class ProxmoxAPI:
                                     uptime: Optional[int] = None
                                     vmid: int
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.current.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .status.current.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def current(self) -> Current:
-                            return self.Current()
+                            return self.Current(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/start
-
+                        @dataclass
                         class Start:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.start.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def start(self) -> Start:
-                            return self.Start()
+                            return self.Start(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/stop
-
+                        @dataclass
                         class Stop:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.stop.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def stop(self) -> Stop:
-                            return self.Stop()
+                            return self.Stop(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/reset
-
+                        @dataclass
                         class Reset:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.reset.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def reset(self) -> Reset:
-                            return self.Reset()
+                            return self.Reset(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/shutdown
-
+                        @dataclass
                         class Shutdown:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.shutdown.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def shutdown(self) -> Shutdown:
-                            return self.Shutdown()
+                            return self.Shutdown(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/reboot
-
+                        @dataclass
                         class Reboot:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.reboot.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def reboot(self) -> Reboot:
-                            return self.Reboot()
+                            return self.Reboot(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/suspend
-
+                        @dataclass
                         class Suspend:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.suspend.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def suspend(self) -> Suspend:
-                            return self.Suspend()
+                            return self.Suspend(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/qemu/{vmid}/status/resume
-
+                        @dataclass
                         class Resume:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .status.resume.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def resume(self) -> Resume:
-                            return self.Resume()
+                            return self.Resume(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4324,40 +6148,72 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 subdir: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .status.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def status(self) -> Status:
-                        return self.Status()
+                        return self.Status(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/sendkey
-
+                    @dataclass
                     class Sendkey:
 
-                        node: str
-                        vmid: str
-
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .sendkey.put(*args, **kwargs)
+                            )
 
                         set = put
 
-                    @cached_property
-                    def sendkey(self) -> Sendkey:
-                        return self.Sendkey()
-
-                    # /nodes/{node}/qemu/{vmid}/feature
-
-                    class Feature:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def sendkey(self) -> Sendkey:
+                        return self.Sendkey(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/feature
+                    @dataclass
+                    class Feature:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4371,71 +6227,111 @@ class ProxmoxAPI:
                                 has_feature: bool = pydantic.Field(alias="hasFeature")
                                 nodes: list[str]
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .feature.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .feature.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def feature(self) -> Feature:
-                        return self.Feature()
+                        return self.Feature(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/clone
-
+                    @dataclass
                     class Clone:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .clone.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def clone(self) -> Clone:
-                        return self.Clone()
+                        return self.Clone(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/move_disk
-
+                    @dataclass
                     class MoveDisk:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .move_disk.post(*args, **kwargs)
+                            )
 
                         create = post
 
-                    @cached_property
-                    def move_disk(self) -> MoveDisk:
-                        return self.MoveDisk()
-
-                    # /nodes/{node}/qemu/{vmid}/migrate
-
-                    class Migrate:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def move_disk(self) -> MoveDisk:
+                        return self.MoveDisk(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/migrate
+                    @dataclass
+                    class Migrate:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4455,150 +6351,253 @@ class ProxmoxAPI:
                                 not_allowed_nodes: Optional[dict[Any, Any]] = None
                                 running: bool
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .migrate.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .migrate.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .migrate.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def migrate(self) -> Migrate:
-                        return self.Migrate()
+                        return self.Migrate(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/remote_migrate
-
+                    @dataclass
                     class RemoteMigrate:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .remote_migrate.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def remote_migrate(self) -> RemoteMigrate:
-                        return self.RemoteMigrate()
+                        return self.RemoteMigrate(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/monitor
-
+                    @dataclass
                     class Monitor:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .monitor.post(*args, **kwargs)
+                            )
 
                         create = post
 
-                    @cached_property
-                    def monitor(self) -> Monitor:
-                        return self.Monitor()
-
-                    # /nodes/{node}/qemu/{vmid}/resize
-
-                    class Resize:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
+
+                    @cached_property
+                    def monitor(self) -> Monitor:
+                        return self.Monitor(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/resize
+                    @dataclass
+                    class Resize:
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .resize.put(*args, **kwargs)
+                            )
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
+
                     @cached_property
                     def resize(self) -> Resize:
-                        return self.Resize()
+                        return self.Resize(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/snapshot
-
+                    @dataclass
                     class Snapshot:
 
                         # /nodes/{node}/qemu/{vmid}/snapshot/{snapname}
-
+                        @dataclass
                         class Snapname:
 
                             # /nodes/{node}/qemu/{vmid}/snapshot/{snapname}/config
-
+                            @dataclass
                             class Config:
-
-                                node: str
-                                vmid: str
-                                snapname: str
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[Any, Any]:
-                                    return {}
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .config.get(*args, **kwargs)
+                                    )
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .config.put(*args, **kwargs)
+                                    )
 
                                 set = put
 
-                            @cached_property
-                            def config(self) -> Config:
-                                return self.Config()
-
-                            # /nodes/{node}/qemu/{vmid}/snapshot/{snapname}/rollback
-
-                            class Rollback:
+                                proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
-                                vmid: str
+                                vmid: int
                                 snapname: str
 
+                            @cached_property
+                            def config(self) -> Config:
+                                return self.Config(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
+                                )
+
+                            # /nodes/{node}/qemu/{vmid}/snapshot/{snapname}/rollback
+                            @dataclass
+                            class Rollback:
+
                                 def post(self, *args: Any, **kwargs: Any) -> str:
-                                    return ""
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .qemu(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .rollback.post(*args, **kwargs)
+                                    )
 
                                 create = post
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                snapname: str
+
                             @cached_property
                             def rollback(self) -> Rollback:
-                                return self.Rollback()
-
-                            node: str
-                            vmid: str
-                            snapname: str
+                                return self.Rollback(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
+                                )
 
                             def delete(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .snapshot(self.snapname)
+                                    .delete(*args, **kwargs)
+                                )
 
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[dict[Any, Any]]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[dict[Any, Any]]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .snapshot(self.snapname)
+                                    .get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+                            snapname: str
 
                         def __call__(self, snapname: str) -> Snapname:
-                            return self.Snapname()
+                            return self.Snapname(
+                                proxmox_api=self.proxmox_api,
+                                snapname=snapname,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4618,45 +6617,81 @@ class ProxmoxAPI:
                                 snaptime: Optional[int] = None
                                 vmstate: Optional[bool] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .snapshot.get(*args, **kwargs)
+                            ).data
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .snapshot.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def snapshot(self) -> Snapshot:
-                        return self.Snapshot()
+                        return self.Snapshot(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/qemu/{vmid}/template
-
+                    @dataclass
                     class Template:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .qemu(self.vmid)
+                                .template.post(*args, **kwargs)
+                            )
 
                         create = post
 
-                    @cached_property
-                    def template(self) -> Template:
-                        return self.Template()
-
-                    # /nodes/{node}/qemu/{vmid}/mtunnel
-
-                    class Mtunnel:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def template(self) -> Template:
+                        return self.Template(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/mtunnel
+                    @dataclass
+                    class Mtunnel:
+
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4672,39 +6707,59 @@ class ProxmoxAPI:
                                 ticket: str
                                 upid: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .mtunnel.post(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .mtunnel.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
-                    @cached_property
-                    def mtunnel(self) -> Mtunnel:
-                        return self.Mtunnel()
-
-                    # /nodes/{node}/qemu/{vmid}/mtunnelwebsocket
-
-                    class Mtunnelwebsocket:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def mtunnel(self) -> Mtunnel:
+                        return self.Mtunnel(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/qemu/{vmid}/mtunnelwebsocket
+                    @dataclass
+                    class Mtunnelwebsocket:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4718,33 +6773,53 @@ class ProxmoxAPI:
                                 port: Optional[str] = None
                                 socket: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .mtunnelwebsocket.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .qemu(self.vmid)
+                                    .mtunnelwebsocket.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def mtunnelwebsocket(self) -> Mtunnelwebsocket:
-                        return self.Mtunnelwebsocket()
+                        return self.Mtunnelwebsocket(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
-                    node: str
-                    vmid: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -4756,21 +6831,48 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        vmid: int
+
                     def delete(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return (
+                            self.proxmox_api.nodes(self.node)
+                            .qemu(self.vmid)
+                            .delete(*args, **kwargs)
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node)
+                            .qemu(self.vmid)
+                            .get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+                    vmid: int
 
                 def __call__(self, vmid: int) -> Vmid:
-                    return self.Vmid()
+                    return self.Vmid(
+                        proxmox_api=self.proxmox_api,
+                        vmid=vmid,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -4810,35 +6912,49 @@ class ProxmoxAPI:
                         uptime: Optional[int] = None
                         vmid: int
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).qemu.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).qemu.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def qemu(self) -> Qemu:
-                return self.Qemu()
+                return self.Qemu(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/lxc
-
+            @dataclass
             class Lxc:
 
                 # /nodes/{node}/lxc/{vmid}
-
+                @dataclass
                 class Vmid:
 
                     # /nodes/{node}/lxc/{vmid}/config
-
+                    @dataclass
                     class Config:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -4988,46 +7104,70 @@ class ProxmoxAPI:
                                     alias="unused[n]"
                                 )
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .config.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .config.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .config.put(*args, **kwargs)
+                            )
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
+
                     @cached_property
                     def config(self) -> Config:
-                        return self.Config()
+                        return self.Config(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/status
-
+                    @dataclass
                     class Status:
 
                         # /nodes/{node}/lxc/{vmid}/status/current
-
+                        @dataclass
                         class Current:
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5059,129 +7199,209 @@ class ProxmoxAPI:
                                     uptime: Optional[int] = None
                                     vmid: int
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.current.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .status.current.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def current(self) -> Current:
-                            return self.Current()
+                            return self.Current(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/status/start
-
+                        @dataclass
                         class Start:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.start.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def start(self) -> Start:
-                            return self.Start()
+                            return self.Start(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/status/stop
-
+                        @dataclass
                         class Stop:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.stop.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def stop(self) -> Stop:
-                            return self.Stop()
+                            return self.Stop(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/status/shutdown
-
+                        @dataclass
                         class Shutdown:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.shutdown.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def shutdown(self) -> Shutdown:
-                            return self.Shutdown()
+                            return self.Shutdown(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/status/suspend
-
+                        @dataclass
                         class Suspend:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.suspend.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def suspend(self) -> Suspend:
-                            return self.Suspend()
+                            return self.Suspend(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/status/resume
-
+                        @dataclass
                         class Resume:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.resume.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def resume(self) -> Resume:
-                            return self.Resume()
+                            return self.Resume(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/status/reboot
-
+                        @dataclass
                         class Reboot:
 
-                            node: str
-                            vmid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .status.reboot.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def reboot(self) -> Reboot:
-                            return self.Reboot()
+                            return self.Reboot(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -5193,82 +7413,153 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 subdir: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .status.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def status(self) -> Status:
-                        return self.Status()
+                        return self.Status(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/snapshot
-
+                    @dataclass
                     class Snapshot:
 
                         # /nodes/{node}/lxc/{vmid}/snapshot/{snapname}
-
+                        @dataclass
                         class Snapname:
 
                             # /nodes/{node}/lxc/{vmid}/snapshot/{snapname}/rollback
-
+                            @dataclass
                             class Rollback:
 
-                                node: str
-                                vmid: str
-                                snapname: str
-
                                 def post(self, *args: Any, **kwargs: Any) -> str:
-                                    return ""
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .rollback.post(*args, **kwargs)
+                                    )
 
                                 create = post
 
-                            @cached_property
-                            def rollback(self) -> Rollback:
-                                return self.Rollback()
-
-                            # /nodes/{node}/lxc/{vmid}/snapshot/{snapname}/config
-
-                            class Config:
+                                proxmox_api: ProxmoxerProxmoxAPI
 
                                 node: str
-                                vmid: str
+                                vmid: int
                                 snapname: str
+
+                            @cached_property
+                            def rollback(self) -> Rollback:
+                                return self.Rollback(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
+                                )
+
+                            # /nodes/{node}/lxc/{vmid}/snapshot/{snapname}/config
+                            @dataclass
+                            class Config:
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[Any, Any]:
-                                    return {}
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .config.get(*args, **kwargs)
+                                    )
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .snapshot(self.snapname)
+                                        .config.put(*args, **kwargs)
+                                    )
 
                                 set = put
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                snapname: str
+
                             @cached_property
                             def config(self) -> Config:
-                                return self.Config()
-
-                            node: str
-                            vmid: str
-                            snapname: str
+                                return self.Config(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                    snapname=self.snapname,
+                                )
 
                             def delete(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .snapshot(self.snapname)
+                                    .delete(*args, **kwargs)
+                                )
 
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[dict[Any, Any]]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[dict[Any, Any]]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .snapshot(self.snapname)
+                                    .get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+                            snapname: str
 
                         def __call__(self, snapname: str) -> Snapname:
-                            return self.Snapname()
+                            return self.Snapname(
+                                proxmox_api=self.proxmox_api,
+                                snapname=snapname,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -5286,38 +7577,63 @@ class ProxmoxAPI:
                                 parent: Optional[str] = None
                                 snaptime: Optional[int] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .snapshot.get(*args, **kwargs)
+                            ).data
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .snapshot.post(*args, **kwargs)
+                            )
 
                         create = post
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
+
                     @cached_property
                     def snapshot(self) -> Snapshot:
-                        return self.Snapshot()
+                        return self.Snapshot(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/firewall
-
+                    @dataclass
                     class Firewall:
 
                         # /nodes/{node}/lxc/{vmid}/firewall/rules
-
+                        @dataclass
                         class Rules:
 
                             # /nodes/{node}/lxc/{vmid}/firewall/rules/{pos}
-
+                            @dataclass
                             class Pos:
 
-                                node: str
-                                vmid: str
-                                pos: str
-
+                                @dataclass
                                 class _Get:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -5383,40 +7699,77 @@ class ProxmoxAPI:
                                         sport: Optional[str] = None
                                         type: str
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    pos: int
+
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict":
-                                        return typing.cast(
-                                            ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict,
-                                            None,
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .get(*args, **kwargs)
                                         )
 
                                     def model(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model":
-                                        return typing.cast(
-                                            ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model,
-                                            None,
+                                        data: Any = (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.rules(self.pos)
+                                            .get(*args, **kwargs)
                                         )
+                                        return self.Model(**data)
 
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.rules(self.pos)
+                                        .delete(*args, **kwargs)
+                                    )
 
                                 @property
                                 def get(self) -> _Get:
-                                    return self._Get()
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        pos=self.pos,
+                                    )
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.rules(self.pos)
+                                        .put(*args, **kwargs)
+                                    )
 
                                 set = put
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                pos: int
+
                             def __call__(self, pos: int) -> Pos:
-                                return self.Pos()
+                                return self.Pos(
+                                    proxmox_api=self.proxmox_api,
+                                    pos=pos,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5428,53 +7781,101 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     pos: int
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.rules.get(*args, **kwargs)
+                                ).data
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.rules.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def rules(self) -> Rules:
-                            return self.Rules()
+                            return self.Rules(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/firewall/aliases
-
+                        @dataclass
                         class Aliases:
 
                             # /nodes/{node}/lxc/{vmid}/firewall/aliases/{name}
-
+                            @dataclass
                             class Name:
 
-                                node: str
-                                vmid: str
-                                name: str
-
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases(self.name)
+                                        .delete(*args, **kwargs)
+                                    )
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[Any, Any]:
-                                    return {}
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases(self.name)
+                                        .get(*args, **kwargs)
+                                    )
 
                                 def put(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.aliases(self.name)
+                                        .put(*args, **kwargs)
+                                    )
 
                                 set = put
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                name: str
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name()
+                                return self.Name(
+                                    proxmox_api=self.proxmox_api,
+                                    name=name,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5492,59 +7893,107 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.aliases.get(*args, **kwargs)
+                                ).data
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.aliases.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
                         @cached_property
                         def aliases(self) -> Aliases:
-                            return self.Aliases()
+                            return self.Aliases(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/firewall/ipset
-
+                        @dataclass
                         class Ipset:
 
                             # /nodes/{node}/lxc/{vmid}/firewall/ipset/{name}
-
+                            @dataclass
                             class Name:
 
                                 # /nodes/{node}/lxc/{vmid}/firewall/ipset/{name}/{cidr}
-
+                                @dataclass
                                 class Cidr:
 
-                                    node: str
-                                    vmid: str
-                                    name: str
-                                    cidr: str
-
                                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                                        return None
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)(self.cidr)
+                                            .delete(*args, **kwargs)
+                                        )
 
                                     def get(
                                         self, *args: Any, **kwargs: Any
                                     ) -> dict[Any, Any]:
-                                        return {}
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)(self.cidr)
+                                            .get(*args, **kwargs)
+                                        )
 
                                     def put(self, *args: Any, **kwargs: Any) -> None:
-                                        return None
+                                        return (
+                                            self.proxmox_api.nodes(self.node)
+                                            .lxc(self.vmid)
+                                            .firewall.ipset(self.name)(self.cidr)
+                                            .put(*args, **kwargs)
+                                        )
 
                                     set = put
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+                                    vmid: int
+                                    name: str
+                                    cidr: str
+
                                 def __call__(self, cidr: str) -> Cidr:
-                                    return self.Cidr()
+                                    return self.Cidr(
+                                        proxmox_api=self.proxmox_api,
+                                        cidr=cidr,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                        name=self.name,
+                                    )
 
-                                node: str
-                                vmid: str
-                                name: str
-
+                                @dataclass
                                 class _Get:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -5562,27 +8011,64 @@ class ProxmoxAPI:
                                         digest: str
                                         nomatch: Optional[bool] = None
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    vmid: int
+
+                                    name: str
+
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset(self.name)
+                                        .delete(*args, **kwargs)
+                                    )
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
                                 ) -> builtins.list[
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
                                 ]:
-                                    return []
+                                    class validate(pydantic.BaseModel):
+                                        data: builtins.list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                        ]
+
+                                    return validate(
+                                        data=self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset(self.name)
+                                        .get(*args, **kwargs)
+                                    ).data
 
                                 def post(self, *args: Any, **kwargs: Any) -> None:
-                                    return None
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.ipset(self.name)
+                                        .post(*args, **kwargs)
+                                    )
 
                                 create = post
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+                                vmid: int
+                                name: str
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name()
+                                return self.Name(
+                                    proxmox_api=self.proxmox_api,
+                                    name=name,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5598,29 +8084,55 @@ class ProxmoxAPI:
                                     digest: str
                                     name: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.ipset.get(*args, **kwargs)
+                                ).data
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.ipset.post(*args, **kwargs)
+                                )
 
                             create = post
 
-                        @cached_property
-                        def ipset(self) -> Ipset:
-                            return self.Ipset()
-
-                        # /nodes/{node}/lxc/{vmid}/firewall/options
-
-                        class Options:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
-                            vmid: str
+                            vmid: int
 
+                        @cached_property
+                        def ipset(self) -> Ipset:
+                            return self.Ipset(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/lxc/{vmid}/firewall/options
+                        @dataclass
+                        class Options:
+
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5706,42 +8218,66 @@ class ProxmoxAPI:
                                     ] = None
                                     radv: Optional[bool] = None
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.options.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .lxc(self.vmid)
+                                        .firewall.options.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
 
                             def put(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.options.put(*args, **kwargs)
+                                )
 
                             set = put
 
-                        @cached_property
-                        def options(self) -> Options:
-                            return self.Options()
-
-                        # /nodes/{node}/lxc/{vmid}/firewall/log
-
-                        class Log:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
-                            vmid: str
+                            vmid: int
 
+                        @cached_property
+                        def options(self) -> Options:
+                            return self.Options(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/lxc/{vmid}/firewall/log
+                        @dataclass
+                        class Log:
+
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5755,24 +8291,46 @@ class ProxmoxAPI:
                                     n: int
                                     t: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.log.get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def log(self) -> Log:
-                            return self.Log()
+                            return self.Log(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         # /nodes/{node}/lxc/{vmid}/firewall/refs
-
+                        @dataclass
                         class Refs:
 
-                            node: str
-                            vmid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -5788,36 +8346,71 @@ class ProxmoxAPI:
                                     name: str
                                     type: Literal["alias", "ipset"]
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .firewall.refs.get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
 
                         @cached_property
                         def refs(self) -> Refs:
-                            return self.Refs()
-
-                        node: str
-                        vmid: str
+                            return self.Refs(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .firewall.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def firewall(self) -> Firewall:
-                        return self.Firewall()
+                        return self.Firewall(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/rrd
-
+                    @dataclass
                     class Rrd:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -5829,52 +8422,86 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 filename: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .rrd.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model, None
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .rrd.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def rrd(self) -> Rrd:
-                        return self.Rrd()
+                        return self.Rrd(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/rrddata
-
+                    @dataclass
                     class Rrddata:
-
-                        node: str
-                        vmid: str
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .rrddata.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def rrddata(self) -> Rrddata:
-                        return self.Rrddata()
+                        return self.Rrddata(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/vncproxy
-
+                    @dataclass
                     class Vncproxy:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -5894,39 +8521,59 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .vncproxy.post(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .vncproxy.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
-                    @cached_property
-                    def vncproxy(self) -> Vncproxy:
-                        return self.Vncproxy()
-
-                    # /nodes/{node}/lxc/{vmid}/termproxy
-
-                    class Termproxy:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def vncproxy(self) -> Vncproxy:
+                        return self.Vncproxy(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/lxc/{vmid}/termproxy
+                    @dataclass
+                    class Termproxy:
+
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -5944,39 +8591,59 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .termproxy.post(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .termproxy.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
-                    @cached_property
-                    def termproxy(self) -> Termproxy:
-                        return self.Termproxy()
-
-                    # /nodes/{node}/lxc/{vmid}/vncwebsocket
-
-                    class Vncwebsocket:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def termproxy(self) -> Termproxy:
+                        return self.Termproxy(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/lxc/{vmid}/vncwebsocket
+                    @dataclass
+                    class Vncwebsocket:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -5988,12 +8655,19 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 port: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .vncwebsocket.get(*args, **kwargs)
                                 )
 
                             def model(
@@ -6001,26 +8675,39 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .vncwebsocket.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def vncwebsocket(self) -> Vncwebsocket:
-                        return self.Vncwebsocket()
+                        return self.Vncwebsocket(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/spiceproxy
-
+                    @dataclass
                     class Spiceproxy:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -6040,12 +8727,19 @@ class ProxmoxAPI:
                                 tls_port: int = pydantic.Field(alias="tls-port")
                                 type: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .spiceproxy.post(*args, **kwargs)
                                 )
 
                             def model(
@@ -6053,60 +8747,93 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .spiceproxy.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def spiceproxy(self) -> Spiceproxy:
-                        return self.Spiceproxy()
+                        return self.Spiceproxy(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/remote_migrate
-
+                    @dataclass
                     class RemoteMigrate:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .remote_migrate.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def remote_migrate(self) -> RemoteMigrate:
-                        return self.RemoteMigrate()
+                        return self.RemoteMigrate(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/migrate
-
+                    @dataclass
                     class Migrate:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .migrate.post(*args, **kwargs)
+                            )
 
                         create = post
 
-                    @cached_property
-                    def migrate(self) -> Migrate:
-                        return self.Migrate()
-
-                    # /nodes/{node}/lxc/{vmid}/feature
-
-                    class Feature:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def migrate(self) -> Migrate:
+                        return self.Migrate(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/lxc/{vmid}/feature
+                    @dataclass
+                    class Feature:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -6118,103 +8845,163 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 has_feature: bool = pydantic.Field(alias="hasFeature")
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .feature.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .feature.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def feature(self) -> Feature:
-                        return self.Feature()
+                        return self.Feature(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/template
-
+                    @dataclass
                     class Template:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .template.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def template(self) -> Template:
-                        return self.Template()
+                        return self.Template(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/clone
-
+                    @dataclass
                     class Clone:
 
-                        node: str
-                        vmid: str
-
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .clone.post(*args, **kwargs)
+                            )
 
                         create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def clone(self) -> Clone:
-                        return self.Clone()
+                        return self.Clone(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/resize
-
+                    @dataclass
                     class Resize:
 
-                        node: str
-                        vmid: str
-
                         def put(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .resize.put(*args, **kwargs)
+                            )
 
                         set = put
 
-                    @cached_property
-                    def resize(self) -> Resize:
-                        return self.Resize()
-
-                    # /nodes/{node}/lxc/{vmid}/move_volume
-
-                    class MoveVolume:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
+
+                    @cached_property
+                    def resize(self) -> Resize:
+                        return self.Resize(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/lxc/{vmid}/move_volume
+                    @dataclass
+                    class MoveVolume:
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .move_volume.post(*args, **kwargs)
+                            )
 
                         create = post
 
-                    @cached_property
-                    def move_volume(self) -> MoveVolume:
-                        return self.MoveVolume()
-
-                    # /nodes/{node}/lxc/{vmid}/pending
-
-                    class Pending:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def move_volume(self) -> MoveVolume:
+                        return self.MoveVolume(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/lxc/{vmid}/pending
+                    @dataclass
+                    class Pending:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -6232,24 +9019,46 @@ class ProxmoxAPI:
                                 pending: Optional[str] = None
                                 value: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .lxc(self.vmid)
+                                .pending.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def pending(self) -> Pending:
-                        return self.Pending()
+                        return self.Pending(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
                     # /nodes/{node}/lxc/{vmid}/mtunnel
-
+                    @dataclass
                     class Mtunnel:
 
-                        node: str
-                        vmid: str
-
+                        @dataclass
                         class _Post:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -6265,41 +9074,61 @@ class ProxmoxAPI:
                                 ticket: str
                                 upid: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .mtunnel.post(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .mtunnel.post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
 
                         create = post
 
-                    @cached_property
-                    def mtunnel(self) -> Mtunnel:
-                        return self.Mtunnel()
-
-                    # /nodes/{node}/lxc/{vmid}/mtunnelwebsocket
-
-                    class Mtunnelwebsocket:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
-                        vmid: str
+                        vmid: int
 
+                    @cached_property
+                    def mtunnel(self) -> Mtunnel:
+                        return self.Mtunnel(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
+
+                    # /nodes/{node}/lxc/{vmid}/mtunnelwebsocket
+                    @dataclass
+                    class Mtunnelwebsocket:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -6313,33 +9142,53 @@ class ProxmoxAPI:
                                 port: Optional[str] = None
                                 socket: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            vmid: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .mtunnelwebsocket.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .lxc(self.vmid)
+                                    .mtunnelwebsocket.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        vmid: int
 
                     @cached_property
                     def mtunnelwebsocket(self) -> Mtunnelwebsocket:
-                        return self.Mtunnelwebsocket()
+                        return self.Mtunnelwebsocket(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            vmid=self.vmid,
+                        )
 
-                    node: str
-                    vmid: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -6351,19 +9200,46 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        vmid: int
+
                     def delete(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return (
+                            self.proxmox_api.nodes(self.node)
+                            .lxc(self.vmid)
+                            .delete(*args, **kwargs)
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node)
+                            .lxc(self.vmid)
+                            .get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+                    vmid: int
 
                 def __call__(self, vmid: int) -> Vmid:
-                    return self.Vmid()
+                    return self.Vmid(
+                        proxmox_api=self.proxmox_api,
+                        vmid=vmid,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -6393,47 +9269,69 @@ class ProxmoxAPI:
                         uptime: Optional[int] = None
                         vmid: int
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).lxc.get(*args, **kwargs)
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).lxc.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def lxc(self) -> Lxc:
-                return self.Lxc()
+                return self.Lxc(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/ceph
-
+            @dataclass
             class Ceph:
 
                 # /nodes/{node}/ceph/cfg
-
+                @dataclass
                 class Cfg:
 
                     # /nodes/{node}/ceph/cfg/raw
-
+                    @dataclass
                     class Raw:
 
-                        node: str
-
                         def get(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return self.proxmox_api.nodes(self.node).ceph.cfg.raw.get(
+                                *args, **kwargs
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
 
                     @cached_property
                     def raw(self) -> Raw:
-                        return self.Raw()
+                        return self.Raw(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     # /nodes/{node}/ceph/cfg/db
-
+                    @dataclass
                     class Db:
 
-                        node: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -6455,44 +9353,75 @@ class ProxmoxAPI:
                                 section: str
                                 value: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Ceph.Cfg.Db._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Ceph.Cfg.Db._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node).ceph.cfg.db.get(
+                                    *args, **kwargs
+                                )
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
 
                     @cached_property
                     def db(self) -> Db:
-                        return self.Db()
-
-                    node: str
+                        return self.Db(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.cfg.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def cfg(self) -> Cfg:
-                    return self.Cfg()
+                    return self.Cfg(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/osd
-
+                @dataclass
                 class Osd:
 
                     # /nodes/{node}/ceph/osd/{osdid}
-
+                    @dataclass
                     class Osdid:
 
                         # /nodes/{node}/ceph/osd/{osdid}/metadata
-
+                        @dataclass
                         class Metadata:
 
-                            node: str
-                            osdid: str
-
+                            @dataclass
                             class _Get:
+                                @dataclass
                                 class _Devices:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -6514,6 +9443,13 @@ class ProxmoxAPI:
                                         support_discard: bool
                                         type: str
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    osdid: int
+
+                                @dataclass
                                 class _Osd:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -6545,6 +9481,12 @@ class ProxmoxAPI:
                                         pid: int
                                         version: str
 
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
+
+                                    osdid: int
+
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
@@ -6561,37 +9503,57 @@ class ProxmoxAPI:
                                     ]
                                     osd: "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Osd.Model"
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                osdid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .metadata.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .metadata.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    osdid=self.osdid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            osdid: int
 
                         @cached_property
                         def metadata(self) -> Metadata:
-                            return self.Metadata()
+                            return self.Metadata(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                osdid=self.osdid,
+                            )
 
                         # /nodes/{node}/ceph/osd/{osdid}/lv-info
-
+                        @dataclass
                         class LvInfo:
 
-                            node: str
-                            osdid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -6613,130 +9575,221 @@ class ProxmoxAPI:
                                     lv_uuid: str
                                     vg_name: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                osdid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .lv_info.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.osd(self.osdid)
+                                        .lv_info.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    osdid=self.osdid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            osdid: int
 
                         @cached_property
                         def lv_info(self) -> LvInfo:
-                            return self.LvInfo()
+                            return self.LvInfo(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                osdid=self.osdid,
+                            )
 
                         # /nodes/{node}/ceph/osd/{osdid}/in
-
+                        @dataclass
                         class In:
 
-                            node: str
-                            osdid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.osd(self.osdid)
+                                    .in_.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            osdid: int
 
                         @cached_property
                         def in_(self) -> In:
-                            return self.In()
+                            return self.In(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                osdid=self.osdid,
+                            )
 
                         # /nodes/{node}/ceph/osd/{osdid}/out
-
+                        @dataclass
                         class Out:
 
-                            node: str
-                            osdid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.osd(self.osdid)
+                                    .out.post(*args, **kwargs)
+                                )
 
                             create = post
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            osdid: int
 
                         @cached_property
                         def out(self) -> Out:
-                            return self.Out()
+                            return self.Out(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                osdid=self.osdid,
+                            )
 
                         # /nodes/{node}/ceph/osd/{osdid}/scrub
-
+                        @dataclass
                         class Scrub:
 
-                            node: str
-                            osdid: str
-
                             def post(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.osd(self.osdid)
+                                    .scrub.post(*args, **kwargs)
+                                )
 
                             create = post
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            osdid: int
+
                         @cached_property
                         def scrub(self) -> Scrub:
-                            return self.Scrub()
-
-                        node: str
-                        osdid: str
+                            return self.Scrub(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                osdid=self.osdid,
+                            )
 
                         def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.osd(self.osdid)
+                                .delete(*args, **kwargs)
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .ceph.osd(self.osdid)
+                                .get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        osdid: int
 
                     def __call__(self, osdid: int) -> Osdid:
-                        return self.Osdid()
-
-                    node: str
+                        return self.Osdid(
+                            proxmox_api=self.proxmox_api,
+                            osdid=osdid,
+                            node=self.node,
+                        )
 
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.nodes(self.node).ceph.osd.get(
+                            *args, **kwargs
+                        )
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.osd.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def osd(self) -> Osd:
-                    return self.Osd()
+                    return self.Osd(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/mds
-
+                @dataclass
                 class Mds:
 
                     # /nodes/{node}/ceph/mds/{name}
-
+                    @dataclass
                     class Name:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.mds(self.name)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.mds(self.name)
+                                .post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
-
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -6758,39 +9811,72 @@ class ProxmoxAPI:
                             standby_replay: Optional[bool] = None
                             state: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.mds.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def mds(self) -> Mds:
-                    return self.Mds()
+                    return self.Mds(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/mgr
-
+                @dataclass
                 class Mgr:
 
                     # /nodes/{node}/ceph/mgr/{id}
-
+                    @dataclass
                     class Id:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.mgr(self.id)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.mgr(self.id)
+                                .post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         id: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
-
                     def __call__(self, id: str) -> Id:
-                        return self.Id()
+                        return self.Id(
+                            proxmox_api=self.proxmox_api,
+                            id=id,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -6808,39 +9894,72 @@ class ProxmoxAPI:
                             name: dict[Any, Any]
                             state: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.mgr.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def mgr(self) -> Mgr:
-                    return self.Mgr()
+                    return self.Mgr(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/mon
-
+                @dataclass
                 class Mon:
 
                     # /nodes/{node}/ceph/mon/{monid}
-
+                    @dataclass
                     class Monid:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.mon(self.monid)
+                                .delete(*args, **kwargs)
+                            )
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.mon(self.monid)
+                                .post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         monid: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
-
                     def __call__(self, monid: str) -> Monid:
-                        return self.Monid()
+                        return self.Monid(
+                            proxmox_api=self.proxmox_api,
+                            monid=monid,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -6870,36 +9989,65 @@ class ProxmoxAPI:
                             service: Optional[int] = None
                             state: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.mon.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def mon(self) -> Mon:
-                    return self.Mon()
+                    return self.Mon(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/fs
-
+                @dataclass
                 class Fs:
 
                     # /nodes/{node}/ceph/fs/{name}
-
+                    @dataclass
                     class Name:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.fs(self.name)
+                                .post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
-
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -6915,30 +10063,48 @@ class ProxmoxAPI:
                             metadata_pool: str
                             name: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.fs.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def fs(self) -> Fs:
-                    return self.Fs()
+                    return self.Fs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/pool
-
+                @dataclass
                 class Pool:
 
                     # /nodes/{node}/ceph/pool/{name}
-
+                    @dataclass
                     class Name:
 
                         # /nodes/{node}/ceph/pool/{name}/status
-
+                        @dataclass
                         class Status:
 
-                            node: str
-                            name: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -7006,51 +10172,93 @@ class ProxmoxAPI:
                                     use_gmt_hitset: bool
                                     write_fadvise_dontneed: bool
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                name: str
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.pool(self.name)
+                                        .status.get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .ceph.pool(self.name)
+                                        .status.get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    name=self.name,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            name: str
 
                         @cached_property
                         def status(self) -> Status:
-                            return self.Status()
-
-                        node: str
-                        name: str
+                            return self.Status(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
+                            )
 
                         def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.pool(self.name)
+                                .delete(*args, **kwargs)
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .ceph.pool(self.name)
+                                .get(*args, **kwargs)
+                            ).data
 
                         def put(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.pool(self.name)
+                                .put(*args, **kwargs)
+                            )
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        name: str
+
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7094,33 +10302,53 @@ class ProxmoxAPI:
                             target_size_ratio: Optional[float] = None
                             type: Literal["replicated", "erasure", "unknown"]
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Ceph.Pool._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Pool._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.pool.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.pool.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def pool(self) -> Pool:
-                    return self.Pool()
+                    return self.Pool(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/pools
-
+                @dataclass
                 class Pools:
 
                     # /nodes/{node}/ceph/pools/{name}
-
+                    @dataclass
                     class Name:
 
-                        node: str
-                        name: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -7188,39 +10416,68 @@ class ProxmoxAPI:
                                 use_gmt_hitset: bool
                                 write_fadvise_dontneed: bool
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.pools(self.name)
+                                    .get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Ceph.Pools.Name._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .ceph.pools(self.name)
+                                    .get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.pools(self.name)
+                                .delete(*args, **kwargs)
+                            )
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
+                            )
 
                         def put(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .ceph.pools(self.name)
+                                .put(*args, **kwargs)
+                            )
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        name: str
+
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7264,41 +10521,69 @@ class ProxmoxAPI:
                             target_size_ratio: Optional[float] = None
                             type: Literal["replicated", "erasure", "unknown"]
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Pools._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.pools.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.pools.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                @cached_property
-                def pools(self) -> Pools:
-                    return self.Pools()
-
-                # /nodes/{node}/ceph/config
-
-                class Config:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def pools(self) -> Pools:
+                    return self.Pools(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/ceph/config
+                @dataclass
+                class Config:
+
                     def get(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.config.get(
+                            *args, **kwargs
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def config(self) -> Config:
-                    return self.Config()
+                    return self.Config(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/configdb
-
+                @dataclass
                 class Configdb:
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7320,109 +10605,170 @@ class ProxmoxAPI:
                             section: str
                             value: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Configdb._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.configdb.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def configdb(self) -> Configdb:
-                    return self.Configdb()
+                    return self.Configdb(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/init
-
+                @dataclass
                 class Init:
 
-                    node: str
-
                     def post(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.nodes(self.node).ceph.init.post(
+                            *args, **kwargs
+                        )
 
                     create = post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def init(self) -> Init:
-                    return self.Init()
+                    return self.Init(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/stop
-
+                @dataclass
                 class Stop:
 
-                    node: str
-
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.stop.post(
+                            *args, **kwargs
+                        )
 
                     create = post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def stop(self) -> Stop:
-                    return self.Stop()
+                    return self.Stop(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/start
-
+                @dataclass
                 class Start:
 
-                    node: str
-
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.start.post(
+                            *args, **kwargs
+                        )
 
                     create = post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def start(self) -> Start:
-                    return self.Start()
+                    return self.Start(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/restart
-
+                @dataclass
                 class Restart:
 
-                    node: str
-
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.restart.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                @cached_property
-                def restart(self) -> Restart:
-                    return self.Restart()
-
-                # /nodes/{node}/ceph/status
-
-                class Status:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def restart(self) -> Restart:
+                    return self.Restart(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/ceph/status
+                @dataclass
+                class Status:
+
                     def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                        return {}
+                        return self.proxmox_api.nodes(self.node).ceph.status.get(
+                            *args, **kwargs
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def status(self) -> Status:
-                    return self.Status()
+                    return self.Status(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/crush
-
+                @dataclass
                 class Crush:
 
-                    node: str
-
                     def get(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).ceph.crush.get(
+                            *args, **kwargs
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def crush(self) -> Crush:
-                    return self.Crush()
+                    return self.Crush(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/ceph/log
-
+                @dataclass
                 class Log:
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7436,21 +10782,40 @@ class ProxmoxAPI:
                             n: int
                             t: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def log(self) -> Log:
-                    return self.Log()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.log.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/ceph/rules
-
-                class Rules:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def log(self) -> Log:
+                    return self.Log(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/ceph/rules
+                @dataclass
+                class Rules:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7462,23 +10827,42 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             name: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Ceph.Rules._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Ceph.Rules._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def rules(self) -> Rules:
-                    return self.Rules()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).ceph.rules.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/ceph/cmd-safety
-
-                class CmdSafety:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def rules(self) -> Rules:
+                    return self.Rules(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/ceph/cmd-safety
+                @dataclass
+                class CmdSafety:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7492,50 +10876,73 @@ class ProxmoxAPI:
                             safe: bool
                             status: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.cmd_safety.get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).ceph.cmd_safety.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def cmd_safety(self) -> CmdSafety:
-                    return self.CmdSafety()
-
-                node: str
+                    return self.CmdSafety(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).ceph.get(*args, **kwargs)
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def ceph(self) -> Ceph:
-                return self.Ceph()
+                return self.Ceph(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/vzdump
-
+            @dataclass
             class Vzdump:
 
                 # /nodes/{node}/vzdump/defaults
-
+                @dataclass
                 class Defaults:
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7621,142 +11028,218 @@ class ProxmoxAPI:
                             vmid: Optional[str] = None
                             zstd: Optional[int] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).vzdump.defaults.get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).vzdump.defaults.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def defaults(self) -> Defaults:
-                    return self.Defaults()
+                    return self.Defaults(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/vzdump/extractconfig
-
+                @dataclass
                 class Extractconfig:
 
-                    node: str
-
                     def get(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(
+                            self.node
+                        ).vzdump.extractconfig.get(*args, **kwargs)
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def extractconfig(self) -> Extractconfig:
-                    return self.Extractconfig()
-
-                node: str
+                    return self.Extractconfig(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).vzdump.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def vzdump(self) -> Vzdump:
-                return self.Vzdump()
+                return self.Vzdump(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/services
-
+            @dataclass
             class Services:
 
                 # /nodes/{node}/services/{service}
-
+                @dataclass
                 class Service:
 
                     # /nodes/{node}/services/{service}/state
-
+                    @dataclass
                     class State:
+
+                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .state.get(*args, **kwargs)
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         service: str
-
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return {}
 
                     @cached_property
                     def state(self) -> State:
-                        return self.State()
+                        return self.State(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            service=self.service,
+                        )
 
                     # /nodes/{node}/services/{service}/start
-
+                    @dataclass
                     class Start:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .start.post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         service: str
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
 
                     @cached_property
                     def start(self) -> Start:
-                        return self.Start()
+                        return self.Start(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            service=self.service,
+                        )
 
                     # /nodes/{node}/services/{service}/stop
-
+                    @dataclass
                     class Stop:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .stop.post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         service: str
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
 
                     @cached_property
                     def stop(self) -> Stop:
-                        return self.Stop()
+                        return self.Stop(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            service=self.service,
+                        )
 
                     # /nodes/{node}/services/{service}/restart
-
+                    @dataclass
                     class Restart:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .restart.post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         service: str
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
 
                     @cached_property
                     def restart(self) -> Restart:
-                        return self.Restart()
+                        return self.Restart(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            service=self.service,
+                        )
 
                     # /nodes/{node}/services/{service}/reload
-
+                    @dataclass
                     class Reload:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .services(self.service)
+                                .reload.post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         service: str
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
-
                     @cached_property
                     def reload(self) -> Reload:
-                        return self.Reload()
+                        return self.Reload(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            service=self.service,
+                        )
 
-                    node: str
-                    service: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7768,64 +11251,111 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        service: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node)
+                            .services(self.service)
+                            .get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+                    service: str
 
                 def __call__(self, service: str) -> Service:
-                    return self.Service()
-
-                node: str
+                    return self.Service(
+                        proxmox_api=self.proxmox_api,
+                        service=service,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
 
-            @cached_property
-            def services(self) -> Services:
-                return self.Services()
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).services.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
-            # /nodes/{node}/subscription
-
-            class Subscription:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def services(self) -> Services:
+                return self.Services(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/subscription
+            @dataclass
+            class Subscription:
+
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).subscription.delete(
+                        *args, **kwargs
+                    )
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.nodes(self.node).subscription.get(
+                        *args, **kwargs
+                    )
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).subscription.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).subscription.put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def subscription(self) -> Subscription:
-                return self.Subscription()
+                return self.Subscription(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/network
-
+            @dataclass
             class Network:
 
                 # /nodes/{node}/network/{iface}
-
+                @dataclass
                 class Iface:
 
-                    node: str
-                    iface: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -7839,74 +11369,122 @@ class ProxmoxAPI:
                             method: str
                             type: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        iface: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict, None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .network(self.iface)
+                                .get(*args, **kwargs)
                             )
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model, None
+                            data: Any = (
+                                self.proxmox_api.nodes(self.node)
+                                .network(self.iface)
+                                .get(*args, **kwargs)
                             )
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return (
+                            self.proxmox_api.nodes(self.node)
+                            .network(self.iface)
+                            .delete(*args, **kwargs)
+                        )
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            iface=self.iface,
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return (
+                            self.proxmox_api.nodes(self.node)
+                            .network(self.iface)
+                            .put(*args, **kwargs)
+                        )
 
                     set = put
 
-                def __call__(self, iface: str) -> Iface:
-                    return self.Iface()
+                    proxmox_api: ProxmoxerProxmoxAPI
 
-                node: str
+                    node: str
+                    iface: str
+
+                def __call__(self, iface: str) -> Iface:
+                    return self.Iface(
+                        proxmox_api=self.proxmox_api,
+                        iface=iface,
+                        node=self.node,
+                    )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).network.delete(
+                        *args, **kwargs
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).network.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).network.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
                 def put(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).network.put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def network(self) -> Network:
-                return self.Network()
+                return self.Network(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/tasks
-
+            @dataclass
             class Tasks:
 
                 # /nodes/{node}/tasks/{upid}
-
+                @dataclass
                 class Upid:
 
                     # /nodes/{node}/tasks/{upid}/log
-
+                    @dataclass
                     class Log:
 
-                        node: str
-                        upid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -7920,24 +11498,46 @@ class ProxmoxAPI:
                                 n: int
                                 t: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            upid: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
+                                ]
 
-                    @cached_property
-                    def log(self) -> Log:
-                        return self.Log()
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .tasks(self.upid)
+                                .log.get(*args, **kwargs)
+                            ).data
 
-                    # /nodes/{node}/tasks/{upid}/status
-
-                    class Status:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         upid: str
 
+                    @cached_property
+                    def log(self) -> Log:
+                        return self.Log(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            upid=self.upid,
+                        )
+
+                    # /nodes/{node}/tasks/{upid}/status
+                    @dataclass
+                    class Status:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -7965,48 +11565,86 @@ class ProxmoxAPI:
                                 upid: str
                                 user: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            upid: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict"
                             ):
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .tasks(self.upid)
+                                    .status.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .tasks(self.upid)
+                                    .status.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                upid=self.upid,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        upid: str
 
                     @cached_property
                     def status(self) -> Status:
-                        return self.Status()
-
-                    node: str
-                    upid: str
+                        return self.Status(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            upid=self.upid,
+                        )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return (
+                            self.proxmox_api.nodes(self.node)
+                            .tasks(self.upid)
+                            .delete(*args, **kwargs)
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node)
+                            .tasks(self.upid)
+                            .get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+                    upid: str
 
                 def __call__(self, upid: str) -> Upid:
-                    return self.Upid()
+                    return self.Upid(
+                        proxmox_api=self.proxmox_api,
+                        upid=upid,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -8036,25 +11674,44 @@ class ProxmoxAPI:
                         upid: str
                         user: str
 
-                def get(
-                    self, *args: Any, **kwargs: Any
-                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"]:
-                    return []
-
-            @cached_property
-            def tasks(self) -> Tasks:
-                return self.Tasks()
-
-            # /nodes/{node}/scan
-
-            class Scan:
-
-                # /nodes/{node}/scan/nfs
-
-                class Nfs:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                def get(
+                    self, *args: Any, **kwargs: Any
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"]:
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).tasks.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
+            @cached_property
+            def tasks(self) -> Tasks:
+                return self.Tasks(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/scan
+            @dataclass
+            class Scan:
+
+                # /nodes/{node}/scan/nfs
+                @dataclass
+                class Nfs:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8068,21 +11725,40 @@ class ProxmoxAPI:
                             options: str
                             path: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def nfs(self) -> Nfs:
-                    return self.Nfs()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.nfs.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/cifs
-
-                class Cifs:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def nfs(self) -> Nfs:
+                    return self.Nfs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/cifs
+                @dataclass
+                class Cifs:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8096,23 +11772,42 @@ class ProxmoxAPI:
                             description: str
                             share: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def cifs(self) -> Cifs:
-                    return self.Cifs()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.cifs.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/pbs
-
-                class Pbs:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def cifs(self) -> Cifs:
+                    return self.Cifs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/pbs
+                @dataclass
+                class Pbs:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8126,21 +11821,40 @@ class ProxmoxAPI:
                             comment: Optional[str] = None
                             store: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def pbs(self) -> Pbs:
-                    return self.Pbs()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.pbs.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/glusterfs
-
-                class Glusterfs:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def pbs(self) -> Pbs:
+                    return self.Pbs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/glusterfs
+                @dataclass
+                class Glusterfs:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8152,23 +11866,42 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             volname: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def glusterfs(self) -> Glusterfs:
-                    return self.Glusterfs()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.glusterfs.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/iscsi
-
-                class Iscsi:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def glusterfs(self) -> Glusterfs:
+                    return self.Glusterfs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/iscsi
+                @dataclass
+                class Iscsi:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8182,23 +11915,42 @@ class ProxmoxAPI:
                             portal: str
                             target: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def iscsi(self) -> Iscsi:
-                    return self.Iscsi()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.iscsi.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/lvm
-
-                class Lvm:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def iscsi(self) -> Iscsi:
+                    return self.Iscsi(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/lvm
+                @dataclass
+                class Lvm:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8210,21 +11962,40 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             vg: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def lvm(self) -> Lvm:
-                    return self.Lvm()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.lvm.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/lvmthin
-
-                class Lvmthin:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def lvm(self) -> Lvm:
+                    return self.Lvm(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/lvmthin
+                @dataclass
+                class Lvmthin:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8236,23 +12007,42 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             lv: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def lvmthin(self) -> Lvmthin:
-                    return self.Lvmthin()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.lvmthin.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/scan/zfs
-
-                class Zfs:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def lvmthin(self) -> Lvmthin:
+                    return self.Lvmthin(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/scan/zfs
+                @dataclass
+                class Zfs:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8264,17 +12054,36 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             pool: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).scan.zfs.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def zfs(self) -> Zfs:
-                    return self.Zfs()
+                    return self.Zfs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -8286,34 +12095,48 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         method: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).scan.get(*args, **kwargs)
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def scan(self) -> Scan:
-                return self.Scan()
+                return self.Scan(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/hardware
-
+            @dataclass
             class Hardware:
 
                 # /nodes/{node}/hardware/pci
-
+                @dataclass
                 class Pci:
 
                     # /nodes/{node}/hardware/pci/{pciid}
-
+                    @dataclass
                     class Pciid:
 
                         # /nodes/{node}/hardware/pci/{pciid}/mdev
-
+                        @dataclass
                         class Mdev:
 
-                            node: str
-                            pciid: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -8329,20 +12152,42 @@ class ProxmoxAPI:
                                     description: str
                                     type: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                pciid: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid.Mdev._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .hardware.pci(self.pciid)
+                                    .mdev.get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            pciid: str
 
                         @cached_property
                         def mdev(self) -> Mdev:
-                            return self.Mdev()
+                            return self.Mdev(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                pciid=self.pciid,
+                            )
 
-                        node: str
-                        pciid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8354,18 +12199,41 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 method: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            pciid: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .hardware.pci(self.pciid)
+                                .get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        pciid: str
 
                     def __call__(self, pciid: str) -> Pciid:
-                        return self.Pciid()
+                        return self.Pciid(
+                            proxmox_api=self.proxmox_api,
+                            pciid=pciid,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8399,23 +12267,42 @@ class ProxmoxAPI:
                             vendor: str
                             vendor_name: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def pci(self) -> Pci:
-                    return self.Pci()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).hardware.pci.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/hardware/usb
-
-                class Usb:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def pci(self) -> Pci:
+                    return self.Pci(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/hardware/usb
+                @dataclass
+                class Usb:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8449,19 +12336,38 @@ class ProxmoxAPI:
                             usbpath: Optional[str] = None
                             vendid: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).hardware.usb.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def usb(self) -> Usb:
-                    return self.Usb()
+                    return self.Usb(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -8473,29 +12379,48 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).hardware.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def hardware(self) -> Hardware:
-                return self.Hardware()
+                return self.Hardware(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/capabilities
-
+            @dataclass
             class Capabilities:
 
                 # /nodes/{node}/capabilities/qemu
-
+                @dataclass
                 class Qemu:
 
                     # /nodes/{node}/capabilities/qemu/cpu
-
+                    @dataclass
                     class Cpu:
 
-                        node: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8511,23 +12436,42 @@ class ProxmoxAPI:
                                 name: str
                                 vendor: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Cpu._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Cpu._Get.TypedDict"
+                                ]
 
-                    @cached_property
-                    def cpu(self) -> Cpu:
-                        return self.Cpu()
+                            return validate(
+                                data=self.proxmox_api.nodes(
+                                    self.node
+                                ).capabilities.qemu.cpu.get(*args, **kwargs)
+                            ).data
 
-                    # /nodes/{node}/capabilities/qemu/machines
-
-                    class Machines:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
+                    @cached_property
+                    def cpu(self) -> Cpu:
+                        return self.Cpu(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    # /nodes/{node}/capabilities/qemu/machines
+                    @dataclass
+                    class Machines:
+
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8543,54 +12487,96 @@ class ProxmoxAPI:
                                 type: Literal["q35", "i440fx"]
                                 version: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(
+                                    self.node
+                                ).capabilities.qemu.machines.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
 
                     @cached_property
                     def machines(self) -> Machines:
-                        return self.Machines()
-
-                    node: str
+                        return self.Machines(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(
+                                self.node
+                            ).capabilities.qemu.get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def qemu(self) -> Qemu:
-                    return self.Qemu()
-
-                node: str
+                    return self.Qemu(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).capabilities.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def capabilities(self) -> Capabilities:
-                return self.Capabilities()
+                return self.Capabilities(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/storage
-
+            @dataclass
             class Storage:
 
                 # /nodes/{node}/storage/{storage}
-
+                @dataclass
                 class Storage:
 
                     # /nodes/{node}/storage/{storage}/prunebackups
-
+                    @dataclass
                     class Prunebackups:
 
-                        node: str
-                        storage: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8612,32 +12598,57 @@ class ProxmoxAPI:
                                 vmid: Optional[int] = None
                                 volid: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
                         def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .prunebackups.delete(*args, **kwargs)
+                            )
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .prunebackups.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        storage: str
 
                     @cached_property
                     def prunebackups(self) -> Prunebackups:
-                        return self.Prunebackups()
+                        return self.Prunebackups(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     # /nodes/{node}/storage/{storage}/content
-
+                    @dataclass
                     class Content:
 
                         # /nodes/{node}/storage/{storage}/content/{volume}
-
+                        @dataclass
                         class Volume:
 
-                            node: str
-                            storage: str
-                            volume: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -8659,46 +12670,89 @@ class ProxmoxAPI:
                                     size: int
                                     used: int
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
+
+                                volume: str
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict,
-                                        None,
+                                    return (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .get(*args, **kwargs)
                                     )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model":
-                                    return typing.cast(
-                                        ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model,
-                                        None,
+                                    data: Any = (
+                                        self.proxmox_api.nodes(self.node)
+                                        .storage(self.storage)
+                                        .content(self.volume)
+                                        .get(*args, **kwargs)
                                     )
+                                    return self.Model(**data)
 
                             def delete(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content(self.volume)
+                                    .delete(*args, **kwargs)
+                                )
 
                             @property
                             def get(self) -> _Get:
-                                return self._Get()
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    storage=self.storage,
+                                    volume=self.volume,
+                                )
 
                             def post(self, *args: Any, **kwargs: Any) -> str:
-                                return ""
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content(self.volume)
+                                    .post(*args, **kwargs)
+                                )
 
                             create = post
 
                             def put(self, *args: Any, **kwargs: Any) -> None:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .content(self.volume)
+                                    .put(*args, **kwargs)
+                                )
 
                             set = put
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            storage: str
+                            volume: str
+
                         def __call__(self, volume: str) -> Volume:
-                            return self.Volume()
+                            return self.Volume(
+                                proxmox_api=self.proxmox_api,
+                                volume=volume,
+                                node=self.node,
+                                storage=self.storage,
+                            )
 
-                        node: str
-                        storage: str
-
+                        @dataclass
                         class _Get:
+                            @dataclass
                             class _Verification:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -8711,6 +12765,12 @@ class ProxmoxAPI:
                                 class Model(pydantic.BaseModel):
                                     state: str
                                     upid: str
+
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
 
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8746,33 +12806,59 @@ class ProxmoxAPI:
                                 vmid: Optional[int] = None
                                 volid: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .content.get(*args, **kwargs)
+                            ).data
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .content.post(*args, **kwargs)
+                            )
 
                         create = post
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        storage: str
+
                     @cached_property
                     def content(self) -> Content:
-                        return self.Content()
+                        return self.Content(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     # /nodes/{node}/storage/{storage}/file-restore
-
+                    @dataclass
                     class FileRestore:
 
                         # /nodes/{node}/storage/{storage}/file-restore/list
-
+                        @dataclass
                         class List:
 
-                            node: str
-                            storage: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -8794,59 +12880,107 @@ class ProxmoxAPI:
                                     text: str
                                     type: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                storage: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
+                                    ]
 
-                        @cached_property
-                        def list(self) -> List:
-                            return self.List()
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .file_restore.list.get(*args, **kwargs)
+                                ).data
 
-                        # /nodes/{node}/storage/{storage}/file-restore/download
-
-                        class Download:
+                            proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
                             storage: str
 
+                        @cached_property
+                        def list(self) -> List:
+                            return self.List(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
+
+                        # /nodes/{node}/storage/{storage}/file-restore/download
+                        @dataclass
+                        class Download:
+
                             def get(self, *args: Any, **kwargs: Any) -> Any:
-                                return None
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .file_restore.download.get(*args, **kwargs)
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            storage: str
 
                         @cached_property
                         def download(self) -> Download:
-                            return self.Download()
+                            return self.Download(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         storage: str
 
                     @cached_property
                     def file_restore(self) -> FileRestore:
-                        return self.FileRestore()
+                        return self.FileRestore(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     # /nodes/{node}/storage/{storage}/status
-
+                    @dataclass
                     class Status:
+
+                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .status.get(*args, **kwargs)
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         storage: str
-
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return {}
 
                     @cached_property
                     def status(self) -> Status:
-                        return self.Status()
+                        return self.Status(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     # /nodes/{node}/storage/{storage}/rrd
-
+                    @dataclass
                     class Rrd:
 
-                        node: str
-                        storage: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8858,81 +12992,134 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 filename: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .rrd.get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .storage(self.storage)
+                                    .rrd.get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
 
-                    @cached_property
-                    def rrd(self) -> Rrd:
-                        return self.Rrd()
-
-                    # /nodes/{node}/storage/{storage}/rrddata
-
-                    class Rrddata:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         storage: str
+
+                    @cached_property
+                    def rrd(self) -> Rrd:
+                        return self.Rrd(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
+
+                    # /nodes/{node}/storage/{storage}/rrddata
+                    @dataclass
+                    class Rrddata:
 
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[dict[Any, Any]]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[dict[Any, Any]]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .rrddata.get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        storage: str
 
                     @cached_property
                     def rrddata(self) -> Rrddata:
-                        return self.Rrddata()
+                        return self.Rrddata(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     # /nodes/{node}/storage/{storage}/upload
-
+                    @dataclass
                     class Upload:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .upload.post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         storage: str
-
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
 
                     @cached_property
                     def upload(self) -> Upload:
-                        return self.Upload()
+                        return self.Upload(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
                     # /nodes/{node}/storage/{storage}/download-url
-
+                    @dataclass
                     class DownloadUrl:
+
+                        def post(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .storage(self.storage)
+                                .download_url.post(*args, **kwargs)
+                            )
+
+                        create = post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         storage: str
 
-                        def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
-                        create = post
-
                     @cached_property
                     def download_url(self) -> DownloadUrl:
-                        return self.DownloadUrl()
+                        return self.DownloadUrl(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
 
-                    node: str
-                    storage: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -8944,18 +13131,41 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             subdir: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        storage: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node)
+                            .storage(self.storage)
+                            .get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+                    storage: str
 
                 def __call__(self, storage: str) -> Storage:
-                    return self.Storage()
+                    return self.Storage(
+                        proxmox_api=self.proxmox_api,
+                        storage=storage,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -8985,40 +13195,71 @@ class ProxmoxAPI:
                         used: Optional[int] = None
                         used_fraction: Optional[float] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).storage.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def storage(self) -> Storage:
-                return self.Storage()
+                return self.Storage(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/disks
-
+            @dataclass
             class Disks:
 
                 # /nodes/{node}/disks/lvm
-
+                @dataclass
                 class Lvm:
 
                     # /nodes/{node}/disks/lvm/{name}
-
+                    @dataclass
                     class Name:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .disks.lvm(self.name)
+                                .delete(*args, **kwargs)
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
+                        @dataclass
                         class _Children:
+                            @dataclass
                             class _Children:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -9035,6 +13276,10 @@ class ProxmoxAPI:
                                     leaf: bool
                                     name: str
                                     size: int
+
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
 
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9062,6 +13307,10 @@ class ProxmoxAPI:
                                 name: str
                                 size: int
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
@@ -9078,52 +13327,78 @@ class ProxmoxAPI:
                             ]
                             leaf: bool
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict, None
+                            return self.proxmox_api.nodes(self.node).disks.lvm.get(
+                                *args, **kwargs
                             )
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model, None
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvm.get(
+                                *args, **kwargs
                             )
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).disks.lvm.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def lvm(self) -> Lvm:
-                    return self.Lvm()
+                    return self.Lvm(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/disks/lvmthin
-
+                @dataclass
                 class Lvmthin:
 
                     # /nodes/{node}/disks/lvmthin/{name}
-
+                    @dataclass
                     class Name:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .disks.lvmthin(self.name)
+                                .delete(*args, **kwargs)
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9145,41 +13420,72 @@ class ProxmoxAPI:
                             used: int
                             vg: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).disks.lvmthin.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).disks.lvmthin.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def lvmthin(self) -> Lvmthin:
-                    return self.Lvmthin()
+                    return self.Lvmthin(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/disks/directory
-
+                @dataclass
                 class Directory:
 
                     # /nodes/{node}/disks/directory/{name}
-
+                    @dataclass
                     class Name:
+
+                        def delete(self, *args: Any, **kwargs: Any) -> str:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .disks.directory(self.name)
+                                .delete(*args, **kwargs)
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
-                        def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
-
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9199,34 +13505,55 @@ class ProxmoxAPI:
                             type: str
                             unitfile: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).disks.directory.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).disks.directory.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def directory(self) -> Directory:
-                    return self.Directory()
+                    return self.Directory(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/disks/zfs
-
+                @dataclass
                 class Zfs:
 
                     # /nodes/{node}/disks/zfs/{name}
-
+                    @dataclass
                     class Name:
 
-                        node: str
-                        name: str
-
+                        @dataclass
                         class _Get:
+                            @dataclass
                             class _Children:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -9247,6 +13574,12 @@ class ProxmoxAPI:
                                     read: Optional[float] = None
                                     state: Optional[str] = None
                                     write: Optional[float] = None
+
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                name: str
 
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9274,34 +13607,59 @@ class ProxmoxAPI:
                                 state: str
                                 status: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .disks.zfs(self.name)
+                                    .get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .disks.zfs(self.name)
+                                    .get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .disks.zfs(self.name)
+                                .delete(*args, **kwargs)
+                            )
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        name: str
 
                     def __call__(self, name: str) -> Name:
-                        return self.Name()
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9325,28 +13683,49 @@ class ProxmoxAPI:
                             name: str
                             size: int
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).disks.zfs.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).disks.zfs.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                @cached_property
-                def zfs(self) -> Zfs:
-                    return self.Zfs()
-
-                # /nodes/{node}/disks/list
-
-                class List:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def zfs(self) -> Zfs:
+                    return self.Zfs(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/disks/list
+                @dataclass
+                class List:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9380,23 +13759,42 @@ class ProxmoxAPI:
                             vendor: Optional[str] = None
                             wwn: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def list(self) -> List:
-                    return self.List()
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).disks.list.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
-                # /nodes/{node}/disks/smart
-
-                class Smart:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def list(self) -> List:
+                    return self.List(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/disks/smart
+                @dataclass
+                class Smart:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9414,113 +13812,175 @@ class ProxmoxAPI:
                             text: Optional[str] = None
                             type: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict, None
+                            return self.proxmox_api.nodes(self.node).disks.smart.get(
+                                *args, **kwargs
                             )
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).disks.smart.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def smart(self) -> Smart:
-                    return self.Smart()
+                    return self.Smart(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/disks/initgpt
-
+                @dataclass
                 class Initgpt:
 
-                    node: str
-
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).disks.initgpt.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                @cached_property
-                def initgpt(self) -> Initgpt:
-                    return self.Initgpt()
-
-                # /nodes/{node}/disks/wipedisk
-
-                class Wipedisk:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def initgpt(self) -> Initgpt:
+                    return self.Initgpt(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/disks/wipedisk
+                @dataclass
+                class Wipedisk:
+
                     def put(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).disks.wipedisk.put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def wipedisk(self) -> Wipedisk:
-                    return self.Wipedisk()
-
-                node: str
+                    return self.Wipedisk(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).disks.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def disks(self) -> Disks:
-                return self.Disks()
+                return self.Disks(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/apt
-
+            @dataclass
             class Apt:
 
                 # /nodes/{node}/apt/update
-
+                @dataclass
                 class Update:
-
-                    node: str
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).apt.update.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).apt.update.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                @cached_property
-                def update(self) -> Update:
-                    return self.Update()
-
-                # /nodes/{node}/apt/changelog
-
-                class Changelog:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def update(self) -> Update:
+                    return self.Update(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/apt/changelog
+                @dataclass
+                class Changelog:
+
                     def get(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.nodes(self.node).apt.changelog.get(
+                            *args, **kwargs
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def changelog(self) -> Changelog:
-                    return self.Changelog()
+                    return self.Changelog(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 # /nodes/{node}/apt/repositories
-
+                @dataclass
                 class Repositories:
 
-                    node: str
-
+                    @dataclass
                     class _Get:
+                        @dataclass
                         class _Errors:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9534,8 +13994,15 @@ class ProxmoxAPI:
                                 error: str
                                 path: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                        @dataclass
                         class _Files:
+                            @dataclass
                             class _Repositories:
+                                @dataclass
                                 class _Options:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -9550,6 +14017,10 @@ class ProxmoxAPI:
                                         values: list[str] = pydantic.Field(
                                             alias="Values"
                                         )
+
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    node: str
 
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -9591,6 +14062,10 @@ class ProxmoxAPI:
                                     )
                                     uris: list[str] = pydantic.Field(alias="URIs")
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
@@ -9613,6 +14088,11 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files._Repositories.Model"
                                 ]
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                        @dataclass
                         class _Infos:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9632,6 +14112,11 @@ class ProxmoxAPI:
                                 path: str
                                 property: Optional[str] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                        @dataclass
                         class _StandardRepos:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9646,6 +14131,10 @@ class ProxmoxAPI:
                                 handle: str
                                 name: str
                                 status: Optional[bool] = None
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
 
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9681,56 +14170,85 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._StandardRepos.Model"
                             ] = pydantic.Field(alias="standard-repos")
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).apt.repositories.get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).apt.repositories.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.nodes(self.node).apt.repositories.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.nodes(self.node).apt.repositories.put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                @cached_property
-                def repositories(self) -> Repositories:
-                    return self.Repositories()
-
-                # /nodes/{node}/apt/versions
-
-                class Versions:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
+
+                @cached_property
+                def repositories(self) -> Repositories:
+                    return self.Repositories(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/apt/versions
+                @dataclass
+                class Versions:
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).apt.versions.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def versions(self) -> Versions:
-                    return self.Versions()
+                    return self.Versions(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -9742,30 +14260,44 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         id: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).apt.get(*args, **kwargs)
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def apt(self) -> Apt:
-                return self.Apt()
+                return self.Apt(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/firewall
-
+            @dataclass
             class Firewall:
 
                 # /nodes/{node}/firewall/rules
-
+                @dataclass
                 class Rules:
 
                     # /nodes/{node}/firewall/rules/{pos}
-
+                    @dataclass
                     class Pos:
 
-                        node: str
-                        pos: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -9831,39 +14363,68 @@ class ProxmoxAPI:
                                 sport: Optional[str] = None
                                 type: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            pos: int
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.nodes(self.node)
+                                    .firewall.rules(self.pos)
+                                    .get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.nodes(self.node)
+                                    .firewall.rules(self.pos)
+                                    .get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .firewall.rules(self.pos)
+                                .delete(*args, **kwargs)
+                            )
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                pos=self.pos,
+                            )
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .firewall.rules(self.pos)
+                                .put(*args, **kwargs)
+                            )
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        pos: int
+
                     def __call__(self, pos: int) -> Pos:
-                        return self.Pos()
+                        return self.Pos(
+                            proxmox_api=self.proxmox_api,
+                            pos=pos,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9875,28 +14436,49 @@ class ProxmoxAPI:
                         class Model(pydantic.BaseModel):
                             pos: int
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).firewall.rules.get(
+                                *args, **kwargs
+                            )
+                        ).data
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.nodes(self.node).firewall.rules.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
-                @cached_property
-                def rules(self) -> Rules:
-                    return self.Rules()
-
-                # /nodes/{node}/firewall/options
-
-                class Options:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def rules(self) -> Rules:
+                    return self.Rules(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/firewall/options
+                @dataclass
+                class Options:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -10038,40 +14620,55 @@ class ProxmoxAPI:
                             ] = None
                             tcpflags: Optional[bool] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.options.get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).firewall.options.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.nodes(self.node).firewall.options.put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
-                @cached_property
-                def options(self) -> Options:
-                    return self.Options()
-
-                # /nodes/{node}/firewall/log
-
-                class Log:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def options(self) -> Options:
+                    return self.Options(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/firewall/log
+                @dataclass
+                class Log:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -10085,57 +14682,97 @@ class ProxmoxAPI:
                             n: int
                             t: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).firewall.log.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def log(self) -> Log:
-                    return self.Log()
-
-                node: str
+                    return self.Log(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).firewall.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def firewall(self) -> Firewall:
-                return self.Firewall()
+                return self.Firewall(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/replication
-
+            @dataclass
             class Replication:
 
                 # /nodes/{node}/replication/{id}
-
+                @dataclass
                 class Id:
 
                     # /nodes/{node}/replication/{id}/status
-
+                    @dataclass
                     class Status:
+
+                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .replication(self.id)
+                                .status.get(*args, **kwargs)
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         id: str
-
-                        def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                            return {}
 
                     @cached_property
                     def status(self) -> Status:
-                        return self.Status()
+                        return self.Status(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            id=self.id,
+                        )
 
                     # /nodes/{node}/replication/{id}/log
-
+                    @dataclass
                     class Log:
 
-                        node: str
-                        id: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -10149,46 +14786,92 @@ class ProxmoxAPI:
                                 n: int
                                 t: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            id: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
+                                ]
 
-                    @cached_property
-                    def log(self) -> Log:
-                        return self.Log()
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .replication(self.id)
+                                .log.get(*args, **kwargs)
+                            ).data
 
-                    # /nodes/{node}/replication/{id}/schedule_now
-
-                    class ScheduleNow:
+                        proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         id: str
 
+                    @cached_property
+                    def log(self) -> Log:
+                        return self.Log(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            id=self.id,
+                        )
+
+                    # /nodes/{node}/replication/{id}/schedule_now
+                    @dataclass
+                    class ScheduleNow:
+
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return (
+                                self.proxmox_api.nodes(self.node)
+                                .replication(self.id)
+                                .schedule_now.post(*args, **kwargs)
+                            )
 
                         create = post
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        id: str
+
                     @cached_property
                     def schedule_now(self) -> ScheduleNow:
-                        return self.ScheduleNow()
-
-                    node: str
-                    id: str
+                        return self.ScheduleNow(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            id=self.id,
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node)
+                            .replication(self.id)
+                            .get(*args, **kwargs)
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+                    id: str
 
                 def __call__(self, id: str) -> Id:
-                    return self.Id()
+                    return self.Id(
+                        proxmox_api=self.proxmox_api,
+                        id=id,
+                        node=self.node,
+                    )
 
-                node: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10200,63 +14883,105 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         id: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).replication.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def replication(self) -> Replication:
-                return self.Replication()
+                return self.Replication(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/certificates
-
+            @dataclass
             class Certificates:
 
                 # /nodes/{node}/certificates/acme
-
+                @dataclass
                 class Acme:
 
                     # /nodes/{node}/certificates/acme/certificate
-
+                    @dataclass
                     class Certificate:
 
-                        node: str
-
                         def delete(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.acme.certificate.delete(*args, **kwargs)
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.acme.certificate.post(*args, **kwargs)
 
                         create = post
 
                         def put(self, *args: Any, **kwargs: Any) -> str:
-                            return ""
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.acme.certificate.put(*args, **kwargs)
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     @cached_property
                     def certificate(self) -> Certificate:
-                        return self.Certificate()
-
-                    node: str
+                        return self.Certificate(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[dict[Any, Any]]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[dict[Any, Any]]
 
-                @cached_property
-                def acme(self) -> Acme:
-                    return self.Acme()
+                        return validate(
+                            data=self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.acme.get(*args, **kwargs)
+                        ).data
 
-                # /nodes/{node}/certificates/info
-
-                class Info:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def acme(self) -> Acme:
+                    return self.Acme(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/certificates/info
+                @dataclass
+                class Info:
+
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -10290,23 +15015,42 @@ class ProxmoxAPI:
                             san: Optional[list[str]] = None
                             subject: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
+                            ]
 
-                @cached_property
-                def info(self) -> Info:
-                    return self.Info()
+                        return validate(
+                            data=self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.info.get(*args, **kwargs)
+                        ).data
 
-                # /nodes/{node}/certificates/custom
-
-                class Custom:
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                @cached_property
+                def info(self) -> Info:
+                    return self.Info(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/certificates/custom
+                @dataclass
+                class Custom:
+
+                    @dataclass
                     class _Post:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -10340,54 +15084,80 @@ class ProxmoxAPI:
                             san: Optional[list[str]] = None
                             subject: Optional[str] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> (
                             "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict"
                         ):
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict,
-                                None,
-                            )
+                            return self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.custom.post(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model,
-                                None,
-                            )
+                            data: Any = self.proxmox_api.nodes(
+                                self.node
+                            ).certificates.custom.post(*args, **kwargs)
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.nodes(
+                            self.node
+                        ).certificates.custom.delete(*args, **kwargs)
 
                     @property
                     def post(self) -> _Post:
-                        return self._Post()
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 @cached_property
                 def custom(self) -> Custom:
-                    return self.Custom()
-
-                node: str
+                    return self.Custom(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
 
-            @cached_property
-            def certificates(self) -> Certificates:
-                return self.Certificates()
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).certificates.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
-            # /nodes/{node}/config
-
-            class Config:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def certificates(self) -> Certificates:
+                return self.Certificates(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/config
+            @dataclass
+            class Config:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10413,52 +15183,65 @@ class ProxmoxAPI:
                         )
                         wakeonlan: Optional[str] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Config._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Config._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).config.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Config._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Config._Get.Model, None
+                        data: Any = self.proxmox_api.nodes(self.node).config.get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).config.put(*args, **kwargs)
 
                 set = put
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def config(self) -> Config:
-                return self.Config()
+                return self.Config(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/sdn
-
+            @dataclass
             class Sdn:
 
                 # /nodes/{node}/sdn/zones
-
+                @dataclass
                 class Zones:
 
                     # /nodes/{node}/sdn/zones/{zone}
-
+                    @dataclass
                     class Zone:
 
                         # /nodes/{node}/sdn/zones/{zone}/content
-
+                        @dataclass
                         class Content:
 
-                            node: str
-                            zone: str
-
+                            @dataclass
                             class _Get:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -10474,20 +15257,42 @@ class ProxmoxAPI:
                                     statusmsg: Optional[str] = None
                                     vnet: str
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                zone: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
                             ) -> builtins.list[
                                 "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
                             ]:
-                                return []
+                                class validate(pydantic.BaseModel):
+                                    data: builtins.list[
+                                        "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
+                                    ]
+
+                                return validate(
+                                    data=self.proxmox_api.nodes(self.node)
+                                    .sdn.zones(self.zone)
+                                    .content.get(*args, **kwargs)
+                                ).data
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            zone: str
 
                         @cached_property
                         def content(self) -> Content:
-                            return self.Content()
+                            return self.Content(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                zone=self.zone,
+                            )
 
-                        node: str
-                        zone: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -10499,18 +15304,41 @@ class ProxmoxAPI:
                             class Model(pydantic.BaseModel):
                                 subdir: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            zone: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
                         ) -> builtins.list[
                             "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
                         ]:
-                            return []
+                            class validate(pydantic.BaseModel):
+                                data: builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
+                                ]
+
+                            return validate(
+                                data=self.proxmox_api.nodes(self.node)
+                                .sdn.zones(self.zone)
+                                .get(*args, **kwargs)
+                            ).data
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        zone: str
 
                     def __call__(self, zone: str) -> Zone:
-                        return self.Zone()
+                        return self.Zone(
+                            proxmox_api=self.proxmox_api,
+                            zone=zone,
+                            node=self.node,
+                        )
 
-                    node: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -10524,34 +15352,63 @@ class ProxmoxAPI:
                             status: Literal["available", "pending", "error"]
                             zone: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.nodes(self.node).sdn.zones.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
 
                 @cached_property
                 def zones(self) -> Zones:
-                    return self.Zones()
-
-                node: str
+                    return self.Zones(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
 
-            @cached_property
-            def sdn(self) -> Sdn:
-                return self.Sdn()
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).sdn.get(*args, **kwargs)
+                    ).data
 
-            # /nodes/{node}/version
-
-            class Version:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def sdn(self) -> Sdn:
+                return self.Sdn(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/version
+            @dataclass
+            class Version:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10567,99 +15424,151 @@ class ProxmoxAPI:
                         repoid: str
                         version: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Version._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Version._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).version.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Version._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Version._Get.Model, None
+                        data: Any = self.proxmox_api.nodes(self.node).version.get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def version(self) -> Version:
-                return self.Version()
+                return self.Version(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/status
-
+            @dataclass
             class Status:
 
-                node: str
-
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.nodes(self.node).status.get(*args, **kwargs)
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).status.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
-            @cached_property
-            def status(self) -> Status:
-                return self.Status()
-
-            # /nodes/{node}/netstat
-
-            class Netstat:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
+
+            @cached_property
+            def status(self) -> Status:
+                return self.Status(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/netstat
+            @dataclass
+            class Netstat:
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).netstat.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def netstat(self) -> Netstat:
-                return self.Netstat()
+                return self.Netstat(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/execute
-
+            @dataclass
             class Execute:
-
-                node: str
 
                 def post(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).execute.post(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 create = post
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def execute(self) -> Execute:
-                return self.Execute()
+                return self.Execute(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/wakeonlan
-
+            @dataclass
             class Wakeonlan:
 
-                node: str
-
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).wakeonlan.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
-            @cached_property
-            def wakeonlan(self) -> Wakeonlan:
-                return self.Wakeonlan()
-
-            # /nodes/{node}/rrd
-
-            class Rrd:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def wakeonlan(self) -> Wakeonlan:
+                return self.Wakeonlan(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/rrd
+            @dataclass
+            class Rrd:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10671,47 +15580,75 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         filename: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).rrd.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.Model":
-                        return typing.cast(ProxmoxAPI.Nodes.Node.Rrd._Get.Model, None)
+                        data: Any = self.proxmox_api.nodes(self.node).rrd.get(
+                            *args, **kwargs
+                        )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def rrd(self) -> Rrd:
-                return self.Rrd()
+                return self.Rrd(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/rrddata
-
+            @dataclass
             class Rrddata:
-
-                node: str
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
 
-            @cached_property
-            def rrddata(self) -> Rrddata:
-                return self.Rrddata()
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).rrddata.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
-            # /nodes/{node}/syslog
-
-            class Syslog:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def rrddata(self) -> Rrddata:
+                return self.Rrddata(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/syslog
+            @dataclass
+            class Syslog:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10725,34 +15662,65 @@ class ProxmoxAPI:
                         n: int
                         t: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).syslog.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def syslog(self) -> Syslog:
-                return self.Syslog()
+                return self.Syslog(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/journal
-
+            @dataclass
             class Journal:
 
-                node: str
-
                 def get(self, *args: Any, **kwargs: Any) -> builtins.list[str]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[str]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).journal.get(
+                            *args, **kwargs
+                        )
+                    ).data
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def journal(self) -> Journal:
-                return self.Journal()
+                return self.Journal(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/vncshell
-
+            @dataclass
             class Vncshell:
 
-                node: str
-
+                @dataclass
                 class _Post:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10772,36 +15740,50 @@ class ProxmoxAPI:
                         upid: str
                         user: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).vncshell.post(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Vncshell._Post.Model, None
+                        data: Any = self.proxmox_api.nodes(self.node).vncshell.post(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def post(self) -> _Post:
-                    return self._Post()
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 create = post
 
-            @cached_property
-            def vncshell(self) -> Vncshell:
-                return self.Vncshell()
-
-            # /nodes/{node}/termproxy
-
-            class Termproxy:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def vncshell(self) -> Vncshell:
+                return self.Vncshell(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/termproxy
+            @dataclass
+            class Termproxy:
+
+                @dataclass
                 class _Post:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10819,36 +15801,50 @@ class ProxmoxAPI:
                         upid: str
                         user: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).termproxy.post(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Termproxy._Post.Model, None
+                        data: Any = self.proxmox_api.nodes(self.node).termproxy.post(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def post(self) -> _Post:
-                    return self._Post()
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 create = post
 
-            @cached_property
-            def termproxy(self) -> Termproxy:
-                return self.Termproxy()
-
-            # /nodes/{node}/vncwebsocket
-
-            class Vncwebsocket:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def termproxy(self) -> Termproxy:
+                return self.Termproxy(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/vncwebsocket
+            @dataclass
+            class Vncwebsocket:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10860,34 +15856,48 @@ class ProxmoxAPI:
                     class Model(pydantic.BaseModel):
                         port: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).vncwebsocket.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model, None
+                        data: Any = self.proxmox_api.nodes(self.node).vncwebsocket.get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
-            @cached_property
-            def vncwebsocket(self) -> Vncwebsocket:
-                return self.Vncwebsocket()
-
-            # /nodes/{node}/spiceshell
-
-            class Spiceshell:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def vncwebsocket(self) -> Vncwebsocket:
+                return self.Vncwebsocket(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/spiceshell
+            @dataclass
+            class Spiceshell:
+
+                @dataclass
                 class _Post:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10907,36 +15917,50 @@ class ProxmoxAPI:
                         tls_port: int = pydantic.Field(alias="tls-port")
                         type: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).spiceshell.post(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model, None
+                        data: Any = self.proxmox_api.nodes(self.node).spiceshell.post(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def post(self) -> _Post:
-                    return self._Post()
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 create = post
 
-            @cached_property
-            def spiceshell(self) -> Spiceshell:
-                return self.Spiceshell()
-
-            # /nodes/{node}/dns
-
-            class Dns:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def spiceshell(self) -> Spiceshell:
+                return self.Spiceshell(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/dns
+            @dataclass
+            class Dns:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10954,37 +15978,53 @@ class ProxmoxAPI:
                         dns3: Optional[str] = None
                         search: Optional[str] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).dns.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.Model":
-                        return typing.cast(ProxmoxAPI.Nodes.Node.Dns._Get.Model, None)
+                        data: Any = self.proxmox_api.nodes(self.node).dns.get(
+                            *args, **kwargs
+                        )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).dns.put(*args, **kwargs)
 
                 set = put
 
-            @cached_property
-            def dns(self) -> Dns:
-                return self.Dns()
-
-            # /nodes/{node}/time
-
-            class Time:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def dns(self) -> Dns:
+                return self.Dns(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/time
+            @dataclass
+            class Time:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11000,57 +16040,87 @@ class ProxmoxAPI:
                         time: int
                         timezone: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Time._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Time._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).time.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Time._Get.Model":
-                        return typing.cast(ProxmoxAPI.Nodes.Node.Time._Get.Model, None)
+                        data: Any = self.proxmox_api.nodes(self.node).time.get(
+                            *args, **kwargs
+                        )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).time.put(*args, **kwargs)
 
                 set = put
 
-            @cached_property
-            def time(self) -> Time:
-                return self.Time()
-
-            # /nodes/{node}/aplinfo
-
-            class Aplinfo:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
+
+            @cached_property
+            def time(self) -> Time:
+                return self.Time(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/aplinfo
+            @dataclass
+            class Aplinfo:
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list[dict[Any, Any]]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[dict[Any, Any]]
+
+                    return validate(
+                        data=self.proxmox_api.nodes(self.node).aplinfo.get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).aplinfo.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
-            @cached_property
-            def aplinfo(self) -> Aplinfo:
-                return self.Aplinfo()
-
-            # /nodes/{node}/query-url-metadata
-
-            class QueryUrlMetadata:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def aplinfo(self) -> Aplinfo:
+                return self.Aplinfo(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/query-url-metadata
+            @dataclass
+            class QueryUrlMetadata:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11066,92 +16136,132 @@ class ProxmoxAPI:
                         mimetype: Optional[str] = None
                         size: Optional[int] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).query_url_metadata.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.Model, None
-                        )
+                        data: Any = self.proxmox_api.nodes(
+                            self.node
+                        ).query_url_metadata.get(*args, **kwargs)
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def query_url_metadata(self) -> QueryUrlMetadata:
-                return self.QueryUrlMetadata()
+                return self.QueryUrlMetadata(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/report
-
+            @dataclass
             class Report:
 
-                node: str
-
                 def get(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).report.get(*args, **kwargs)
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def report(self) -> Report:
-                return self.Report()
+                return self.Report(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/startall
-
+            @dataclass
             class Startall:
 
-                node: str
-
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).startall.post(
+                        *args, **kwargs
+                    )
 
                 create = post
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def startall(self) -> Startall:
-                return self.Startall()
+                return self.Startall(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/stopall
-
+            @dataclass
             class Stopall:
 
-                node: str
-
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).stopall.post(
+                        *args, **kwargs
+                    )
 
                 create = post
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
 
             @cached_property
             def stopall(self) -> Stopall:
-                return self.Stopall()
+                return self.Stopall(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
 
             # /nodes/{node}/migrateall
-
+            @dataclass
             class Migrateall:
 
-                node: str
-
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.nodes(self.node).migrateall.post(
+                        *args, **kwargs
+                    )
 
                 create = post
 
-            @cached_property
-            def migrateall(self) -> Migrateall:
-                return self.Migrateall()
-
-            # /nodes/{node}/hosts
-
-            class Hosts:
+                proxmox_api: ProxmoxerProxmoxAPI
 
                 node: str
 
+            @cached_property
+            def migrateall(self) -> Migrateall:
+                return self.Migrateall(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            # /nodes/{node}/hosts
+            @dataclass
+            class Hosts:
+
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11165,39 +16275,67 @@ class ProxmoxAPI:
                         data: str
                         digest: Optional[str] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict, None
+                        return self.proxmox_api.nodes(self.node).hosts.get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.Model":
-                        return typing.cast(ProxmoxAPI.Nodes.Node.Hosts._Get.Model, None)
+                        data: Any = self.proxmox_api.nodes(self.node).hosts.get(
+                            *args, **kwargs
+                        )
+                        return self.Model(**data)
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.nodes(self.node).hosts.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                node: str
+
             @cached_property
             def hosts(self) -> Hosts:
-                return self.Hosts()
+                return self.Hosts(
+                    proxmox_api=self.proxmox_api,
+                    node=self.node,
+                )
+
+            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
+                class validate(pydantic.BaseModel):
+                    data: builtins.list[dict[Any, Any]]
+
+                return validate(
+                    data=self.proxmox_api.nodes(self.node).get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
             node: str
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[dict[Any, Any]]:
-                return []
-
         def __call__(self, node: str) -> Node:
-            return self.Node()
+            return self.Node(
+                proxmox_api=self.proxmox_api,
+                node=node,
+            )
 
+        @dataclass
         class _Get:
             TypedDict = typing.TypedDict(
                 "TypedDict",
@@ -11225,26 +16363,35 @@ class ProxmoxAPI:
                 status: Literal["unknown", "online", "offline"]
                 uptime: Optional[int] = None
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         def get(
             self, *args: Any, **kwargs: Any
         ) -> builtins.list["ProxmoxAPI.Nodes._Get.TypedDict"]:
-            return []
+            class validate(pydantic.BaseModel):
+                data: builtins.list["ProxmoxAPI.Nodes._Get.TypedDict"]
+
+            return validate(data=self.proxmox_api.nodes.get(*args, **kwargs)).data
+
+        proxmox_api: ProxmoxerProxmoxAPI
 
     @cached_property
     def nodes(self) -> Nodes:
-        return self.Nodes()
+        return self.Nodes(
+            proxmox_api=self.proxmox_api,
+        )
 
     # /storage
-
+    @dataclass
     class Storage:
 
         # /storage/{storage}
-
+        @dataclass
         class Storage:
 
-            storage: str
-
+            @dataclass
             class _Put:
+                @dataclass
                 class _Config:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11257,6 +16404,10 @@ class ProxmoxAPI:
                         encryption_key: Optional[str] = pydantic.Field(
                             alias="encryption-key"
                         )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    storage: str
 
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -11306,31 +16457,49 @@ class ProxmoxAPI:
                         "zfspool",
                     ]
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                storage: str
+
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Storage.Storage._Put.TypedDict":
-                    return typing.cast(ProxmoxAPI.Storage.Storage._Put.TypedDict, None)
+                    return self.proxmox_api.storage(self.storage).put(*args, **kwargs)
 
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Storage.Storage._Put.Model":
-                    return typing.cast(ProxmoxAPI.Storage.Storage._Put.Model, None)
+                    data: Any = self.proxmox_api.storage(self.storage).put(
+                        *args, **kwargs
+                    )
+                    return self.Model(**data)
 
             def delete(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.storage(self.storage).delete(*args, **kwargs)
 
             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return {}
+                return self.proxmox_api.storage(self.storage).get(*args, **kwargs)
 
             @property
             def put(self) -> _Put:
-                return self._Put()
+                return self._Put(
+                    proxmox_api=self.proxmox_api,
+                    storage=self.storage,
+                )
 
             set = put
 
-        def __call__(self, storage: str) -> Storage:
-            return self.Storage()
+            proxmox_api: ProxmoxerProxmoxAPI
 
+            storage: str
+
+        def __call__(self, storage: str) -> Storage:
+            return self.Storage(
+                proxmox_api=self.proxmox_api,
+                storage=storage,
+            )
+
+        @dataclass
         class _Get:
             TypedDict = typing.TypedDict(
                 "TypedDict",
@@ -11342,7 +16511,11 @@ class ProxmoxAPI:
             class Model(pydantic.BaseModel):
                 storage: str
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
+        @dataclass
         class _Post:
+            @dataclass
             class _Config:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -11355,6 +16528,8 @@ class ProxmoxAPI:
                     encryption_key: Optional[str] = pydantic.Field(
                         alias="encryption-key"
                     )
+
+                proxmox_api: ProxmoxerProxmoxAPI
 
             TypedDict = typing.TypedDict(
                 "TypedDict",
@@ -11400,49 +16575,60 @@ class ProxmoxAPI:
                     "zfspool",
                 ]
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Storage._Post.TypedDict":
-                return typing.cast(ProxmoxAPI.Storage._Post.TypedDict, None)
+                return self.proxmox_api.storage.post(*args, **kwargs)
 
             def model(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Storage._Post.Model":
-                return typing.cast(ProxmoxAPI.Storage._Post.Model, None)
+                data: Any = self.proxmox_api.storage.post(*args, **kwargs)
+                return self.Model(**data)
 
         def get(
             self, *args: Any, **kwargs: Any
         ) -> builtins.list["ProxmoxAPI.Storage._Get.TypedDict"]:
-            return []
+            class validate(pydantic.BaseModel):
+                data: builtins.list["ProxmoxAPI.Storage._Get.TypedDict"]
+
+            return validate(data=self.proxmox_api.storage.get(*args, **kwargs)).data
 
         @property
         def post(self) -> _Post:
-            return self._Post()
+            return self._Post(
+                proxmox_api=self.proxmox_api,
+            )
 
         create = post
 
+        proxmox_api: ProxmoxerProxmoxAPI
+
     @cached_property
     def storage(self) -> Storage:
-        return self.Storage()
+        return self.Storage(
+            proxmox_api=self.proxmox_api,
+        )
 
     # /access
-
+    @dataclass
     class Access:
 
         # /access/users
-
+        @dataclass
         class Users:
 
             # /access/users/{userid}
-
+            @dataclass
             class Userid:
 
                 # /access/users/{userid}/tfa
-
+                @dataclass
                 class Tfa:
 
-                    userid: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -11474,39 +16660,52 @@ class ProxmoxAPI:
                             ] = None
                             user: Optional[Literal["oath", "u2f"]] = None
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        userid: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict, None
+                            return self.proxmox_api.access.users(self.userid).tfa.get(
+                                *args, **kwargs
                             )
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.access.users(
+                                self.userid
+                            ).tfa.get(*args, **kwargs)
+                            return self.Model(**data)
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            userid=self.userid,
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
 
                 @cached_property
                 def tfa(self) -> Tfa:
-                    return self.Tfa()
+                    return self.Tfa(
+                        proxmox_api=self.proxmox_api,
+                        userid=self.userid,
+                    )
 
                 # /access/users/{userid}/token
-
+                @dataclass
                 class Token:
 
                     # /access/users/{userid}/token/{tokenid}
-
+                    @dataclass
                     class Tokenid:
 
-                        userid: str
-                        tokenid: str
-
+                        @dataclass
                         class _Get:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -11522,23 +16721,34 @@ class ProxmoxAPI:
                                 expire: Optional[int] = None
                                 privsep: Optional[bool] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            userid: str
+
+                            tokenid: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .get(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .get(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
+                        @dataclass
                         class _Post:
+                            @dataclass
                             class _Info:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -11554,6 +16764,12 @@ class ProxmoxAPI:
                                     expire: Optional[int] = None
                                     privsep: Optional[bool] = None
 
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                userid: str
+
+                                tokenid: str
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
@@ -11568,22 +16784,32 @@ class ProxmoxAPI:
                                 info: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post._Info.Model"
                                 value: str
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            userid: str
+
+                            tokenid: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .post(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .post(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
+                        @dataclass
                         class _Put:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -11599,46 +16825,79 @@ class ProxmoxAPI:
                                 expire: Optional[int] = None
                                 privsep: Optional[bool] = None
 
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            userid: str
+
+                            tokenid: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict":
-                                return typing.cast(
-                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict,
-                                    None,
+                                return (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .put(*args, **kwargs)
                                 )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model":
-                                return typing.cast(
-                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model,
-                                    None,
+                                data: Any = (
+                                    self.proxmox_api.access.users(self.userid)
+                                    .token(self.tokenid)
+                                    .put(*args, **kwargs)
                                 )
+                                return self.Model(**data)
 
                         def delete(self, *args: Any, **kwargs: Any) -> None:
-                            return None
+                            return (
+                                self.proxmox_api.access.users(self.userid)
+                                .token(self.tokenid)
+                                .delete(*args, **kwargs)
+                            )
 
                         @property
                         def get(self) -> _Get:
-                            return self._Get()
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                userid=self.userid,
+                                tokenid=self.tokenid,
+                            )
 
                         @property
                         def post(self) -> _Post:
-                            return self._Post()
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                userid=self.userid,
+                                tokenid=self.tokenid,
+                            )
 
                         create = post
 
                         @property
                         def put(self) -> _Put:
-                            return self._Put()
+                            return self._Put(
+                                proxmox_api=self.proxmox_api,
+                                userid=self.userid,
+                                tokenid=self.tokenid,
+                            )
 
                         set = put
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        userid: str
+                        tokenid: str
+
                     def __call__(self, tokenid: str) -> Tokenid:
-                        return self.Tokenid()
+                        return self.Tokenid(
+                            proxmox_api=self.proxmox_api,
+                            tokenid=tokenid,
+                            userid=self.userid,
+                        )
 
-                    userid: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -11656,19 +16915,38 @@ class ProxmoxAPI:
                             privsep: Optional[bool] = None
                             tokenid: str
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        userid: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
                     ) -> builtins.list[
                         "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
                     ]:
-                        return []
+                        class validate(pydantic.BaseModel):
+                            data: builtins.list[
+                                "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
+                            ]
+
+                        return validate(
+                            data=self.proxmox_api.access.users(self.userid).token.get(
+                                *args, **kwargs
+                            )
+                        ).data
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
 
                 @cached_property
                 def token(self) -> Token:
-                    return self.Token()
+                    return self.Token(
+                        proxmox_api=self.proxmox_api,
+                        userid=self.userid,
+                    )
 
-                userid: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11696,36 +16974,57 @@ class ProxmoxAPI:
                         lastname: Optional[str] = None
                         tokens: Optional[dict[Any, Any]] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Users.Userid._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Users.Userid._Get.TypedDict, None
+                        return self.proxmox_api.access.users(self.userid).get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Users.Userid._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Users.Userid._Get.Model, None
+                        data: Any = self.proxmox_api.access.users(self.userid).get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.users(self.userid).delete(
+                        *args, **kwargs
+                    )
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        userid=self.userid,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.users(self.userid).put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
-            def __call__(self, userid: str) -> Userid:
-                return self.Userid()
+                proxmox_api: ProxmoxerProxmoxAPI
 
+                userid: str
+
+            def __call__(self, userid: str) -> Userid:
+                return self.Userid(
+                    proxmox_api=self.proxmox_api,
+                    userid=userid,
+                )
+
+            @dataclass
             class _Get:
+                @dataclass
                 class _Tokens:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11742,6 +17041,8 @@ class ProxmoxAPI:
                         expire: Optional[int] = None
                         privsep: Optional[bool] = None
                         tokenid: str
+
+                    proxmox_api: ProxmoxerProxmoxAPI
 
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -11777,30 +17078,40 @@ class ProxmoxAPI:
                     ] = None
                     userid: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Users._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Users._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.users.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.users.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def users(self) -> Users:
-            return self.Users()
+            return self.Users(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/groups
-
+        @dataclass
         class Groups:
 
             # /access/groups/{groupid}
-
+            @dataclass
             class Groupid:
 
-                groupid: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -11814,35 +17125,55 @@ class ProxmoxAPI:
                         comment: Optional[str] = None
                         members: list[str]
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    groupid: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict, None
+                        return self.proxmox_api.access.groups(self.groupid).get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Groups.Groupid._Get.Model, None
+                        data: Any = self.proxmox_api.access.groups(self.groupid).get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.groups(self.groupid).delete(
+                        *args, **kwargs
+                    )
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        groupid=self.groupid,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.groups(self.groupid).put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
-            def __call__(self, groupid: str) -> Groupid:
-                return self.Groupid()
+                proxmox_api: ProxmoxerProxmoxAPI
 
+                groupid: str
+
+            def __call__(self, groupid: str) -> Groupid:
+                return self.Groupid(
+                    proxmox_api=self.proxmox_api,
+                    groupid=groupid,
+                )
+
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -11858,30 +17189,40 @@ class ProxmoxAPI:
                     groupid: str
                     users: Optional[str] = None
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Groups._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Groups._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.groups.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.groups.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def groups(self) -> Groups:
-            return self.Groups()
+            return self.Groups(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/roles
-
+        @dataclass
         class Roles:
 
             # /access/roles/{roleid}
-
+            @dataclass
             class Roleid:
 
-                roleid: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -12013,35 +17354,55 @@ class ProxmoxAPI:
                             alias="VM.Snapshot.Rollback"
                         )
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    roleid: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict, None
+                        return self.proxmox_api.access.roles(self.roleid).get(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Roles.Roleid._Get.Model, None
+                        data: Any = self.proxmox_api.access.roles(self.roleid).get(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.roles(self.roleid).delete(
+                        *args, **kwargs
+                    )
 
                 @property
                 def get(self) -> _Get:
-                    return self._Get()
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                        roleid=self.roleid,
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.roles(self.roleid).put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
-            def __call__(self, roleid: str) -> Roleid:
-                return self.Roleid()
+                proxmox_api: ProxmoxerProxmoxAPI
 
+                roleid: str
+
+            def __call__(self, roleid: str) -> Roleid:
+                return self.Roleid(
+                    proxmox_api=self.proxmox_api,
+                    roleid=roleid,
+                )
+
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -12057,24 +17418,36 @@ class ProxmoxAPI:
                     roleid: str
                     special: Optional[bool] = None
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Roles._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Roles._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.roles.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.roles.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def roles(self) -> Roles:
-            return self.Roles()
+            return self.Roles(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/acl
-
+        @dataclass
         class Acl:
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -12094,59 +17467,89 @@ class ProxmoxAPI:
                     type: Literal["user", "group", "token"]
                     ugid: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Acl._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Acl._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.acl.get(*args, **kwargs)
+                ).data
 
             def put(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.acl.put(*args, **kwargs)
 
             set = put
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def acl(self) -> Acl:
-            return self.Acl()
+            return self.Acl(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/domains
-
+        @dataclass
         class Domains:
 
             # /access/domains/{realm}
-
+            @dataclass
             class Realm:
 
                 # /access/domains/{realm}/sync
-
+                @dataclass
                 class Sync:
 
-                    realm: str
-
                     def post(self, *args: Any, **kwargs: Any) -> str:
-                        return ""
+                        return self.proxmox_api.access.domains(self.realm).sync.post(
+                            *args, **kwargs
+                        )
 
                     create = post
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    realm: str
+
                 @cached_property
                 def sync(self) -> Sync:
-                    return self.Sync()
-
-                realm: str
+                    return self.Sync(
+                        proxmox_api=self.proxmox_api,
+                        realm=self.realm,
+                    )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.domains(self.realm).delete(
+                        *args, **kwargs
+                    )
 
                 def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                    return {}
+                    return self.proxmox_api.access.domains(self.realm).get(
+                        *args, **kwargs
+                    )
 
                 def put(self, *args: Any, **kwargs: Any) -> None:
-                    return None
+                    return self.proxmox_api.access.domains(self.realm).put(
+                        *args, **kwargs
+                    )
 
                 set = put
 
-            def __call__(self, realm: str) -> Realm:
-                return self.Realm()
+                proxmox_api: ProxmoxerProxmoxAPI
 
+                realm: str
+
+            def __call__(self, realm: str) -> Realm:
+                return self.Realm(
+                    proxmox_api=self.proxmox_api,
+                    realm=realm,
+                )
+
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -12164,41 +17567,57 @@ class ProxmoxAPI:
                     tfa: Optional[Literal["yubico", "oath"]] = None
                     type: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Domains._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Domains._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.domains.get(*args, **kwargs)
+                ).data
 
             def post(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.domains.post(*args, **kwargs)
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def domains(self) -> Domains:
-            return self.Domains()
+            return self.Domains(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/openid
-
+        @dataclass
         class Openid:
 
             # /access/openid/auth-url
-
+            @dataclass
             class AuthUrl:
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
-                    return ""
+                    return self.proxmox_api.access.openid.auth_url.post(*args, **kwargs)
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def auth_url(self) -> AuthUrl:
-                return self.AuthUrl()
+                return self.AuthUrl(
+                    proxmox_api=self.proxmox_api,
+                )
 
             # /access/openid/login
-
+            @dataclass
             class Login:
 
+                @dataclass
                 class _Post:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -12220,30 +17639,40 @@ class ProxmoxAPI:
                         ticket: str
                         username: str
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Openid.Login._Post.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Openid.Login._Post.TypedDict, None
+                        return self.proxmox_api.access.openid.login.post(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Openid.Login._Post.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Openid.Login._Post.Model, None
+                        data: Any = self.proxmox_api.access.openid.login.post(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 @property
                 def post(self) -> _Post:
-                    return self._Post()
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
 
                 create = post
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             @cached_property
             def login(self) -> Login:
-                return self.Login()
+                return self.Login(
+                    proxmox_api=self.proxmox_api,
+                )
 
+            @dataclass
             class _Get:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -12255,30 +17684,39 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     subdir: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Openid._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Openid._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.openid.get(*args, **kwargs)
+                ).data
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def openid(self) -> Openid:
-            return self.Openid()
+            return self.Openid(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/tfa
-
+        @dataclass
         class Tfa:
 
             # /access/tfa/{userid}
-
+            @dataclass
             class Userid:
 
                 # /access/tfa/{userid}/{id}
-
+                @dataclass
                 class Id:
 
-                    userid: str
-                    id: str
-
+                    @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -12302,37 +17740,60 @@ class ProxmoxAPI:
                                 "totp", "u2f", "webauthn", "recovery", "yubico"
                             ]
 
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        userid: str
+
+                        id: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict":
-                            return typing.cast(
-                                ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict, None
-                            )
+                            return self.proxmox_api.access.tfa(self.userid)(
+                                self.id
+                            ).get(*args, **kwargs)
 
                         def model(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Tfa.Userid.Id._Get.Model":
-                            return typing.cast(
-                                ProxmoxAPI.Access.Tfa.Userid.Id._Get.Model, None
-                            )
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(
+                                self.id
+                            ).get(*args, **kwargs)
+                            return self.Model(**data)
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.access.tfa(self.userid)(self.id).delete(
+                            *args, **kwargs
+                        )
 
                     @property
                     def get(self) -> _Get:
-                        return self._Get()
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            userid=self.userid,
+                            id=self.id,
+                        )
 
                     def put(self, *args: Any, **kwargs: Any) -> None:
-                        return None
+                        return self.proxmox_api.access.tfa(self.userid)(self.id).put(
+                            *args, **kwargs
+                        )
 
                     set = put
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
+                    id: str
+
                 def __call__(self, id: str) -> Id:
-                    return self.Id()
+                    return self.Id(
+                        proxmox_api=self.proxmox_api,
+                        id=id,
+                        userid=self.userid,
+                    )
 
-                userid: str
-
+                @dataclass
                 class _Get:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -12354,6 +17815,11 @@ class ProxmoxAPI:
                         id: str
                         type: Literal["totp", "u2f", "webauthn", "recovery", "yubico"]
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
+
+                @dataclass
                 class _Post:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -12369,35 +17835,61 @@ class ProxmoxAPI:
                         id: str
                         recovery: Optional[list[str]] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    userid: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict, None
+                        return self.proxmox_api.access.tfa(self.userid).post(
+                            *args, **kwargs
                         )
 
                     def model(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Tfa.Userid._Post.Model":
-                        return typing.cast(
-                            ProxmoxAPI.Access.Tfa.Userid._Post.Model, None
+                        data: Any = self.proxmox_api.access.tfa(self.userid).post(
+                            *args, **kwargs
                         )
+                        return self.Model(**data)
 
                 def get(
                     self, *args: Any, **kwargs: Any
                 ) -> builtins.list["ProxmoxAPI.Access.Tfa.Userid._Get.TypedDict"]:
-                    return []
+                    class validate(pydantic.BaseModel):
+                        data: builtins.list[
+                            "ProxmoxAPI.Access.Tfa.Userid._Get.TypedDict"
+                        ]
+
+                    return validate(
+                        data=self.proxmox_api.access.tfa(self.userid).get(
+                            *args, **kwargs
+                        )
+                    ).data
 
                 @property
                 def post(self) -> _Post:
-                    return self._Post()
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                        userid=self.userid,
+                    )
 
                 create = post
 
-            def __call__(self, userid: str) -> Userid:
-                return self.Userid()
+                proxmox_api: ProxmoxerProxmoxAPI
 
+                userid: str
+
+            def __call__(self, userid: str) -> Userid:
+                return self.Userid(
+                    proxmox_api=self.proxmox_api,
+                    userid=userid,
+                )
+
+            @dataclass
             class _Get:
+                @dataclass
                 class _Entries:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -12419,6 +17911,8 @@ class ProxmoxAPI:
                         id: str
                         type: Literal["totp", "u2f", "webauthn", "recovery", "yubico"]
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
@@ -12433,6 +17927,9 @@ class ProxmoxAPI:
                     entries: list["ProxmoxAPI.Access.Tfa._Get._Entries.Model"]
                     userid: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @dataclass
             class _Post:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -12444,35 +17941,50 @@ class ProxmoxAPI:
                 class Model(pydantic.BaseModel):
                     ticket: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Tfa._Post.TypedDict":
-                    return typing.cast(ProxmoxAPI.Access.Tfa._Post.TypedDict, None)
+                    return self.proxmox_api.access.tfa.post(*args, **kwargs)
 
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Tfa._Post.Model":
-                    return typing.cast(ProxmoxAPI.Access.Tfa._Post.Model, None)
+                    data: Any = self.proxmox_api.access.tfa.post(*args, **kwargs)
+                    return self.Model(**data)
 
             def get(
                 self, *args: Any, **kwargs: Any
             ) -> builtins.list["ProxmoxAPI.Access.Tfa._Get.TypedDict"]:
-                return []
+                class validate(pydantic.BaseModel):
+                    data: builtins.list["ProxmoxAPI.Access.Tfa._Get.TypedDict"]
+
+                return validate(
+                    data=self.proxmox_api.access.tfa.get(*args, **kwargs)
+                ).data
 
             @property
             def post(self) -> _Post:
-                return self._Post()
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def tfa(self) -> Tfa:
-            return self.Tfa()
+            return self.Tfa(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/ticket
-
+        @dataclass
         class Ticket:
 
+            @dataclass
             class _Post:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
@@ -12492,53 +18004,71 @@ class ProxmoxAPI:
                     ticket: Optional[str] = None
                     username: str
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Ticket._Post.TypedDict":
-                    return typing.cast(ProxmoxAPI.Access.Ticket._Post.TypedDict, None)
+                    return self.proxmox_api.access.ticket.post(*args, **kwargs)
 
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Ticket._Post.Model":
-                    return typing.cast(ProxmoxAPI.Access.Ticket._Post.Model, None)
+                    data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)
+                    return self.Model(**data)
 
             def get(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.ticket.get(*args, **kwargs)
 
             @property
             def post(self) -> _Post:
-                return self._Post()
+                return self._Post(
+                    proxmox_api=self.proxmox_api,
+                )
 
             create = post
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def ticket(self) -> Ticket:
-            return self.Ticket()
+            return self.Ticket(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/password
-
+        @dataclass
         class Password:
 
             def put(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.access.password.put(*args, **kwargs)
 
             set = put
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         @cached_property
         def password(self) -> Password:
-            return self.Password()
+            return self.Password(
+                proxmox_api=self.proxmox_api,
+            )
 
         # /access/permissions
-
+        @dataclass
         class Permissions:
 
             def get(self, *args: Any, **kwargs: Any) -> dict[Any, Any]:
-                return {}
+                return self.proxmox_api.access.permissions.get(*args, **kwargs)
+
+            proxmox_api: ProxmoxerProxmoxAPI
 
         @cached_property
         def permissions(self) -> Permissions:
-            return self.Permissions()
+            return self.Permissions(
+                proxmox_api=self.proxmox_api,
+            )
 
+        @dataclass
         class _Get:
             TypedDict = typing.TypedDict(
                 "TypedDict",
@@ -12550,26 +18080,35 @@ class ProxmoxAPI:
             class Model(pydantic.BaseModel):
                 subdir: str
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         def get(
             self, *args: Any, **kwargs: Any
         ) -> builtins.list["ProxmoxAPI.Access._Get.TypedDict"]:
-            return []
+            class validate(pydantic.BaseModel):
+                data: builtins.list["ProxmoxAPI.Access._Get.TypedDict"]
+
+            return validate(data=self.proxmox_api.access.get(*args, **kwargs)).data
+
+        proxmox_api: ProxmoxerProxmoxAPI
 
     @cached_property
     def access(self) -> Access:
-        return self.Access()
+        return self.Access(
+            proxmox_api=self.proxmox_api,
+        )
 
     # /pools
-
+    @dataclass
     class Pools:
 
         # /pools/{poolid}
-
+        @dataclass
         class Poolid:
 
-            poolid: str
-
+            @dataclass
             class _Get:
+                @dataclass
                 class _Members:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -12589,6 +18128,10 @@ class ProxmoxAPI:
                         type: Literal["qemu", "lxc", "openvz", "storage"]
                         vmid: Optional[int] = None
 
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    poolid: str
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
@@ -12603,31 +18146,47 @@ class ProxmoxAPI:
                     comment: Optional[str] = None
                     members: list["ProxmoxAPI.Pools.Poolid._Get._Members.Model"]
 
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                poolid: str
+
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Pools.Poolid._Get.TypedDict":
-                    return typing.cast(ProxmoxAPI.Pools.Poolid._Get.TypedDict, None)
+                    return self.proxmox_api.pools(self.poolid).get(*args, **kwargs)
 
                 def model(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Pools.Poolid._Get.Model":
-                    return typing.cast(ProxmoxAPI.Pools.Poolid._Get.Model, None)
+                    data: Any = self.proxmox_api.pools(self.poolid).get(*args, **kwargs)
+                    return self.Model(**data)
 
             def delete(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.pools(self.poolid).delete(*args, **kwargs)
 
             @property
             def get(self) -> _Get:
-                return self._Get()
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                    poolid=self.poolid,
+                )
 
             def put(self, *args: Any, **kwargs: Any) -> None:
-                return None
+                return self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
 
             set = put
 
-        def __call__(self, poolid: str) -> Poolid:
-            return self.Poolid()
+            proxmox_api: ProxmoxerProxmoxAPI
 
+            poolid: str
+
+        def __call__(self, poolid: str) -> Poolid:
+            return self.Poolid(
+                proxmox_api=self.proxmox_api,
+                poolid=poolid,
+            )
+
+        @dataclass
         class _Get:
             TypedDict = typing.TypedDict(
                 "TypedDict",
@@ -12639,24 +18198,34 @@ class ProxmoxAPI:
             class Model(pydantic.BaseModel):
                 poolid: str
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
         def get(
             self, *args: Any, **kwargs: Any
         ) -> builtins.list["ProxmoxAPI.Pools._Get.TypedDict"]:
-            return []
+            class validate(pydantic.BaseModel):
+                data: builtins.list["ProxmoxAPI.Pools._Get.TypedDict"]
+
+            return validate(data=self.proxmox_api.pools.get(*args, **kwargs)).data
 
         def post(self, *args: Any, **kwargs: Any) -> None:
-            return None
+            return self.proxmox_api.pools.post(*args, **kwargs)
 
         create = post
 
+        proxmox_api: ProxmoxerProxmoxAPI
+
     @cached_property
     def pools(self) -> Pools:
-        return self.Pools()
+        return self.Pools(
+            proxmox_api=self.proxmox_api,
+        )
 
     # /version
-
+    @dataclass
     class Version:
 
+        @dataclass
         class _Get:
             TypedDict = typing.TypedDict(
                 "TypedDict",
@@ -12674,20 +18243,29 @@ class ProxmoxAPI:
                 repoid: str
                 version: str
 
+            proxmox_api: ProxmoxerProxmoxAPI
+
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Version._Get.TypedDict":
-                return typing.cast(ProxmoxAPI.Version._Get.TypedDict, None)
+                return self.proxmox_api.version.get(*args, **kwargs)
 
             def model(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Version._Get.Model":
-                return typing.cast(ProxmoxAPI.Version._Get.Model, None)
+                data: Any = self.proxmox_api.version.get(*args, **kwargs)
+                return self.Model(**data)
 
         @property
         def get(self) -> _Get:
-            return self._Get()
+            return self._Get(
+                proxmox_api=self.proxmox_api,
+            )
+
+        proxmox_api: ProxmoxerProxmoxAPI
 
     @cached_property
     def version(self) -> Version:
-        return self.Version()
+        return self.Version(
+            proxmox_api=self.proxmox_api,
+        )
