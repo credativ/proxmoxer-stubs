@@ -1,8 +1,10 @@
 import keyword
 import re
 import textwrap
+
+from dataclasses import dataclass
 from functools import cached_property
-from typing import Any, Literal, Optional, TypeAlias, Union, assert_never
+from typing import Any, Callable, Literal, Optional, Self, TypeAlias, Union, assert_never
 
 import pydantic
 from jinja2 import Template
@@ -42,8 +44,7 @@ class Code(pydantic.BaseModel):
         return self.head + self.tail
 
 
-class Path:
-    orig: str
+class Path(pydantic.BaseModel):
 
     class Segment(pydantic.BaseModel):
         orig: str
@@ -84,6 +85,28 @@ class Path:
         def __str__(self) -> str:
             return self.as_property
 
+        def __eq__(self, value: Any) -> bool:
+            if isinstance(value, Path):
+                return self.orig == value.orig
+            elif isinstance(value, str):
+                return self.orig == value
+            else:
+                return False
+
+    class CodeSegment(Segment):
+        @cached_property
+        def is_param(self) -> bool:
+            return False
+
+        @cached_property
+        def as_param(self) -> str:
+            raise RuntimeError(f"{self} is not a param")
+
+        @property
+        def as_class(self) -> str:
+            return "_" + super().as_class
+
+    orig: str
     segments: list[Segment]
 
     @property
@@ -106,157 +129,311 @@ class Path:
     def __repr__(self) -> str:
         ret = ""
         for segment in self.segments:
-            if segment.is_param:
+            if isinstance(segment, Path.CodeSegment):
+                ret += "." + segment.as_class
+            elif segment.is_param:
                 ret += "/{" + segment.as_property + "}"
             else:
                 ret += "/" + segment.orig
         return repr(ret)
 
-    def repr(self) -> str:
-        return self.__repr__()
-
     @property
     def as_classpath(self) -> str:
-        return ".".join(segment.as_class for segment in self.segments)
+        return "ProxmoxAPI." + ".".join(segment.as_class for segment in self.segments)
 
-    def __init__(self, path: str) -> None:
-        self.orig = path
-        self.segments = [self.Segment(orig=orig) for orig in path.split("/")[1:]]
+    @property
+    def rendered_call(self) -> str:
+        render = ""
+        params = (f"self.{param.as_property}" for param in self.params)
+        for segment in self.segments:
+            if isinstance(segment, self.CodeSegment):
+                continue
+            if segment.is_param:
+                render += f"({next(params)})"
+            elif render:
+                render += f".{segment.as_property}"
+            else:
+                render = segment.as_property
+        return render
+
+    def copy_append(self, segment: Segment) -> Self:
+        copy = self.model_copy(deep=False)
+        copy.segments = self.segments.copy()
+        copy.segments.append(segment)
+        return copy
+
+    @classmethod
+    def new(cls, path: str) -> Self:
+        return cls(
+            orig=path,
+            segments=[cls.Segment(orig=orig) for orig in path.split("/")[1:]]
+        )
 
 
 class Return(pydantic.BaseModel):
     code: Code | None = None
     optional: bool
     primitive: bool = True
-    type: str
+    dicttype: str
+    modeltype: str
+
+
+@dataclass
+class Field:
+    name: str
+    ret: Return
+
+    def for_typeddict(self) -> str:
+        if self.ret.optional:
+            return f"{repr(self.name)}: NotRequired[{self.ret.dicttype}]"
+        else:
+            return f"{repr(self.name)}: {self.ret.dicttype}"
+
+    def for_model(self) -> str:
+        name_as_property = Path.Segment(orig=self.name).as_property
+        if self.name == name_as_property:
+            if self.ret.optional:
+                return f"{self.name}: Optional[{self.ret.modeltype}] = None"
+
+            else:
+                return f"{self.name}: {self.ret.modeltype}"
+        else:
+            if self.ret.optional:
+                return f"{name_as_property}: Optional[{self.ret.modeltype}] = pydantic.Field(alias={repr(self.name)}, default=None)"
+            else:
+                return f"{name_as_property}: {self.ret.modeltype} = pydantic.Field(alias={repr(self.name)})"
 
 
 class BaseModel(pydantic.BaseModel):
     optional: bool = False
 
-    def _dump(
-        self, path: Path, name: str, optional: bool, type_: str, sample: Any, patch: Patch,
-    ) -> Return:
+    def _dump(self, path: Path, optional: bool, type: str, param_type: Callable[[str], str | None]) -> Return:
         code = Code(
+            head = render(
+                """
+                @dataclass
+                class {{ path[-1].as_class }}:
+                    proxmox_api: ProxmoxerProxmoxAPI
+                {% if path.params %}
+                {%   for param in path.params %}
+                    {{ param }}: {{ param_type(param.as_param) }}
+                {%   endfor %}
+                {% endif %}
+                    def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
+                        return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+
+                    def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
+                        class validate(pydantic.BaseModel):
+                            data: {{ modeltype }}
+                        data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                        return validate(data=data).data
+                """,
+                path=path,
+                dicttype=type,
+                modeltype=type,
+                param_type=param_type,
+            ),
             tail=render(
                 """
-                def {{ name }}(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
-                {% if str(name) == "post" -%}
-                def create(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
-                {% elif str(name) == "put" -%}
-                def set(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
+                @property
+                def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
+                    return self.{{ path[-1].as_class }}(
+                        proxmox_api=self.proxmox_api,
+                {%   if path.params %}
+                {%     for param in path.params %}
+                        {{ param }}=self.{{ param }},
+                {%-    endfor %}
+                {%-  endif %}
+                    )
+                {% if path[-1] == "post" -%}
+                create = {{ path[-1] }}
+                {% elif path[-1] == "put" -%}
+                set = {{ path[-1] }}
                 {% endif -%}
                 """,
-                name=Path.Segment(orig=name),
                 path=path,
-                sample=sample,
-                type=type_,
+                type=type,
             )
         )
-        return Return(code=code, optional=optional, primitive=True, type=type_)
+        return Return(code=code, optional=optional, primitive=True, dicttype=type, modeltype=type)
 
 
 class ApiSchemaItemInfoMethodReturnsString(BaseModel):
     type: Literal["string"]
     enum: list[str] | None = None
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
         if self.enum:
-            return self._dump(path=path, name=name, optional=self.optional, type_=f"Literal{repr(self.enum)}", sample=self.enum[0], patch=patch(self))
+            return self._dump(path=path, optional=self.optional, param_type=param_type, type=f"Literal{repr(self.enum)}")
         else:
-            return self._dump(path=path, name=name, optional=self.optional, type_="str", sample="", patch=patch(self))
+            return self._dump(path=path, optional=self.optional, param_type=param_type, type="str")
 
 
 class ApiSchemaItemInfoMethodReturnsInteger(BaseModel):
     type: Literal["integer"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="int", sample=0, patch=patch(self),
-        )
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
+        return self._dump(path=path, optional=self.optional, param_type=param_type, type="int")
 
 
 class ApiSchemaItemInfoMethodReturnsNumber(BaseModel):
     type: Literal["number"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="float", sample=0.0, patch=patch(self),
-        )
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
+        return self._dump(path=path, optional=self.optional, param_type=param_type, type="float")
 
 
 class ApiSchemaItemInfoMethodReturnsBoolean(BaseModel):
     type: Literal["boolean"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="bool", sample=False, patch=patch(self),
-        )
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
+        return self._dump(path=path, optional=self.optional, param_type=param_type, type="bool")
 
 
 class ApiSchemaItemInfoMethodReturnsNull(BaseModel):
     type: Literal["null"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="None", sample=None, patch=patch(self),
-        )
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
+        return self._dump(path=path, optional=self.optional, param_type=param_type, type="None")
 
 
 class ApiSchemaItemInfoMethodReturnsAny(BaseModel):
     type: Literal["any"]
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
-        return self._dump(
-            path=path, name=name, optional=self.optional, type_="Any", sample=None, patch=patch(self),
-        )
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
+        return self._dump(path=path, optional=self.optional, param_type=param_type, type="Any")
 
 
 class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
     type: Literal["array"]
     items: Optional[ApiSchemaItemInfoMethodReturns] = None
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
+    def dump(
+        self,
+        path: Path,
+        name: str,
+        patch: Patch,
+        param_type: Callable[[str], str | None],
+        call_type: Callable[[str], str] = lambda x:x,
+        call: bool = False,
+    ) -> Return:
         patch(self).hook()
         if self.items:
-            child = self.items.dump(path=path, name=name, patch=patch(self))
+            child = self.items.dump(path=path, name=name, patch=patch(self), param_type=param_type, call_type=lambda x: f"list[{x}]", call=call)
+            if child.primitive:
+                head = render(
+                    """
+                    @dataclass
+                    class {{ path[-1].as_class }}:
+                        proxmox_api: ProxmoxerProxmoxAPI
+                    {% if path.params %}
+                    {%   for param in path.params %}
+                        {{ param }}: {{ param_type(param.as_param) }}
+                    {%   endfor %}
+                    {% endif %}
+                        def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
+                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
+                            class validate(pydantic.BaseModel):
+                                data: {{ modeltype }}
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            return validate(data=data).data
+                    """,
+                    path=path.copy_append(Path.CodeSegment(orig=name)),
+                    dicttype=call_type(f"list[{child.dicttype}]"),
+                    modeltype=call_type(f"list[{child.modeltype}]"),
+                    param_type=param_type,
+                )
+            else:
+                assert child.code
+                head = child.code.head
             code = Code(
-                head=child.code.head if child.code else "",
+                head=head,
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
-                    {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
-                    {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
+                    @property
+                    def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
+                        return self.{{ path[-1].as_class }}(
+                            proxmox_api=self.proxmox_api,
+                    {%   if path.params %}
+                    {%     for param in path.params %}
+                            {{ param }}=self.{{ param }},
+                    {%-    endfor %}
+                    {%-  endif %}
+                        )
+                    {% if path[-1] == "post" -%}
+                    create = {{ path[-1] }}
+                    {% elif path[-1] == "put" -%}
+                    set = {{ path[-1] }}
                     {% endif -%}
                     """,
-                    child=child,
-                    name=Path.Segment(orig=name),
+                    path=path.copy_append(Path.CodeSegment(orig=name)),
                 ),
             )
             return Return(
                 code=code,
                 optional=self.optional,
                 primitive=child.primitive,
-                type=f"list[{child.type}]",
+                dicttype=f"list[{child.dicttype}]",
+                modeltype=f"list[{child.modeltype}]",
             )
         else:
+            path = path.copy_append(Path.CodeSegment(orig=name))
             code = Code(
+                head=render(
+                    """
+                    @dataclass
+                    class {{ path[-1].as_class }}:
+                        proxmox_api: ProxmoxerProxmoxAPI
+                    {% if path.params %}
+                    {%   for param in path.params %}
+                        {{ param }}: {{ param_type(param.as_param) }}
+                    {%   endfor %}
+                    {% endif %}
+                        def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
+                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
+                            class validate(pydantic.BaseModel):
+                                data: {{ modeltype }}
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            return validate(data=data).data
+                    """,
+                    path=path,
+                    dicttype="list[Any]",
+                    modeltype="list[Any]",
+                    param_type=param_type,
+                ),
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> list[Any]: return []
-                    {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> list[Any]: return []
-                    {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> list[Any]: return []
+                    @property
+                    def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
+                        return self.{{ path[-1].as_class }}(
+                            proxmox_api=self.proxmox_api,
+                    {%   if path.params %}
+                    {%     for param in path.params %}
+                            {{ param }}=self.{{ param }},
+                    {%-    endfor %}
+                    {%-  endif %}
+                        )
+                    {% if path[-1] == "post" -%}
+                    create = {{ path[-1] }}
+                    {% elif path[-1] == "put" -%}
+                    set = {{ path[-1] }}
                     {% endif -%}
                     """,
-                    name=Path.Segment(orig=name),
-                )
+                    path=path,
+                ),
             )
             return Return(
-                code=code, optional=self.optional, primitive=True, type="list[Any]"
+                code=code, optional=self.optional, primitive=True, dicttype="list[Any]", modeltype="list[Any]",
             )
 
 
@@ -265,38 +442,82 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
     properties: dict[str, ApiSchemaItemInfoMethodReturns] | None = None
     values: ApiSchemaItemInfoMethodReturns | None = None
 
-    def dump(self, path: Path, name: str, patch: Patch) -> Return:
+    def dump(
+        self,
+        path: Path,
+        name: str,
+        patch: Patch,
+        param_type: Callable[[str], str | None],
+        call_type: Callable[[str], str] = lambda x:x,
+        call: bool = False,
+    ) -> Return:
         patch(self).hook()
-        name_ = Path.Segment(orig=name)
         if self.properties:
+            path = path.copy_append(Path.CodeSegment(orig=name))
             returns: dict[str, Return] = {
-                name: prop.dump(path=path, name=name, patch=patch(self, name=name)) for name, prop in self.properties.items()
+                key: prop.dump(path=path, name=key, patch=patch(self, name=key), param_type=param_type) for key, prop in self.properties.items()
             }
             code = Code(
                 head=render(
                     """
-                    class _{{ name.as_class }}:
-                    {%- for name, return in returns.items() %}{% if return.code %}{{ return.code.headcode(indent=True) }}{% endif %}{% endfor %}
+                    @dataclass
+                    class {{ path[-1].as_class }}:
+                    {%- for return in returns.values() %}{% if not return.primitive %}{{ return.code.headcode(indent=True) }}{% endif %}{% endfor %}
                         TypedDict = typing.TypedDict('TypedDict', {
-                    {%-    for name, return in returns.items() %}
-                            {{ name.__repr__() }}: {% if return.optional %}NotRequired[{{ return.type }}]{% else %}{{ return.type }}{% endif %},
+                    {%-    for retname, return in returns.items() %}
+                            {{ Field(name=retname, ret=return).for_typeddict() }},
                     {%-   endfor %}
                         })
+                        class Model(pydantic.BaseModel):
+                    {%-    for retname, return in returns.items() %}
+                            {{ Field(name=retname, ret=return).for_model() }}
+                    {%-   endfor %}
+                        Model.__name__ = {{ repr(path.as_classpath) }}
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+                    {% if path.params %}
+                    {%   for param in path.params %}
+                        {{ param }}: {{ param_type(param.as_param) }}
+                    {%   endfor %}
+                    {% endif %}
+
+                    {%- if call %}
+                        def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
+                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
+                            class validate(pydantic.BaseModel):
+                                data: {{ modeltype }}
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            return validate(data=data).data
+                    {%- endif %}
                     """,
-                    name=Path.Segment(orig=name),
+                    Field=Field,
                     path=path,
                     returns=returns,
+                    call=call,
+                    dicttype=call_type(repr(f"{ path.as_classpath }.TypedDict")),
+                    modeltype=call_type(repr(f"{ path.as_classpath }.Model")),
+                    param_type=param_type,
                 ),
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> _{{ name.as_class }}.TypedDict: return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
-                    {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> _{{ name.as_class }}.TypedDict: return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
-                    {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> _{{ name.as_class }}.TypedDict: return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                    @property
+                    def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
+                        return self.{{ path[-1].as_class }}(
+                            proxmox_api=self.proxmox_api,
+                    {%   if path.params %}
+                    {%     for param in path.params %}
+                            {{ param }}=self.{{ param }},
+                    {%-    endfor %}
+                    {%-  endif %}
+                        )
+                    {% if path[-1] == "post" -%}
+                    create = {{ path[-1] }}
+                    {% elif path[-1] == "put" -%}
+                    set = {{ path[-1] }}
                     {% endif -%}
                     """,
-                    name=name_,
                     path=path,
                 ),
             )
@@ -304,46 +525,68 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 code=code,
                 optional=self.optional,
                 primitive=False,
-                type=f"_{name_.as_class}.TypedDict",
+                dicttype=repr(f"{path.as_classpath}.TypedDict"),
+                modeltype=repr(f"{path.as_classpath}.Model"),
             )
         elif self.values:
-            values = self.values.dump(path=path, name=name, patch=patch(self))
-            code = Code(
-                head=values.code.head if values.code else "",
-                tail=render(
-                    """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
-                    {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
-                    {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
-                    {% endif -%}
-                    """,
-                    name=name_,
-                    path=path,
-                    values=self.values,
-                )
-            )
+            values = self.values.dump(path=path, name=name, patch=patch(self), param_type=param_type)
             return Return(
-                code=code, optional=self.optional, primitive=values.primitive, type=f"dict[str, { values.type }]"
+                code=values.code,
+                dicttype=f"dict[str, { values.dicttype }]",
+                modeltype=f"dict[str, { values.modeltype }]",
+                optional=self.optional,
+                primitive=values.primitive,
             )
         else:
+            path = path.copy_append(Path.CodeSegment(orig=name))
             code = Code(
+                head=render(
+                    """
+                    @dataclass
+                    class {{ path[-1].as_class }}:
+                        proxmox_api: ProxmoxerProxmoxAPI
+                    {% if path.params %}
+                    {%   for param in path.params %}
+                        {{ param }}: {{ param_type(param.as_param) }}
+                    {%   endfor %}
+                    {% endif %}
+                        def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
+                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+
+                        def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
+                            class validate(pydantic.BaseModel):
+                                data: {{ modeltype }}
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            return validate(data=data).data
+                    """,
+                    path=path,
+                    dicttype="dict[str, Any]",
+                    modeltype="dict[str, Any]",
+                    param_type=param_type,
+                ),
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
-                    {% if str(name) == "post" -%}
-                    def create(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
-                    {% elif str(name) == "put" -%}
-                    def set(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
+                    @property
+                    def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
+                        return self.{{ path[-1].as_class }}(
+                            proxmox_api=self.proxmox_api,
+                    {%   if path.params %}
+                    {%     for param in path.params %}
+                            {{ param }}=self.{{ param }},
+                    {%-    endfor %}
+                    {%-  endif %}
+                        )
+                    {% if path[-1] == "post" -%}
+                    create = {{ path[-1] }}
+                    {% elif path[-1] == "put" -%}
+                    set = {{ path[-1] }}
                     {% endif -%}
                     """,
-                    name=name_,
                     path=path,
-                )
+                ),
             )
             return Return(
-                code=code, optional=self.optional, primitive=True, type="dict[Any, Any]"
+                code=code, optional=self.optional, primitive=True, dicttype="dict[str, Any]", modeltype="dict[str, Any]",
             )
 
 
@@ -377,7 +620,9 @@ class ApiSchemaItemInfoMethod(BaseModel):
         return self.parameters.properties.get(name) if self.parameters.properties else None
 
     def dump(self, path: Path, method: str, patch: Patch) -> Code | None:
-        return self.returns.dump(path=path, name=method, patch=patch(self)).code
+        def param_type(name: str) -> str | None:
+            return str(self.param_type(name)) if self.param_type(name) else None
+        return self.returns.dump(path=path, name=method, patch=patch(self), param_type=param_type, call=True).code
 
 
 class ApiSchemaItemInfo(BaseModel):
@@ -429,41 +674,63 @@ class ApiSchemaItem(BaseModel):
         self,
         type_check_only: bool,
         patch: Patch,
-        return_prefix: str,
         recurse: bool,
+        return_prefix: str = "",
     ) -> Code:
-        path = Path(self.path)
+        patch(self).hook()
+        path = Path.new(self.path)
         return Code(
             head=render(
                 """
                 {% if recurse -%}
                 # {{ path }}
-                {%   if type_check_only %}@type_check_only{% endif %}
+                {%   if type_check_only %}@type_check_only{% else %}@dataclass{% endif %}
                 class {{ path[-1].as_class }}:
                 {%   if childcodes -%}
                 {%     for code in childcodes -%}
                 {{       code.headcode(indent=True) }}
                 {%     endfor -%}
-                {%   endif -%}
-                {%   if path.params %}
-                {%     for param in path.params %}
-                    {{   param }}: str
-                {%-    endfor %}
-
                 {%   endif %}
                 {%   if infodump -%}
                 {{     infodump.headcode(indent=True) }}
-                {%   endif -%}
+                {%   endif %}
+                    proxmox_api: ProxmoxerProxmoxAPI
+                {%   if path.params %}
+                {%     for param in path.params %}
+                    {{   param }}: {% if info %}{{ info.param_type(param.as_param) }}{% else %}str{% endif %}
+                {%-    endfor %}
+                {%   endif %}
                 {% endif %}
                 {%- if path[-1].is_param %}
-                def __call__(self, {{ path[-1] }}: {% if info %}{{ info.param_type(path[-1].as_param) }}{% else %}str{% endif %}) -> {{ path[-1].as_class }}: return self.{{ path[-1].as_class }}()
+                def __call__(self, {{ path[-1] }}: {% if info %}{{ info.param_type(path[-1].as_param) }}{% else %}str{% endif %}) -> {{ path[-1].as_class }}:
+                    return self.{{ path[-1].as_class }}(
+                        proxmox_api=self.proxmox_api,
+                        {{ path[-1] }}={{ path[-1] }},
+                {%   if path.params %}
+                {%     for param in path.params[:-1] %}
+                        {{ param }}=self.{{ param }},
+                {%-    endfor %}
+                {%-  endif %}
+                    )
                 {%- else %}
                 @cached_property
-                {% if type_check_only %}@type_check_only{% endif %}
-                def {{ path[-1] }}(self) -> {% if return_prefix %}{{ return_prefix }}{% endif %}{{ path[-1].as_class }}: {% if type_check_only %}...{% else %}return self.{{ path[-1].as_class }}(){% endif %}
-                {% endif %}
+                {%    if type_check_only -%}
+                @type_check_only
+                def {{ path[-1] }}(self) -> {% if return_prefix %}{{ return_prefix }}{% endif %}{{ path[-1].as_class }}: ...
+                {%    else -%}
+                def {{ path[-1] }}(self) -> {% if return_prefix %}{{ return_prefix }}{% endif %}{{ path[-1].as_class }}:
+                    return self.{{ path[-1].as_class }}(
+                        proxmox_api=self.proxmox_api,
+                {%   if path.params %}
+                {%     for param in path.params %}
+                        {{ param }}=self.{{ param }},
+                {%-    endfor %}
+                {%-  endif %}
+                    )
+                {%    endif -%}
+                {% endif -%}
                 """,
-                childcodes=(child.dump(type_check_only=type_check_only, recurse=True, return_prefix='', patch=patch) for child in self.children) if self.children else None,
+                childcodes=(child.dump(type_check_only=type_check_only, recurse=True, patch=patch) for child in self.children) if self.children else None,
                 info=self.info,
                 infodump=self.info.dump(path=path, patch=patch(self)) if self.info else None,
                 path=path,
@@ -477,7 +744,7 @@ class ApiSchemaItem(BaseModel):
 class ApiSchema(BaseModel):
     children: list[ApiSchemaItem]
 
-    def stubs(self, patch: Patch) -> Code:
+    def stubs(self, patch: Patch, apiversion: str) -> Code:
         return Code(
             head=render(
                 """
@@ -538,20 +805,33 @@ class ApiSchema(BaseModel):
             )
         )
 
-    def types(self, patch: Patch) -> Code:
+    def types(self, patch: Patch, apiversion: str) -> Code:
         return Code(
             head=render(
                 """
                 import builtins
+                import proxmoxer
+                import pydantic
                 import typing
+                from dataclasses import dataclass
                 from functools import cached_property
-                from typing import Any, Literal, NotRequired
+                from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
+
+                if TYPE_CHECKING:
+                    from ..{{ apiversion }} import ProxmoxAPI as ProxmoxerProxmoxAPI
+                else:
+                    from proxmoxer import ProxmoxAPI as ProxmoxerProxmoxAPI
 
                 class ProxmoxAPI:
+                    proxmox_api: ProxmoxerProxmoxAPI
+                    def __init__(self, *args: Any, **kwargs: Any) -> None:
+                        self.proxmox_api = ProxmoxerProxmoxAPI(*args, **kwargs)
+
                 {% for code in childcodes -%}
                 {{  code.headcode(indent=True) }}
                 {% endfor -%}
                 """,
-                childcodes=(child.dump(type_check_only=False, recurse=True, return_prefix='', patch=patch) for child in self.children),
+                apiversion=apiversion,
+                childcodes=(child.dump(type_check_only=False, recurse=True, patch=patch) for child in self.children),
             )
         )

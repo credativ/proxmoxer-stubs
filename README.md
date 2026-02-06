@@ -4,6 +4,8 @@ Type annotations for data obtained by `proxmoxer.ProxmoxAPI` calls.
 
 ## Usage
 
+### Annotations only
+
 ```python
 import typing
 import proxmoxer
@@ -43,9 +45,66 @@ typing.reveal_type(api.cluster.replication("some-id").get())
 ```
 
 ```
-legacy.py:10: note: Revealed type is "builtins.dict[Any, Any]"
+legacy.py:10: note: Revealed type is "builtins.dict[builtins.str, Any]"
 Success: no issues found in 1 source file
 ```
+
+#### Dependencies
+
+- For type checking: `proxmoxer-stubs`, `pydantic`
+- At runtime: None
+
+### Wrapper mode
+
+Example from [proxmoxer](https://github.com/proxmoxer/proxmoxer):
+
+```
+from proxmoxer import ProxmoxAPI
+
+proxmox = ProxmoxAPI(
+    "proxmox_host", user="admin@pam", password="secret_word", verify_ssl=False
+)
+
+for node in proxmox.nodes.get():
+    for vm in proxmox.nodes(node["node"]).qemu.get():
+        print(f"{vm['vmid']}. {vm['name']} => {vm['status']}")
+```
+
+The above works the same in wrapper mode:
+
+```
+from proxmoxer_types.v9 import ProxmoxAPI
+
+proxmox = ProxmoxAPI(
+    "proxmox_host", user="admin@pam", password="secret_word", verify_ssl=False
+)
+
+for node in proxmox.nodes.get():
+    for vm in proxmox.nodes(node["node"]).qemu.get():
+        print(f"{vm['vmid']}. {vm['name']} => {vm['status']}")
+```
+
+The returned objects in both above cases are built-in types, possibly nested in
+`list` or `dict`. Working with those may be inconvenient, as optional
+`dict` keys may not exist at all. For convenience the following is possible:
+
+```
+for node in proxmox.nodes.get.model():
+    for vm in proxmox.nodes(node.node).qemu.get.model():
+        print(f"{vm.vmid}. {vm.name} => {vm.status}")
+```
+
+Whenever a `method(...)` call - `method` being `get`, `post`, `put`, `delete`,
+`set` or `create` - returns a structure that is or contains a
+`TypedDict`-annotated `dict`, `method.model(...)` returns a
+`pydantic.BaseModel` instead.
+
+Values of optional fields are possibly `None` in the model instance.
+
+#### Additional dependencies
+
+- For type checking: `proxmoxer-stubs`, `pydantic`
+- At runtime: `proxmoxer-stubs`, `pydantic`
 
 ## Caveats
 
@@ -64,4 +123,8 @@ ProxmoxResource (/cluster/replication/some-id)
 
 Only the first form will produce useful typing insights.
 
-Parameters to `get`, `post`, `put`, `delete` are currently not individually annotated.
+Parameters to `get`, `post`, `put`, `delete`, `set`, `create` are currently not individually annotated.
+
+The [API documentation](https://pve.proxmox.com/pve-docs/api-viewer/) is
+occasionally wrong or incomplete. In wrapper mode, `pydantic` will `raise` a
+`ValidationError` if the documentation is wrong.

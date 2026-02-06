@@ -25,6 +25,13 @@ class Patch(BasePatch):
             obj.properties["resources"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
             obj.properties["type"] = ApiSchemaItemInfoMethodReturnsString(optional=False, type="string")
 
+
+        if self == '/cluster/ha/status/current.info.GET.array.object':
+            print(f"{__name__}: Patching {self}: Specify type property as string")
+            assert isinstance(obj, ApiSchemaItemInfoMethodReturnsObject)
+            assert isinstance(obj.properties, dict)
+            obj.properties["type"] = ApiSchemaItemInfoMethodReturnsString(optional=False, type="string", enum=["quorum", "master", "lrm", "service"])
+
         # /nodes/...
 
         if self == '/nodes.info.GET.array.object':
