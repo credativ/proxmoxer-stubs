@@ -5191,6 +5191,8 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "rule": str,
+                            "affinity": NotRequired[str],
+                            "disable": NotRequired[bool],
                             "nodes": NotRequired[str],
                             "resources": NotRequired[str],
                             "type": str,
@@ -5199,6 +5201,8 @@ class ProxmoxAPI:
 
                     class Model(pydantic.BaseModel):
                         rule: str
+                        affinity: Optional[str] = None
+                        disable: Optional[bool] = None
                         nodes: Optional[str] = None
                         resources: Optional[str] = None
                         type: str
@@ -15231,7 +15235,7 @@ class ProxmoxAPI:
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[dict[str, float]]:
                                 return (
                                     self.proxmox_api.nodes(self.node)
                                     .qemu(self.vmid)
@@ -15240,9 +15244,9 @@ class ProxmoxAPI:
 
                             def model(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[dict[str, float]]:
                                 class validate(pydantic.BaseModel):
-                                    data: list[dict[str, Any]]
+                                    data: list[dict[str, float]]
 
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)
@@ -21157,7 +21161,7 @@ class ProxmoxAPI:
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[dict[str, float]]:
                                 return (
                                     self.proxmox_api.nodes(self.node)
                                     .lxc(self.vmid)
@@ -21166,9 +21170,9 @@ class ProxmoxAPI:
 
                             def model(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[dict[str, float]]:
                                 class validate(pydantic.BaseModel):
-                                    data: list[dict[str, Any]]
+                                    data: list[dict[str, float]]
 
                                 data: Any = (
                                     self.proxmox_api.nodes(self.node)

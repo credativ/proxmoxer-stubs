@@ -3,6 +3,7 @@ from . import Patch as BasePatch
 from .. import (
     ApiSchemaItemInfoMethodReturns,
     ApiSchemaItemInfoMethodReturnsArray,
+    ApiSchemaItemInfoMethodReturnsBoolean,
     ApiSchemaItemInfoMethodReturnsInteger,
     ApiSchemaItemInfoMethodReturnsNumber,
     ApiSchemaItemInfoMethodReturnsObject,
@@ -21,6 +22,8 @@ class Patch(BasePatch):
             print(f"{__name__}: Patching {self}: Add nodes, resources, type properties")
             assert isinstance(obj, ApiSchemaItemInfoMethodReturnsObject)
             assert isinstance(obj.properties, dict)
+            obj.properties["affinity"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
+            obj.properties["disable"] = ApiSchemaItemInfoMethodReturnsBoolean(optional=True, type="boolean")
             obj.properties["nodes"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
             obj.properties["resources"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
             obj.properties["type"] = ApiSchemaItemInfoMethodReturnsString(optional=False, type="string")
@@ -70,7 +73,11 @@ class Patch(BasePatch):
             assert isinstance(obj.properties, dict)
             obj.properties["index"] = ApiSchemaItemInfoMethodReturnsInteger(optional=False, type="integer")
 
-        if self == '/nodes/{node}/rrddata.info.GET.array':
+        if self in (
+            '/nodes/{node}/rrddata.info.GET.array',
+            '/nodes/{node}/qemu/{vmid}/rrddata.info.GET.array',
+            '/nodes/{node}/lxc/{vmid}/rrddata.info.GET.array',
+        ):
             print(f"{__name__}: Patching {self}: Define rrddata")
             assert isinstance(obj, ApiSchemaItemInfoMethodReturnsArray)
             assert isinstance(obj.items, ApiSchemaItemInfoMethodReturnsObject)
