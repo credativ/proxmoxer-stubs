@@ -49,3 +49,14 @@ def aliases() -> None:
 
     assert_type(proxmoxer.ProxmoxAPI().storage("storage").put()["type"], Literal['btrfs', 'cephfs', 'cifs', 'dir', 'esxi', 'iscsi', 'iscsidirect', 'lvm', 'lvmthin', 'nfs', 'pbs', 'rbd', 'zfs', 'zfspool'])
     assert_type(proxmoxer.ProxmoxAPI().storage("storage").set()["type"], Literal['btrfs', 'cephfs', 'cifs', 'dir', 'esxi', 'iscsi', 'iscsidirect', 'lvm', 'lvmthin', 'nfs', 'pbs', 'rbd', 'zfs', 'zfspool'])
+
+def test_cache() -> None:
+    from proxmoxer_types.v9 import ProxmoxAPI
+    api = ProxmoxAPI(backend="local")
+
+    assert api.nodes is api.nodes
+    assert api.nodes("foo") is api.nodes("foo")
+    assert api.nodes("foo").get is api.nodes("foo").get
+
+    assert api.nodes("foo") is not api.nodes("bar")
+    assert api.nodes("foo").get is not api.nodes("bar").get

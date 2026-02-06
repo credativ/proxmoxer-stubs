@@ -6,7 +6,7 @@ import proxmoxer
 import pydantic
 import typing
 from dataclasses import dataclass
-from functools import cached_property
+from functools import cached_property, lru_cache
 from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -93,38 +93,47 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         id=self.id,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         id=self.id,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         id=self.id,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 id: str
 
+            def __post_init__(self) -> None:
+                @lru_cache
+                def cache(id: str) -> ProxmoxAPI.Cluster.Replication.Id:
+                    return self.Id(
+                        proxmox_api=self.proxmox_api,
+                        id=id,
+                    )
+
+                self.__cache = cache
+
             def __call__(self, id: str) -> Id:
-                return self.Id(
-                    proxmox_api=self.proxmox_api,
-                    id=id,
-                )
+                return self.__cache(id)
 
             @dataclass
             class _Get:
@@ -158,19 +167,21 @@ class ProxmoxAPI:
                     )
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -272,47 +283,58 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    create = post
-
                     @property
+                    def create(self) -> _Post:
+                        return self.post
+
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     id: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(id: str) -> ProxmoxAPI.Cluster.Metrics.Server.Id:
+                        return self.Id(
+                            proxmox_api=self.proxmox_api,
+                            id=id,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, id: str) -> Id:
-                    return self.Id(
-                        proxmox_api=self.proxmox_api,
-                        id=id,
-                    )
+                    return self.__cache(id)
 
                 @dataclass
                 class _Get:
@@ -356,7 +378,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -384,7 +406,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.metrics.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -424,7 +446,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -506,31 +528,40 @@ class ProxmoxAPI:
                             ).post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(node: str) -> ProxmoxAPI.Cluster.Config.Nodes.Node:
+                        return self.Node(
+                            proxmox_api=self.proxmox_api,
+                            node=node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, node: str) -> Node:
-                    return self.Node(
-                        proxmox_api=self.proxmox_api,
-                        node=node,
-                    )
+                    return self.__cache(node)
 
                 @dataclass
                 class _Get:
@@ -566,7 +597,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -670,19 +701,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -714,7 +747,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -750,7 +783,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -792,19 +825,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.config.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -968,7 +1003,7 @@ class ProxmoxAPI:
                                 )(self.pos).put(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -976,7 +1011,7 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -984,7 +1019,7 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -992,19 +1027,30 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         group: str
                         pos: int
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(
+                            pos: int,
+                        ) -> ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos:
+                            return self.Pos(
+                                proxmox_api=self.proxmox_api,
+                                pos=pos,
+                                group=self.group,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, pos: int) -> Pos:
-                        return self.Pos(
-                            proxmox_api=self.proxmox_api,
-                            pos=pos,
-                            group=self.group,
-                        )
+                        return self.__cache(pos)
 
                     @dataclass
                     class _Delete:
@@ -1088,38 +1134,47 @@ class ProxmoxAPI:
                             ).post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             group=self.group,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             group=self.group,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             group=self.group,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     group: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(group: str) -> ProxmoxAPI.Cluster.Firewall.Groups.Group:
+                        return self.Group(
+                            proxmox_api=self.proxmox_api,
+                            group=group,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, group: str) -> Group:
-                    return self.Group(
-                        proxmox_api=self.proxmox_api,
-                        group=group,
-                    )
+                    return self.__cache(group)
 
                 @dataclass
                 class _Get:
@@ -1177,19 +1232,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1337,38 +1394,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             pos=self.pos,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             pos=self.pos,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             pos=self.pos,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     pos: int
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(pos: int) -> ProxmoxAPI.Cluster.Firewall.Rules.Pos:
+                        return self.Pos(
+                            proxmox_api=self.proxmox_api,
+                            pos=pos,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, pos: int) -> Pos:
-                    return self.Pos(
-                        proxmox_api=self.proxmox_api,
-                        pos=pos,
-                    )
+                    return self.__cache(pos)
 
                 @dataclass
                 class _Get:
@@ -1422,19 +1488,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1526,7 +1594,7 @@ class ProxmoxAPI:
                                 )(self.cidr).put(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -1534,7 +1602,7 @@ class ProxmoxAPI:
                                 cidr=self.cidr,
                             )
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -1542,7 +1610,7 @@ class ProxmoxAPI:
                                 cidr=self.cidr,
                             )
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -1550,19 +1618,30 @@ class ProxmoxAPI:
                                 cidr=self.cidr,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         name: str
                         cidr: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(
+                            cidr: str,
+                        ) -> ProxmoxAPI.Cluster.Firewall.Ipset.Name.Cidr:
+                            return self.Cidr(
+                                proxmox_api=self.proxmox_api,
+                                cidr=cidr,
+                                name=self.name,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, cidr: str) -> Cidr:
-                        return self.Cidr(
-                            proxmox_api=self.proxmox_api,
-                            cidr=cidr,
-                            name=self.name,
-                        )
+                        return self.__cache(cidr)
 
                     @dataclass
                     class _Delete:
@@ -1650,38 +1729,47 @@ class ProxmoxAPI:
                             ).post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     name: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(name: str) -> ProxmoxAPI.Cluster.Firewall.Ipset.Name:
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, name: str) -> Name:
-                    return self.Name(
-                        proxmox_api=self.proxmox_api,
-                        name=name,
-                    )
+                    return self.__cache(name)
 
                 @dataclass
                 class _Get:
@@ -1739,19 +1827,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -1829,38 +1919,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     name: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(name: str) -> ProxmoxAPI.Cluster.Firewall.Aliases.Name:
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, name: str) -> Name:
-                    return self.Name(
-                        proxmox_api=self.proxmox_api,
-                        name=name,
-                    )
+                    return self.__cache(name)
 
                 @dataclass
                 class _Get:
@@ -1920,19 +2019,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2010,19 +2111,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2072,7 +2175,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -2130,7 +2233,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -2158,7 +2261,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.firewall.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -2282,7 +2385,7 @@ class ProxmoxAPI:
                             ).included_volumes.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -2360,38 +2463,47 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         id=self.id,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         id=self.id,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         id=self.id,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 id: str
 
+            def __post_init__(self) -> None:
+                @lru_cache
+                def cache(id: str) -> ProxmoxAPI.Cluster.Backup.Id:
+                    return self.Id(
+                        proxmox_api=self.proxmox_api,
+                        id=id,
+                    )
+
+                self.__cache = cache
+
             def __call__(self, id: str) -> Id:
-                return self.Id(
-                    proxmox_api=self.proxmox_api,
-                    id=id,
-                )
+                return self.__cache(id)
 
             @dataclass
             class _Get:
@@ -2437,19 +2549,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.backup.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2511,7 +2625,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -2539,7 +2653,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.backupinfo.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -2589,14 +2703,16 @@ class ProxmoxAPI:
                                 ).migrate.post(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
                                 sid=self.sid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2633,14 +2749,16 @@ class ProxmoxAPI:
                                 ).relocate.post(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
                                 sid=self.sid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2759,38 +2877,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             sid=self.sid,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             sid=self.sid,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             sid=self.sid,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     sid: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(sid: str) -> ProxmoxAPI.Cluster.Ha.Resources.Sid:
+                        return self.Sid(
+                            proxmox_api=self.proxmox_api,
+                            sid=sid,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, sid: str) -> Sid:
-                    return self.Sid(
-                        proxmox_api=self.proxmox_api,
-                        sid=sid,
-                    )
+                    return self.__cache(sid)
 
                 @dataclass
                 class _Get:
@@ -2844,19 +2971,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -2934,38 +3063,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             group=self.group,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             group=self.group,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             group=self.group,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     group: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(group: str) -> ProxmoxAPI.Cluster.Ha.Groups.Group:
+                        return self.Group(
+                            proxmox_api=self.proxmox_api,
+                            group=group,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, group: str) -> Group:
-                    return self.Group(
-                        proxmox_api=self.proxmox_api,
-                        group=group,
-                    )
+                    return self.__cache(group)
 
                 @dataclass
                 class _Get:
@@ -3015,19 +3153,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3063,7 +3203,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -3103,7 +3243,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -3135,7 +3275,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -3179,7 +3319,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.ha.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -3265,38 +3405,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             id=self.id,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     id: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(id: str) -> ProxmoxAPI.Cluster.Acme.Plugins.Id:
+                        return self.Id(
+                            proxmox_api=self.proxmox_api,
+                            id=id,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, id: str) -> Id:
-                    return self.Id(
-                        proxmox_api=self.proxmox_api,
-                        id=id,
-                    )
+                    return self.__cache(id)
 
                 @dataclass
                 class _Get:
@@ -3350,19 +3499,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3462,38 +3613,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             name=self.name,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     name: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(name: str) -> ProxmoxAPI.Cluster.Acme.Account.Name:
+                        return self.Name(
+                            proxmox_api=self.proxmox_api,
+                            name=name,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, name: str) -> Name:
-                    return self.Name(
-                        proxmox_api=self.proxmox_api,
-                        name=name,
-                    )
+                    return self.__cache(name)
 
                 @dataclass
                 class _Get:
@@ -3533,19 +3693,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3575,7 +3737,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -3629,7 +3791,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -3689,7 +3851,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -3717,7 +3879,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.acme.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -3757,7 +3919,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -3791,7 +3953,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -3853,31 +4015,40 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             flag=self.flag,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             flag=self.flag,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     flag: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(flag: str) -> ProxmoxAPI.Cluster.Ceph.Flags.Flag:
+                        return self.Flag(
+                            proxmox_api=self.proxmox_api,
+                            flag=flag,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, flag: str) -> Flag:
-                    return self.Flag(
-                        proxmox_api=self.proxmox_api,
-                        flag=flag,
-                    )
+                    return self.__cache(flag)
 
                 @dataclass
                 class _Get:
@@ -3951,19 +4122,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -3987,7 +4160,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.ceph.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -4103,7 +4276,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def delete(self) -> _Delete:
                                 return self._Delete(
                                     proxmox_api=self.proxmox_api,
@@ -4111,7 +4284,7 @@ class ProxmoxAPI:
                                     subnet=self.subnet,
                                 )
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -4119,7 +4292,7 @@ class ProxmoxAPI:
                                     subnet=self.subnet,
                                 )
 
-                            @property
+                            @cached_property
                             def put(self) -> _Put:
                                 return self._Put(
                                     proxmox_api=self.proxmox_api,
@@ -4127,19 +4300,30 @@ class ProxmoxAPI:
                                     subnet=self.subnet,
                                 )
 
-                            set = put
+                            @property
+                            def set(self) -> _Put:
+                                return self.put
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             vnet: str
                             subnet: str
 
+                        def __post_init__(self) -> None:
+                            @lru_cache
+                            def cache(
+                                subnet: str,
+                            ) -> ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Subnets.Subnet:
+                                return self.Subnet(
+                                    proxmox_api=self.proxmox_api,
+                                    subnet=subnet,
+                                    vnet=self.vnet,
+                                )
+
+                            self.__cache = cache
+
                         def __call__(self, subnet: str) -> Subnet:
-                            return self.Subnet(
-                                proxmox_api=self.proxmox_api,
-                                subnet=subnet,
-                                vnet=self.vnet,
-                            )
+                            return self.__cache(subnet)
 
                         @dataclass
                         class _Get:
@@ -4185,21 +4369,23 @@ class ProxmoxAPI:
                                 ).subnets.post(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
                                 vnet=self.vnet,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
                                 vnet=self.vnet,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4272,38 +4458,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             vnet=self.vnet,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             vnet=self.vnet,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             vnet=self.vnet,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     vnet: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(vnet: str) -> ProxmoxAPI.Cluster.Sdn.Vnets.Vnet:
+                        return self.Vnet(
+                            proxmox_api=self.proxmox_api,
+                            vnet=vnet,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, vnet: str) -> Vnet:
-                    return self.Vnet(
-                        proxmox_api=self.proxmox_api,
-                        vnet=vnet,
-                    )
+                    return self.__cache(vnet)
 
                 @dataclass
                 class _Get:
@@ -4339,19 +4534,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4429,38 +4626,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             zone=self.zone,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             zone=self.zone,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             zone=self.zone,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     zone: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(zone: str) -> ProxmoxAPI.Cluster.Sdn.Zones.Zone:
+                        return self.Zone(
+                            proxmox_api=self.proxmox_api,
+                            zone=zone,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, zone: str) -> Zone:
-                    return self.Zone(
-                        proxmox_api=self.proxmox_api,
-                        zone=zone,
-                    )
+                    return self.__cache(zone)
 
                 @dataclass
                 class _Get:
@@ -4528,19 +4734,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4618,38 +4826,49 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             controller=self.controller,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             controller=self.controller,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             controller=self.controller,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     controller: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(
+                        controller: str,
+                    ) -> ProxmoxAPI.Cluster.Sdn.Controllers.Controller:
+                        return self.Controller(
+                            proxmox_api=self.proxmox_api,
+                            controller=controller,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, controller: str) -> Controller:
-                    return self.Controller(
-                        proxmox_api=self.proxmox_api,
-                        controller=controller,
-                    )
+                    return self.__cache(controller)
 
                 @dataclass
                 class _Get:
@@ -4709,19 +4928,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4799,38 +5020,47 @@ class ProxmoxAPI:
                             ).put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             ipam=self.ipam,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             ipam=self.ipam,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             ipam=self.ipam,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     ipam: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(ipam: str) -> ProxmoxAPI.Cluster.Sdn.Ipams.Ipam:
+                        return self.Ipam(
+                            proxmox_api=self.proxmox_api,
+                            ipam=ipam,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, ipam: str) -> Ipam:
-                    return self.Ipam(
-                        proxmox_api=self.proxmox_api,
-                        ipam=ipam,
-                    )
+                    return self.__cache(ipam)
 
                 @dataclass
                 class _Get:
@@ -4882,19 +5112,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -4972,38 +5204,47 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             dns=self.dns,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             dns=self.dns,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             dns=self.dns,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     dns: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(dns: str) -> ProxmoxAPI.Cluster.Sdn.Dns.Dns:
+                        return self.Dns(
+                            proxmox_api=self.proxmox_api,
+                            dns=dns,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, dns: str) -> Dns:
-                    return self.Dns(
-                        proxmox_api=self.proxmox_api,
-                        dns=dns,
-                    )
+                    return self.__cache(dns)
 
                 @dataclass
                 class _Get:
@@ -5055,19 +5296,21 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5121,19 +5364,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.sdn.put(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5161,7 +5406,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.log.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -5245,7 +5490,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.resources.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -5293,7 +5538,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.tasks.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -5339,19 +5584,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.options.put(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5415,7 +5662,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.status.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -5447,7 +5694,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.cluster.nextid.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -5475,7 +5722,7 @@ class ProxmoxAPI:
                 data: Any = self.proxmox_api.cluster.get(*args, **kwargs)
                 return validate(data=data).data
 
-        @property
+        @cached_property
         def get(self) -> _Get:
             return self._Get(
                 proxmox_api=self.proxmox_api,
@@ -5681,7 +5928,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def delete(self) -> _Delete:
                                     return self._Delete(
                                         proxmox_api=self.proxmox_api,
@@ -5690,7 +5937,7 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -5699,7 +5946,7 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                @property
+                                @cached_property
                                 def put(self) -> _Put:
                                     return self._Put(
                                         proxmox_api=self.proxmox_api,
@@ -5708,7 +5955,9 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                set = put
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5716,13 +5965,22 @@ class ProxmoxAPI:
                                 vmid: int
                                 pos: int
 
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    pos: int,
+                                ) -> ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos:
+                                    return self.Pos(
+                                        proxmox_api=self.proxmox_api,
+                                        pos=pos,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                    )
+
+                                self.__cache = cache
+
                             def __call__(self, pos: int) -> Pos:
-                                return self.Pos(
-                                    proxmox_api=self.proxmox_api,
-                                    pos=pos,
-                                    node=self.node,
-                                    vmid=self.vmid,
-                                )
+                                return self.__cache(pos)
 
                             @dataclass
                             class _Get:
@@ -5798,7 +6056,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -5806,7 +6064,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -5814,7 +6072,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5935,7 +6195,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def delete(self) -> _Delete:
                                     return self._Delete(
                                         proxmox_api=self.proxmox_api,
@@ -5944,7 +6204,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -5953,7 +6213,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def put(self) -> _Put:
                                     return self._Put(
                                         proxmox_api=self.proxmox_api,
@@ -5962,7 +6222,9 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                set = put
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -5970,13 +6232,24 @@ class ProxmoxAPI:
                                 vmid: int
                                 name: str
 
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    name: str,
+                                ) -> (
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases.Name
+                                ):
+                                    return self.Name(
+                                        proxmox_api=self.proxmox_api,
+                                        name=name,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                    )
+
+                                self.__cache = cache
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name(
-                                    proxmox_api=self.proxmox_api,
-                                    name=name,
-                                    node=self.node,
-                                    vmid=self.vmid,
-                                )
+                                return self.__cache(name)
 
                             @dataclass
                             class _Get:
@@ -6058,7 +6331,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -6066,7 +6339,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -6074,7 +6347,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6209,7 +6484,7 @@ class ProxmoxAPI:
                                             )
                                             return validate(data=data).data
 
-                                    @property
+                                    @cached_property
                                     def delete(self) -> _Delete:
                                         return self._Delete(
                                             proxmox_api=self.proxmox_api,
@@ -6219,7 +6494,7 @@ class ProxmoxAPI:
                                             cidr=self.cidr,
                                         )
 
-                                    @property
+                                    @cached_property
                                     def get(self) -> _Get:
                                         return self._Get(
                                             proxmox_api=self.proxmox_api,
@@ -6229,7 +6504,7 @@ class ProxmoxAPI:
                                             cidr=self.cidr,
                                         )
 
-                                    @property
+                                    @cached_property
                                     def put(self) -> _Put:
                                         return self._Put(
                                             proxmox_api=self.proxmox_api,
@@ -6239,7 +6514,9 @@ class ProxmoxAPI:
                                             cidr=self.cidr,
                                         )
 
-                                    set = put
+                                    @property
+                                    def set(self) -> _Put:
+                                        return self.put
 
                                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6248,14 +6525,25 @@ class ProxmoxAPI:
                                     name: str
                                     cidr: str
 
+                                def __post_init__(self) -> None:
+                                    @lru_cache
+                                    def cache(
+                                        cidr: str,
+                                    ) -> (
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name.Cidr
+                                    ):
+                                        return self.Cidr(
+                                            proxmox_api=self.proxmox_api,
+                                            cidr=cidr,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                        )
+
+                                    self.__cache = cache
+
                                 def __call__(self, cidr: str) -> Cidr:
-                                    return self.Cidr(
-                                        proxmox_api=self.proxmox_api,
-                                        cidr=cidr,
-                                        node=self.node,
-                                        vmid=self.vmid,
-                                        name=self.name,
-                                    )
+                                    return self.__cache(cidr)
 
                                 @dataclass
                                 class _Delete:
@@ -6379,7 +6667,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def delete(self) -> _Delete:
                                     return self._Delete(
                                         proxmox_api=self.proxmox_api,
@@ -6388,7 +6676,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -6397,7 +6685,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def post(self) -> _Post:
                                     return self._Post(
                                         proxmox_api=self.proxmox_api,
@@ -6406,7 +6694,9 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                create = post
+                                @property
+                                def create(self) -> _Post:
+                                    return self.post
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6414,13 +6704,24 @@ class ProxmoxAPI:
                                 vmid: int
                                 name: str
 
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    name: str,
+                                ) -> (
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name
+                                ):
+                                    return self.Name(
+                                        proxmox_api=self.proxmox_api,
+                                        name=name,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                    )
+
+                                self.__cache = cache
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name(
-                                    proxmox_api=self.proxmox_api,
-                                    name=name,
-                                    node=self.node,
-                                    vmid=self.vmid,
-                                )
+                                return self.__cache(name)
 
                             @dataclass
                             class _Get:
@@ -6500,7 +6801,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -6508,7 +6809,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -6516,7 +6817,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6677,7 +6980,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -6685,7 +6988,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def put(self) -> _Put:
                                 return self._Put(
                                     proxmox_api=self.proxmox_api,
@@ -6693,7 +6996,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            set = put
+                            @property
+                            def set(self) -> _Put:
+                                return self.put
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -6764,7 +7069,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -6843,7 +7148,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -6894,7 +7199,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -6953,7 +7258,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -6961,7 +7266,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7010,7 +7317,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7018,7 +7325,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7067,7 +7376,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7075,7 +7384,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7124,7 +7435,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7132,7 +7443,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7181,7 +7494,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7236,7 +7549,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7295,7 +7608,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7350,7 +7663,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7405,7 +7718,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7460,7 +7773,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7515,7 +7828,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7570,7 +7883,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7625,7 +7938,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7680,7 +7993,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7739,7 +8052,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -7794,7 +8107,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7802,7 +8115,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7851,7 +8166,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7859,7 +8174,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7908,7 +8225,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7916,7 +8233,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -7965,7 +8284,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -7973,7 +8292,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8022,7 +8343,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -8030,7 +8351,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8079,7 +8402,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -8087,7 +8410,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8150,7 +8475,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -8158,7 +8483,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8239,7 +8566,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -8308,7 +8635,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -8359,7 +8686,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -8367,7 +8694,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8442,7 +8771,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -8450,7 +8779,7 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -8458,7 +8787,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -8521,7 +8852,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -8576,7 +8907,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -9005,7 +9336,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -9013,7 +9344,7 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -9021,9 +9352,11 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
-
                         @property
+                        def create(self) -> _Post:
+                            return self.post
+
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -9031,7 +9364,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9106,7 +9441,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -9157,7 +9492,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -9165,7 +9500,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9238,7 +9575,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -9246,7 +9583,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9317,7 +9656,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -9325,7 +9664,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9388,7 +9729,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -9467,7 +9808,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -9475,7 +9816,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9574,7 +9917,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -9625,7 +9968,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9633,7 +9976,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9678,7 +10023,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9686,7 +10031,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9731,7 +10078,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9739,7 +10086,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9784,7 +10133,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9792,7 +10141,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9837,7 +10188,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9845,7 +10196,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9890,7 +10243,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9898,7 +10251,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -9943,7 +10298,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -9951,7 +10306,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10016,7 +10373,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -10067,7 +10424,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -10075,7 +10432,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10142,7 +10501,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -10193,7 +10552,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -10201,7 +10560,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10246,7 +10607,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -10254,7 +10615,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10353,7 +10716,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -10361,7 +10724,7 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -10369,7 +10732,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10414,7 +10779,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -10422,7 +10787,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10467,7 +10834,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -10475,7 +10842,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10568,7 +10937,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -10577,7 +10946,7 @@ class ProxmoxAPI:
                                         snapname=self.snapname,
                                     )
 
-                                @property
+                                @cached_property
                                 def put(self) -> _Put:
                                     return self._Put(
                                         proxmox_api=self.proxmox_api,
@@ -10586,7 +10955,9 @@ class ProxmoxAPI:
                                         snapname=self.snapname,
                                     )
 
-                                set = put
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10639,7 +11010,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def post(self) -> _Post:
                                     return self._Post(
                                         proxmox_api=self.proxmox_api,
@@ -10648,7 +11019,9 @@ class ProxmoxAPI:
                                         snapname=self.snapname,
                                     )
 
-                                create = post
+                                @property
+                                def create(self) -> _Post:
+                                    return self.post
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10729,7 +11102,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def delete(self) -> _Delete:
                                 return self._Delete(
                                     proxmox_api=self.proxmox_api,
@@ -10738,7 +11111,7 @@ class ProxmoxAPI:
                                     snapname=self.snapname,
                                 )
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -10753,13 +11126,22 @@ class ProxmoxAPI:
                             vmid: int
                             snapname: str
 
+                        def __post_init__(self) -> None:
+                            @lru_cache
+                            def cache(
+                                snapname: str,
+                            ) -> ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot.Snapname:
+                                return self.Snapname(
+                                    proxmox_api=self.proxmox_api,
+                                    snapname=snapname,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            self.__cache = cache
+
                         def __call__(self, snapname: str) -> Snapname:
-                            return self.Snapname(
-                                proxmox_api=self.proxmox_api,
-                                snapname=snapname,
-                                node=self.node,
-                                vmid=self.vmid,
-                            )
+                            return self.__cache(snapname)
 
                         @dataclass
                         class _Get:
@@ -10845,7 +11227,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -10853,7 +11235,7 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -10861,7 +11243,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10906,7 +11290,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -10914,7 +11298,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -10963,7 +11349,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -11065,7 +11451,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
@@ -11073,7 +11459,7 @@ class ProxmoxAPI:
                             vmid=self.vmid,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -11086,12 +11472,19 @@ class ProxmoxAPI:
                     node: str
                     vmid: int
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(vmid: int) -> ProxmoxAPI.Nodes.Node.Qemu.Vmid:
+                        return self.Vmid(
+                            proxmox_api=self.proxmox_api,
+                            vmid=vmid,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, vmid: int) -> Vmid:
-                    return self.Vmid(
-                        proxmox_api=self.proxmox_api,
-                        vmid=vmid,
-                        node=self.node,
-                    )
+                    return self.__cache(vmid)
 
                 @dataclass
                 class _Get:
@@ -11177,21 +11570,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11248,7 +11643,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -11474,7 +11869,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -11482,7 +11877,7 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -11490,7 +11885,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11577,7 +11974,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -11628,7 +12025,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -11636,7 +12033,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11681,7 +12080,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -11689,7 +12088,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11734,7 +12135,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -11742,7 +12143,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11787,7 +12190,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -11795,7 +12198,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11840,7 +12245,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -11848,7 +12253,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11893,7 +12300,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -11901,7 +12308,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -11966,7 +12375,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -12031,7 +12440,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def post(self) -> _Post:
                                     return self._Post(
                                         proxmox_api=self.proxmox_api,
@@ -12040,7 +12449,9 @@ class ProxmoxAPI:
                                         snapname=self.snapname,
                                     )
 
-                                create = post
+                                @property
+                                def create(self) -> _Post:
+                                    return self.post
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12127,7 +12538,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -12136,7 +12547,7 @@ class ProxmoxAPI:
                                         snapname=self.snapname,
                                     )
 
-                                @property
+                                @cached_property
                                 def put(self) -> _Put:
                                     return self._Put(
                                         proxmox_api=self.proxmox_api,
@@ -12145,7 +12556,9 @@ class ProxmoxAPI:
                                         snapname=self.snapname,
                                     )
 
-                                set = put
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12226,7 +12639,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def delete(self) -> _Delete:
                                 return self._Delete(
                                     proxmox_api=self.proxmox_api,
@@ -12235,7 +12648,7 @@ class ProxmoxAPI:
                                     snapname=self.snapname,
                                 )
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -12250,13 +12663,22 @@ class ProxmoxAPI:
                             vmid: int
                             snapname: str
 
+                        def __post_init__(self) -> None:
+                            @lru_cache
+                            def cache(
+                                snapname: str,
+                            ) -> ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot.Snapname:
+                                return self.Snapname(
+                                    proxmox_api=self.proxmox_api,
+                                    snapname=snapname,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            self.__cache = cache
+
                         def __call__(self, snapname: str) -> Snapname:
-                            return self.Snapname(
-                                proxmox_api=self.proxmox_api,
-                                snapname=snapname,
-                                node=self.node,
-                                vmid=self.vmid,
-                            )
+                            return self.__cache(snapname)
 
                         @dataclass
                         class _Get:
@@ -12340,7 +12762,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -12348,7 +12770,7 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -12356,7 +12778,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12547,7 +12971,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def delete(self) -> _Delete:
                                     return self._Delete(
                                         proxmox_api=self.proxmox_api,
@@ -12556,7 +12980,7 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -12565,7 +12989,7 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                @property
+                                @cached_property
                                 def put(self) -> _Put:
                                     return self._Put(
                                         proxmox_api=self.proxmox_api,
@@ -12574,7 +12998,9 @@ class ProxmoxAPI:
                                         pos=self.pos,
                                     )
 
-                                set = put
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12582,13 +13008,22 @@ class ProxmoxAPI:
                                 vmid: int
                                 pos: int
 
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    pos: int,
+                                ) -> ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos:
+                                    return self.Pos(
+                                        proxmox_api=self.proxmox_api,
+                                        pos=pos,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                    )
+
+                                self.__cache = cache
+
                             def __call__(self, pos: int) -> Pos:
-                                return self.Pos(
-                                    proxmox_api=self.proxmox_api,
-                                    pos=pos,
-                                    node=self.node,
-                                    vmid=self.vmid,
-                                )
+                                return self.__cache(pos)
 
                             @dataclass
                             class _Get:
@@ -12666,7 +13101,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -12674,7 +13109,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -12682,7 +13117,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12803,7 +13240,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def delete(self) -> _Delete:
                                     return self._Delete(
                                         proxmox_api=self.proxmox_api,
@@ -12812,7 +13249,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -12821,7 +13258,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def put(self) -> _Put:
                                     return self._Put(
                                         proxmox_api=self.proxmox_api,
@@ -12830,7 +13267,9 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                set = put
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -12838,13 +13277,24 @@ class ProxmoxAPI:
                                 vmid: int
                                 name: str
 
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    name: str,
+                                ) -> (
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases.Name
+                                ):
+                                    return self.Name(
+                                        proxmox_api=self.proxmox_api,
+                                        name=name,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                    )
+
+                                self.__cache = cache
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name(
-                                    proxmox_api=self.proxmox_api,
-                                    name=name,
-                                    node=self.node,
-                                    vmid=self.vmid,
-                                )
+                                return self.__cache(name)
 
                             @dataclass
                             class _Get:
@@ -12926,7 +13376,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -12934,7 +13384,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -12942,7 +13392,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13077,7 +13529,7 @@ class ProxmoxAPI:
                                             )
                                             return validate(data=data).data
 
-                                    @property
+                                    @cached_property
                                     def delete(self) -> _Delete:
                                         return self._Delete(
                                             proxmox_api=self.proxmox_api,
@@ -13087,7 +13539,7 @@ class ProxmoxAPI:
                                             cidr=self.cidr,
                                         )
 
-                                    @property
+                                    @cached_property
                                     def get(self) -> _Get:
                                         return self._Get(
                                             proxmox_api=self.proxmox_api,
@@ -13097,7 +13549,7 @@ class ProxmoxAPI:
                                             cidr=self.cidr,
                                         )
 
-                                    @property
+                                    @cached_property
                                     def put(self) -> _Put:
                                         return self._Put(
                                             proxmox_api=self.proxmox_api,
@@ -13107,7 +13559,9 @@ class ProxmoxAPI:
                                             cidr=self.cidr,
                                         )
 
-                                    set = put
+                                    @property
+                                    def set(self) -> _Put:
+                                        return self.put
 
                                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13116,14 +13570,25 @@ class ProxmoxAPI:
                                     name: str
                                     cidr: str
 
+                                def __post_init__(self) -> None:
+                                    @lru_cache
+                                    def cache(
+                                        cidr: str,
+                                    ) -> (
+                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name.Cidr
+                                    ):
+                                        return self.Cidr(
+                                            proxmox_api=self.proxmox_api,
+                                            cidr=cidr,
+                                            node=self.node,
+                                            vmid=self.vmid,
+                                            name=self.name,
+                                        )
+
+                                    self.__cache = cache
+
                                 def __call__(self, cidr: str) -> Cidr:
-                                    return self.Cidr(
-                                        proxmox_api=self.proxmox_api,
-                                        cidr=cidr,
-                                        node=self.node,
-                                        vmid=self.vmid,
-                                        name=self.name,
-                                    )
+                                    return self.__cache(cidr)
 
                                 @dataclass
                                 class _Delete:
@@ -13247,7 +13712,7 @@ class ProxmoxAPI:
                                         )
                                         return validate(data=data).data
 
-                                @property
+                                @cached_property
                                 def delete(self) -> _Delete:
                                     return self._Delete(
                                         proxmox_api=self.proxmox_api,
@@ -13256,7 +13721,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def get(self) -> _Get:
                                     return self._Get(
                                         proxmox_api=self.proxmox_api,
@@ -13265,7 +13730,7 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                @property
+                                @cached_property
                                 def post(self) -> _Post:
                                     return self._Post(
                                         proxmox_api=self.proxmox_api,
@@ -13274,7 +13739,9 @@ class ProxmoxAPI:
                                         name=self.name,
                                     )
 
-                                create = post
+                                @property
+                                def create(self) -> _Post:
+                                    return self.post
 
                                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13282,13 +13749,22 @@ class ProxmoxAPI:
                                 vmid: int
                                 name: str
 
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    name: str,
+                                ) -> ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name:
+                                    return self.Name(
+                                        proxmox_api=self.proxmox_api,
+                                        name=name,
+                                        node=self.node,
+                                        vmid=self.vmid,
+                                    )
+
+                                self.__cache = cache
+
                             def __call__(self, name: str) -> Name:
-                                return self.Name(
-                                    proxmox_api=self.proxmox_api,
-                                    name=name,
-                                    node=self.node,
-                                    vmid=self.vmid,
-                                )
+                                return self.__cache(name)
 
                             @dataclass
                             class _Get:
@@ -13370,7 +13846,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -13378,7 +13854,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -13386,7 +13862,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13547,7 +14025,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -13555,7 +14033,7 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            @property
+                            @cached_property
                             def put(self) -> _Put:
                                 return self._Put(
                                     proxmox_api=self.proxmox_api,
@@ -13563,7 +14041,9 @@ class ProxmoxAPI:
                                     vmid=self.vmid,
                                 )
 
-                            set = put
+                            @property
+                            def set(self) -> _Put:
+                                return self.put
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -13634,7 +14114,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -13713,7 +14193,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -13764,7 +14244,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -13833,7 +14313,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -13888,7 +14368,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -13965,7 +14445,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -13973,7 +14453,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14042,7 +14524,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -14050,7 +14532,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14115,7 +14599,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -14194,7 +14678,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -14202,7 +14686,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14247,7 +14733,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -14255,7 +14741,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14320,7 +14808,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -14371,7 +14859,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -14379,7 +14867,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14424,7 +14914,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -14432,7 +14922,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14477,7 +14969,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -14485,7 +14977,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14530,7 +15024,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -14538,7 +15032,9 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14613,7 +15109,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -14702,7 +15198,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
@@ -14710,7 +15206,7 @@ class ProxmoxAPI:
                             vmid=self.vmid,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -14723,12 +15219,19 @@ class ProxmoxAPI:
                     node: str
                     vmid: int
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(vmid: int) -> ProxmoxAPI.Nodes.Node.Lxc.Vmid:
+                        return self.Vmid(
+                            proxmox_api=self.proxmox_api,
+                            vmid=vmid,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, vmid: int) -> Vmid:
-                    return self.Vmid(
-                        proxmox_api=self.proxmox_api,
-                        vmid=vmid,
-                        node=self.node,
-                    )
+                    return self.__cache(vmid)
 
                 @dataclass
                 class _Get:
@@ -14804,21 +15307,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14873,7 +15378,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -14881,7 +15386,9 @@ class ProxmoxAPI:
                                     osdid=self.osdid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14926,7 +15433,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -14934,7 +15441,9 @@ class ProxmoxAPI:
                                     osdid=self.osdid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -14979,7 +15488,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -14987,7 +15496,9 @@ class ProxmoxAPI:
                                     osdid=self.osdid,
                                 )
 
-                            create = post
+                            @property
+                            def create(self) -> _Post:
+                                return self.post
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15028,7 +15539,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -15041,12 +15552,19 @@ class ProxmoxAPI:
                         node: str
                         osdid: int
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(osdid: int) -> ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid:
+                            return self.Osdid(
+                                proxmox_api=self.proxmox_api,
+                                osdid=osdid,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, osdid: int) -> Osdid:
-                        return self.Osdid(
-                            proxmox_api=self.proxmox_api,
-                            osdid=osdid,
-                            node=self.node,
-                        )
+                        return self.__cache(osdid)
 
                     @dataclass
                     class _Get:
@@ -15088,21 +15606,23 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -15175,7 +15695,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -15183,7 +15703,7 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -15191,19 +15711,28 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(name: str) -> ProxmoxAPI.Nodes.Node.Ceph.Mds.Name:
+                            return self.Name(
+                                proxmox_api=self.proxmox_api,
+                                name=name,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, name: str) -> Name:
-                        return self.Name(
-                            proxmox_api=self.proxmox_api,
-                            name=name,
-                            node=self.node,
-                        )
+                        return self.__cache(name)
 
                     @dataclass
                     class _Get:
@@ -15251,7 +15780,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -15329,7 +15858,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -15337,7 +15866,7 @@ class ProxmoxAPI:
                                 id=self.id,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -15345,19 +15874,28 @@ class ProxmoxAPI:
                                 id=self.id,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         id: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(id: str) -> ProxmoxAPI.Nodes.Node.Ceph.Mgr.Id:
+                            return self.Id(
+                                proxmox_api=self.proxmox_api,
+                                id=id,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, id: str) -> Id:
-                        return self.Id(
-                            proxmox_api=self.proxmox_api,
-                            id=id,
-                            node=self.node,
-                        )
+                        return self.__cache(id)
 
                     @dataclass
                     class _Get:
@@ -15401,7 +15939,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -15479,7 +16017,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -15487,7 +16025,7 @@ class ProxmoxAPI:
                                 monid=self.monid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -15495,19 +16033,28 @@ class ProxmoxAPI:
                                 monid=self.monid,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         monid: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(monid: str) -> ProxmoxAPI.Nodes.Node.Ceph.Mon.Monid:
+                            return self.Monid(
+                                proxmox_api=self.proxmox_api,
+                                monid=monid,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, monid: str) -> Monid:
-                        return self.Monid(
-                            proxmox_api=self.proxmox_api,
-                            monid=monid,
-                            node=self.node,
-                        )
+                        return self.__cache(monid)
 
                     @dataclass
                     class _Get:
@@ -15549,7 +16096,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -15601,7 +16148,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -15609,19 +16156,28 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(name: str) -> ProxmoxAPI.Nodes.Node.Ceph.Fs.Name:
+                            return self.Name(
+                                proxmox_api=self.proxmox_api,
+                                name=name,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, name: str) -> Name:
-                        return self.Name(
-                            proxmox_api=self.proxmox_api,
-                            name=name,
-                            node=self.node,
-                        )
+                        return self.__cache(name)
 
                     @dataclass
                     class _Get:
@@ -15663,7 +16219,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -15841,7 +16397,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -15849,7 +16405,7 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -15857,7 +16413,7 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -15865,19 +16421,28 @@ class ProxmoxAPI:
                                 name=self.name,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         name: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(name: str) -> ProxmoxAPI.Nodes.Node.Ceph.Pools.Name:
+                            return self.Name(
+                                proxmox_api=self.proxmox_api,
+                                name=name,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, name: str) -> Name:
-                        return self.Name(
-                            proxmox_api=self.proxmox_api,
-                            name=name,
-                            node=self.node,
-                        )
+                        return self.__cache(name)
 
                     @dataclass
                     class _Get:
@@ -15965,21 +16530,23 @@ class ProxmoxAPI:
                             ).ceph.pools.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16048,7 +16615,7 @@ class ProxmoxAPI:
                             ).ceph.disks.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16090,7 +16657,7 @@ class ProxmoxAPI:
                             ).ceph.config.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16160,7 +16727,7 @@ class ProxmoxAPI:
                             ).ceph.configdb.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16202,14 +16769,16 @@ class ProxmoxAPI:
                             ).ceph.init.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16246,14 +16815,16 @@ class ProxmoxAPI:
                             ).ceph.stop.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16290,14 +16861,16 @@ class ProxmoxAPI:
                             ).ceph.start.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16334,14 +16907,16 @@ class ProxmoxAPI:
                             ).ceph.restart.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16378,7 +16953,7 @@ class ProxmoxAPI:
                             ).ceph.status.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16456,7 +17031,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -16464,7 +17039,7 @@ class ProxmoxAPI:
                                 flag=self.flag,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -16472,19 +17047,28 @@ class ProxmoxAPI:
                                 flag=self.flag,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         flag: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(flag: str) -> ProxmoxAPI.Nodes.Node.Ceph.Flags.Flag:
+                            return self.Flag(
+                                proxmox_api=self.proxmox_api,
+                                flag=flag,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, flag: str) -> Flag:
-                        return self.Flag(
-                            proxmox_api=self.proxmox_api,
-                            flag=flag,
-                            node=self.node,
-                        )
+                        return self.__cache(flag)
 
                     @dataclass
                     class _Get:
@@ -16506,7 +17090,7 @@ class ProxmoxAPI:
                             ).ceph.flags.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16548,7 +17132,7 @@ class ProxmoxAPI:
                             ).ceph.crush.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16608,7 +17192,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16654,7 +17238,7 @@ class ProxmoxAPI:
                             ).ceph.rules.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16694,7 +17278,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -16824,7 +17408,7 @@ class ProxmoxAPI:
                             ).vzdump.defaults.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16866,7 +17450,7 @@ class ProxmoxAPI:
                             ).vzdump.extractconfig.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -16904,14 +17488,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -16966,7 +17552,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -17017,7 +17603,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -17025,7 +17611,9 @@ class ProxmoxAPI:
                                 service=self.service,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -17070,7 +17658,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -17078,7 +17666,9 @@ class ProxmoxAPI:
                                 service=self.service,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -17123,7 +17713,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -17131,7 +17721,9 @@ class ProxmoxAPI:
                                 service=self.service,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -17176,7 +17768,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -17184,7 +17776,9 @@ class ProxmoxAPI:
                                 service=self.service,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -17245,7 +17839,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -17258,12 +17852,19 @@ class ProxmoxAPI:
                     node: str
                     service: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(service: str) -> ProxmoxAPI.Nodes.Node.Services.Service:
+                        return self.Service(
+                            proxmox_api=self.proxmox_api,
+                            service=service,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, service: str) -> Service:
-                    return self.Service(
-                        proxmox_api=self.proxmox_api,
-                        service=service,
-                        node=self.node,
-                    )
+                    return self.__cache(service)
 
                 @dataclass
                 class _Get:
@@ -17287,7 +17888,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -17389,37 +17990,41 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
-
                 @property
+                def create(self) -> _Post:
+                    return self.post
+
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -17536,7 +18141,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
@@ -17544,7 +18149,7 @@ class ProxmoxAPI:
                             iface=self.iface,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -17552,7 +18157,7 @@ class ProxmoxAPI:
                             iface=self.iface,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
@@ -17560,19 +18165,28 @@ class ProxmoxAPI:
                             iface=self.iface,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
                     iface: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(iface: str) -> ProxmoxAPI.Nodes.Node.Network.Iface:
+                        return self.Iface(
+                            proxmox_api=self.proxmox_api,
+                            iface=iface,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, iface: str) -> Iface:
-                    return self.Iface(
-                        proxmox_api=self.proxmox_api,
-                        iface=iface,
-                        node=self.node,
-                    )
+                    return self.__cache(iface)
 
                 @dataclass
                 class _Delete:
@@ -17656,37 +18270,41 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
-
                 @property
+                def create(self) -> _Post:
+                    return self.post
+
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -17761,7 +18379,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -17834,7 +18452,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -17911,7 +18529,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
@@ -17919,7 +18537,7 @@ class ProxmoxAPI:
                             upid=self.upid,
                         )
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -17932,12 +18550,19 @@ class ProxmoxAPI:
                     node: str
                     upid: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(upid: str) -> ProxmoxAPI.Nodes.Node.Tasks.Upid:
+                        return self.Upid(
+                            proxmox_api=self.proxmox_api,
+                            upid=upid,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, upid: str) -> Upid:
-                    return self.Upid(
-                        proxmox_api=self.proxmox_api,
-                        upid=upid,
-                        node=self.node,
-                    )
+                    return self.__cache(upid)
 
                 @dataclass
                 class _Get:
@@ -17993,7 +18618,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -18057,7 +18682,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18117,7 +18742,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18177,7 +18802,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18239,7 +18864,7 @@ class ProxmoxAPI:
                             ).scan.glusterfs.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18301,7 +18926,7 @@ class ProxmoxAPI:
                             ).scan.iscsi.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18359,7 +18984,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18419,7 +19044,7 @@ class ProxmoxAPI:
                             ).scan.lvmthin.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18477,7 +19102,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18557,7 +19182,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18611,7 +19236,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -18699,7 +19324,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -18770,7 +19395,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -18783,12 +19408,21 @@ class ProxmoxAPI:
                         node: str
                         pciid: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(
+                            pciid: str,
+                        ) -> ProxmoxAPI.Nodes.Node.Hardware.Pci.Pciid:
+                            return self.Pciid(
+                                proxmox_api=self.proxmox_api,
+                                pciid=pciid,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, pciid: str) -> Pciid:
-                        return self.Pciid(
-                            proxmox_api=self.proxmox_api,
-                            pciid=pciid,
-                            node=self.node,
-                        )
+                        return self.__cache(pciid)
 
                     @dataclass
                     class _Get:
@@ -18850,7 +19484,7 @@ class ProxmoxAPI:
                             ).hardware.pci.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18932,7 +19566,7 @@ class ProxmoxAPI:
                             ).hardware.usb.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -18986,7 +19620,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -19064,7 +19698,7 @@ class ProxmoxAPI:
                                 ).capabilities.qemu.machines.get(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -19106,7 +19740,7 @@ class ProxmoxAPI:
                             ).capabilities.qemu.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -19146,7 +19780,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -19258,7 +19892,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -19266,7 +19900,7 @@ class ProxmoxAPI:
                                 storage=self.storage,
                             )
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -19439,7 +20073,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def delete(self) -> _Delete:
                                 return self._Delete(
                                     proxmox_api=self.proxmox_api,
@@ -19448,7 +20082,7 @@ class ProxmoxAPI:
                                     volume=self.volume,
                                 )
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -19457,7 +20091,7 @@ class ProxmoxAPI:
                                     volume=self.volume,
                                 )
 
-                            @property
+                            @cached_property
                             def post(self) -> _Post:
                                 return self._Post(
                                     proxmox_api=self.proxmox_api,
@@ -19466,9 +20100,11 @@ class ProxmoxAPI:
                                     volume=self.volume,
                                 )
 
-                            create = post
-
                             @property
+                            def create(self) -> _Post:
+                                return self.post
+
+                            @cached_property
                             def put(self) -> _Put:
                                 return self._Put(
                                     proxmox_api=self.proxmox_api,
@@ -19477,7 +20113,9 @@ class ProxmoxAPI:
                                     volume=self.volume,
                                 )
 
-                            set = put
+                            @property
+                            def set(self) -> _Put:
+                                return self.put
 
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -19485,13 +20123,22 @@ class ProxmoxAPI:
                             storage: str
                             volume: str
 
+                        def __post_init__(self) -> None:
+                            @lru_cache
+                            def cache(
+                                volume: str,
+                            ) -> ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume:
+                                return self.Volume(
+                                    proxmox_api=self.proxmox_api,
+                                    volume=volume,
+                                    node=self.node,
+                                    storage=self.storage,
+                                )
+
+                            self.__cache = cache
+
                         def __call__(self, volume: str) -> Volume:
-                            return self.Volume(
-                                proxmox_api=self.proxmox_api,
-                                volume=volume,
-                                node=self.node,
-                                storage=self.storage,
-                            )
+                            return self.__cache(volume)
 
                         @dataclass
                         class _Get:
@@ -19613,7 +20260,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -19621,7 +20268,7 @@ class ProxmoxAPI:
                                 storage=self.storage,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -19629,7 +20276,9 @@ class ProxmoxAPI:
                                 storage=self.storage,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -19710,7 +20359,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -19761,7 +20410,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -19829,7 +20478,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -19898,7 +20547,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -19953,7 +20602,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -20004,7 +20653,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -20012,7 +20661,9 @@ class ProxmoxAPI:
                                 storage=self.storage,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -20073,7 +20724,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -20086,12 +20737,19 @@ class ProxmoxAPI:
                     node: str
                     storage: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(storage: str) -> ProxmoxAPI.Nodes.Node.Storage.Storage:
+                        return self.Storage(
+                            proxmox_api=self.proxmox_api,
+                            storage=storage,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, storage: str) -> Storage:
-                    return self.Storage(
-                        proxmox_api=self.proxmox_api,
-                        storage=storage,
-                        node=self.node,
-                    )
+                    return self.__cache(storage)
 
                 @dataclass
                 class _Get:
@@ -20147,7 +20805,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -20295,21 +20953,23 @@ class ProxmoxAPI:
                             ).disks.lvm.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -20392,21 +21052,23 @@ class ProxmoxAPI:
                             ).disks.lvmthin.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -20491,21 +21153,23 @@ class ProxmoxAPI:
                             ).disks.directory.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -20614,7 +21278,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -20627,12 +21291,19 @@ class ProxmoxAPI:
                         node: str
                         name: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(name: str) -> ProxmoxAPI.Nodes.Node.Disks.Zfs.Name:
+                            return self.Name(
+                                proxmox_api=self.proxmox_api,
+                                name=name,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, name: str) -> Name:
-                        return self.Name(
-                            proxmox_api=self.proxmox_api,
-                            name=name,
-                            node=self.node,
-                        )
+                        return self.__cache(name)
 
                     @dataclass
                     class _Get:
@@ -20702,21 +21373,23 @@ class ProxmoxAPI:
                             ).disks.zfs.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -20791,7 +21464,7 @@ class ProxmoxAPI:
                             ).disks.list.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -20855,7 +21528,7 @@ class ProxmoxAPI:
                             ).disks.smart.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -20897,14 +21570,16 @@ class ProxmoxAPI:
                             ).disks.initgpt.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -20939,7 +21614,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -21009,21 +21684,23 @@ class ProxmoxAPI:
                             ).apt.update.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -21060,7 +21737,7 @@ class ProxmoxAPI:
                             ).apt.changelog.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -21106,7 +21783,7 @@ class ProxmoxAPI:
                             ).apt.versions.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -21160,7 +21837,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -21340,7 +22017,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -21348,7 +22025,7 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -21356,7 +22033,7 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        @property
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -21364,19 +22041,28 @@ class ProxmoxAPI:
                                 pos=self.pos,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
                         pos: int
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(pos: int) -> ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos:
+                            return self.Pos(
+                                proxmox_api=self.proxmox_api,
+                                pos=pos,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, pos: int) -> Pos:
-                        return self.Pos(
-                            proxmox_api=self.proxmox_api,
-                            pos=pos,
-                            node=self.node,
-                        )
+                        return self.__cache(pos)
 
                     @dataclass
                     class _Get:
@@ -21438,21 +22124,23 @@ class ProxmoxAPI:
                             ).firewall.rules.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -21655,21 +22343,23 @@ class ProxmoxAPI:
                             ).firewall.options.put(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def put(self) -> _Put:
                         return self._Put(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    set = put
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -21726,7 +22416,7 @@ class ProxmoxAPI:
                             ).firewall.log.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -21766,7 +22456,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -21826,7 +22516,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -21903,7 +22593,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -21954,7 +22644,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -21962,7 +22652,9 @@ class ProxmoxAPI:
                                 id=self.id,
                             )
 
-                        create = post
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -22007,7 +22699,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -22020,12 +22712,19 @@ class ProxmoxAPI:
                     node: str
                     id: str
 
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(id: str) -> ProxmoxAPI.Nodes.Node.Replication.Id:
+                        return self.Id(
+                            proxmox_api=self.proxmox_api,
+                            id=id,
+                            node=self.node,
+                        )
+
+                    self.__cache = cache
+
                 def __call__(self, id: str) -> Id:
-                    return self.Id(
-                        proxmox_api=self.proxmox_api,
-                        id=id,
-                        node=self.node,
-                    )
+                    return self.__cache(id)
 
                 @dataclass
                 class _Get:
@@ -22063,7 +22762,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -22153,30 +22852,34 @@ class ProxmoxAPI:
                                 ).certificates.acme.certificate.put(*args, **kwargs)
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
                                 node=self.node,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
                                 node=self.node,
                             )
 
-                        create = post
-
                         @property
+                        def create(self) -> _Post:
+                            return self.post
+
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
                                 node=self.node,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -22213,7 +22916,7 @@ class ProxmoxAPI:
                             ).certificates.acme.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -22297,7 +23000,7 @@ class ProxmoxAPI:
                             ).certificates.info.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -22401,21 +23104,23 @@ class ProxmoxAPI:
                             ).certificates.custom.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def delete(self) -> _Delete:
                         return self._Delete(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             node=self.node,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -22450,7 +23155,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -22512,21 +23217,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -22609,7 +23316,7 @@ class ProxmoxAPI:
                                     )
                                     return validate(data=data).data
 
-                            @property
+                            @cached_property
                             def get(self) -> _Get:
                                 return self._Get(
                                     proxmox_api=self.proxmox_api,
@@ -22678,7 +23385,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -22691,12 +23398,19 @@ class ProxmoxAPI:
                         node: str
                         zone: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(zone: str) -> ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone:
+                            return self.Zone(
+                                proxmox_api=self.proxmox_api,
+                                zone=zone,
+                                node=self.node,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, zone: str) -> Zone:
-                        return self.Zone(
-                            proxmox_api=self.proxmox_api,
-                            zone=zone,
-                            node=self.node,
-                        )
+                        return self.__cache(zone)
 
                     @dataclass
                     class _Get:
@@ -22736,7 +23450,7 @@ class ProxmoxAPI:
                             )
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -22776,7 +23490,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -22838,7 +23552,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -22900,21 +23614,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -22953,7 +23669,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -22995,14 +23711,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23039,14 +23757,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23099,7 +23819,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -23143,7 +23863,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -23203,7 +23923,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -23245,7 +23965,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -23311,14 +24031,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23377,14 +24099,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23437,7 +24161,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -23503,14 +24227,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23589,21 +24315,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23680,21 +24408,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23753,21 +24483,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23804,7 +24536,7 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
@@ -23846,14 +24578,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23890,14 +24624,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23934,14 +24670,16 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -24016,21 +24754,23 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                @property
+                @cached_property
                 def post(self) -> _Post:
                     return self._Post(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
 
-                create = post
+                @property
+                def create(self) -> _Post:
+                    return self.post
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
@@ -24059,7 +24799,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.nodes(self.node).get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -24070,11 +24810,18 @@ class ProxmoxAPI:
 
             node: str
 
+        def __post_init__(self) -> None:
+            @lru_cache
+            def cache(node: str) -> ProxmoxAPI.Nodes.Node:
+                return self.Node(
+                    proxmox_api=self.proxmox_api,
+                    node=node,
+                )
+
+            self.__cache = cache
+
         def __call__(self, node: str) -> Node:
-            return self.Node(
-                proxmox_api=self.proxmox_api,
-                node=node,
-            )
+            return self.__cache(node)
 
         @dataclass
         class _Get:
@@ -24122,7 +24869,7 @@ class ProxmoxAPI:
                 data: Any = self.proxmox_api.nodes.get(*args, **kwargs)
                 return validate(data=data).data
 
-        @property
+        @cached_property
         def get(self) -> _Get:
             return self._Get(
                 proxmox_api=self.proxmox_api,
@@ -24274,38 +25021,47 @@ class ProxmoxAPI:
                     )
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def delete(self) -> _Delete:
                 return self._Delete(
                     proxmox_api=self.proxmox_api,
                     storage=self.storage,
                 )
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                     storage=self.storage,
                 )
 
-            @property
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                     storage=self.storage,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
             storage: str
 
+        def __post_init__(self) -> None:
+            @lru_cache
+            def cache(storage: str) -> ProxmoxAPI.Storage.Storage:
+                return self.Storage(
+                    proxmox_api=self.proxmox_api,
+                    storage=storage,
+                )
+
+            self.__cache = cache
+
         def __call__(self, storage: str) -> Storage:
-            return self.Storage(
-                proxmox_api=self.proxmox_api,
-                storage=storage,
-            )
+            return self.__cache(storage)
 
         @dataclass
         class _Get:
@@ -24419,19 +25175,21 @@ class ProxmoxAPI:
                 data: Any = self.proxmox_api.storage.post(*args, **kwargs)
                 return validate(data=data).data
 
-        @property
+        @cached_property
         def get(self) -> _Get:
             return self._Get(
                 proxmox_api=self.proxmox_api,
             )
 
-        @property
+        @cached_property
         def post(self) -> _Post:
             return self._Post(
                 proxmox_api=self.proxmox_api,
             )
 
-        create = post
+        @property
+        def create(self) -> _Post:
+            return self.post
 
         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -24495,7 +25253,7 @@ class ProxmoxAPI:
                             ).tfa.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -24715,7 +25473,7 @@ class ProxmoxAPI:
                                 )
                                 return validate(data=data).data
 
-                        @property
+                        @cached_property
                         def delete(self) -> _Delete:
                             return self._Delete(
                                 proxmox_api=self.proxmox_api,
@@ -24723,7 +25481,7 @@ class ProxmoxAPI:
                                 tokenid=self.tokenid,
                             )
 
-                        @property
+                        @cached_property
                         def get(self) -> _Get:
                             return self._Get(
                                 proxmox_api=self.proxmox_api,
@@ -24731,7 +25489,7 @@ class ProxmoxAPI:
                                 tokenid=self.tokenid,
                             )
 
-                        @property
+                        @cached_property
                         def post(self) -> _Post:
                             return self._Post(
                                 proxmox_api=self.proxmox_api,
@@ -24739,9 +25497,11 @@ class ProxmoxAPI:
                                 tokenid=self.tokenid,
                             )
 
-                        create = post
-
                         @property
+                        def create(self) -> _Post:
+                            return self.post
+
+                        @cached_property
                         def put(self) -> _Put:
                             return self._Put(
                                 proxmox_api=self.proxmox_api,
@@ -24749,19 +25509,30 @@ class ProxmoxAPI:
                                 tokenid=self.tokenid,
                             )
 
-                        set = put
+                        @property
+                        def set(self) -> _Put:
+                            return self.put
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         userid: str
                         tokenid: str
 
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(
+                            tokenid: str,
+                        ) -> ProxmoxAPI.Access.Users.Userid.Token.Tokenid:
+                            return self.Tokenid(
+                                proxmox_api=self.proxmox_api,
+                                tokenid=tokenid,
+                                userid=self.userid,
+                            )
+
+                        self.__cache = cache
+
                     def __call__(self, tokenid: str) -> Tokenid:
-                        return self.Tokenid(
-                            proxmox_api=self.proxmox_api,
-                            tokenid=tokenid,
-                            userid=self.userid,
-                        )
+                        return self.__cache(tokenid)
 
                     @dataclass
                     class _Get:
@@ -24809,7 +25580,7 @@ class ProxmoxAPI:
                             ).token.get(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def get(self) -> _Get:
                         return self._Get(
                             proxmox_api=self.proxmox_api,
@@ -24919,38 +25690,47 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         userid=self.userid,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         userid=self.userid,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         userid=self.userid,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 userid: str
 
+            def __post_init__(self) -> None:
+                @lru_cache
+                def cache(userid: str) -> ProxmoxAPI.Access.Users.Userid:
+                    return self.Userid(
+                        proxmox_api=self.proxmox_api,
+                        userid=userid,
+                    )
+
+                self.__cache = cache
+
             def __call__(self, userid: str) -> Userid:
-                return self.Userid(
-                    proxmox_api=self.proxmox_api,
-                    userid=userid,
-                )
+                return self.__cache(userid)
 
             @dataclass
             class _Get:
@@ -25040,19 +25820,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.users.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25148,38 +25930,47 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         groupid=self.groupid,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         groupid=self.groupid,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         groupid=self.groupid,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 groupid: str
 
+            def __post_init__(self) -> None:
+                @lru_cache
+                def cache(groupid: str) -> ProxmoxAPI.Access.Groups.Groupid:
+                    return self.Groupid(
+                        proxmox_api=self.proxmox_api,
+                        groupid=groupid,
+                    )
+
+                self.__cache = cache
+
             def __call__(self, groupid: str) -> Groupid:
-                return self.Groupid(
-                    proxmox_api=self.proxmox_api,
-                    groupid=groupid,
-                )
+                return self.__cache(groupid)
 
             @dataclass
             class _Get:
@@ -25229,19 +26020,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.groups.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25473,38 +26266,47 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         roleid=self.roleid,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         roleid=self.roleid,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         roleid=self.roleid,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 roleid: str
 
+            def __post_init__(self) -> None:
+                @lru_cache
+                def cache(roleid: str) -> ProxmoxAPI.Access.Roles.Roleid:
+                    return self.Roleid(
+                        proxmox_api=self.proxmox_api,
+                        roleid=roleid,
+                    )
+
+                self.__cache = cache
+
             def __call__(self, roleid: str) -> Roleid:
-                return self.Roleid(
-                    proxmox_api=self.proxmox_api,
-                    roleid=roleid,
-                )
+                return self.__cache(roleid)
 
             @dataclass
             class _Get:
@@ -25554,19 +26356,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.roles.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25632,19 +26436,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.acl.put(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25686,14 +26492,16 @@ class ProxmoxAPI:
                             ).sync.post(*args, **kwargs)
                             return validate(data=data).data
 
-                    @property
+                    @cached_property
                     def post(self) -> _Post:
                         return self._Post(
                             proxmox_api=self.proxmox_api,
                             realm=self.realm,
                         )
 
-                    create = post
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
 
                     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25766,38 +26574,47 @@ class ProxmoxAPI:
                         )
                         return validate(data=data).data
 
-                @property
+                @cached_property
                 def delete(self) -> _Delete:
                     return self._Delete(
                         proxmox_api=self.proxmox_api,
                         realm=self.realm,
                     )
 
-                @property
+                @cached_property
                 def get(self) -> _Get:
                     return self._Get(
                         proxmox_api=self.proxmox_api,
                         realm=self.realm,
                     )
 
-                @property
+                @cached_property
                 def put(self) -> _Put:
                     return self._Put(
                         proxmox_api=self.proxmox_api,
                         realm=self.realm,
                     )
 
-                set = put
+                @property
+                def set(self) -> _Put:
+                    return self.put
 
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 realm: str
 
+            def __post_init__(self) -> None:
+                @lru_cache
+                def cache(realm: str) -> ProxmoxAPI.Access.Domains.Realm:
+                    return self.Realm(
+                        proxmox_api=self.proxmox_api,
+                        realm=realm,
+                    )
+
+                self.__cache = cache
+
             def __call__(self, realm: str) -> Realm:
-                return self.Realm(
-                    proxmox_api=self.proxmox_api,
-                    realm=realm,
-                )
+                return self.__cache(realm)
 
             @dataclass
             class _Get:
@@ -25849,19 +26666,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.domains.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25927,19 +26746,21 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                 )
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
+            @property
+            def create(self) -> _Post:
+                return self.post
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -25967,13 +26788,15 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.password.put(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -26031,21 +26854,25 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.tfa.put(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def post(self) -> _Post:
                 return self._Post(
                     proxmox_api=self.proxmox_api,
                 )
 
-            create = post
-
             @property
+            def create(self) -> _Post:
+                return self.post
+
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -26073,7 +26900,7 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.access.permissions.get(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
@@ -26117,7 +26944,7 @@ class ProxmoxAPI:
                 data: Any = self.proxmox_api.access.get(*args, **kwargs)
                 return validate(data=data).data
 
-        @property
+        @cached_property
         def get(self) -> _Get:
             return self._Get(
                 proxmox_api=self.proxmox_api,
@@ -26235,38 +27062,47 @@ class ProxmoxAPI:
                     data: Any = self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
                     return validate(data=data).data
 
-            @property
+            @cached_property
             def delete(self) -> _Delete:
                 return self._Delete(
                     proxmox_api=self.proxmox_api,
                     poolid=self.poolid,
                 )
 
-            @property
+            @cached_property
             def get(self) -> _Get:
                 return self._Get(
                     proxmox_api=self.proxmox_api,
                     poolid=self.poolid,
                 )
 
-            @property
+            @cached_property
             def put(self) -> _Put:
                 return self._Put(
                     proxmox_api=self.proxmox_api,
                     poolid=self.poolid,
                 )
 
-            set = put
+            @property
+            def set(self) -> _Put:
+                return self.put
 
             proxmox_api: ProxmoxerProxmoxAPI
 
             poolid: str
 
+        def __post_init__(self) -> None:
+            @lru_cache
+            def cache(poolid: str) -> ProxmoxAPI.Pools.Poolid:
+                return self.Poolid(
+                    proxmox_api=self.proxmox_api,
+                    poolid=poolid,
+                )
+
+            self.__cache = cache
+
         def __call__(self, poolid: str) -> Poolid:
-            return self.Poolid(
-                proxmox_api=self.proxmox_api,
-                poolid=poolid,
-            )
+            return self.__cache(poolid)
 
         @dataclass
         class _Get:
@@ -26312,19 +27148,21 @@ class ProxmoxAPI:
                 data: Any = self.proxmox_api.pools.post(*args, **kwargs)
                 return validate(data=data).data
 
-        @property
+        @cached_property
         def get(self) -> _Get:
             return self._Get(
                 proxmox_api=self.proxmox_api,
             )
 
-        @property
+        @cached_property
         def post(self) -> _Post:
             return self._Post(
                 proxmox_api=self.proxmox_api,
             )
 
-        create = post
+        @property
+        def create(self) -> _Post:
+            return self.post
 
         proxmox_api: ProxmoxerProxmoxAPI
 
@@ -26372,7 +27210,7 @@ class ProxmoxAPI:
                 data: Any = self.proxmox_api.version.get(*args, **kwargs)
                 return validate(data=data).data
 
-        @property
+        @cached_property
         def get(self) -> _Get:
             return self._Get(
                 proxmox_api=self.proxmox_api,
