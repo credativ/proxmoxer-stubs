@@ -84,6 +84,14 @@ class Path:
         def __str__(self) -> str:
             return self.as_property
 
+        def __eq__(self, value: Any) -> bool:
+            if isinstance(value, Path):
+                return self.orig == value.orig
+            elif isinstance(value, str):
+                return self.orig == value
+            else:
+                return False
+
     segments: list[Segment]
 
     @property
@@ -141,9 +149,9 @@ class BaseModel(pydantic.BaseModel):
             tail=render(
                 """
                 def {{ name }}(self, *args: Any, **kwargs: Any) -> {{ type }}: return {{ repr(sample) }}
-                {% if str(name) == "post" -%}
+                {% if name == "post" -%}
                 create = {{ name }}
-                {% elif str(name) == "put" -%}
+                {% elif name == "put" -%}
                 set = {{ name }}
                 {% endif -%}
                 """,
@@ -225,9 +233,9 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 tail=render(
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
-                    {% if str(name) == "post" -%}
+                    {% if name == "post" -%}
                     create = {{ name }}
-                    {% elif str(name) == "put" -%}
+                    {% elif name == "put" -%}
                     set = {{ name }}
                     {% endif -%}
                     """,
@@ -246,9 +254,9 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 tail=render(
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> list[Any]: return []
-                    {% if str(name) == "post" -%}
+                    {% if name == "post" -%}
                     create = {{ name }}
-                    {% elif str(name) == "put" -%}
+                    {% elif name == "put" -%}
                     set = {{ name }}
                     {% endif -%}
                     """,
@@ -297,9 +305,9 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     @property
                     def {{ name }}(self) -> _{{ name.as_class }}:
                         return self._{{ name.as_class }}()
-                    {% if str(name) == "post" -%}
+                    {% if name == "post" -%}
                     create = {{ name }}
-                    {% elif str(name) == "put" -%}
+                    {% elif name == "put" -%}
                     set = {{ name }}
                     {% endif -%}
                     """,
@@ -320,9 +328,9 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 tail=render(
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[str, {{ values.type }}]: return {}
-                    {% if str(name) == "post" -%}
+                    {% if name == "post" -%}
                     create = {{ name }}
-                    {% elif str(name) == "put" -%}
+                    {% elif name == "put" -%}
                     set = {{ name }}
                     {% endif -%}
                     """,
@@ -339,9 +347,9 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 tail=render(
                     """
                     def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
-                    {% if str(name) == "post" -%}
+                    {% if name == "post" -%}
                     create = {{ name }}
-                    {% elif str(name) == "put" -%}
+                    {% elif name == "put" -%}
                     set = {{ name }}
                     {% endif -%}
                     """,
