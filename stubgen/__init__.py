@@ -2,7 +2,7 @@ import keyword
 import re
 import textwrap
 from functools import cached_property
-from typing import Any, Literal, Optional, TypeAlias, Union, assert_never
+from typing import Any, Literal, Optional, Self, TypeAlias, Union, assert_never
 
 import pydantic
 from jinja2 import Template
@@ -42,7 +42,7 @@ class Code(pydantic.BaseModel):
         return self.head + self.tail
 
 
-class Path:
+class Path(pydantic.BaseModel):
 
     class Segment(pydantic.BaseModel):
         orig: str
@@ -124,9 +124,18 @@ class Path:
     def as_classpath(self) -> str:
         return ".".join(segment.as_class for segment in self.segments)
 
-    def __init__(self, path: str) -> None:
-        self.orig = path
-        self.segments = [self.Segment(orig=orig) for orig in path.split("/")[1:]]
+    def copy_append(self, segment: Segment) -> Self:
+        copy = self.model_copy(deep=False)
+        copy.segments = self.segments.copy()
+        copy.segments.append(segment)
+        return copy
+
+    @classmethod
+    def new(cls, path: str) -> Self:
+        return cls(
+            orig=path,
+            segments=[cls.Segment(orig=orig) for orig in path.split("/")[1:]]
+        )
 
 
 class Return(pydantic.BaseModel):
@@ -447,7 +456,7 @@ class ApiSchemaItem(BaseModel):
         return_prefix: str,
         recurse: bool,
     ) -> Code:
-        path = Path(self.path)
+        path = Path.new(self.path)
         return Code(
             head=render(
                 """
