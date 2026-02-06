@@ -91,6 +91,19 @@ class Path(pydantic.BaseModel):
             else:
                 return False
 
+    class CodeSegment(Segment):
+        @cached_property
+        def is_param(self) -> bool:
+            return False
+
+        @cached_property
+        def as_param(self) -> str:
+            raise RuntimeError(f"{self} is not a param")
+
+        @property
+        def as_class(self) -> str:
+            return "_" + super().as_class
+
     orig: str
     segments: list[Segment]
 
@@ -114,7 +127,9 @@ class Path(pydantic.BaseModel):
     def __repr__(self) -> str:
         ret = ""
         for segment in self.segments:
-            if segment.is_param:
+            if isinstance(segment, Path.CodeSegment):
+                ret += "." + segment.as_class
+            elif segment.is_param:
                 ret += "/{" + segment.as_property + "}"
             else:
                 ret += "/" + segment.orig
@@ -122,7 +137,7 @@ class Path(pydantic.BaseModel):
 
     @property
     def as_classpath(self) -> str:
-        return ".".join(segment.as_class for segment in self.segments)
+        return "ProxmoxAPI." + ".".join(segment.as_class for segment in self.segments)
 
     def copy_append(self, segment: Segment) -> Self:
         copy = self.model_copy(deep=False)
@@ -297,8 +312,8 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     {%-   endfor %}
                         })
                     {%- if root %}
-                        def __call__(self, *args: Any, **kwargs: Any) -> "ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict":
-                            return typing.cast(ProxmoxAPI.{{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                        def __call__(self, *args: Any, **kwargs: Any) -> "{{ path.as_classpath }}._{{ name.as_class }}.TypedDict":
+                            return typing.cast({{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
                     {%- endif %}
                     """,
                     name=Path.Segment(orig=name),
