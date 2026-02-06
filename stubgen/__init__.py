@@ -1,6 +1,8 @@
 import keyword
 import re
 import textwrap
+
+from dataclasses import dataclass
 from functools import cached_property
 from typing import Any, Literal, Optional, Self, TypeAlias, Union, assert_never
 
@@ -157,7 +159,8 @@ class Return(pydantic.BaseModel):
     code: Code | None = None
     optional: bool
     primitive: bool = True
-    type: str
+    dicttype: str
+    modeltype: str
 
 
 class BaseModel(pydantic.BaseModel):
@@ -179,7 +182,7 @@ class BaseModel(pydantic.BaseModel):
                 type=type_,
             )
         )
-        return Return(code=code, optional=optional, primitive=True, type=type_)
+        return Return(code=code, optional=optional, primitive=True, dicttype=type_, modeltype=type_)
 
 
 class ApiSchemaItemInfoMethodReturnsString(BaseModel):
@@ -240,7 +243,7 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 head=child.code.head if child.code else "",
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.type }}]: return []
+                    def {{ name }}(self, *args: Any, **kwargs: Any) -> builtins.list[{{ child.dicttype }}]: return []
                     {% if name == "post" -%}
                     create = {{ name }}
                     {% elif name == "put" -%}
@@ -255,7 +258,8 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 code=code,
                 optional=self.optional,
                 primitive=child.primitive,
-                type=f"list[{child.type}]",
+                dicttype=f"list[{child.dicttype}]",
+                modeltype=f"list[{child.modeltype}]",
             )
         else:
             code = Code(
@@ -272,7 +276,7 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                 )
             )
             return Return(
-                code=code, optional=self.optional, primitive=True, type="list[Any]"
+                code=code, optional=self.optional, primitive=True, dicttype="list[Any]", modeltype="list[Any]",
             )
 
 
@@ -281,29 +285,63 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
     properties: dict[str, ApiSchemaItemInfoMethodReturns] | None = None
     values: ApiSchemaItemInfoMethodReturns | None = None
 
+    @dataclass
+    class Field:
+        name: str
+        ret: Return
+
+        def for_typeddict(self) -> str:
+            if self.ret.optional:
+                return f"{repr(self.name)}: NotRequired[{self.ret.dicttype}]"
+            else:
+                return f"{repr(self.name)}: {self.ret.dicttype}"
+
+        def for_model(self) -> str:
+            name_as_property = Path.Segment(orig=self.name).as_property
+            if self.name == name_as_property:
+                if self.ret.optional:
+                    return f"{self.name}: Optional[{self.ret.modeltype}] = None"
+
+                else:
+                    return f"{self.name}: {self.ret.modeltype}"
+            else:
+                if self.ret.optional:
+                    return f"{name_as_property}: Optional[{self.ret.modeltype}] = pydantic.Field(alias={repr(self.name)})"
+                else:
+                    return f"{name_as_property}: {self.ret.modeltype} = pydantic.Field(alias={repr(self.name)})"
+
+
     def dump(self, path: Path, name: str, patch: Patch, call: bool = False) -> Return:
         patch(self).hook()
-        name_ = Path.Segment(orig=name)
         if self.properties:
+            path = path.copy_append(Path.CodeSegment(orig=name))
             returns: dict[str, Return] = {
                 key: prop.dump(path=path, name=key, patch=patch(self, name=key)) for key, prop in self.properties.items()
             }
             code = Code(
                 head=render(
                     """
-                    class _{{ name.as_class }}:
+                    class {{ path[-1].as_class }}:
                     {%- for return in returns.values() %}{% if return.code %}{{ return.code.headcode(indent=True) }}{% endif %}{% endfor %}
                         TypedDict = typing.TypedDict('TypedDict', {
-                    {%-    for name, return in returns.items() %}
-                            {{ repr(name) }}: {% if return.optional %}NotRequired[{{ return.type }}]{% else %}{{ return.type }}{% endif %},
+                    {%-    for retname, return in returns.items() %}
+                            {{ Field(name=retname, ret=return).for_typeddict() }},
                     {%-   endfor %}
                         })
+                        class Model(pydantic.BaseModel):
+                    {%-    for retname, return in returns.items() %}
+                            {{ Field(name=retname, ret=return).for_model() }}
+                    {%-   endfor %}
+
                     {%- if call %}
-                        def __call__(self, *args: Any, **kwargs: Any) -> "{{ path.as_classpath }}._{{ name.as_class }}.TypedDict":
-                            return typing.cast({{ path.as_classpath }}._{{ name.as_class }}.TypedDict, None)
+                        def __call__(self, *args: Any, **kwargs: Any) -> "{{ path.as_classpath }}.TypedDict":
+                            return typing.cast({{ path.as_classpath }}.TypedDict, None)
+
+                        def model(self, *args: Any, **kwargs: Any) -> "{{ path.as_classpath }}.Model":
+                            return typing.cast({{ path.as_classpath }}.Model, None)
                     {%- endif %}
                     """,
-                    name=Path.Segment(orig=name),
+                    Field=self.Field,
                     path=path,
                     returns=returns,
                     call=call,
@@ -311,15 +349,14 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 tail=render(
                     """
                     @property
-                    def {{ name }}(self) -> _{{ name.as_class }}:
-                        return self._{{ name.as_class }}()
-                    {% if name == "post" -%}
-                    create = {{ name }}
-                    {% elif name == "put" -%}
-                    set = {{ name }}
+                    def {{ path[-1] }}(self) -> {{ path[-1].as_class }}:
+                        return self.{{ path[-1].as_class }}()
+                    {% if path[-1] == "post" -%}
+                    create = {{ path[-1] }}
+                    {% elif path[-1] == "put" -%}
+                    set = {{ path[-1] }}
                     {% endif -%}
                     """,
-                    name=name_,
                     path=path,
                 ),
             )
@@ -327,33 +364,35 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                 code=code,
                 optional=self.optional,
                 primitive=False,
-                type=f"_{name_.as_class}.TypedDict",
+                dicttype=repr(f"{path.as_classpath}.TypedDict"),
+                modeltype=repr(f"{path.as_classpath}.Model"),
             )
         elif self.values:
             values = self.values.dump(path=path, name=name, patch=patch(self))
             return Return(
                 code=values.code,
+                dicttype=f"dict[str, { values.dicttype }]",
+                modeltype=f"dict[str, { values.modeltype }]",
                 optional=self.optional,
                 primitive=values.primitive,
-                type=f"dict[str, { values.type }]"
             )
         else:
+            path = path.copy_append(Path.CodeSegment(orig=name))
             code = Code(
                 tail=render(
                     """
-                    def {{ name }}(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
-                    {% if name == "post" -%}
-                    create = {{ name }}
-                    {% elif name == "put" -%}
-                    set = {{ name }}
+                    def {{ path[-1] }}(self, *args: Any, **kwargs: Any) -> dict[Any, Any]: return {}
+                    {% if path[-1] == "post" -%}
+                    create = {{ path[-1] }}
+                    {% elif path[-1] == "put" -%}
+                    set = {{ path[-1] }}
                     {% endif -%}
                     """,
-                    name=name_,
                     path=path,
                 )
             )
             return Return(
-                code=code, optional=self.optional, primitive=True, type="dict[Any, Any]"
+                code=code, optional=self.optional, primitive=True, dicttype="dict[Any, Any]", modeltype="dict[Any, Any]",
             )
 
 
@@ -562,9 +601,10 @@ class ApiSchema(BaseModel):
             head=render(
                 """
                 import builtins
+                import pydantic
                 import typing
                 from functools import cached_property
-                from typing import Any, Literal, NotRequired
+                from typing import Any, Literal, Optional, NotRequired
 
                 class ProxmoxAPI:
                 {% for code in childcodes -%}

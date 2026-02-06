@@ -2,9 +2,10 @@
 
 
 import builtins
+import pydantic
 import typing
 from functools import cached_property
-from typing import Any, Literal, NotRequired
+from typing import Any, Literal, Optional, NotRequired
 
 
 class ProxmoxAPI:
@@ -94,9 +95,16 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        disable: bool
+                        id: str
+                        port: int
+                        server: str
+                        type: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -120,18 +128,37 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            id: str
+                            metric: str
+                            timestamp: int
+                            type: Literal["gauge", "counter", "derive"]
+                            value: float
+
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "data": list[_Data.TypedDict],
+                            "data": list[
+                                "ProxmoxAPI.Cluster.Metrics.Export._Get._Data.TypedDict"
+                            ],
                         },
                     )
+
+                    class Model(pydantic.BaseModel):
+                        data: list["ProxmoxAPI.Cluster.Metrics.Export._Get._Data.Model"]
 
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Metrics.Export._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Cluster.Metrics.Export._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Metrics.Export._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Metrics.Export._Get.Model, None
                         )
 
                 @property
@@ -165,9 +192,14 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        name: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Notifications.MatcherFields._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -188,9 +220,16 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        field: str
+                        value: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Notifications.MatcherFieldValues._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -226,11 +265,33 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                author: Optional[str] = None
+                                comment: Optional[str] = None
+                                digest: Optional[str] = None
+                                disable: Optional[bool] = None
+                                from_address: Optional[str] = pydantic.Field(
+                                    alias="from-address"
+                                )
+                                mailto: Optional[list[str]] = None
+                                mailto_user: Optional[list[str]] = pydantic.Field(
+                                    alias="mailto-user"
+                                )
+                                name: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.Model,
                                     None,
                                 )
 
@@ -266,9 +327,27 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            author: Optional[str] = None
+                            comment: Optional[str] = None
+                            disable: Optional[bool] = None
+                            from_address: Optional[str] = pydantic.Field(
+                                alias="from-address"
+                            )
+                            mailto: Optional[list[str]] = None
+                            mailto_user: Optional[list[str]] = pydantic.Field(
+                                alias="mailto-user"
+                            )
+                            name: str
+                            origin: Literal[
+                                "user-created", "builtin", "modified-builtin"
+                            ]
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -302,11 +381,26 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                comment: Optional[str] = None
+                                digest: Optional[str] = None
+                                disable: Optional[bool] = None
+                                name: str
+                                server: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.Model,
                                     None,
                                 )
 
@@ -339,9 +433,20 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            comment: Optional[str] = None
+                            disable: Optional[bool] = None
+                            name: str
+                            origin: Literal[
+                                "user-created", "builtin", "modified-builtin"
+                            ]
+                            server: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -384,11 +489,37 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                author: Optional[str] = None
+                                comment: Optional[str] = None
+                                digest: Optional[str] = None
+                                disable: Optional[bool] = None
+                                from_address: str = pydantic.Field(alias="from-address")
+                                mailto: Optional[list[str]] = None
+                                mailto_user: Optional[list[str]] = pydantic.Field(
+                                    alias="mailto-user"
+                                )
+                                mode: Optional[
+                                    Literal["insecure", "starttls", "tls"]
+                                ] = None
+                                name: str
+                                port: Optional[int] = None
+                                server: str
+                                username: Optional[str] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.Model,
                                     None,
                                 )
 
@@ -430,9 +561,31 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            author: Optional[str] = None
+                            comment: Optional[str] = None
+                            disable: Optional[bool] = None
+                            from_address: str = pydantic.Field(alias="from-address")
+                            mailto: Optional[list[str]] = None
+                            mailto_user: Optional[list[str]] = pydantic.Field(
+                                alias="mailto-user"
+                            )
+                            mode: Optional[Literal["insecure", "starttls", "tls"]] = (
+                                None
+                            )
+                            name: str
+                            origin: Literal[
+                                "user-created", "builtin", "modified-builtin"
+                            ]
+                            port: Optional[int] = None
+                            server: str
+                            username: Optional[str] = None
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -470,11 +623,30 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                body: Optional[str] = None
+                                comment: Optional[str] = None
+                                digest: Optional[str] = None
+                                disable: Optional[bool] = None
+                                header: Optional[list[str]] = None
+                                method: Literal["post", "put", "get"]
+                                name: str
+                                secret: Optional[list[str]] = None
+                                url: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.Model,
                                     None,
                                 )
 
@@ -511,9 +683,24 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            body: Optional[str] = None
+                            comment: Optional[str] = None
+                            disable: Optional[bool] = None
+                            header: Optional[list[str]] = None
+                            method: Literal["post", "put", "get"]
+                            name: str
+                            origin: Literal[
+                                "user-created", "builtin", "modified-builtin"
+                            ]
+                            secret: Optional[list[str]] = None
+                            url: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -576,9 +763,18 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        disable: Optional[bool] = None
+                        name: str
+                        origin: Literal["user-created", "builtin", "modified-builtin"]
+                        type: Literal["sendmail", "gotify", "smtp", "webhook"]
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Notifications.Targets._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -612,11 +808,41 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            comment: Optional[str] = None
+                            digest: Optional[str] = None
+                            disable: Optional[bool] = None
+                            invert_match: Optional[bool] = pydantic.Field(
+                                alias="invert-match"
+                            )
+                            match_calendar: Optional[list[str]] = pydantic.Field(
+                                alias="match-calendar"
+                            )
+                            match_field: Optional[list[str]] = pydantic.Field(
+                                alias="match-field"
+                            )
+                            match_severity: Optional[list[str]] = pydantic.Field(
+                                alias="match-severity"
+                            )
+                            mode: Optional[Literal["all", "any"]] = None
+                            name: str
+                            target: Optional[list[str]] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.TypedDict,
+                                None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> (
+                            "ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.Model"
+                        ):
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.Model,
                                 None,
                             )
 
@@ -654,9 +880,31 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        disable: Optional[bool] = None
+                        invert_match: Optional[bool] = pydantic.Field(
+                            alias="invert-match"
+                        )
+                        match_calendar: Optional[list[str]] = pydantic.Field(
+                            alias="match-calendar"
+                        )
+                        match_field: Optional[list[str]] = pydantic.Field(
+                            alias="match-field"
+                        )
+                        match_severity: Optional[list[str]] = pydantic.Field(
+                            alias="match-severity"
+                        )
+                        mode: Optional[Literal["all", "any"]] = None
+                        name: str
+                        origin: Literal["user-created", "builtin", "modified-builtin"]
+                        target: Optional[list[str]] = None
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Notifications.Matchers._Get.TypedDict"
+                ]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -710,12 +958,24 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            corosync_authkey: str
+                            corosync_conf: str
+                            warnings: list[str]
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model, None
                             )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -738,9 +998,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        node: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -765,21 +1028,46 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            name: str
+                            nodeid: Optional[int] = None
+                            pve_addr: str
+                            pve_fp: str
+                            quorum_votes: int
+                            ring0_addr: Optional[str] = None
+
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
                             "config_digest": str,
-                            "nodelist": list[_Nodelist.TypedDict],
+                            "nodelist": list[
+                                "ProxmoxAPI.Cluster.Config.Join._Get._Nodelist.TypedDict"
+                            ],
                             "preferred_node": str,
                             "totem": dict[Any, Any],
                         },
                     )
+
+                    class Model(pydantic.BaseModel):
+                        config_digest: str
+                        nodelist: list[
+                            "ProxmoxAPI.Cluster.Config.Join._Get._Nodelist.Model"
+                        ]
+                        preferred_node: str
+                        totem: dict[Any, Any]
 
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Config.Join._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Cluster.Config.Join._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Config.Join._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Config.Join._Get.Model, None
                         )
 
                 @property
@@ -882,11 +1170,50 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                action: str
+                                comment: Optional[str] = None
+                                dest: Optional[str] = None
+                                dport: Optional[str] = None
+                                enable: Optional[int] = None
+                                icmp_type: Optional[str] = pydantic.Field(
+                                    alias="icmp-type"
+                                )
+                                iface: Optional[str] = None
+                                ipversion: Optional[int] = None
+                                log: Optional[
+                                    Literal[
+                                        "emerg",
+                                        "alert",
+                                        "crit",
+                                        "err",
+                                        "warning",
+                                        "notice",
+                                        "info",
+                                        "debug",
+                                        "nolog",
+                                    ]
+                                ] = None
+                                macro: Optional[str] = None
+                                pos: int
+                                proto: Optional[str] = None
+                                source: Optional[str] = None
+                                sport: Optional[str] = None
+                                type: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model,
                                     None,
                                 )
 
@@ -915,12 +1242,17 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            pos: int
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -941,9 +1273,14 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        digest: str
+                        group: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -999,12 +1336,48 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            action: str
+                            comment: Optional[str] = None
+                            dest: Optional[str] = None
+                            dport: Optional[str] = None
+                            enable: Optional[int] = None
+                            icmp_type: Optional[str] = pydantic.Field(alias="icmp-type")
+                            iface: Optional[str] = None
+                            ipversion: Optional[int] = None
+                            log: Optional[
+                                Literal[
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog",
+                                ]
+                            ] = None
+                            macro: Optional[str] = None
+                            pos: int
+                            proto: Optional[str] = None
+                            source: Optional[str] = None
+                            sport: Optional[str] = None
+                            type: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model, None
                             )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -1030,9 +1403,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        pos: int
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1086,12 +1462,20 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            cidr: str
+                            comment: Optional[str] = None
+                            digest: str
+                            nomatch: Optional[bool] = None
+
                     def delete(self, *args: Any, **kwargs: Any) -> None:
                         return None
 
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1112,9 +1496,14 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        digest: str
+                        name: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1161,9 +1550,17 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        cidr: str
+                        comment: Optional[str] = None
+                        digest: str
+                        name: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"
+                ]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1196,11 +1593,26 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        ebtables: Optional[bool] = None
+                        enable: Optional[int] = None
+                        log_ratelimit: Optional[str] = None
+                        policy_forward: Optional[Literal["ACCEPT", "DROP"]] = None
+                        policy_in: Optional[Literal["ACCEPT", "REJECT", "DROP"]] = None
+                        policy_out: Optional[Literal["ACCEPT", "REJECT", "DROP"]] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Firewall.Options._Get.Model, None
                         )
 
                 @property
@@ -1229,9 +1641,13 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        descr: str
+                        macro: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -1254,9 +1670,16 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        name: str
+                        ref: str
+                        scope: str
+                        type: Literal["alias", "ipset"]
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -1297,28 +1720,63 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    id: str
+                                    included: bool
+                                    name: str
+                                    reason: str
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "children": NotRequired[list[_Children.TypedDict]],
+                                    "children": NotRequired[
+                                        list[
+                                            "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children._Children.TypedDict"
+                                        ]
+                                    ],
                                     "id": int,
                                     "name": NotRequired[str],
                                     "type": Literal["qemu", "lxc", "unknown"],
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                children: Optional[
+                                    list[
+                                        "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children._Children.Model"
+                                    ]
+                                ] = None
+                                id: int
+                                name: Optional[str] = None
+                                type: Literal["qemu", "lxc", "unknown"]
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "children": list[_Children.TypedDict],
+                                "children": list[
+                                    "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children.TypedDict"
+                                ],
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            children: list[
+                                "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children.Model"
+                            ]
 
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict,
+                                None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model,
                                 None,
                             )
 
@@ -1354,7 +1812,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    id: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]:
                 return []
 
             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1384,9 +1847,16 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        name: Optional[str] = None
+                        type: Literal["qemu", "lxc"]
+                        vmid: int
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.BackupInfo.NotBackedUp._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -1401,7 +1871,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    subdir: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.BackupInfo._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -1475,11 +1950,36 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            comment: Optional[str] = None
+                            digest: str
+                            group: Optional[str] = None
+                            max_relocate: Optional[int] = None
+                            max_restart: Optional[int] = None
+                            sid: str
+                            state: Optional[
+                                Literal[
+                                    "started",
+                                    "stopped",
+                                    "enabled",
+                                    "disabled",
+                                    "ignored",
+                                ]
+                            ] = None
+                            type: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict, None
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model, None
                             )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -1505,9 +2005,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        sid: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1551,9 +2054,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        group: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1592,9 +2098,25 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            crm_state: Optional[str] = None
+                            id: str
+                            max_relocate: Optional[int] = None
+                            max_restart: Optional[int] = None
+                            node: str
+                            quorate: Optional[bool] = None
+                            request_state: Optional[str] = None
+                            sid: Optional[str] = None
+                            state: Optional[str] = None
+                            status: str
+                            timestamp: Optional[int] = None
+                            type: dict[Any, Any]
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Cluster.Ha.Status.Current._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -1629,7 +2151,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    id: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -1672,9 +2199,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        plugin: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -1707,12 +2237,25 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            account: Optional[dict[Any, Any]] = None
+                            directory: Optional[str] = None
+                            location: Optional[str] = None
+                            tos: Optional[str] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model, None
                             )
 
                     def delete(self, *args: Any, **kwargs: Any) -> str:
@@ -1770,11 +2313,30 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        caa_identities: Optional[list[str]] = pydantic.Field(
+                            alias="caaIdentities"
+                        )
+                        external_account_required: Optional[bool] = pydantic.Field(
+                            alias="externalAccountRequired"
+                        )
+                        terms_of_service: Optional[str] = pydantic.Field(
+                            alias="termsOfService"
+                        )
+                        website: Optional[str] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Acme.Meta._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Cluster.Acme.Meta._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Acme.Meta._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Acme.Meta._Get.Model, None
                         )
 
                 @property
@@ -1798,9 +2360,15 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        name: str
+                        url: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -1822,9 +2390,17 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        id: str
+                        name: str
+                        schema_: dict[Any, Any] = pydantic.Field(alias="schema")
+                        type: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -1863,12 +2439,27 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                addr: str
+                                ceph_release: str
+                                ceph_version: str
+                                ceph_version_short: str
+                                hostname: str
+                                mem_swap_kb: int
+                                mem_total_kb: int
+                                name: str
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "{id}": _Id.TypedDict,
+                                "{id}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds._Id.TypedDict",
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            id: (
+                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds._Id.Model"
+                            ) = pydantic.Field(alias="{id}")
 
                     class _Mgr:
                         class _Id:
@@ -1886,12 +2477,27 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                addr: str
+                                ceph_release: str
+                                ceph_version: str
+                                ceph_version_short: str
+                                hostname: str
+                                mem_swap_kb: int
+                                mem_total_kb: int
+                                name: str
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "{id}": _Id.TypedDict,
+                                "{id}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr._Id.TypedDict",
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            id: (
+                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr._Id.Model"
+                            ) = pydantic.Field(alias="{id}")
 
                     class _Mon:
                         class _Id:
@@ -1909,12 +2515,27 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                addrs: str
+                                ceph_release: str
+                                ceph_version: str
+                                ceph_version_short: str
+                                hostname: str
+                                mem_swap_kb: int
+                                mem_total_kb: int
+                                name: str
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "{id}": _Id.TypedDict,
+                                "{id}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon._Id.TypedDict",
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            id: (
+                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon._Id.Model"
+                            ) = pydantic.Field(alias="{id}")
 
                     class _Node:
                         class _Node:
@@ -1927,37 +2548,64 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    parts: list[Any]
+                                    str: str
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
                                     "buildcommit": str,
-                                    "version": _Version.TypedDict,
+                                    "version": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node._Version.TypedDict",
                                 },
                             )
+
+                            class Model(pydantic.BaseModel):
+                                buildcommit: str
+                                version: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node._Version.Model"
 
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "{node}": _Node.TypedDict,
+                                "{node}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node.TypedDict",
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            node: (
+                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node.Model"
+                            ) = pydantic.Field(alias="{node}")
 
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "mds": _Mds.TypedDict,
-                            "mgr": _Mgr.TypedDict,
-                            "mon": _Mon.TypedDict,
-                            "node": _Node.TypedDict,
+                            "mds": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds.TypedDict",
+                            "mgr": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr.TypedDict",
+                            "mon": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon.TypedDict",
+                            "node": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node.TypedDict",
                             "osd": list[Any],
                         },
                     )
+
+                    class Model(pydantic.BaseModel):
+                        mds: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds.Model"
+                        mgr: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr.Model"
+                        mon: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon.Model"
+                        node: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node.Model"
+                        osd: list[Any]
 
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Ceph.Metadata._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Cluster.Ceph.Metadata._Get.Model, None
                         )
 
                 @property
@@ -2022,9 +2670,26 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        description: str
+                        name: Literal[
+                            "nobackfill",
+                            "nodeep-scrub",
+                            "nodown",
+                            "noin",
+                            "noout",
+                            "norebalance",
+                            "norecover",
+                            "noscrub",
+                            "notieragent",
+                            "noup",
+                            "pause",
+                        ]
+                        value: bool
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"]:
                     return []
 
                 def put(self, *args: Any, **kwargs: Any) -> str:
@@ -2092,9 +2757,22 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        enabled: bool
+                        id: str
+                        last_run: Optional[int] = pydantic.Field(alias="last-run")
+                        next_run: Optional[int] = pydantic.Field(alias="next-run")
+                        realm: str
+                        remove_vanished: Optional[str] = pydantic.Field(
+                            alias="remove-vanished"
+                        )
+                        schedule: str
+                        scope: Optional[Literal["users", "groups", "both"]] = None
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Jobs.RealmSync._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -2114,9 +2792,15 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        timestamp: int
+                        utc: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list[
+                    "ProxmoxAPI.Cluster.Jobs.ScheduleAnalyze._Get.TypedDict"
+                ]:
                     return []
 
             @cached_property
@@ -2131,7 +2815,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    subdir: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Jobs._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -2176,19 +2865,35 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            message: str
+                            severity: Literal["warning", "error"]
+
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "checks": NotRequired[list[_Checks.TypedDict]],
+                            "checks": NotRequired[
+                                list[
+                                    "ProxmoxAPI.Cluster.Mapping.Dir._Get._Checks.TypedDict"
+                                ]
+                            ],
                             "description": str,
                             "id": str,
                             "map": list[str],
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        checks: Optional[
+                            list["ProxmoxAPI.Cluster.Mapping.Dir._Get._Checks.Model"]
+                        ] = None
+                        description: str
+                        id: str
+                        map: list[str]
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Mapping.Dir._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2234,19 +2939,35 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            message: str
+                            severity: Literal["warning", "error"]
+
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "checks": NotRequired[list[_Checks.TypedDict]],
+                            "checks": NotRequired[
+                                list[
+                                    "ProxmoxAPI.Cluster.Mapping.Pci._Get._Checks.TypedDict"
+                                ]
+                            ],
                             "description": str,
                             "id": str,
                             "map": list[str],
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        checks: Optional[
+                            list["ProxmoxAPI.Cluster.Mapping.Pci._Get._Checks.Model"]
+                        ] = None
+                        description: str
+                        id: str
+                        map: list[str]
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Mapping.Pci._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2293,9 +3014,15 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        description: str
+                        error: dict[Any, Any]
+                        id: str
+                        map: list[str]
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Mapping.Usb._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2375,11 +3102,50 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        action: str
+                                        comment: Optional[str] = None
+                                        dest: Optional[str] = None
+                                        dport: Optional[str] = None
+                                        enable: Optional[int] = None
+                                        icmp_type: Optional[str] = pydantic.Field(
+                                            alias="icmp-type"
+                                        )
+                                        iface: Optional[str] = None
+                                        ipversion: Optional[int] = None
+                                        log: Optional[
+                                            Literal[
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog",
+                                            ]
+                                        ] = None
+                                        macro: Optional[str] = None
+                                        pos: int
+                                        proto: Optional[str] = None
+                                        source: Optional[str] = None
+                                        sport: Optional[str] = None
+                                        type: str
+
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.TypedDict":
                                         return typing.cast(
                                             ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.TypedDict,
+                                            None,
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.Model":
+                                        return typing.cast(
+                                            ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.Model,
                                             None,
                                         )
 
@@ -2408,9 +3174,14 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    pos: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2452,11 +3223,38 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    enable: Optional[bool] = None
+                                    log_level_forward: Optional[
+                                        Literal[
+                                            "emerg",
+                                            "alert",
+                                            "crit",
+                                            "err",
+                                            "warning",
+                                            "notice",
+                                            "info",
+                                            "debug",
+                                            "nolog",
+                                        ]
+                                    ] = None
+                                    policy_forward: Optional[
+                                        Literal["ACCEPT", "DROP"]
+                                    ] = None
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.Model,
                                         None,
                                     )
 
@@ -2620,9 +3418,22 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        dhcp: Optional[str] = None
+                        dns: Optional[str] = None
+                        dnszone: Optional[str] = None
+                        ipam: Optional[str] = None
+                        mtu: Optional[int] = None
+                        nodes: Optional[str] = None
+                        pending: Optional[bool] = None
+                        reversedns: Optional[str] = None
+                        state: Optional[str] = None
+                        type: str
+                        zone: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2669,9 +3480,15 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        controller: str
+                        pending: Optional[bool] = None
+                        state: Optional[str] = None
+                        type: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2729,9 +3546,13 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        ipam: str
+                        type: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2776,9 +3597,13 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        dns: str
+                        type: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -2798,7 +3623,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    id: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]:
                 return []
 
             def put(self, *args: Any, **kwargs: Any) -> str:
@@ -2861,7 +3691,40 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    cgroup_mode: Optional[int] = pydantic.Field(alias="cgroup-mode")
+                    content: Optional[str] = None
+                    cpu: Optional[float] = None
+                    disk: Optional[int] = None
+                    diskread: Optional[int] = None
+                    diskwrite: Optional[int] = None
+                    hastate: Optional[str] = None
+                    id: str
+                    level: Optional[str] = None
+                    lock: Optional[str] = None
+                    maxcpu: Optional[float] = None
+                    maxdisk: Optional[int] = None
+                    maxmem: Optional[int] = None
+                    mem: Optional[int] = None
+                    name: Optional[str] = None
+                    netin: Optional[int] = None
+                    netout: Optional[int] = None
+                    node: Optional[str] = None
+                    plugintype: Optional[str] = None
+                    pool: Optional[str] = None
+                    status: Optional[str] = None
+                    storage: Optional[str] = None
+                    tags: Optional[str] = None
+                    template: Optional[bool] = None
+                    type: Literal[
+                        "node", "storage", "pool", "qemu", "lxc", "openvz", "sdn"
+                    ]
+                    uptime: Optional[int] = None
+                    vmid: Optional[int] = None
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -2880,7 +3743,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    upid: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -2925,7 +3793,22 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    id: str
+                    ip: Optional[str] = None
+                    level: Optional[str] = None
+                    local: Optional[bool] = None
+                    name: str
+                    nodeid: Optional[int] = None
+                    nodes: Optional[int] = None
+                    online: Optional[bool] = None
+                    quorate: Optional[bool] = None
+                    type: Literal["cluster", "node"]
+                    version: Optional[int] = None
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -3016,11 +3899,50 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        action: str
+                                        comment: Optional[str] = None
+                                        dest: Optional[str] = None
+                                        dport: Optional[str] = None
+                                        enable: Optional[int] = None
+                                        icmp_type: Optional[str] = pydantic.Field(
+                                            alias="icmp-type"
+                                        )
+                                        iface: Optional[str] = None
+                                        ipversion: Optional[int] = None
+                                        log: Optional[
+                                            Literal[
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog",
+                                            ]
+                                        ] = None
+                                        macro: Optional[str] = None
+                                        pos: int
+                                        proto: Optional[str] = None
+                                        source: Optional[str] = None
+                                        sport: Optional[str] = None
+                                        type: str
+
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict":
                                         return typing.cast(
                                             ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict,
+                                            None,
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model":
+                                        return typing.cast(
+                                            ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model,
                                             None,
                                         )
 
@@ -3050,9 +3972,14 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    pos: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -3106,9 +4033,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    cidr: str
+                                    comment: Optional[str] = None
+                                    digest: str
+                                    name: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -3168,12 +4103,20 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        cidr: str
+                                        comment: Optional[str] = None
+                                        digest: str
+                                        nomatch: Optional[bool] = None
+
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
-                                ) -> builtins.list[_Get.TypedDict]:
+                                ) -> builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                ]:
                                     return []
 
                                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -3197,9 +4140,16 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    comment: Optional[str] = None
+                                    digest: str
+                                    name: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -3263,11 +4213,59 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    dhcp: Optional[bool] = None
+                                    enable: Optional[bool] = None
+                                    ipfilter: Optional[bool] = None
+                                    log_level_in: Optional[
+                                        Literal[
+                                            "emerg",
+                                            "alert",
+                                            "crit",
+                                            "err",
+                                            "warning",
+                                            "notice",
+                                            "info",
+                                            "debug",
+                                            "nolog",
+                                        ]
+                                    ] = None
+                                    log_level_out: Optional[
+                                        Literal[
+                                            "emerg",
+                                            "alert",
+                                            "crit",
+                                            "err",
+                                            "warning",
+                                            "notice",
+                                            "info",
+                                            "debug",
+                                            "nolog",
+                                        ]
+                                    ] = None
+                                    macfilter: Optional[bool] = None
+                                    ndp: Optional[bool] = None
+                                    policy_in: Optional[
+                                        Literal["ACCEPT", "REJECT", "DROP"]
+                                    ] = None
+                                    policy_out: Optional[
+                                        Literal["ACCEPT", "REJECT", "DROP"]
+                                    ] = None
+                                    radv: Optional[bool] = None
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model,
                                         None,
                                     )
 
@@ -3300,9 +4298,15 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    n: int
+                                    t: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -3328,9 +4332,18 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    comment: Optional[str] = None
+                                    name: str
+                                    ref: str
+                                    scope: str
+                                    type: Literal["alias", "ipset"]
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -3682,11 +4695,22 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    pid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model,
                                         None,
                                     )
 
@@ -3721,11 +4745,36 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    err_data: Optional[str] = pydantic.Field(
+                                        alias="err-data"
+                                    )
+                                    err_truncated: Optional[bool] = pydantic.Field(
+                                        alias="err-truncated"
+                                    )
+                                    exitcode: Optional[int] = None
+                                    exited: bool
+                                    out_data: Optional[str] = pydantic.Field(
+                                        alias="out-data"
+                                    )
+                                    out_truncated: Optional[bool] = pydantic.Field(
+                                        alias="out-truncated"
+                                    )
+                                    signal: Optional[int] = None
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model,
                                         None,
                                     )
 
@@ -3753,11 +4802,23 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    content: str
+                                    truncated: Optional[bool] = None
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model,
                                         None,
                                     )
 
@@ -3817,12 +4878,22 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                filename: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict,
                                     None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model, None
                                 )
 
                         @property
@@ -4012,6 +5083,169 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                acpi: Optional[bool] = None
+                                affinity: Optional[str] = None
+                                agent: Optional[str] = None
+                                amd_sev: Optional[str] = pydantic.Field(alias="amd-sev")
+                                arch: Optional[Literal["x86_64", "aarch64"]] = None
+                                args: Optional[str] = None
+                                audio0: Optional[str] = None
+                                autostart: Optional[bool] = None
+                                balloon: Optional[int] = None
+                                bios: Optional[Literal["seabios", "ovmf"]] = None
+                                boot: Optional[str] = None
+                                bootdisk: Optional[str] = None
+                                cdrom: Optional[str] = None
+                                cicustom: Optional[str] = None
+                                cipassword: Optional[str] = None
+                                citype: Optional[
+                                    Literal["configdrive2", "nocloud", "opennebula"]
+                                ] = None
+                                ciupgrade: Optional[bool] = None
+                                ciuser: Optional[str] = None
+                                cores: Optional[int] = None
+                                cpu: Optional[str] = None
+                                cpulimit: Optional[float] = None
+                                cpuunits: Optional[int] = None
+                                description: Optional[str] = None
+                                digest: str
+                                efidisk0: Optional[str] = None
+                                freeze: Optional[bool] = None
+                                hookscript: Optional[str] = None
+                                hostpcin: Optional[str] = pydantic.Field(
+                                    alias="hostpci[n]"
+                                )
+                                hotplug: Optional[str] = None
+                                hugepages: Optional[Literal["any", "2", "1024"]] = None
+                                iden: Optional[str] = pydantic.Field(alias="ide[n]")
+                                ipconfign: Optional[str] = pydantic.Field(
+                                    alias="ipconfig[n]"
+                                )
+                                ivshmem: Optional[str] = None
+                                keephugepages: Optional[bool] = None
+                                keyboard: Optional[
+                                    Literal[
+                                        "de",
+                                        "de-ch",
+                                        "da",
+                                        "en-gb",
+                                        "en-us",
+                                        "es",
+                                        "fi",
+                                        "fr",
+                                        "fr-be",
+                                        "fr-ca",
+                                        "fr-ch",
+                                        "hu",
+                                        "is",
+                                        "it",
+                                        "ja",
+                                        "lt",
+                                        "mk",
+                                        "nl",
+                                        "no",
+                                        "pl",
+                                        "pt",
+                                        "pt-br",
+                                        "sv",
+                                        "sl",
+                                        "tr",
+                                    ]
+                                ] = None
+                                kvm: Optional[bool] = None
+                                localtime: Optional[bool] = None
+                                lock: Optional[
+                                    Literal[
+                                        "backup",
+                                        "clone",
+                                        "create",
+                                        "migrate",
+                                        "rollback",
+                                        "snapshot",
+                                        "snapshot-delete",
+                                        "suspending",
+                                        "suspended",
+                                    ]
+                                ] = None
+                                machine: Optional[str] = None
+                                memory: Optional[str] = None
+                                migrate_downtime: Optional[float] = None
+                                migrate_speed: Optional[int] = None
+                                name: Optional[str] = None
+                                nameserver: Optional[str] = None
+                                netn: Optional[str] = pydantic.Field(alias="net[n]")
+                                numa: Optional[bool] = None
+                                numan: Optional[str] = pydantic.Field(alias="numa[n]")
+                                onboot: Optional[bool] = None
+                                ostype: Optional[
+                                    Literal[
+                                        "other",
+                                        "wxp",
+                                        "w2k",
+                                        "w2k3",
+                                        "w2k8",
+                                        "wvista",
+                                        "win7",
+                                        "win8",
+                                        "win10",
+                                        "win11",
+                                        "l24",
+                                        "l26",
+                                        "solaris",
+                                    ]
+                                ] = None
+                                paralleln: Optional[str] = pydantic.Field(
+                                    alias="parallel[n]"
+                                )
+                                protection: Optional[bool] = None
+                                reboot: Optional[bool] = None
+                                rng0: Optional[str] = None
+                                satan: Optional[str] = pydantic.Field(alias="sata[n]")
+                                scsin: Optional[str] = pydantic.Field(alias="scsi[n]")
+                                scsihw: Optional[
+                                    Literal[
+                                        "lsi",
+                                        "lsi53c810",
+                                        "virtio-scsi-pci",
+                                        "virtio-scsi-single",
+                                        "megasas",
+                                        "pvscsi",
+                                    ]
+                                ] = None
+                                searchdomain: Optional[str] = None
+                                serialn: Optional[str] = pydantic.Field(
+                                    alias="serial[n]"
+                                )
+                                shares: Optional[int] = None
+                                smbios1: Optional[str] = None
+                                smp: Optional[int] = None
+                                sockets: Optional[int] = None
+                                spice_enhancements: Optional[str] = None
+                                sshkeys: Optional[str] = None
+                                startdate: Optional[str] = None
+                                startup: Optional[str] = None
+                                tablet: Optional[bool] = None
+                                tags: Optional[str] = None
+                                tdf: Optional[bool] = None
+                                template: Optional[bool] = None
+                                tpmstate0: Optional[str] = None
+                                unusedn: Optional[str] = pydantic.Field(
+                                    alias="unused[n]"
+                                )
+                                usbn: Optional[str] = pydantic.Field(alias="usb[n]")
+                                vcpus: Optional[int] = None
+                                vga: Optional[str] = None
+                                virtion: Optional[str] = pydantic.Field(
+                                    alias="virtio[n]"
+                                )
+                                virtiofsn: Optional[str] = pydantic.Field(
+                                    alias="virtiofs[n]"
+                                )
+                                vmgenid: Optional[str] = None
+                                vmstatestorage: Optional[str] = None
+                                watchdog: Optional[str] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
@@ -4019,6 +5253,14 @@ class ProxmoxAPI:
                             ):
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model,
                                     None,
                                 )
 
@@ -4058,9 +5300,17 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                delete: Optional[int] = None
+                                key: str
+                                pending: Optional[str] = None
+                                value: Optional[str] = None
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -4099,9 +5349,17 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                delete: Optional[int] = None
+                                key: str
+                                pending: Optional[str] = None
+                                value: Optional[str] = None
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Cloudinit._Get.TypedDict"
+                        ]:
                             return []
 
                         def put(self, *args: Any, **kwargs: Any) -> None:
@@ -4149,11 +5407,27 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                cert: str
+                                password: Optional[str] = None
+                                port: int
+                                ticket: str
+                                upid: str
+                                user: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model,
                                     None,
                                 )
 
@@ -4185,11 +5459,27 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                port: int
+                                ticket: str
+                                upid: str
+                                user: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model,
                                     None,
                                 )
 
@@ -4218,11 +5508,22 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                port: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model,
                                     None,
                                 )
 
@@ -4253,11 +5554,28 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                host: str
+                                password: str
+                                proxy: str
+                                tls_port: int = pydantic.Field(alias="tls-port")
+                                type: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model,
                                     None,
                                 )
 
@@ -4314,11 +5632,50 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    agent: Optional[bool] = None
+                                    clipboard: Optional[Literal["vnc"]] = None
+                                    cpu: Optional[float] = None
+                                    cpus: Optional[float] = None
+                                    diskread: Optional[int] = None
+                                    diskwrite: Optional[int] = None
+                                    ha: dict[Any, Any]
+                                    lock: Optional[str] = None
+                                    maxdisk: Optional[int] = None
+                                    maxmem: Optional[int] = None
+                                    mem: Optional[int] = None
+                                    name: Optional[str] = None
+                                    netin: Optional[int] = None
+                                    netout: Optional[int] = None
+                                    pid: Optional[int] = None
+                                    qmpstatus: Optional[str] = None
+                                    running_machine: Optional[str] = pydantic.Field(
+                                        alias="running-machine"
+                                    )
+                                    running_qemu: Optional[str] = pydantic.Field(
+                                        alias="running-qemu"
+                                    )
+                                    serial: Optional[bool] = None
+                                    spice: Optional[bool] = None
+                                    status: Literal["stopped", "running"]
+                                    tags: Optional[str] = None
+                                    template: Optional[bool] = None
+                                    uptime: Optional[int] = None
+                                    vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model,
                                         None,
                                     )
 
@@ -4453,9 +5810,14 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                subdir: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -4494,6 +5856,10 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                has_feature: bool = pydantic.Field(alias="hasFeature")
+                                nodes: list[str]
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
@@ -4501,6 +5867,14 @@ class ProxmoxAPI:
                             ):
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model,
                                     None,
                                 )
 
@@ -4563,6 +5937,12 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    cdrom: bool
+                                    is_unused: bool
+                                    size: int
+                                    volid: str
+
                             class _NotAllowedNodes:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
@@ -4571,20 +5951,42 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    unavailable_storages: Optional[list[str]] = None
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
                                     "allowed_nodes": NotRequired[list[str]],
-                                    "local_disks": list[_LocalDisks.TypedDict],
+                                    "local_disks": list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._LocalDisks.TypedDict"
+                                    ],
                                     "local_resources": list[str],
                                     "mapped-resource-info": dict[Any, Any],
                                     "mapped-resources": list[str],
                                     "not_allowed_nodes": NotRequired[
-                                        _NotAllowedNodes.TypedDict
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._NotAllowedNodes.TypedDict"
                                     ],
                                     "running": bool,
                                 },
                             )
+
+                            class Model(pydantic.BaseModel):
+                                allowed_nodes: Optional[list[str]] = None
+                                local_disks: list[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._LocalDisks.Model"
+                                ]
+                                local_resources: list[str]
+                                mapped_resource_info: dict[Any, Any] = pydantic.Field(
+                                    alias="mapped-resource-info"
+                                )
+                                mapped_resources: list[str] = pydantic.Field(
+                                    alias="mapped-resources"
+                                )
+                                not_allowed_nodes: Optional[
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._NotAllowedNodes.Model"
+                                ] = None
+                                running: bool
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
@@ -4593,6 +5995,14 @@ class ProxmoxAPI:
                             ):
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model,
                                     None,
                                 )
 
@@ -4734,9 +6144,18 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                description: str
+                                name: str
+                                parent: Optional[str] = None
+                                snaptime: Optional[int] = None
+                                vmstate: Optional[bool] = None
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
+                        ]:
                             return []
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
@@ -4781,11 +6200,24 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                socket: str
+                                ticket: str
+                                upid: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.Model,
                                     None,
                                 )
 
@@ -4815,11 +6247,23 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                port: Optional[str] = None
+                                socket: Optional[str] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.Model,
                                     None,
                                 )
 
@@ -4842,12 +6286,17 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            subdir: str
+
                     def delete(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"
+                    ]:
                         return []
 
                 def __call__(self, vmid: int) -> Vmid:
@@ -4883,9 +6332,36 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        cpu: Optional[float] = None
+                        cpus: Optional[float] = None
+                        diskread: Optional[int] = None
+                        diskwrite: Optional[int] = None
+                        lock: Optional[str] = None
+                        maxdisk: Optional[int] = None
+                        maxmem: Optional[int] = None
+                        mem: Optional[int] = None
+                        name: Optional[str] = None
+                        netin: Optional[int] = None
+                        netout: Optional[int] = None
+                        pid: Optional[int] = None
+                        qmpstatus: Optional[str] = None
+                        running_machine: Optional[str] = pydantic.Field(
+                            alias="running-machine"
+                        )
+                        running_qemu: Optional[str] = pydantic.Field(
+                            alias="running-qemu"
+                        )
+                        serial: Optional[bool] = None
+                        status: Literal["stopped", "running"]
+                        tags: Optional[str] = None
+                        template: Optional[bool] = None
+                        uptime: Optional[int] = None
+                        vmid: int
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
@@ -4989,11 +6465,93 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                arch: Optional[
+                                    Literal[
+                                        "amd64",
+                                        "i386",
+                                        "arm64",
+                                        "armhf",
+                                        "riscv32",
+                                        "riscv64",
+                                    ]
+                                ] = None
+                                cmode: Optional[Literal["shell", "console", "tty"]] = (
+                                    None
+                                )
+                                console: Optional[bool] = None
+                                cores: Optional[int] = None
+                                cpulimit: Optional[float] = None
+                                cpuunits: Optional[int] = None
+                                debug: Optional[bool] = None
+                                description: Optional[str] = None
+                                devn: Optional[str] = pydantic.Field(alias="dev[n]")
+                                digest: str
+                                features: Optional[str] = None
+                                hookscript: Optional[str] = None
+                                hostname: Optional[str] = None
+                                lock: Optional[
+                                    Literal[
+                                        "backup",
+                                        "create",
+                                        "destroyed",
+                                        "disk",
+                                        "fstrim",
+                                        "migrate",
+                                        "mounted",
+                                        "rollback",
+                                        "snapshot",
+                                        "snapshot-delete",
+                                    ]
+                                ] = None
+                                lxc: Optional[list[list[str]]] = None
+                                memory: Optional[int] = None
+                                mpn: Optional[str] = pydantic.Field(alias="mp[n]")
+                                nameserver: Optional[str] = None
+                                netn: Optional[str] = pydantic.Field(alias="net[n]")
+                                onboot: Optional[bool] = None
+                                ostype: Optional[
+                                    Literal[
+                                        "debian",
+                                        "devuan",
+                                        "ubuntu",
+                                        "centos",
+                                        "fedora",
+                                        "opensuse",
+                                        "archlinux",
+                                        "alpine",
+                                        "gentoo",
+                                        "nixos",
+                                        "unmanaged",
+                                    ]
+                                ] = None
+                                protection: Optional[bool] = None
+                                rootfs: Optional[str] = None
+                                searchdomain: Optional[str] = None
+                                startup: Optional[str] = None
+                                swap: Optional[int] = None
+                                tags: Optional[str] = None
+                                template: Optional[bool] = None
+                                timezone: Optional[str] = None
+                                tty: Optional[int] = None
+                                unprivileged: Optional[bool] = None
+                                unusedn: Optional[str] = pydantic.Field(
+                                    alias="unused[n]"
+                                )
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model,
                                     None,
                                 )
 
@@ -5047,11 +6605,40 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    cpu: Optional[float] = None
+                                    cpus: Optional[float] = None
+                                    disk: Optional[int] = None
+                                    diskread: Optional[int] = None
+                                    diskwrite: Optional[int] = None
+                                    ha: dict[Any, Any]
+                                    lock: Optional[str] = None
+                                    maxdisk: Optional[int] = None
+                                    maxmem: Optional[int] = None
+                                    maxswap: Optional[int] = None
+                                    mem: Optional[int] = None
+                                    name: Optional[str] = None
+                                    netin: Optional[int] = None
+                                    netout: Optional[int] = None
+                                    status: Literal["stopped", "running"]
+                                    tags: Optional[str] = None
+                                    template: Optional[bool] = None
+                                    uptime: Optional[int] = None
+                                    vmid: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model,
                                         None,
                                     )
 
@@ -5170,9 +6757,14 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                subdir: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -5255,9 +6847,17 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                description: str
+                                name: str
+                                parent: Optional[str] = None
+                                snaptime: Optional[int] = None
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
+                        ]:
                             return []
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
@@ -5319,11 +6919,50 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        action: str
+                                        comment: Optional[str] = None
+                                        dest: Optional[str] = None
+                                        dport: Optional[str] = None
+                                        enable: Optional[int] = None
+                                        icmp_type: Optional[str] = pydantic.Field(
+                                            alias="icmp-type"
+                                        )
+                                        iface: Optional[str] = None
+                                        ipversion: Optional[int] = None
+                                        log: Optional[
+                                            Literal[
+                                                "emerg",
+                                                "alert",
+                                                "crit",
+                                                "err",
+                                                "warning",
+                                                "notice",
+                                                "info",
+                                                "debug",
+                                                "nolog",
+                                            ]
+                                        ] = None
+                                        macro: Optional[str] = None
+                                        pos: int
+                                        proto: Optional[str] = None
+                                        source: Optional[str] = None
+                                        sport: Optional[str] = None
+                                        type: str
+
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict":
                                         return typing.cast(
                                             ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict,
+                                            None,
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model":
+                                        return typing.cast(
+                                            ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model,
                                             None,
                                         )
 
@@ -5353,9 +6992,14 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    pos: int
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -5409,9 +7053,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    cidr: str
+                                    comment: Optional[str] = None
+                                    digest: str
+                                    name: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -5471,12 +7123,20 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        cidr: str
+                                        comment: Optional[str] = None
+                                        digest: str
+                                        nomatch: Optional[bool] = None
+
                                 def delete(self, *args: Any, **kwargs: Any) -> None:
                                     return None
 
                                 def get(
                                     self, *args: Any, **kwargs: Any
-                                ) -> builtins.list[_Get.TypedDict]:
+                                ) -> builtins.list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                ]:
                                     return []
 
                                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -5500,9 +7160,16 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    comment: Optional[str] = None
+                                    digest: str
+                                    name: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
+                            ]:
                                 return []
 
                             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -5566,11 +7233,59 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    dhcp: Optional[bool] = None
+                                    enable: Optional[bool] = None
+                                    ipfilter: Optional[bool] = None
+                                    log_level_in: Optional[
+                                        Literal[
+                                            "emerg",
+                                            "alert",
+                                            "crit",
+                                            "err",
+                                            "warning",
+                                            "notice",
+                                            "info",
+                                            "debug",
+                                            "nolog",
+                                        ]
+                                    ] = None
+                                    log_level_out: Optional[
+                                        Literal[
+                                            "emerg",
+                                            "alert",
+                                            "crit",
+                                            "err",
+                                            "warning",
+                                            "notice",
+                                            "info",
+                                            "debug",
+                                            "nolog",
+                                        ]
+                                    ] = None
+                                    macfilter: Optional[bool] = None
+                                    ndp: Optional[bool] = None
+                                    policy_in: Optional[
+                                        Literal["ACCEPT", "REJECT", "DROP"]
+                                    ] = None
+                                    policy_out: Optional[
+                                        Literal["ACCEPT", "REJECT", "DROP"]
+                                    ] = None
+                                    radv: Optional[bool] = None
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model,
                                         None,
                                     )
 
@@ -5603,9 +7318,15 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    n: int
+                                    t: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -5631,9 +7352,18 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    comment: Optional[str] = None
+                                    name: str
+                                    ref: str
+                                    scope: str
+                                    type: Literal["alias", "ipset"]
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -5667,12 +7397,22 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                filename: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict,
                                     None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model, None
                                 )
 
                         @property
@@ -5718,11 +7458,26 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                cert: str
+                                port: int
+                                ticket: str
+                                upid: str
+                                user: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model,
                                     None,
                                 )
 
@@ -5754,11 +7509,25 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                port: int
+                                ticket: str
+                                upid: str
+                                user: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model,
                                     None,
                                 )
 
@@ -5787,11 +7556,24 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                port: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model,
                                     None,
                                 )
 
@@ -5822,11 +7604,28 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                host: str
+                                password: str
+                                proxy: str
+                                tls_port: int = pydantic.Field(alias="tls-port")
+                                type: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model"
+                            ):
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model,
                                     None,
                                 )
 
@@ -5887,6 +7686,9 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                has_feature: bool = pydantic.Field(alias="hasFeature")
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
@@ -5894,6 +7696,14 @@ class ProxmoxAPI:
                             ):
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model,
                                     None,
                                 )
 
@@ -5987,9 +7797,17 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                delete: Optional[int] = None
+                                key: str
+                                pending: Optional[str] = None
+                                value: Optional[str] = None
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -6014,6 +7832,15 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    ip_address: Optional[str] = pydantic.Field(
+                                        alias="ip-address"
+                                    )
+                                    ip_address_type: Optional[str] = pydantic.Field(
+                                        alias="ip-address-type"
+                                    )
+                                    prefix: Optional[int] = None
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
@@ -6021,14 +7848,30 @@ class ProxmoxAPI:
                                     "hwaddr": str,
                                     "inet": NotRequired[str],
                                     "inet6": NotRequired[str],
-                                    "ip-addresses": list[_IpAddresses.TypedDict],
+                                    "ip-addresses": list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Interfaces._Get._IpAddresses.TypedDict"
+                                    ],
                                     "name": str,
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                hardware_address: str = pydantic.Field(
+                                    alias="hardware-address"
+                                )
+                                hwaddr: str
+                                inet: Optional[str] = None
+                                inet6: Optional[str] = None
+                                ip_addresses: list[
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Interfaces._Get._IpAddresses.Model"
+                                ] = pydantic.Field(alias="ip-addresses")
+                                name: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Interfaces._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -6052,6 +7895,11 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                socket: str
+                                ticket: str
+                                upid: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
@@ -6059,6 +7907,14 @@ class ProxmoxAPI:
                             ):
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.Model,
                                     None,
                                 )
 
@@ -6088,11 +7944,23 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                port: Optional[str] = None
+                                socket: Optional[str] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.Model,
                                     None,
                                 )
 
@@ -6115,12 +7983,15 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            subdir: str
+
                     def delete(self, *args: Any, **kwargs: Any) -> str:
                         return ""
 
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"]:
                         return []
 
                 def __call__(self, vmid: int) -> Vmid:
@@ -6153,9 +8024,29 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        cpu: Optional[float] = None
+                        cpus: Optional[float] = None
+                        disk: Optional[int] = None
+                        diskread: Optional[int] = None
+                        diskwrite: Optional[int] = None
+                        lock: Optional[str] = None
+                        maxdisk: Optional[int] = None
+                        maxmem: Optional[int] = None
+                        maxswap: Optional[int] = None
+                        mem: Optional[int] = None
+                        name: Optional[str] = None
+                        netin: Optional[int] = None
+                        netout: Optional[int] = None
+                        status: Literal["stopped", "running"]
+                        tags: Optional[str] = None
+                        template: Optional[bool] = None
+                        uptime: Optional[int] = None
+                        vmid: int
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> str:
@@ -6207,9 +8098,19 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                can_update_at_runtime: bool
+                                level: str
+                                mask: str
+                                name: str
+                                section: str
+                                value: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Ceph.Cfg.Db._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -6269,6 +8170,14 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        dev_node: str
+                                        device: Literal["block", "db", "wal"]
+                                        devices: str
+                                        size: int
+                                        support_discard: bool
+                                        type: str
+
                                 class _Osd:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
@@ -6287,19 +8196,48 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        back_addr: str
+                                        front_addr: str
+                                        hb_back_addr: str
+                                        hb_front_addr: str
+                                        hostname: str
+                                        id: int
+                                        mem_usage: int
+                                        osd_data: str
+                                        osd_objectstore: str
+                                        pid: int
+                                        version: str
+
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "devices": list[_Devices.TypedDict],
-                                        "osd": _Osd.TypedDict,
+                                        "devices": list[
+                                            "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Devices.TypedDict"
+                                        ],
+                                        "osd": "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Osd.TypedDict",
                                     },
                                 )
+
+                                class Model(pydantic.BaseModel):
+                                    devices: list[
+                                        "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Devices.Model"
+                                    ]
+                                    osd: "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Osd.Model"
 
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.Model,
                                         None,
                                     )
 
@@ -6331,11 +8269,27 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    creation_time: str
+                                    lv_name: str
+                                    lv_path: str
+                                    lv_size: int
+                                    lv_uuid: str
+                                    vg_name: str
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.Model,
                                         None,
                                     )
 
@@ -6460,9 +8414,17 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            addr: Optional[str] = None
+                            host: Optional[str] = None
+                            name: dict[Any, Any]
+                            rank: Optional[int] = None
+                            standby_replay: Optional[bool] = None
+                            state: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -6504,9 +8466,15 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            addr: Optional[str] = None
+                            host: Optional[str] = None
+                            name: dict[Any, Any]
+                            state: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -6554,9 +8522,21 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            addr: Optional[str] = None
+                            ceph_version: Optional[str] = None
+                            ceph_version_short: Optional[str] = None
+                            direxists: Optional[str] = None
+                            host: Optional[bool] = None
+                            name: str
+                            quorum: Optional[bool] = None
+                            rank: Optional[int] = None
+                            service: Optional[int] = None
+                            state: Optional[str] = None
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -6594,9 +8574,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            data_pool: str
+                            metadata_pool: str
+                            name: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -6653,11 +8638,51 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    application: Optional[
+                                        Literal["rbd", "cephfs", "rgw"]
+                                    ] = None
+                                    application_list: Optional[list[Any]] = None
+                                    autoscale_status: Optional[dict[Any, Any]] = None
+                                    crush_rule: Optional[str] = None
+                                    fast_read: bool
+                                    hashpspool: bool
+                                    id: int
+                                    min_size: Optional[int] = None
+                                    name: str
+                                    nodeep_scrub: bool = pydantic.Field(
+                                        alias="nodeep-scrub"
+                                    )
+                                    nodelete: bool
+                                    nopgchange: bool
+                                    noscrub: bool
+                                    nosizechange: bool
+                                    pg_autoscale_mode: Optional[
+                                        Literal["on", "off", "warn"]
+                                    ] = None
+                                    pg_num: Optional[int] = None
+                                    pg_num_min: Optional[int] = None
+                                    pgp_num: int
+                                    size: Optional[int] = None
+                                    statistics: Optional[dict[Any, Any]] = None
+                                    target_size: Optional[str] = None
+                                    target_size_ratio: Optional[float] = None
+                                    use_gmt_hitset: bool
+                                    write_fadvise_dontneed: bool
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.Model,
                                         None,
                                     )
 
@@ -6714,9 +8739,30 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            application_metadata: Optional[dict[Any, Any]] = None
+                            autoscale_status: Optional[dict[Any, Any]] = None
+                            bytes_used: int
+                            crush_rule: int
+                            crush_rule_name: str
+                            min_size: int
+                            percent_used: float
+                            pg_autoscale_mode: Optional[str] = None
+                            pg_num: int
+                            pg_num_final: Optional[int] = None
+                            pg_num_min: Optional[int] = None
+                            pool: int
+                            pool_name: str
+                            size: int
+                            target_size: Optional[int] = None
+                            target_size_ratio: Optional[float] = None
+                            type: Literal["replicated", "erasure", "unknown"]
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Ceph.Pool._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
@@ -6829,9 +8875,13 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            n: int
+                            t: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -6852,9 +8902,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            name: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Ceph.Rules._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -6876,12 +8931,23 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            safe: bool
+                            status: Optional[str] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.Model, None
                             )
 
                     @property
@@ -6968,12 +9034,77 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            all: Optional[bool] = None
+                            bwlimit: Optional[int] = None
+                            compress: Optional[
+                                Literal["0", "1", "gzip", "lzo", "zstd"]
+                            ] = None
+                            dumpdir: Optional[str] = None
+                            exclude: Optional[str] = None
+                            exclude_path: Optional[list[str]] = pydantic.Field(
+                                alias="exclude-path"
+                            )
+                            fleecing: Optional[str] = None
+                            ionice: Optional[int] = None
+                            lockwait: Optional[int] = None
+                            mailnotification: Optional[Literal["always", "failure"]] = (
+                                None
+                            )
+                            mailto: Optional[str] = None
+                            maxfiles: Optional[int] = None
+                            mode: Optional[Literal["snapshot", "suspend", "stop"]] = (
+                                None
+                            )
+                            node: Optional[str] = None
+                            notes_template: Optional[str] = pydantic.Field(
+                                alias="notes-template"
+                            )
+                            notification_mode: Optional[
+                                Literal[
+                                    "auto", "legacy-sendmail", "notification-system"
+                                ]
+                            ] = pydantic.Field(alias="notification-mode")
+                            notification_policy: Optional[
+                                Literal["always", "failure", "never"]
+                            ] = pydantic.Field(alias="notification-policy")
+                            notification_target: Optional[str] = pydantic.Field(
+                                alias="notification-target"
+                            )
+                            pbs_change_detection_mode: Optional[
+                                Literal["legacy", "data", "metadata"]
+                            ] = pydantic.Field(alias="pbs-change-detection-mode")
+                            performance: Optional[str] = None
+                            pigz: Optional[int] = None
+                            pool: Optional[str] = None
+                            protected: Optional[bool] = None
+                            prune_backups: Optional[str] = pydantic.Field(
+                                alias="prune-backups"
+                            )
+                            quiet: Optional[bool] = None
+                            remove: Optional[bool] = None
+                            script: Optional[str] = None
+                            stdexcludes: Optional[bool] = None
+                            stop: Optional[bool] = None
+                            stopwait: Optional[int] = None
+                            storage: Optional[str] = None
+                            tmpdir: Optional[str] = None
+                            vmid: Optional[str] = None
+                            zstd: Optional[int] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model, None
                             )
 
                     @property
@@ -7105,9 +9236,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            subdir: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
+                    ]:
                         return []
 
                 def __call__(self, service: str) -> Service:
@@ -7156,11 +9292,39 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        checktime: Optional[int] = None
+                        key: Optional[str] = None
+                        level: Optional[str] = None
+                        message: Optional[str] = None
+                        nextduedate: Optional[str] = None
+                        productname: Optional[str] = None
+                        regdate: Optional[str] = None
+                        serverid: Optional[str] = None
+                        signature: Optional[str] = None
+                        sockets: Optional[int] = None
+                        status: Literal[
+                            "new",
+                            "notfound",
+                            "active",
+                            "invalid",
+                            "expired",
+                            "suspended",
+                        ]
+                        url: Optional[str] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Subscription._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Subscription._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Subscription._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Subscription._Get.Model, None
                         )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -7204,11 +9368,22 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            method: str
+                            type: str
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict, None
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model, None
                             )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -7314,12 +9489,115 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        active: Optional[bool] = None
+                        address: Optional[str] = None
+                        address6: Optional[str] = None
+                        autostart: Optional[bool] = None
+                        bond_primary: Optional[str] = pydantic.Field(
+                            alias="bond-primary"
+                        )
+                        bond_mode: Optional[
+                            Literal[
+                                "balance-rr",
+                                "active-backup",
+                                "balance-xor",
+                                "broadcast",
+                                "802.3ad",
+                                "balance-tlb",
+                                "balance-alb",
+                                "balance-slb",
+                                "lacp-balance-slb",
+                                "lacp-balance-tcp",
+                            ]
+                        ] = None
+                        bond_xmit_hash_policy: Optional[
+                            Literal["layer2", "layer2+3", "layer3+4"]
+                        ] = None
+                        bridge_access: Optional[int] = pydantic.Field(
+                            alias="bridge-access"
+                        )
+                        bridge_arp_nd_suppress: Optional[bool] = pydantic.Field(
+                            alias="bridge-arp-nd-suppress"
+                        )
+                        bridge_learning: Optional[bool] = pydantic.Field(
+                            alias="bridge-learning"
+                        )
+                        bridge_multicast_flood: Optional[bool] = pydantic.Field(
+                            alias="bridge-multicast-flood"
+                        )
+                        bridge_unicast_flood: Optional[bool] = pydantic.Field(
+                            alias="bridge-unicast-flood"
+                        )
+                        bridge_ports: Optional[str] = None
+                        bridge_vids: Optional[str] = None
+                        bridge_vlan_aware: Optional[bool] = None
+                        cidr: Optional[str] = None
+                        cidr6: Optional[str] = None
+                        comments: Optional[str] = None
+                        comments6: Optional[str] = None
+                        exists: Optional[bool] = None
+                        families: Optional[list[Literal["inet", "inet6"]]] = None
+                        gateway: Optional[str] = None
+                        gateway6: Optional[str] = None
+                        iface: str
+                        link_type: Optional[str] = pydantic.Field(alias="link-type")
+                        method: Optional[
+                            Literal["loopback", "dhcp", "manual", "static", "auto"]
+                        ] = None
+                        method6: Optional[
+                            Literal["loopback", "dhcp", "manual", "static", "auto"]
+                        ] = None
+                        mtu: Optional[int] = None
+                        netmask: Optional[str] = None
+                        netmask6: Optional[int] = None
+                        options: Optional[list[str]] = None
+                        options6: Optional[list[str]] = None
+                        ovs_bonds: Optional[str] = None
+                        ovs_bridge: Optional[str] = None
+                        ovs_options: Optional[str] = None
+                        ovs_ports: Optional[str] = None
+                        ovs_tag: Optional[int] = None
+                        priority: Optional[int] = None
+                        slaves: Optional[str] = None
+                        type: Literal[
+                            "bridge",
+                            "bond",
+                            "eth",
+                            "alias",
+                            "vlan",
+                            "OVSBridge",
+                            "OVSBond",
+                            "OVSPort",
+                            "OVSIntPort",
+                            "vnet",
+                            "unknown",
+                        ]
+                        uplink_id: Optional[str] = pydantic.Field(alias="uplink-id")
+                        vlan_id: Optional[int] = pydantic.Field(alias="vlan-id")
+                        vlan_protocol: Optional[Literal["802.1ad", "802.1q"]] = (
+                            pydantic.Field(alias="vlan-protocol")
+                        )
+                        vlan_raw_device: Optional[str] = pydantic.Field(
+                            alias="vlan-raw-device"
+                        )
+                        vxlan_id: Optional[int] = pydantic.Field(alias="vxlan-id")
+                        vxlan_local_tunnelip: Optional[str] = pydantic.Field(
+                            alias="vxlan-local-tunnelip"
+                        )
+                        vxlan_physdev: Optional[str] = pydantic.Field(
+                            alias="vxlan-physdev"
+                        )
+                        vxlan_svcnodeip: Optional[str] = pydantic.Field(
+                            alias="vxlan-svcnodeip"
+                        )
+
                 def delete(self, *args: Any, **kwargs: Any) -> None:
                     return None
 
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Network._Get.TypedDict"]:
                     return []
 
                 def post(self, *args: Any, **kwargs: Any) -> None:
@@ -7360,9 +9638,15 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                n: int
+                                t: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -7393,6 +9677,18 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                exitstatus: Optional[str] = None
+                                id: str
+                                node: str
+                                pid: int
+                                pstart: int
+                                starttime: int
+                                status: Literal["running", "stopped"]
+                                type: str
+                                upid: str
+                                user: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> (
@@ -7400,6 +9696,14 @@ class ProxmoxAPI:
                             ):
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model,
                                     None,
                                 )
 
@@ -7444,9 +9748,21 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        endtime: Optional[int] = None
+                        id: str
+                        node: str
+                        pid: int
+                        pstart: int
+                        starttime: int
+                        status: Optional[str] = None
+                        type: str
+                        upid: str
+                        user: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -7472,9 +9788,13 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            options: str
+                            path: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -7496,9 +9816,15 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            description: str
+                            share: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -7520,9 +9846,13 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            comment: Optional[str] = None
+                            store: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -7543,9 +9873,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            volname: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -7567,9 +9902,15 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            portal: str
+                            target: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -7590,9 +9931,12 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            vg: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -7613,9 +9957,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            lv: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -7636,9 +9985,12 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            pool: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"]:
                         return []
 
                 @cached_property
@@ -7655,9 +10007,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        method: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -7694,9 +10049,17 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    available: int
+                                    description: str
+                                    name: Optional[str] = None
+                                    type: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping.Mdev._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -7714,9 +10077,14 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                method: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping._Get.TypedDict"
+                        ]:
                             return []
 
                     def __call__(self, pci_id_or_mapping: str) -> PciIdOrMapping:
@@ -7743,9 +10111,25 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            class_: str = pydantic.Field(alias="class")
+                            device: str
+                            device_name: Optional[str] = None
+                            id: str
+                            iommugroup: int
+                            mdev: Optional[bool] = None
+                            subsystem_device: Optional[str] = None
+                            subsystem_device_name: Optional[str] = None
+                            subsystem_vendor: Optional[str] = None
+                            subsystem_vendor_name: Optional[str] = None
+                            vendor: str
+                            vendor_name: Optional[str] = None
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -7777,9 +10161,25 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            busnum: int
+                            class_: int = pydantic.Field(alias="class")
+                            devnum: int
+                            level: int
+                            manufacturer: Optional[str] = None
+                            port: int
+                            prodid: str
+                            product: Optional[str] = None
+                            serial: Optional[str] = None
+                            speed: str
+                            usbpath: Optional[str] = None
+                            vendid: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -7796,9 +10196,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        type: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -7829,9 +10232,16 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                custom: bool
+                                name: str
+                                vendor: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Cpu._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -7855,9 +10265,17 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                changes: Optional[str] = None
+                                id: str
+                                type: Literal["q35", "i440fx"]
+                                version: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -7915,12 +10333,21 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                ctime: int
+                                mark: Literal["keep", "remove", "protected", "renamed"]
+                                type: str
+                                vmid: Optional[int] = None
+                                volid: str
+
                         def delete(self, *args: Any, **kwargs: Any) -> str:
                             return ""
 
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -7952,11 +10379,27 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    format: str
+                                    notes: Optional[str] = None
+                                    path: str
+                                    protected: Optional[bool] = None
+                                    size: int
+                                    used: int
+
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict":
                                     return typing.cast(
                                         ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict,
+                                        None,
+                                    )
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model":
+                                    return typing.cast(
+                                        ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model,
                                         None,
                                     )
 
@@ -7993,6 +10436,10 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    state: str
+                                    upid: str
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
@@ -8005,16 +10452,33 @@ class ProxmoxAPI:
                                     "size": int,
                                     "used": NotRequired[int],
                                     "verification": NotRequired[
-                                        _Verification.TypedDict
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get._Verification.TypedDict"
                                     ],
                                     "vmid": NotRequired[int],
                                     "volid": str,
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                ctime: Optional[int] = None
+                                encrypted: Optional[str] = None
+                                format: str
+                                notes: Optional[str] = None
+                                parent: Optional[str] = None
+                                protected: Optional[bool] = None
+                                size: int
+                                used: Optional[int] = None
+                                verification: Optional[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get._Verification.Model"
+                                ] = None
+                                vmid: Optional[int] = None
+                                volid: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
+                        ]:
                             return []
 
                         def post(self, *args: Any, **kwargs: Any) -> str:
@@ -8050,9 +10514,19 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    filepath: str
+                                    leaf: bool
+                                    mtime: Optional[int] = None
+                                    size: Optional[int] = None
+                                    text: str
+                                    type: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -8109,11 +10583,22 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                filename: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model,
                                     None,
                                 )
 
@@ -8199,6 +10684,19 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    key: Optional[str] = None
+                                    type: Literal[
+                                        "cdrom-image-ignored",
+                                        "efi-state-lost",
+                                        "guest-is-running",
+                                        "nvme-unsupported",
+                                        "ova-needs-extracting",
+                                        "ovmf-with-lsi-unsupported",
+                                        "serial-port-socket-only",
+                                    ]
+                                    value: Optional[str] = None
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
@@ -8207,15 +10705,41 @@ class ProxmoxAPI:
                                     "net": NotRequired[dict[Any, Any]],
                                     "source": Literal["esxi"],
                                     "type": Literal["vm"],
-                                    "warnings": NotRequired[list[_Warnings.TypedDict]],
+                                    "warnings": NotRequired[
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get._Warnings.TypedDict"
+                                        ]
+                                    ],
                                 },
                             )
+
+                            class Model(pydantic.BaseModel):
+                                create_args: dict[Any, Any] = pydantic.Field(
+                                    alias="create-args"
+                                )
+                                disks: Optional[dict[Any, Any]] = None
+                                net: Optional[dict[Any, Any]] = None
+                                source: Literal["esxi"]
+                                type: Literal["vm"]
+                                warnings: Optional[
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get._Warnings.Model"
+                                    ]
+                                ] = None
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.Model,
                                     None,
                                 )
 
@@ -8238,9 +10762,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            subdir: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
+                    ]:
                         return []
 
                 def __call__(self, storage: str) -> Storage:
@@ -8265,9 +10794,21 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        active: Optional[bool] = None
+                        avail: Optional[int] = None
+                        content: str
+                        enabled: Optional[bool] = None
+                        shared: Optional[bool] = None
+                        storage: str
+                        total: Optional[int] = None
+                        type: str
+                        used: Optional[int] = None
+                        used_fraction: Optional[float] = None
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -8310,10 +10851,20 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    free: int
+                                    leaf: bool
+                                    name: str
+                                    size: int
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "children": NotRequired[list[_Children.TypedDict]],
+                                    "children": NotRequired[
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children._Children.TypedDict"
+                                        ]
+                                    ],
                                     "free": int,
                                     "leaf": bool,
                                     "name": str,
@@ -8321,19 +10872,45 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                children: Optional[
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children._Children.Model"
+                                    ]
+                                ] = None
+                                free: int
+                                leaf: bool
+                                name: str
+                                size: int
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "children": list[_Children.TypedDict],
+                                "children": list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children.TypedDict"
+                                ],
                                 "leaf": bool,
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            children: list[
+                                "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children.Model"
+                            ]
+                            leaf: bool
 
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict, None
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model, None
                             )
 
                     @property
@@ -8381,9 +10958,19 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            lv: str
+                            lv_size: int
+                            metadata_size: int
+                            metadata_used: int
+                            used: int
+                            vg: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
@@ -8426,9 +11013,18 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            device: str
+                            options: str
+                            path: str
+                            type: str
+                            unitfile: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
@@ -8465,11 +11061,21 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    cksum: Optional[float] = None
+                                    msg: str
+                                    name: str
+                                    read: Optional[float] = None
+                                    state: Optional[str] = None
+                                    write: Optional[float] = None
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
                                     "action": NotRequired[str],
-                                    "children": list[_Children.TypedDict],
+                                    "children": list[
+                                        "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get._Children.TypedDict"
+                                    ],
                                     "errors": str,
                                     "name": str,
                                     "scan": NotRequired[str],
@@ -8478,11 +11084,30 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                action: Optional[str] = None
+                                children: list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get._Children.Model"
+                                ]
+                                errors: str
+                                name: str
+                                scan: Optional[str] = None
+                                state: str
+                                status: Optional[str] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model,
                                     None,
                                 )
 
@@ -8512,9 +11137,20 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            alloc: int
+                            dedup: float
+                            frag: int
+                            free: int
+                            health: str
+                            name: str
+                            size: int
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> str:
@@ -8552,9 +11188,26 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            devpath: str
+                            gpt: bool
+                            health: Optional[str] = None
+                            model: Optional[str] = None
+                            mounted: bool
+                            osdid: int
+                            osdid_list: list[int] = pydantic.Field(alias="osdid-list")
+                            parent: Optional[str] = None
+                            serial: Optional[str] = None
+                            size: int
+                            used: Optional[str] = None
+                            vendor: Optional[str] = None
+                            wwn: Optional[str] = None
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -8578,11 +11231,24 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            attributes: Optional[list[Any]] = None
+                            health: str
+                            text: Optional[str] = None
+                            type: Optional[str] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict, None
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model, None
                             )
 
                     @property
@@ -8687,6 +11353,10 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                error: str
+                                path: str
+
                         class _Files:
                             class _Repositories:
                                 class _Options:
@@ -8698,6 +11368,12 @@ class ProxmoxAPI:
                                         },
                                     )
 
+                                    class Model(pydantic.BaseModel):
+                                        key: str = pydantic.Field(alias="Key")
+                                        values: list[str] = pydantic.Field(
+                                            alias="Values"
+                                        )
+
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
@@ -8706,7 +11382,9 @@ class ProxmoxAPI:
                                         "Enabled": bool,
                                         "FileType": Literal["list", "sources"],
                                         "Options": NotRequired[
-                                            list[_Options.TypedDict]
+                                            list[
+                                                "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files._Repositories._Options.TypedDict"
+                                            ]
                                         ],
                                         "Suites": list[str],
                                         "Types": list[Literal["deb", "deb-src"]],
@@ -8714,15 +11392,49 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    comment: Optional[str] = pydantic.Field(
+                                        alias="Comment"
+                                    )
+                                    components: Optional[list[str]] = pydantic.Field(
+                                        alias="Components"
+                                    )
+                                    enabled: bool = pydantic.Field(alias="Enabled")
+                                    file_type: Literal["list", "sources"] = (
+                                        pydantic.Field(alias="FileType")
+                                    )
+                                    options: Optional[
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files._Repositories._Options.Model"
+                                        ]
+                                    ] = pydantic.Field(alias="Options")
+                                    suites: list[str] = pydantic.Field(alias="Suites")
+                                    types: list[Literal["deb", "deb-src"]] = (
+                                        pydantic.Field(alias="Types")
+                                    )
+                                    uris: list[str] = pydantic.Field(alias="URIs")
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
                                     "digest": list[int],
                                     "file-type": Literal["list", "sources"],
                                     "path": str,
-                                    "repositories": list[_Repositories.TypedDict],
+                                    "repositories": list[
+                                        "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files._Repositories.TypedDict"
+                                    ],
                                 },
                             )
+
+                            class Model(pydantic.BaseModel):
+                                digest: list[int]
+                                file_type: Literal["list", "sources"] = pydantic.Field(
+                                    alias="file-type"
+                                )
+                                path: str
+                                repositories: list[
+                                    "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files._Repositories.Model"
+                                ]
 
                         class _Infos:
                             TypedDict = typing.TypedDict(
@@ -8736,6 +11448,13 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                index: str
+                                kind: str
+                                message: str
+                                path: str
+                                property: Optional[str] = None
+
                         class _StandardRepos:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
@@ -8746,16 +11465,44 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                handle: str
+                                name: str
+                                status: Optional[bool] = None
+
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
                                 "digest": str,
-                                "errors": list[_Errors.TypedDict],
-                                "files": list[_Files.TypedDict],
-                                "infos": list[_Infos.TypedDict],
-                                "standard-repos": list[_StandardRepos.TypedDict],
+                                "errors": list[
+                                    "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Errors.TypedDict"
+                                ],
+                                "files": list[
+                                    "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files.TypedDict"
+                                ],
+                                "infos": list[
+                                    "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Infos.TypedDict"
+                                ],
+                                "standard-repos": list[
+                                    "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._StandardRepos.TypedDict"
+                                ],
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            digest: str
+                            errors: list[
+                                "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Errors.Model"
+                            ]
+                            files: list[
+                                "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Files.Model"
+                            ]
+                            infos: list[
+                                "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._Infos.Model"
+                            ]
+                            standard_repos: list[
+                                "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get._StandardRepos.Model"
+                            ] = pydantic.Field(alias="standard-repos")
 
                         def __call__(
                             self, *args: Any, **kwargs: Any
@@ -8763,6 +11510,13 @@ class ProxmoxAPI:
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.Model, None
                             )
 
                     @property
@@ -8808,9 +11562,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        id: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -8866,11 +11623,50 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                action: str
+                                comment: Optional[str] = None
+                                dest: Optional[str] = None
+                                dport: Optional[str] = None
+                                enable: Optional[int] = None
+                                icmp_type: Optional[str] = pydantic.Field(
+                                    alias="icmp-type"
+                                )
+                                iface: Optional[str] = None
+                                ipversion: Optional[int] = None
+                                log: Optional[
+                                    Literal[
+                                        "emerg",
+                                        "alert",
+                                        "crit",
+                                        "err",
+                                        "warning",
+                                        "notice",
+                                        "info",
+                                        "debug",
+                                        "nolog",
+                                    ]
+                                ] = None
+                                macro: Optional[str] = None
+                                pos: int
+                                proto: Optional[str] = None
+                                source: Optional[str] = None
+                                sport: Optional[str] = None
+                                type: str
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model,
                                     None,
                                 )
 
@@ -8899,9 +11695,14 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            pos: int
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
+                    ]:
                         return []
 
                     def post(self, *args: Any, **kwargs: Any) -> None:
@@ -9007,12 +11808,100 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            enable: Optional[bool] = None
+                            log_level_forward: Optional[
+                                Literal[
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog",
+                                ]
+                            ] = None
+                            log_level_in: Optional[
+                                Literal[
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog",
+                                ]
+                            ] = None
+                            log_level_out: Optional[
+                                Literal[
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog",
+                                ]
+                            ] = None
+                            log_nf_conntrack: Optional[bool] = None
+                            ndp: Optional[bool] = None
+                            nf_conntrack_allow_invalid: Optional[bool] = None
+                            nf_conntrack_helpers: Optional[str] = None
+                            nf_conntrack_max: Optional[int] = None
+                            nf_conntrack_tcp_timeout_established: Optional[int] = None
+                            nf_conntrack_tcp_timeout_syn_recv: Optional[int] = None
+                            nftables: Optional[bool] = None
+                            nosmurfs: Optional[bool] = None
+                            protection_synflood: Optional[bool] = None
+                            protection_synflood_burst: Optional[int] = None
+                            protection_synflood_rate: Optional[int] = None
+                            smurf_log_level: Optional[
+                                Literal[
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog",
+                                ]
+                            ] = None
+                            tcp_flags_log_level: Optional[
+                                Literal[
+                                    "emerg",
+                                    "alert",
+                                    "crit",
+                                    "err",
+                                    "warning",
+                                    "notice",
+                                    "info",
+                                    "debug",
+                                    "nolog",
+                                ]
+                            ] = None
+                            tcpflags: Optional[bool] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict,
                                 None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model, None
                             )
 
                     @property
@@ -9043,9 +11932,15 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            n: int
+                            t: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -9101,9 +11996,15 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                n: int
+                                t: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
+                        ]:
                             return []
 
                     @cached_property
@@ -9147,9 +12048,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        id: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -9221,9 +12125,27 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            filename: Optional[str] = None
+                            fingerprint: Optional[str] = None
+                            issuer: Optional[str] = None
+                            notafter: Optional[int] = None
+                            notbefore: Optional[int] = None
+                            pem: Optional[str] = None
+                            public_key_bits: Optional[int] = pydantic.Field(
+                                alias="public-key-bits"
+                            )
+                            public_key_type: Optional[str] = pydantic.Field(
+                                alias="public-key-type"
+                            )
+                            san: Optional[list[str]] = None
+                            subject: Optional[str] = None
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -9253,6 +12175,22 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            filename: Optional[str] = None
+                            fingerprint: Optional[str] = None
+                            issuer: Optional[str] = None
+                            notafter: Optional[int] = None
+                            notbefore: Optional[int] = None
+                            pem: Optional[str] = None
+                            public_key_bits: Optional[int] = pydantic.Field(
+                                alias="public-key-bits"
+                            )
+                            public_key_type: Optional[str] = pydantic.Field(
+                                alias="public-key-type"
+                            )
+                            san: Optional[list[str]] = None
+                            subject: Optional[str] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> (
@@ -9260,6 +12198,14 @@ class ProxmoxAPI:
                         ):
                             return typing.cast(
                                 ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict,
+                                None,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model,
                                 None,
                             )
 
@@ -9307,11 +12253,33 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        acme: Optional[str] = None
+                        acmedomainn: Optional[str] = pydantic.Field(
+                            alias="acmedomain[n]"
+                        )
+                        ballooning_target: Optional[int] = pydantic.Field(
+                            alias="ballooning-target"
+                        )
+                        description: Optional[str] = None
+                        digest: Optional[str] = None
+                        startall_onboot_delay: Optional[int] = pydantic.Field(
+                            alias="startall-onboot-delay"
+                        )
+                        wakeonlan: Optional[str] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Config._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Config._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Config._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Config._Get.Model, None
                         )
 
                 @property
@@ -9356,9 +12324,16 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    status: Optional[str] = None
+                                    statusmsg: Optional[str] = None
+                                    vnet: str
+
                             def get(
                                 self, *args: Any, **kwargs: Any
-                            ) -> builtins.list[_Get.TypedDict]:
+                            ) -> builtins.list[
+                                "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
+                            ]:
                                 return []
 
                         @cached_property
@@ -9376,9 +12351,14 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                subdir: str
+
                         def get(
                             self, *args: Any, **kwargs: Any
-                        ) -> builtins.list[_Get.TypedDict]:
+                        ) -> builtins.list[
+                            "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
+                        ]:
                             return []
 
                     def __call__(self, zone: str) -> Zone:
@@ -9395,9 +12375,15 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            status: Literal["available", "pending", "error"]
+                            zone: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -9431,11 +12417,23 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        release: str
+                        repoid: str
+                        version: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Version._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Version._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Version._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Version._Get.Model, None
                         )
 
                 @property
@@ -9462,6 +12460,10 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            mode: Literal["efi", "legacy-bios"]
+                            secureboot: Optional[bool] = None
+
                     class _Cpuinfo:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9472,6 +12474,12 @@ class ProxmoxAPI:
                                 "sockets": int,
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            cores: int
+                            cpus: int
+                            model: str
+                            sockets: int
 
                     class _CurrentKernel:
                         TypedDict = typing.TypedDict(
@@ -9484,6 +12492,12 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            machine: str
+                            release: str
+                            sysname: str
+                            version: str
+
                     class _Memory:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
@@ -9493,6 +12507,11 @@ class ProxmoxAPI:
                                 "used": int,
                             },
                         )
+
+                        class Model(pydantic.BaseModel):
+                            free: int
+                            total: int
+                            used: int
 
                     class _Rootfs:
                         TypedDict = typing.TypedDict(
@@ -9505,25 +12524,52 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            avail: int
+                            free: int
+                            total: int
+                            used: int
+
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "boot-info": _BootInfo.TypedDict,
+                            "boot-info": "ProxmoxAPI.Nodes.Node.Status._Get._BootInfo.TypedDict",
                             "cpu": float,
-                            "cpuinfo": _Cpuinfo.TypedDict,
-                            "current-kernel": _CurrentKernel.TypedDict,
+                            "cpuinfo": "ProxmoxAPI.Nodes.Node.Status._Get._Cpuinfo.TypedDict",
+                            "current-kernel": "ProxmoxAPI.Nodes.Node.Status._Get._CurrentKernel.TypedDict",
                             "loadavg": list[str],
-                            "memory": _Memory.TypedDict,
+                            "memory": "ProxmoxAPI.Nodes.Node.Status._Get._Memory.TypedDict",
                             "pveversion": str,
-                            "rootfs": _Rootfs.TypedDict,
+                            "rootfs": "ProxmoxAPI.Nodes.Node.Status._Get._Rootfs.TypedDict",
                         },
                     )
+
+                    class Model(pydantic.BaseModel):
+                        boot_info: (
+                            "ProxmoxAPI.Nodes.Node.Status._Get._BootInfo.Model"
+                        ) = pydantic.Field(alias="boot-info")
+                        cpu: float
+                        cpuinfo: "ProxmoxAPI.Nodes.Node.Status._Get._Cpuinfo.Model"
+                        current_kernel: (
+                            "ProxmoxAPI.Nodes.Node.Status._Get._CurrentKernel.Model"
+                        ) = pydantic.Field(alias="current-kernel")
+                        loadavg: list[str]
+                        memory: "ProxmoxAPI.Nodes.Node.Status._Get._Memory.Model"
+                        pveversion: str
+                        rootfs: "ProxmoxAPI.Nodes.Node.Status._Get._Rootfs.Model"
 
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Status._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Status._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Status._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Status._Get.Model, None
                         )
 
                 @property
@@ -9600,12 +12646,20 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        filename: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict, None
                         )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.Model":
+                        return typing.cast(ProxmoxAPI.Nodes.Node.Rrd._Get.Model, None)
 
                 @property
                 def get(self) -> _Get:
@@ -9645,9 +12699,13 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        n: int
+                        t: str
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"]:
                     return []
 
             @cached_property
@@ -9685,11 +12743,25 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        cert: str
+                        port: int
+                        ticket: str
+                        upid: str
+                        user: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Vncshell._Post.Model, None
                         )
 
                 @property
@@ -9719,11 +12791,24 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        port: int
+                        ticket: str
+                        upid: str
+                        user: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Termproxy._Post.Model, None
                         )
 
                 @property
@@ -9750,11 +12835,21 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        port: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model, None
                         )
 
                 @property
@@ -9783,11 +12878,25 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        host: str
+                        password: str
+                        proxy: str
+                        tls_port: int = pydantic.Field(alias="tls-port")
+                        type: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model, None
                         )
 
                 @property
@@ -9817,12 +12926,23 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        dns1: Optional[str] = None
+                        dns2: Optional[str] = None
+                        dns3: Optional[str] = None
+                        search: Optional[str] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict, None
                         )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.Model":
+                        return typing.cast(ProxmoxAPI.Nodes.Node.Dns._Get.Model, None)
 
                 @property
                 def get(self) -> _Get:
@@ -9853,12 +12973,22 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        localtime: int
+                        time: int
+                        timezone: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Time._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Time._Get.TypedDict, None
                         )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Time._Get.Model":
+                        return typing.cast(ProxmoxAPI.Nodes.Node.Time._Get.Model, None)
 
                 @property
                 def get(self) -> _Get:
@@ -9909,11 +13039,23 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        filename: Optional[str] = None
+                        mimetype: Optional[str] = None
+                        size: Optional[int] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.Model, None
                         )
 
                 @property
@@ -10012,12 +13154,21 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        data: str
+                        digest: Optional[str] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict, None
                         )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.Model":
+                        return typing.cast(ProxmoxAPI.Nodes.Node.Hosts._Get.Model, None)
 
                 @property
                 def get(self) -> _Get:
@@ -10056,7 +13207,20 @@ class ProxmoxAPI:
                 },
             )
 
-        def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+            class Model(pydantic.BaseModel):
+                cpu: Optional[float] = None
+                level: Optional[str] = None
+                maxcpu: Optional[int] = None
+                maxmem: Optional[int] = None
+                mem: Optional[int] = None
+                node: str
+                ssl_fingerprint: Optional[str] = None
+                status: Literal["unknown", "online", "offline"]
+                uptime: Optional[int] = None
+
+        def get(
+            self, *args: Any, **kwargs: Any
+        ) -> builtins.list["ProxmoxAPI.Nodes._Get.TypedDict"]:
             return []
 
     @cached_property
@@ -10082,10 +13246,17 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        encryption_key: Optional[str] = pydantic.Field(
+                            alias="encryption-key"
+                        )
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
-                        "config": NotRequired[_Config.TypedDict],
+                        "config": NotRequired[
+                            "ProxmoxAPI.Storage.Storage._Put._Config.TypedDict"
+                        ],
                         "storage": str,
                         "type": Literal[
                             "btrfs",
@@ -10107,10 +13278,38 @@ class ProxmoxAPI:
                     },
                 )
 
+                class Model(pydantic.BaseModel):
+                    config: Optional[
+                        "ProxmoxAPI.Storage.Storage._Put._Config.Model"
+                    ] = None
+                    storage: str
+                    type: Literal[
+                        "btrfs",
+                        "cephfs",
+                        "cifs",
+                        "dir",
+                        "esxi",
+                        "glusterfs",
+                        "iscsi",
+                        "iscsidirect",
+                        "lvm",
+                        "lvmthin",
+                        "nfs",
+                        "pbs",
+                        "rbd",
+                        "zfs",
+                        "zfspool",
+                    ]
+
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Storage.Storage._Put.TypedDict":
                     return typing.cast(ProxmoxAPI.Storage.Storage._Put.TypedDict, None)
+
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Storage.Storage._Put.Model":
+                    return typing.cast(ProxmoxAPI.Storage.Storage._Put.Model, None)
 
             def delete(self, *args: Any, **kwargs: Any) -> None:
                 return None
@@ -10135,6 +13334,9 @@ class ProxmoxAPI:
                 },
             )
 
+            class Model(pydantic.BaseModel):
+                storage: str
+
         class _Post:
             class _Config:
                 TypedDict = typing.TypedDict(
@@ -10144,10 +13346,15 @@ class ProxmoxAPI:
                     },
                 )
 
+                class Model(pydantic.BaseModel):
+                    encryption_key: Optional[str] = pydantic.Field(
+                        alias="encryption-key"
+                    )
+
             TypedDict = typing.TypedDict(
                 "TypedDict",
                 {
-                    "config": NotRequired[_Config.TypedDict],
+                    "config": NotRequired["ProxmoxAPI.Storage._Post._Config.TypedDict"],
                     "storage": str,
                     "type": Literal[
                         "btrfs",
@@ -10169,12 +13376,40 @@ class ProxmoxAPI:
                 },
             )
 
+            class Model(pydantic.BaseModel):
+                config: Optional["ProxmoxAPI.Storage._Post._Config.Model"] = None
+                storage: str
+                type: Literal[
+                    "btrfs",
+                    "cephfs",
+                    "cifs",
+                    "dir",
+                    "esxi",
+                    "glusterfs",
+                    "iscsi",
+                    "iscsidirect",
+                    "lvm",
+                    "lvmthin",
+                    "nfs",
+                    "pbs",
+                    "rbd",
+                    "zfs",
+                    "zfspool",
+                ]
+
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Storage._Post.TypedDict":
                 return typing.cast(ProxmoxAPI.Storage._Post.TypedDict, None)
 
-        def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+            def model(
+                self, *args: Any, **kwargs: Any
+            ) -> "ProxmoxAPI.Storage._Post.Model":
+                return typing.cast(ProxmoxAPI.Storage._Post.Model, None)
+
+        def get(
+            self, *args: Any, **kwargs: Any
+        ) -> builtins.list["ProxmoxAPI.Storage._Get.TypedDict"]:
             return []
 
         @property
@@ -10225,11 +13460,29 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            realm: Optional[Literal["oath", "yubico"]] = None
+                            types: Optional[
+                                list[
+                                    Literal[
+                                        "totp", "u2f", "yubico", "webauthn", "recovedry"
+                                    ]
+                                ]
+                            ] = None
+                            user: Optional[Literal["oath", "u2f"]] = None
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict, None
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model, None
                             )
 
                     @property
@@ -10276,11 +13529,24 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                comment: Optional[str] = None
+                                expire: Optional[int] = None
+                                privsep: Optional[bool] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model,
                                     None,
                                 )
 
@@ -10295,20 +13561,38 @@ class ProxmoxAPI:
                                     },
                                 )
 
+                                class Model(pydantic.BaseModel):
+                                    comment: Optional[str] = None
+                                    expire: Optional[int] = None
+                                    privsep: Optional[bool] = None
+
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
                                     "full-tokenid": str,
-                                    "info": _Info.TypedDict,
+                                    "info": "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post._Info.TypedDict",
                                     "value": str,
                                 },
                             )
+
+                            class Model(pydantic.BaseModel):
+                                full_tokenid: str = pydantic.Field(alias="full-tokenid")
+                                info: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post._Info.Model"
+                                value: str
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model,
                                     None,
                                 )
 
@@ -10322,11 +13606,24 @@ class ProxmoxAPI:
                                 },
                             )
 
+                            class Model(pydantic.BaseModel):
+                                comment: Optional[str] = None
+                                expire: Optional[int] = None
+                                privsep: Optional[bool] = None
+
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict":
                                 return typing.cast(
                                     ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict,
+                                    None,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model":
+                                return typing.cast(
+                                    ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model,
                                     None,
                                 )
 
@@ -10365,9 +13662,17 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            comment: Optional[str] = None
+                            expire: Optional[int] = None
+                            privsep: Optional[bool] = None
+                            tokenid: str
+
                     def get(
                         self, *args: Any, **kwargs: Any
-                    ) -> builtins.list[_Get.TypedDict]:
+                    ) -> builtins.list[
+                        "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
+                    ]:
                         return []
 
                 @cached_property
@@ -10392,11 +13697,29 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        email: Optional[str] = None
+                        enable: Optional[bool] = None
+                        expire: Optional[int] = None
+                        firstname: Optional[str] = None
+                        groups: Optional[list[str]] = None
+                        keys: Optional[str] = None
+                        lastname: Optional[str] = None
+                        tokens: Optional[dict[Any, Any]] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Users.Userid._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Access.Users.Userid._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Users.Userid._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Users.Userid._Get.Model, None
                         )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -10426,6 +13749,12 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        expire: Optional[int] = None
+                        privsep: Optional[bool] = None
+                        tokenid: str
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
@@ -10439,13 +13768,36 @@ class ProxmoxAPI:
                         "lastname": NotRequired[str],
                         "realm-type": NotRequired[str],
                         "tfa-locked-until": NotRequired[int],
-                        "tokens": NotRequired[list[_Tokens.TypedDict]],
+                        "tokens": NotRequired[
+                            list["ProxmoxAPI.Access.Users._Get._Tokens.TypedDict"]
+                        ],
                         "totp-locked": NotRequired[bool],
                         "userid": str,
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    comment: Optional[str] = None
+                    email: Optional[str] = None
+                    enable: Optional[bool] = None
+                    expire: Optional[int] = None
+                    firstname: Optional[str] = None
+                    groups: Optional[str] = None
+                    keys: Optional[str] = None
+                    lastname: Optional[str] = None
+                    realm_type: Optional[str] = pydantic.Field(alias="realm-type")
+                    tfa_locked_until: Optional[int] = pydantic.Field(
+                        alias="tfa-locked-until"
+                    )
+                    tokens: Optional[
+                        list["ProxmoxAPI.Access.Users._Get._Tokens.Model"]
+                    ] = None
+                    totp_locked: Optional[bool] = pydantic.Field(alias="totp-locked")
+                    userid: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Users._Get.TypedDict"]:
                 return []
 
             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -10476,11 +13828,22 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        comment: Optional[str] = None
+                        members: list[str]
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Groups.Groupid._Get.Model, None
                         )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -10508,7 +13871,14 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    comment: Optional[str] = None
+                    groupid: str
+                    users: Optional[str] = None
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Groups._Get.TypedDict"]:
                 return []
 
             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -10579,11 +13949,118 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        datastore_allocate: Optional[bool] = pydantic.Field(
+                            alias="Datastore.Allocate"
+                        )
+                        datastore_allocate_space: Optional[bool] = pydantic.Field(
+                            alias="Datastore.AllocateSpace"
+                        )
+                        datastore_allocate_template: Optional[bool] = pydantic.Field(
+                            alias="Datastore.AllocateTemplate"
+                        )
+                        datastore_audit: Optional[bool] = pydantic.Field(
+                            alias="Datastore.Audit"
+                        )
+                        group_allocate: Optional[bool] = pydantic.Field(
+                            alias="Group.Allocate"
+                        )
+                        mapping_audit: Optional[bool] = pydantic.Field(
+                            alias="Mapping.Audit"
+                        )
+                        mapping_modify: Optional[bool] = pydantic.Field(
+                            alias="Mapping.Modify"
+                        )
+                        mapping_use: Optional[bool] = pydantic.Field(
+                            alias="Mapping.Use"
+                        )
+                        permissions_modify: Optional[bool] = pydantic.Field(
+                            alias="Permissions.Modify"
+                        )
+                        pool_allocate: Optional[bool] = pydantic.Field(
+                            alias="Pool.Allocate"
+                        )
+                        pool_audit: Optional[bool] = pydantic.Field(alias="Pool.Audit")
+                        realm_allocate: Optional[bool] = pydantic.Field(
+                            alias="Realm.Allocate"
+                        )
+                        realm_allocate_user: Optional[bool] = pydantic.Field(
+                            alias="Realm.AllocateUser"
+                        )
+                        sdnallocate: Optional[bool] = pydantic.Field(
+                            alias="SDN.Allocate"
+                        )
+                        sdnaudit: Optional[bool] = pydantic.Field(alias="SDN.Audit")
+                        sdnuse: Optional[bool] = pydantic.Field(alias="SDN.Use")
+                        sys_access_network: Optional[bool] = pydantic.Field(
+                            alias="Sys.AccessNetwork"
+                        )
+                        sys_audit: Optional[bool] = pydantic.Field(alias="Sys.Audit")
+                        sys_console: Optional[bool] = pydantic.Field(
+                            alias="Sys.Console"
+                        )
+                        sys_incoming: Optional[bool] = pydantic.Field(
+                            alias="Sys.Incoming"
+                        )
+                        sys_modify: Optional[bool] = pydantic.Field(alias="Sys.Modify")
+                        sys_power_mgmt: Optional[bool] = pydantic.Field(
+                            alias="Sys.PowerMgmt"
+                        )
+                        sys_syslog: Optional[bool] = pydantic.Field(alias="Sys.Syslog")
+                        user_modify: Optional[bool] = pydantic.Field(
+                            alias="User.Modify"
+                        )
+                        vmallocate: Optional[bool] = pydantic.Field(alias="VM.Allocate")
+                        vmaudit: Optional[bool] = pydantic.Field(alias="VM.Audit")
+                        vmbackup: Optional[bool] = pydantic.Field(alias="VM.Backup")
+                        vmclone: Optional[bool] = pydantic.Field(alias="VM.Clone")
+                        vmconfig_cdrom: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.CDROM"
+                        )
+                        vmconfig_cpu: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.CPU"
+                        )
+                        vmconfig_cloudinit: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.Cloudinit"
+                        )
+                        vmconfig_disk: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.Disk"
+                        )
+                        vmconfig_hwtype: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.HWType"
+                        )
+                        vmconfig_memory: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.Memory"
+                        )
+                        vmconfig_network: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.Network"
+                        )
+                        vmconfig_options: Optional[bool] = pydantic.Field(
+                            alias="VM.Config.Options"
+                        )
+                        vmconsole: Optional[bool] = pydantic.Field(alias="VM.Console")
+                        vmmigrate: Optional[bool] = pydantic.Field(alias="VM.Migrate")
+                        vmmonitor: Optional[bool] = pydantic.Field(alias="VM.Monitor")
+                        vmpower_mgmt: Optional[bool] = pydantic.Field(
+                            alias="VM.PowerMgmt"
+                        )
+                        vmsnapshot: Optional[bool] = pydantic.Field(alias="VM.Snapshot")
+                        vmsnapshot_rollback: Optional[bool] = pydantic.Field(
+                            alias="VM.Snapshot.Rollback"
+                        )
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Roles.Roleid._Get.Model, None
                         )
 
                 def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -10611,7 +14088,14 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    privs: Optional[str] = None
+                    roleid: str
+                    special: Optional[bool] = None
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Roles._Get.TypedDict"]:
                 return []
 
             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -10639,7 +14123,16 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    path: str
+                    propagate: Optional[bool] = None
+                    roleid: str
+                    type: Literal["user", "group", "token"]
+                    ugid: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Acl._Get.TypedDict"]:
                 return []
 
             def put(self, *args: Any, **kwargs: Any) -> None:
@@ -10701,7 +14194,15 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    comment: Optional[str] = None
+                    realm: str
+                    tfa: Optional[Literal["yubico", "oath"]] = None
+                    type: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Domains._Get.TypedDict"]:
                 return []
 
             def post(self, *args: Any, **kwargs: Any) -> None:
@@ -10746,11 +14247,27 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        csrfprevention_token: str = pydantic.Field(
+                            alias="CSRFPreventionToken"
+                        )
+                        cap: dict[Any, Any]
+                        clustername: Optional[str] = None
+                        ticket: str
+                        username: str
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Openid.Login._Post.TypedDict":
                         return typing.cast(
                             ProxmoxAPI.Access.Openid.Login._Post.TypedDict, None
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Openid.Login._Post.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Openid.Login._Post.Model, None
                         )
 
                 @property
@@ -10771,7 +14288,12 @@ class ProxmoxAPI:
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    subdir: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Openid._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -10807,11 +14329,27 @@ class ProxmoxAPI:
                             },
                         )
 
+                        class Model(pydantic.BaseModel):
+                            created: int
+                            description: str
+                            enable: Optional[bool] = None
+                            id: str
+                            type: Literal[
+                                "totp", "u2f", "webauthn", "recovery", "yubico"
+                            ]
+
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict":
                             return typing.cast(
                                 ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict, None
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Access.Tfa.Userid.Id._Get.Model":
+                            return typing.cast(
+                                ProxmoxAPI.Access.Tfa.Userid.Id._Get.Model, None
                             )
 
                     def delete(self, *args: Any, **kwargs: Any) -> None:
@@ -10845,6 +14383,13 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        created: int
+                        description: str
+                        enable: Optional[bool] = None
+                        id: str
+                        type: Literal["totp", "u2f", "webauthn", "recovery", "yubico"]
+
                 class _Post:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
@@ -10855,6 +14400,11 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        challenge: Optional[str] = None
+                        id: str
+                        recovery: Optional[list[str]] = None
+
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict":
@@ -10862,9 +14412,16 @@ class ProxmoxAPI:
                             ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict, None
                         )
 
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Access.Tfa.Userid._Post.Model":
+                        return typing.cast(
+                            ProxmoxAPI.Access.Tfa.Userid._Post.Model, None
+                        )
+
                 def get(
                     self, *args: Any, **kwargs: Any
-                ) -> builtins.list[_Get.TypedDict]:
+                ) -> builtins.list["ProxmoxAPI.Access.Tfa.Userid._Get.TypedDict"]:
                     return []
 
                 @property
@@ -10891,17 +14448,36 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        created: int
+                        description: str
+                        enable: Optional[bool] = None
+                        id: str
+                        type: Literal["totp", "u2f", "webauthn", "recovery", "yubico"]
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
-                        "entries": list[_Entries.TypedDict],
+                        "entries": list[
+                            "ProxmoxAPI.Access.Tfa._Get._Entries.TypedDict"
+                        ],
                         "tfa-locked-until": NotRequired[int],
                         "totp-locked": NotRequired[bool],
                         "userid": str,
                     },
                 )
 
-            def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+                class Model(pydantic.BaseModel):
+                    entries: list["ProxmoxAPI.Access.Tfa._Get._Entries.Model"]
+                    tfa_locked_until: Optional[int] = pydantic.Field(
+                        alias="tfa-locked-until"
+                    )
+                    totp_locked: Optional[bool] = pydantic.Field(alias="totp-locked")
+                    userid: str
+
+            def get(
+                self, *args: Any, **kwargs: Any
+            ) -> builtins.list["ProxmoxAPI.Access.Tfa._Get.TypedDict"]:
                 return []
 
         @cached_property
@@ -10923,10 +14499,23 @@ class ProxmoxAPI:
                     },
                 )
 
+                class Model(pydantic.BaseModel):
+                    csrfprevention_token: Optional[str] = pydantic.Field(
+                        alias="CSRFPreventionToken"
+                    )
+                    clustername: Optional[str] = None
+                    ticket: Optional[str] = None
+                    username: str
+
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Ticket._Post.TypedDict":
                     return typing.cast(ProxmoxAPI.Access.Ticket._Post.TypedDict, None)
+
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Access.Ticket._Post.Model":
+                    return typing.cast(ProxmoxAPI.Access.Ticket._Post.Model, None)
 
             def get(self, *args: Any, **kwargs: Any) -> None:
                 return None
@@ -10973,7 +14562,12 @@ class ProxmoxAPI:
                 },
             )
 
-        def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+            class Model(pydantic.BaseModel):
+                subdir: str
+
+        def get(
+            self, *args: Any, **kwargs: Any
+        ) -> builtins.list["ProxmoxAPI.Access._Get.TypedDict"]:
             return []
 
     @cached_property
@@ -11003,18 +14597,36 @@ class ProxmoxAPI:
                         },
                     )
 
+                    class Model(pydantic.BaseModel):
+                        id: str
+                        node: str
+                        storage: Optional[str] = None
+                        type: Literal["qemu", "lxc", "openvz", "storage"]
+                        vmid: Optional[int] = None
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
                         "comment": NotRequired[str],
-                        "members": list[_Members.TypedDict],
+                        "members": list[
+                            "ProxmoxAPI.Pools.Poolid._Get._Members.TypedDict"
+                        ],
                     },
                 )
+
+                class Model(pydantic.BaseModel):
+                    comment: Optional[str] = None
+                    members: list["ProxmoxAPI.Pools.Poolid._Get._Members.Model"]
 
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Pools.Poolid._Get.TypedDict":
                     return typing.cast(ProxmoxAPI.Pools.Poolid._Get.TypedDict, None)
+
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Pools.Poolid._Get.Model":
+                    return typing.cast(ProxmoxAPI.Pools.Poolid._Get.Model, None)
 
             def delete(self, *args: Any, **kwargs: Any) -> None:
                 return None
@@ -11044,19 +14656,35 @@ class ProxmoxAPI:
                     },
                 )
 
+                class Model(pydantic.BaseModel):
+                    id: str
+                    node: str
+                    storage: Optional[str] = None
+                    type: Literal["qemu", "lxc", "openvz", "storage"]
+                    vmid: Optional[int] = None
+
             TypedDict = typing.TypedDict(
                 "TypedDict",
                 {
                     "comment": NotRequired[str],
-                    "members": NotRequired[list[_Members.TypedDict]],
+                    "members": NotRequired[
+                        list["ProxmoxAPI.Pools._Get._Members.TypedDict"]
+                    ],
                     "poolid": str,
                 },
             )
 
+            class Model(pydantic.BaseModel):
+                comment: Optional[str] = None
+                members: Optional[list["ProxmoxAPI.Pools._Get._Members.Model"]] = None
+                poolid: str
+
         def delete(self, *args: Any, **kwargs: Any) -> None:
             return None
 
-        def get(self, *args: Any, **kwargs: Any) -> builtins.list[_Get.TypedDict]:
+        def get(
+            self, *args: Any, **kwargs: Any
+        ) -> builtins.list["ProxmoxAPI.Pools._Get.TypedDict"]:
             return []
 
         def post(self, *args: Any, **kwargs: Any) -> None:
@@ -11088,10 +14716,21 @@ class ProxmoxAPI:
                 },
             )
 
+            class Model(pydantic.BaseModel):
+                console: Optional[Literal["applet", "vv", "html5", "xtermjs"]] = None
+                release: str
+                repoid: str
+                version: str
+
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Version._Get.TypedDict":
                 return typing.cast(ProxmoxAPI.Version._Get.TypedDict, None)
+
+            def model(
+                self, *args: Any, **kwargs: Any
+            ) -> "ProxmoxAPI.Version._Get.Model":
+                return typing.cast(ProxmoxAPI.Version._Get.Model, None)
 
         @property
         def get(self) -> _Get:

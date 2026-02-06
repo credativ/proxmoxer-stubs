@@ -34,6 +34,14 @@ def typechecks() -> None:
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get().get("log"), Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
+
+def models() -> None:
+    import proxmoxer
+    assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get.model().mon.id.ceph_version, str)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get.model().jobnum, int)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get.model().log, Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
+
+
 def aliases() -> None:
     import proxmoxer
     assert_type(proxmoxer.ProxmoxAPI().cluster.config.nodes("node").post()["warnings"], list[str])
