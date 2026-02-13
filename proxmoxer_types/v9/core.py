@@ -5422,6 +5422,7 @@ class ProxmoxAPI:
                             "rule": str,
                             "affinity": NotRequired[str],
                             "disable": NotRequired[bool],
+                            "strict": NotRequired[bool],
                             "nodes": NotRequired[str],
                             "resources": NotRequired[str],
                             "type": str,
@@ -5432,6 +5433,7 @@ class ProxmoxAPI:
                         rule: str
                         affinity: Optional[str] = None
                         disable: Optional[bool] = None
+                        strict: Optional[bool] = None
                         nodes: Optional[str] = None
                         resources: Optional[str] = None
                         type: str
