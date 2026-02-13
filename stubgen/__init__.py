@@ -474,7 +474,7 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                             {{ Field(name=retname, ret=return).for_typeddict() }},
                     {%-   endfor %}
                         })
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                     {%-    for retname, return in returns.items() %}
                             {{ Field(name=retname, ret=return).for_model() }}
                     {%-   endfor %}
@@ -836,6 +836,9 @@ class ApiSchema(BaseModel):
                     from ..{{ apiversion }} import ProxmoxAPI as ProxmoxerProxmoxAPI
                 else:
                     from proxmoxer import ProxmoxAPI as ProxmoxerProxmoxAPI
+
+                class BaseModel(pydantic.BaseModel):
+                    model_config = pydantic.ConfigDict(extra="allow")
 
                 class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI

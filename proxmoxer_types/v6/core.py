@@ -15,6 +15,10 @@ else:
     from proxmoxer import ProxmoxAPI as ProxmoxerProxmoxAPI
 
 
+class BaseModel(pydantic.BaseModel):
+    model_config = pydantic.ConfigDict(extra="allow")
+
+
 class ProxmoxAPI:
     proxmox_api: ProxmoxerProxmoxAPI
 
@@ -349,7 +353,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         disable: bool
                         id: str
                         port: int
@@ -499,7 +503,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             corosync_authkey: str
                             corosync_conf: str
                             warnings: list[str]
@@ -572,7 +576,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         node: str
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Config.Nodes._Get"
@@ -631,7 +635,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             name: str
                             nodeid: Optional[int] = None
                             pve_addr: str
@@ -655,7 +659,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         config_digest: str
                         nodelist: list[
                             "ProxmoxAPI.Cluster.Config.Join._Get._Nodelist.Model"
@@ -922,7 +926,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 action: str
                                 comment: Optional[str] = None
                                 dest: Optional[str] = None
@@ -1081,7 +1085,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             pos: int
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get"
@@ -1187,7 +1191,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         comment: Optional[str] = None
                         digest: str
                         group: str
@@ -1319,7 +1323,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             action: str
                             comment: Optional[str] = None
                             dest: Optional[str] = None
@@ -1445,7 +1449,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         pos: int
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Rules._Get"
@@ -1675,7 +1679,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             cidr: str
                             comment: Optional[str] = None
                             digest: str
@@ -1782,7 +1786,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         comment: Optional[str] = None
                         digest: str
                         name: str
@@ -1973,7 +1977,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         cidr: str
                         comment: Optional[str] = None
                         digest: str
@@ -2064,7 +2068,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         ebtables: Optional[bool] = None
                         enable: Optional[int] = None
                         log_ratelimit: Optional[str] = None
@@ -2149,7 +2153,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         descr: str
                         macro: str
 
@@ -2205,7 +2209,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         comment: Optional[str] = None
                         name: str
                         ref: str
@@ -2303,7 +2307,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     id: str
                                     included: bool
                                     name: str
@@ -2329,7 +2333,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 children: Optional[
                                     list[
                                         "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children._Children.Model"
@@ -2354,7 +2358,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             children: list[
                                 "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get._Children.Model"
                             ]
@@ -2514,7 +2518,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     id: str
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get"
@@ -2592,7 +2596,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         name: Optional[str] = None
                         type: Literal["qemu", "lxc"]
                         vmid: int
@@ -2815,7 +2819,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             comment: Optional[str] = None
                             digest: str
                             group: Optional[str] = None
@@ -2928,7 +2932,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         sid: str
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Ha.Resources._Get"
@@ -3114,7 +3118,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         group: str
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Ha.Groups._Get"
@@ -3298,7 +3302,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     id: str
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Ha._Get"
@@ -3456,7 +3460,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         plugin: str
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Acme.Plugins._Get"
@@ -3563,7 +3567,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             account: Optional[dict[str, Any]] = None
                             directory: Optional[str] = None
                             location: Optional[str] = None
@@ -3765,7 +3769,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         name: str
                         url: str
 
@@ -3821,7 +3825,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         id: str
                         name: str
                         schema_: dict[str, Any] = pydantic.Field(alias="schema")
@@ -4071,7 +4075,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         name: Literal[
                             "nobackfill",
                             "nodeep-scrub",
@@ -4686,7 +4690,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         dns: Optional[str] = None
                         dnszone: Optional[str] = None
                         ipam: Optional[str] = None
@@ -4882,7 +4886,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         controller: str
                         pending: Optional[dict[str, Any]] = None
                         state: Optional[str] = None
@@ -5072,7 +5076,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         ipam: str
                         type: str
 
@@ -5256,7 +5260,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         dns: str
                         type: str
 
@@ -5329,7 +5333,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     id: str
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Sdn._Get"
@@ -5451,7 +5455,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     content: Optional[str] = None
                     cpu: Optional[float] = None
                     disk: Optional[str] = None
@@ -5517,7 +5521,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     upid: str
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Tasks._Get"
@@ -5631,7 +5635,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     id: str
                     ip: Optional[str] = None
                     level: Optional[str] = None
@@ -5831,7 +5835,7 @@ class ProxmoxAPI:
                                         },
                                     )
 
-                                    class Model(pydantic.BaseModel):
+                                    class Model(BaseModel):
                                         action: str
                                         comment: Optional[str] = None
                                         dest: Optional[str] = None
@@ -5991,7 +5995,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     pos: int
 
                                 Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get"
@@ -6263,7 +6267,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     cidr: str
                                     comment: Optional[str] = None
                                     digest: str
@@ -6589,7 +6593,7 @@ class ProxmoxAPI:
                                         },
                                     )
 
-                                    class Model(pydantic.BaseModel):
+                                    class Model(BaseModel):
                                         cidr: str
                                         comment: Optional[str] = None
                                         digest: str
@@ -6734,7 +6738,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     comment: Optional[str] = None
                                     digest: str
                                     name: str
@@ -6884,7 +6888,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     dhcp: Optional[bool] = None
                                     enable: Optional[bool] = None
                                     ipfilter: Optional[bool] = None
@@ -7027,7 +7031,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     n: int
                                     t: str
 
@@ -7105,7 +7109,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     comment: Optional[str] = None
                                     name: str
                                     type: Literal["alias", "ipset"]
@@ -8440,7 +8444,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     pid: int
 
                                 Model.__name__ = (
@@ -8519,7 +8523,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     err_data: Optional[str] = pydantic.Field(
                                         alias="err-data", default=None
                                     )
@@ -8601,7 +8605,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     content: str
                                     truncated: Optional[bool] = None
 
@@ -8817,7 +8821,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 filename: str
 
                             Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get"
@@ -9083,7 +9087,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 acpi: Optional[bool] = None
                                 agent: Optional[str] = None
                                 arch: Optional[Literal["x86_64", "aarch64"]] = None
@@ -9397,7 +9401,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 delete: Optional[int] = None
                                 key: str
                                 pending: Optional[str] = None
@@ -9535,7 +9539,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 cert: str
                                 password: Optional[str] = None
                                 port: int
@@ -9616,7 +9620,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 port: int
                                 ticket: str
                                 upid: str
@@ -9694,7 +9698,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 port: str
 
                             Model.__name__ = (
@@ -9767,7 +9771,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 host: str
                                 password: str
                                 proxy: str
@@ -9865,7 +9869,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     agent: Optional[bool] = None
                                     cpus: Optional[float] = None
                                     ha: dict[str, Any]
@@ -10332,7 +10336,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 subdir: str
 
                             Model.__name__ = (
@@ -10463,7 +10467,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 has_feature: bool = pydantic.Field(alias="hasFeature")
                                 nodes: list[str]
 
@@ -10649,7 +10653,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 allowed_nodes: Optional[list[Any]] = None
                                 local_disks: list[Any]
                                 local_resources: list[Any]
@@ -11156,7 +11160,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 description: str
                                 name: str
                                 parent: Optional[str] = None
@@ -11418,7 +11422,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             subdir: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get"
@@ -11507,7 +11511,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         cpus: Optional[float] = None
                         lock: Optional[str] = None
                         maxdisk: Optional[int] = None
@@ -11614,7 +11618,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         custom: bool
                         name: str
                         vendor: str
@@ -11742,7 +11746,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 arch: Optional[
                                     Literal["amd64", "i386", "arm64", "armhf"]
                                 ] = None
@@ -11929,7 +11933,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     cpus: Optional[float] = None
                                     ha: dict[str, Any]
                                     lock: Optional[str] = None
@@ -12334,7 +12338,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 subdir: str
 
                             Model.__name__ = (
@@ -12692,7 +12696,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 description: str
                                 name: str
                                 parent: Optional[str] = None
@@ -12874,7 +12878,7 @@ class ProxmoxAPI:
                                         },
                                     )
 
-                                    class Model(pydantic.BaseModel):
+                                    class Model(BaseModel):
                                         action: str
                                         comment: Optional[str] = None
                                         dest: Optional[str] = None
@@ -13034,7 +13038,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     pos: int
 
                                 Model.__name__ = (
@@ -13308,7 +13312,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     cidr: str
                                     comment: Optional[str] = None
                                     digest: str
@@ -13634,7 +13638,7 @@ class ProxmoxAPI:
                                         },
                                     )
 
-                                    class Model(pydantic.BaseModel):
+                                    class Model(BaseModel):
                                         cidr: str
                                         comment: Optional[str] = None
                                         digest: str
@@ -13777,7 +13781,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     comment: Optional[str] = None
                                     digest: str
                                     name: str
@@ -13929,7 +13933,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     dhcp: Optional[bool] = None
                                     enable: Optional[bool] = None
                                     ipfilter: Optional[bool] = None
@@ -14072,7 +14076,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     n: int
                                     t: str
 
@@ -14150,7 +14154,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     comment: Optional[str] = None
                                     name: str
                                     type: Literal["alias", "ipset"]
@@ -14278,7 +14282,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 filename: str
 
                             Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get"
@@ -14406,7 +14410,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 cert: str
                                 port: int
                                 ticket: str
@@ -14486,7 +14490,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 port: int
                                 ticket: str
                                 upid: str
@@ -14562,7 +14566,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 port: str
 
                             Model.__name__ = (
@@ -14637,7 +14641,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 host: str
                                 password: str
                                 proxy: str
@@ -14771,7 +14775,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 has_feature: bool = pydantic.Field(alias="hasFeature")
 
                             Model.__name__ = (
@@ -15065,7 +15069,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 delete: Optional[int] = None
                                 key: str
                                 pending: Optional[str] = None
@@ -15165,7 +15169,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             subdir: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get"
@@ -15251,7 +15255,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         cpus: Optional[float] = None
                         lock: Optional[str] = None
                         maxdisk: Optional[int] = None
@@ -15748,7 +15752,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             addr: Optional[str] = None
                             host: Optional[str] = None
                             name: dict[str, Any]
@@ -15909,7 +15913,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             addr: Optional[str] = None
                             host: Optional[str] = None
                             name: dict[str, Any]
@@ -16067,7 +16071,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             addr: Optional[str] = None
                             host: Optional[str] = None
                             name: str
@@ -16190,7 +16194,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             data_pool: str
                             metadata_pool: str
                             name: str
@@ -16307,7 +16311,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 application: Optional[
                                     Literal["rbd", "cephfs", "rgw"]
                                 ] = None
@@ -16467,7 +16471,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             autoscale_status: Optional[dict[str, Any]] = None
                             bytes_used: int
                             crush_rule: int
@@ -16579,7 +16583,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             dev: str
                             gpt: bool
                             model: Optional[str] = None
@@ -16693,7 +16697,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             can_update_at_runtime: bool
                             level: str
                             mask: str
@@ -17164,7 +17168,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             n: int
                             t: str
 
@@ -17345,7 +17349,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             all: Optional[bool] = None
                             bwlimit: Optional[int] = None
                             compress: Optional[
@@ -17802,7 +17806,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             subdir: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Services.Service._Get"
@@ -18081,7 +18085,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             method: str
                             type: str
 
@@ -18339,7 +18343,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 n: int
                                 t: str
 
@@ -18414,7 +18418,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 pid: int
                                 status: Literal["running", "stopped"]
 
@@ -18582,7 +18586,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         endtime: Optional[int] = None
                         id: str
                         node: str
@@ -18654,7 +18658,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             options: str
                             path: str
 
@@ -18714,7 +18718,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             description: str
                             share: str
 
@@ -18774,7 +18778,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             comment: Optional[str] = None
                             store: str
 
@@ -18833,7 +18837,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             volname: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get"
@@ -18896,7 +18900,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             portal: str
                             target: str
 
@@ -18957,7 +18961,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             vg: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Lvm._Get"
@@ -19015,7 +19019,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             lv: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get"
@@ -19075,7 +19079,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             pool: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan.Zfs._Get"
@@ -19144,7 +19148,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             busnum: int
                             class_: int = pydantic.Field(alias="class")
                             devnum: int
@@ -19209,7 +19213,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         method: str
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Scan._Get"
@@ -19281,7 +19285,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     available: int
                                     description: str
                                     type: str
@@ -19354,7 +19358,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 method: str
 
                             Model.__name__ = (
@@ -19444,7 +19448,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             class_: str = pydantic.Field(alias="class")
                             device: str
                             device_name: Optional[str] = None
@@ -19526,7 +19530,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             busnum: int
                             class_: int = pydantic.Field(alias="class")
                             devnum: int
@@ -19593,7 +19597,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         type: str
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Hardware._Get"
@@ -19661,7 +19665,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 id: str
                                 type: Literal["q35", "i440fx"]
                                 version: str
@@ -19849,7 +19853,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 ctime: int
                                 mark: str
                                 type: str
@@ -19972,7 +19976,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     format: str
                                     notes: Optional[str] = None
                                     path: str
@@ -20152,7 +20156,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     state: str
                                     upid: str
 
@@ -20182,7 +20186,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 ctime: Optional[int] = None
                                 encrypted: Optional[str] = None
                                 format: str
@@ -20315,7 +20319,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     filepath: str
                                     leaf: bool
                                     mtime: Optional[int] = None
@@ -20512,7 +20516,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 filename: str
 
                             Model.__name__ = (
@@ -20687,7 +20691,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             subdir: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Storage.Storage._Get"
@@ -20769,7 +20773,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         active: Optional[bool] = None
                         avail: Optional[int] = None
                         content: str
@@ -20847,7 +20851,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     free: int
                                     leaf: bool
                                     name: str
@@ -20874,7 +20878,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 children: Optional[
                                     list[
                                         "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children._Children.Model"
@@ -20903,7 +20907,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             children: list[
                                 "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children.Model"
                             ]
@@ -20999,7 +21003,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             lv: str
                             lv_size: int
                             metadata_size: int
@@ -21098,7 +21102,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             device: str
                             options: str
                             path: str
@@ -21206,7 +21210,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     cksum: Optional[float] = None
                                     msg: str
                                     name: str
@@ -21237,7 +21241,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 action: Optional[str] = None
                                 children: list[
                                     "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get._Children.Model"
@@ -21320,7 +21324,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             alloc: int
                             dedup: float
                             frag: int
@@ -21425,7 +21429,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             devpath: str
                             gpt: bool
                             health: Optional[str] = None
@@ -21498,7 +21502,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             attributes: Optional[list[Any]] = None
                             health: str
                             text: Optional[str] = None
@@ -21810,7 +21814,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         id: str
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Apt._Get"
@@ -21928,7 +21932,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 action: str
                                 comment: Optional[str] = None
                                 dest: Optional[str] = None
@@ -22073,7 +22077,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             pos: int
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get"
@@ -22231,7 +22235,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             enable: Optional[bool] = None
                             log_level_in: Optional[
                                 Literal[
@@ -22386,7 +22390,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             n: int
                             t: str
 
@@ -22551,7 +22555,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 n: int
                                 t: str
 
@@ -22735,7 +22739,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         id: str
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Replication._Get"
@@ -22956,7 +22960,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             filename: Optional[str] = None
                             fingerprint: Optional[str] = None
                             issuer: Optional[str] = None
@@ -23060,7 +23064,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             filename: Optional[str] = None
                             fingerprint: Optional[str] = None
                             issuer: Optional[str] = None
@@ -23273,7 +23277,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     status: Optional[str] = None
                                     statusmsg: Optional[str] = None
                                     vnet: str
@@ -23346,7 +23350,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 subdir: str
 
                             Model.__name__ = "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get"
@@ -23422,7 +23426,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             status: Literal["available", "pending", "error"]
                             zone: str
 
@@ -23523,7 +23527,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         release: str
                         repoid: str
                         version: str
@@ -23792,7 +23796,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         filename: str
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Rrd._Get"
@@ -23895,7 +23899,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         n: int
                         t: str
 
@@ -24000,7 +24004,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         cert: str
                         port: int
                         ticket: str
@@ -24069,7 +24073,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         port: int
                         ticket: str
                         upid: str
@@ -24134,7 +24138,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         port: str
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get"
@@ -24196,7 +24200,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         host: str
                         password: str
                         proxy: str
@@ -24265,7 +24269,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         dns1: Optional[str] = None
                         dns2: Optional[str] = None
                         dns3: Optional[str] = None
@@ -24359,7 +24363,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         localtime: int
                         time: int
                         timezone: str
@@ -24706,7 +24710,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         data: str
                         digest: Optional[str] = None
 
@@ -24840,7 +24844,7 @@ class ProxmoxAPI:
                 },
             )
 
-            class Model(pydantic.BaseModel):
+            class Model(BaseModel):
                 cpu: Optional[float] = None
                 level: Optional[str] = None
                 maxcpu: Optional[int] = None
@@ -24940,7 +24944,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         encryption_key: Optional[str] = pydantic.Field(
                             alias="encryption-key", default=None
                         )
@@ -24977,7 +24981,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     config: Optional[
                         "ProxmoxAPI.Storage.Storage._Put._Config.Model"
                     ] = None
@@ -25072,7 +25076,7 @@ class ProxmoxAPI:
                 },
             )
 
-            class Model(pydantic.BaseModel):
+            class Model(BaseModel):
                 storage: str
 
             Model.__name__ = "ProxmoxAPI.Storage._Get"
@@ -25104,7 +25108,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     encryption_key: Optional[str] = pydantic.Field(
                         alias="encryption-key", default=None
                     )
@@ -25137,7 +25141,7 @@ class ProxmoxAPI:
                 },
             )
 
-            class Model(pydantic.BaseModel):
+            class Model(BaseModel):
                 config: Optional["ProxmoxAPI.Storage._Post._Config.Model"] = None
                 storage: str
                 type: Literal[
@@ -25225,7 +25229,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             realm: Optional[Literal["oath", "yubico"]] = None
                             user: Optional[Literal["oath", "u2f"]] = None
 
@@ -25316,7 +25320,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 comment: Optional[str] = None
                                 expire: Optional[int] = None
                                 privsep: Optional[bool] = None
@@ -25366,7 +25370,7 @@ class ProxmoxAPI:
                                     },
                                 )
 
-                                class Model(pydantic.BaseModel):
+                                class Model(BaseModel):
                                     comment: Optional[str] = None
                                     expire: Optional[int] = None
                                     privsep: Optional[bool] = None
@@ -25388,7 +25392,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 full_tokenid: str = pydantic.Field(alias="full-tokenid")
                                 info: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post._Info.Model"
                                 value: str
@@ -25436,7 +25440,7 @@ class ProxmoxAPI:
                                 },
                             )
 
-                            class Model(pydantic.BaseModel):
+                            class Model(BaseModel):
                                 comment: Optional[str] = None
                                 expire: Optional[int] = None
                                 privsep: Optional[bool] = None
@@ -25546,7 +25550,7 @@ class ProxmoxAPI:
                             },
                         )
 
-                        class Model(pydantic.BaseModel):
+                        class Model(BaseModel):
                             comment: Optional[str] = None
                             expire: Optional[int] = None
                             privsep: Optional[bool] = None
@@ -25635,7 +25639,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         comment: Optional[str] = None
                         email: Optional[str] = None
                         enable: Optional[bool] = None
@@ -25746,7 +25750,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         comment: Optional[str] = None
                         expire: Optional[int] = None
                         privsep: Optional[bool] = None
@@ -25774,7 +25778,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     comment: Optional[str] = None
                     email: Optional[str] = None
                     enable: Optional[bool] = None
@@ -25882,7 +25886,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         comment: Optional[str] = None
                         members: list[str]
 
@@ -25983,7 +25987,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     comment: Optional[str] = None
                     groupid: str
                     users: Optional[str] = None
@@ -26115,7 +26119,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         datastore_allocate: Optional[bool] = pydantic.Field(
                             alias="Datastore.Allocate", default=None
                         )
@@ -26319,7 +26323,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     privs: Optional[str] = None
                     roleid: str
                     special: Optional[bool] = None
@@ -26397,7 +26401,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     path: str
                     propagate: Optional[bool] = None
                     roleid: str
@@ -26628,7 +26632,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     comment: Optional[str] = None
                     realm: str
                     tfa: Optional[Literal["yubico", "oath"]] = None
@@ -26720,7 +26724,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     csrfprevention_token: Optional[str] = pydantic.Field(
                         alias="CSRFPreventionToken", default=None
                     )
@@ -26819,7 +26823,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     ticket: str
 
                 Model.__name__ = "ProxmoxAPI.Access.Tfa._Post"
@@ -26923,7 +26927,7 @@ class ProxmoxAPI:
                 },
             )
 
-            class Model(pydantic.BaseModel):
+            class Model(BaseModel):
                 subdir: str
 
             Model.__name__ = "ProxmoxAPI.Access._Get"
@@ -26999,7 +27003,7 @@ class ProxmoxAPI:
                         },
                     )
 
-                    class Model(pydantic.BaseModel):
+                    class Model(BaseModel):
                         id: str
                         node: str
                         storage: Optional[str] = None
@@ -27022,7 +27026,7 @@ class ProxmoxAPI:
                     },
                 )
 
-                class Model(pydantic.BaseModel):
+                class Model(BaseModel):
                     comment: Optional[str] = None
                     members: list["ProxmoxAPI.Pools.Poolid._Get._Members.Model"]
 
@@ -27113,7 +27117,7 @@ class ProxmoxAPI:
                 },
             )
 
-            class Model(pydantic.BaseModel):
+            class Model(BaseModel):
                 poolid: str
 
             Model.__name__ = "ProxmoxAPI.Pools._Get"
@@ -27187,7 +27191,7 @@ class ProxmoxAPI:
                 },
             )
 
-            class Model(pydantic.BaseModel):
+            class Model(BaseModel):
                 release: str
                 repoid: str
                 version: str
