@@ -24,6 +24,7 @@ class Patch(BasePatch):
             assert isinstance(obj.properties, dict)
             obj.properties["affinity"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
             obj.properties["disable"] = ApiSchemaItemInfoMethodReturnsBoolean(optional=True, type="boolean")
+            obj.properties["strict"] = ApiSchemaItemInfoMethodReturnsBoolean(optional=True, type="boolean")
             obj.properties["nodes"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
             obj.properties["resources"] = ApiSchemaItemInfoMethodReturnsString(optional=True, type="string")
             obj.properties["type"] = ApiSchemaItemInfoMethodReturnsString(optional=False, type="string")
