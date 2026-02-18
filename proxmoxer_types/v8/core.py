@@ -44,17 +44,14 @@ class ProxmoxAPI:
                     id: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.replication(self.id).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.replication(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.replication(
-                            self.id
-                        ).delete(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.replication(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -64,17 +61,14 @@ class ProxmoxAPI:
                     id: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                        return self.proxmox_api.cluster.replication(self.id).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.replication(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(dict[str, Any], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                         class validate(pydantic.BaseModel):
                             data: dict[str, Any]
 
-                        data: Any = self.proxmox_api.cluster.replication(self.id).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.replication(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -84,17 +78,14 @@ class ProxmoxAPI:
                     id: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.replication(self.id).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.replication(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.replication(self.id).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.replication(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -144,15 +135,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.replication.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.replication.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.replication.get(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.cluster.replication.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -160,15 +150,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.replication.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.replication.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.cluster.replication.post(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.cluster.replication.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -214,17 +203,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.metrics.server(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.metrics.server(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -234,17 +220,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.metrics.server(self.id).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.metrics.server(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -254,17 +237,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.metrics.server(
-                                self.id
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.metrics.server(
-                                self.id
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -274,17 +254,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.metrics.server(self.id).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.metrics.server(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.metrics.server(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -367,8 +344,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.metrics.server.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.metrics.server.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Metrics.Server._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -377,9 +356,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Metrics.Server._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.metrics.server.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.metrics.server.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -445,8 +422,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Metrics.Export._Get.TypedDict":
-                        return self.proxmox_api.cluster.metrics.export.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.metrics.export.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Metrics.Export._Get.TypedDict", data
                         )
 
                     def model(
@@ -455,9 +433,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Cluster.Metrics.Export._Get.Model"
 
-                        data: Any = self.proxmox_api.cluster.metrics.export.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.metrics.export.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -479,13 +455,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.metrics.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.metrics.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.metrics.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.metrics.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -533,10 +510,12 @@ class ProxmoxAPI:
                     ) -> list[
                         "ProxmoxAPI.Cluster.Notifications.MatcherFields._Get.TypedDict"
                     ]:
-                        return (
-                            self.proxmox_api.cluster.notifications.matcher_fields.get(
-                                *args, **kwargs
-                            )
+                        data: Any = self.proxmox_api.cluster.notifications("matcher-fields").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Notifications.MatcherFields._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -549,11 +528,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Notifications.MatcherFields._Get.Model"
                             ]
 
-                        data: Any = (
-                            self.proxmox_api.cluster.notifications.matcher_fields.get(
-                                *args, **kwargs
-                            )
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications("matcher-fields").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -601,8 +576,12 @@ class ProxmoxAPI:
                     ) -> list[
                         "ProxmoxAPI.Cluster.Notifications.MatcherFieldValues._Get.TypedDict"
                     ]:
-                        return self.proxmox_api.cluster.notifications.matcher_field_values.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.notifications("matcher-field-values").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Notifications.MatcherFieldValues._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -615,11 +594,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Notifications.MatcherFieldValues._Get.Model"
                             ]
 
-                        data: Any = (
-                            self.proxmox_api.cluster.notifications.matcher_field_values.get(
-                                *args, **kwargs
-                            )
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications("matcher-field-values").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -655,23 +630,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.sendmail(
-                                    self.name
-                                ).delete(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.sendmail(
-                                        self.name
-                                    ).delete(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -713,10 +679,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.TypedDict":
-                                return self.proxmox_api.cluster.notifications.endpoints.sendmail(
-                                    self.name
-                                ).get(
-                                    *args, **kwargs
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -725,13 +691,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail.Name._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.sendmail(
-                                        self.name
-                                    ).get(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -741,23 +701,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.sendmail(
-                                    self.name
-                                ).put(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.sendmail(
-                                        self.name
-                                    ).put(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -849,8 +800,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.notifications.endpoints.sendmail.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -863,11 +818,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Notifications.Endpoints.Sendmail._Get.Model"
                                 ]
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.sendmail.get(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -875,19 +826,14 @@ class ProxmoxAPI:
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.notifications.endpoints.sendmail.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.sendmail.post(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.sendmail.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -929,23 +875,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.gotify(
-                                    self.name
-                                ).delete(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.gotify(
-                                        self.name
-                                    ).delete(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -977,10 +914,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.TypedDict":
-                                return self.proxmox_api.cluster.notifications.endpoints.gotify(
-                                    self.name
-                                ).get(
-                                    *args, **kwargs
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -989,13 +926,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify.Name._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.gotify(
-                                        self.name
-                                    ).get(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -1005,23 +936,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.gotify(
-                                    self.name
-                                ).put(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.gotify(
-                                        self.name
-                                    ).put(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -1103,8 +1025,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.notifications.endpoints.gotify.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -1117,11 +1043,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Notifications.Endpoints.Gotify._Get.Model"
                                 ]
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.gotify.get(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -1129,19 +1051,14 @@ class ProxmoxAPI:
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.notifications.endpoints.gotify.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.gotify.post(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.gotify.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -1183,23 +1100,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.smtp(
-                                    self.name
-                                ).delete(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.smtp(
-                                        self.name
-                                    ).delete(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -1251,10 +1159,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.TypedDict":
-                                return self.proxmox_api.cluster.notifications.endpoints.smtp(
-                                    self.name
-                                ).get(
-                                    *args, **kwargs
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -1263,13 +1171,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp.Name._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.smtp(
-                                        self.name
-                                    ).get(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -1279,23 +1181,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.smtp(
-                                    self.name
-                                ).put(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.smtp(
-                                        self.name
-                                    ).put(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -1397,8 +1290,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.notifications.endpoints.smtp.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -1411,11 +1308,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Notifications.Endpoints.Smtp._Get.Model"
                                 ]
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.smtp.get(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -1423,19 +1316,14 @@ class ProxmoxAPI:
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.notifications.endpoints.smtp.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.smtp.post(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.smtp.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -1477,23 +1365,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.webhook(
-                                    self.name
-                                ).delete(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.webhook(
-                                        self.name
-                                    ).delete(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -1533,10 +1412,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.TypedDict":
-                                return self.proxmox_api.cluster.notifications.endpoints.webhook(
-                                    self.name
-                                ).get(
-                                    *args, **kwargs
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -1545,13 +1424,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook.Name._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.webhook(
-                                        self.name
-                                    ).get(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -1561,23 +1434,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.endpoints.webhook(
-                                    self.name
-                                ).put(
-                                    *args, **kwargs
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.endpoints.webhook(
-                                        self.name
-                                    ).put(
-                                        *args, **kwargs
-                                    )
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -1667,8 +1531,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.notifications.endpoints.webhook.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -1681,11 +1549,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Notifications.Endpoints.Webhook._Get.Model"
                                 ]
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.webhook.get(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -1693,19 +1557,14 @@ class ProxmoxAPI:
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.notifications.endpoints.webhook.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.cluster.notifications.endpoints.webhook.post(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.notifications.endpoints.webhook.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -1739,19 +1598,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.cluster.notifications.endpoints.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications.endpoints.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = (
-                            self.proxmox_api.cluster.notifications.endpoints.get(
-                                *args, **kwargs
-                            )
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications.endpoints.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -1787,19 +1641,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.notifications.targets(
-                                    self.name
-                                ).test.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.notifications.targets(self.name).test.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.cluster.notifications.targets(
-                                        self.name
-                                    ).test.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.cluster.notifications.targets(self.name).test.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -1874,8 +1723,12 @@ class ProxmoxAPI:
                     ) -> list[
                         "ProxmoxAPI.Cluster.Notifications.Targets._Get.TypedDict"
                     ]:
-                        return self.proxmox_api.cluster.notifications.targets.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.notifications.targets.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Notifications.Targets._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -1886,9 +1739,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Notifications.Targets._Get.Model"
                             ]
 
-                        data: Any = self.proxmox_api.cluster.notifications.targets.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications.targets.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -1920,17 +1771,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.notifications.matchers(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.notifications.matchers(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.notifications.matchers(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.notifications.matchers(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -1982,9 +1830,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.TypedDict":
-                            return self.proxmox_api.cluster.notifications.matchers(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.notifications.matchers(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -1994,9 +1844,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Cluster.Notifications.Matchers.Name._Get.Model"
 
-                            data: Any = self.proxmox_api.cluster.notifications.matchers(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.notifications.matchers(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -2006,17 +1854,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.notifications.matchers(
-                                self.name
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.notifications.matchers(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.notifications.matchers(
-                                self.name
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.notifications.matchers(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -2112,8 +1957,12 @@ class ProxmoxAPI:
                     ) -> list[
                         "ProxmoxAPI.Cluster.Notifications.Matchers._Get.TypedDict"
                     ]:
-                        return self.proxmox_api.cluster.notifications.matchers.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.notifications.matchers.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Notifications.Matchers._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -2124,9 +1973,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Notifications.Matchers._Get.Model"
                             ]
 
-                        data: Any = self.proxmox_api.cluster.notifications.matchers.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications.matchers.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -2134,19 +1981,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.notifications.matchers.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications.matchers.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = (
-                            self.proxmox_api.cluster.notifications.matchers.post(
-                                *args, **kwargs
-                            )
-                        )
+                        data: Any = self.proxmox_api.cluster.notifications.matchers.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -2178,15 +2020,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.notifications.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.notifications.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.notifications.get(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.cluster.notifications.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -2216,17 +2057,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> int:
-                        return self.proxmox_api.cluster.config.apiversion.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.apiversion.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(int, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> int:
                         class validate(pydantic.BaseModel):
                             data: int
 
-                        data: Any = self.proxmox_api.cluster.config.apiversion.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.apiversion.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -2258,17 +2096,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.config.nodes(
-                                self.node
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.config.nodes(self.node).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.config.nodes(
-                                self.node
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.config.nodes(self.node).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -2296,9 +2131,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict":
-                            return self.proxmox_api.cluster.config.nodes(
-                                self.node
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.config.nodes(self.node).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -2306,9 +2143,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Cluster.Config.Nodes.Node._Post.Model"
 
-                            data: Any = self.proxmox_api.cluster.config.nodes(
-                                self.node
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.config.nodes(self.node).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -2365,8 +2200,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.config.nodes.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.config.nodes.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Config.Nodes._Get.TypedDict"], data
                         )
 
                     def model(
@@ -2375,9 +2211,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Config.Nodes._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.config.nodes.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.nodes.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -2453,7 +2287,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Config.Join._Get.TypedDict":
-                        return self.proxmox_api.cluster.config.join.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.config.join.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Config.Join._Get.TypedDict", data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -2461,9 +2298,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Cluster.Config.Join._Get.Model"
 
-                        data: Any = self.proxmox_api.cluster.config.join.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.join.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -2471,17 +2306,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.cluster.config.join.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.join.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.cluster.config.join.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.join.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -2517,17 +2349,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                        return self.proxmox_api.cluster.config.totem.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.totem.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(dict[str, Any], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                         class validate(pydantic.BaseModel):
                             data: dict[str, Any]
 
-                        data: Any = self.proxmox_api.cluster.config.totem.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.totem.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -2553,17 +2382,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                        return self.proxmox_api.cluster.config.qdevice.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.qdevice.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(dict[str, Any], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                         class validate(pydantic.BaseModel):
                             data: dict[str, Any]
 
-                        data: Any = self.proxmox_api.cluster.config.qdevice.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.config.qdevice.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -2585,13 +2411,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.config.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.config.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -2599,13 +2426,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.cluster.config.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.config.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(str, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> str:
                     class validate(pydantic.BaseModel):
                         data: str
 
-                    data: Any = self.proxmox_api.cluster.config.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.config.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -2657,17 +2485,14 @@ class ProxmoxAPI:
                             pos: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.firewall.groups(
-                                    self.group
-                                )(self.pos).delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.groups(self.group)(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.firewall.groups(
-                                    self.group
-                                )(self.pos).delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.groups(self.group)(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -2749,9 +2574,11 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict":
-                                return self.proxmox_api.cluster.firewall.groups(
-                                    self.group
-                                )(self.pos).get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.groups(self.group)(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.TypedDict",
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -2759,9 +2586,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Cluster.Firewall.Groups.Group.Pos._Get.Model"
 
-                                data: Any = self.proxmox_api.cluster.firewall.groups(
-                                    self.group
-                                )(self.pos).get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.groups(self.group)(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -2773,17 +2598,14 @@ class ProxmoxAPI:
                             pos: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.firewall.groups(
-                                    self.group
-                                )(self.pos).put(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.groups(self.group)(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.firewall.groups(
-                                    self.group
-                                )(self.pos).put(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.groups(self.group)(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -2842,17 +2664,14 @@ class ProxmoxAPI:
                         group: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.groups(
-                                self.group
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.groups(self.group).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.groups(
-                                self.group
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.groups(self.group).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -2878,9 +2697,13 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.firewall.groups(
-                                self.group
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.groups(self.group).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.TypedDict"
+                                ],
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -2892,9 +2715,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.cluster.firewall.groups(
-                                self.group
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.groups(self.group).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -2904,17 +2725,14 @@ class ProxmoxAPI:
                         group: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.groups(
-                                self.group
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.groups(self.group).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.groups(
-                                self.group
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.groups(self.group).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -2982,8 +2800,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.firewall.groups.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.groups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Firewall.Groups._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -2992,9 +2812,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Firewall.Groups._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.firewall.groups.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.groups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -3002,17 +2820,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.groups.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.groups.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.firewall.groups.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.groups.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -3054,17 +2869,14 @@ class ProxmoxAPI:
                         pos: int
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.rules(
-                                self.pos
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.rules(
-                                self.pos
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -3142,9 +2954,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict":
-                            return self.proxmox_api.cluster.firewall.rules(
-                                self.pos
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -3152,9 +2966,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Cluster.Firewall.Rules.Pos._Get.Model"
 
-                            data: Any = self.proxmox_api.cluster.firewall.rules(
-                                self.pos
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -3164,17 +2976,14 @@ class ProxmoxAPI:
                         pos: int
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.rules(
-                                self.pos
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.rules(
-                                self.pos
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -3238,8 +3047,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.firewall.rules.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Firewall.Rules._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -3248,9 +3059,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Firewall.Rules._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.firewall.rules.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -3258,17 +3067,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.rules.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.firewall.rules.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -3316,17 +3122,14 @@ class ProxmoxAPI:
                             cidr: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.firewall.ipset(
-                                    self.name
-                                )(self.cidr).delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(self.name)(self.cidr).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.firewall.ipset(
-                                    self.name
-                                )(self.cidr).delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(self.name)(self.cidr).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -3340,9 +3143,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> dict[str, Any]:
-                                return self.proxmox_api.cluster.firewall.ipset(
-                                    self.name
-                                )(self.cidr).get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(self.name)(self.cidr).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(dict[str, Any], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -3350,9 +3152,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: dict[str, Any]
 
-                                data: Any = self.proxmox_api.cluster.firewall.ipset(
-                                    self.name
-                                )(self.cidr).get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(self.name)(self.cidr).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -3364,17 +3164,14 @@ class ProxmoxAPI:
                             cidr: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.firewall.ipset(
-                                    self.name
-                                )(self.cidr).put(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(self.name)(self.cidr).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.firewall.ipset(
-                                    self.name
-                                )(self.cidr).put(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.firewall.ipset(self.name)(self.cidr).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -3433,17 +3230,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.ipset(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.ipset(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -3475,9 +3269,13 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.firewall.ipset(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.TypedDict"
+                                ],
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -3487,9 +3285,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Firewall.Ipset.Name._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.cluster.firewall.ipset(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -3499,17 +3295,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.ipset(
-                                self.name
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.ipset(
-                                self.name
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.ipset(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -3577,8 +3370,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.firewall.ipset.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.ipset.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -3587,9 +3382,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Firewall.Ipset._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.firewall.ipset.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.ipset.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -3597,17 +3390,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.ipset.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.ipset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.firewall.ipset.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.ipset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -3649,17 +3439,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.aliases(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.aliases(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -3669,17 +3456,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.firewall.aliases(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.firewall.aliases(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -3689,17 +3473,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.firewall.aliases(
-                                self.name
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.firewall.aliases(
-                                self.name
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.firewall.aliases(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -3769,8 +3550,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.firewall.aliases.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.aliases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Firewall.Aliases._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -3779,9 +3562,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Firewall.Aliases._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.firewall.aliases.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.aliases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -3789,17 +3570,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.aliases.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.aliases.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.firewall.aliases.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.aliases.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -3863,8 +3641,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict":
-                        return self.proxmox_api.cluster.firewall.options.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Firewall.Options._Get.TypedDict", data
                         )
 
                     def model(
@@ -3873,9 +3652,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Cluster.Firewall.Options._Get.Model"
 
-                        data: Any = self.proxmox_api.cluster.firewall.options.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -3883,17 +3660,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.firewall.options.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.firewall.options.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -3945,8 +3719,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.firewall.macros.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.macros.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Firewall.Macros._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -3955,9 +3731,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Firewall.Macros._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.firewall.macros.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.macros.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -4005,8 +3779,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.firewall.refs.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.firewall.refs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Firewall.Refs._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -4015,9 +3791,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Firewall.Refs._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.firewall.refs.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.firewall.refs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -4039,13 +3813,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.firewall.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.firewall.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -4157,9 +3932,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict":
-                            return self.proxmox_api.cluster.backup(
-                                self.id
-                            ).included_volumes.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.backup(self.id).included_volumes.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -4167,9 +3944,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Cluster.Backup.Id.IncludedVolumes._Get.Model"
 
-                            data: Any = self.proxmox_api.cluster.backup(
-                                self.id
-                            ).included_volumes.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.backup(self.id).included_volumes.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -4197,17 +3972,14 @@ class ProxmoxAPI:
                     id: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.backup(self.id).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.backup(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.backup(self.id).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.backup(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -4217,17 +3989,14 @@ class ProxmoxAPI:
                     id: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                        return self.proxmox_api.cluster.backup(self.id).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.backup(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(dict[str, Any], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                         class validate(pydantic.BaseModel):
                             data: dict[str, Any]
 
-                        data: Any = self.proxmox_api.cluster.backup(self.id).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.backup(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -4237,17 +4006,14 @@ class ProxmoxAPI:
                     id: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.backup(self.id).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.backup(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.backup(self.id).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.backup(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -4311,7 +4077,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.backup.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.backup.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Backup._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -4319,7 +4088,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Backup._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.backup.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.backup.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -4327,13 +4096,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.backup.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.backup.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.cluster.backup.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.backup.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -4393,8 +4163,12 @@ class ProxmoxAPI:
                     ) -> list[
                         "ProxmoxAPI.Cluster.BackupInfo.NotBackedUp._Get.TypedDict"
                     ]:
-                        return self.proxmox_api.cluster.backup_info.not_backed_up.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster("backup-info")("not-backed-up").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.BackupInfo.NotBackedUp._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -4405,11 +4179,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.BackupInfo.NotBackedUp._Get.Model"
                             ]
 
-                        data: Any = (
-                            self.proxmox_api.cluster.backup_info.not_backed_up.get(
-                                *args, **kwargs
-                            )
-                        )
+                        data: Any = self.proxmox_api.cluster("backup-info")("not-backed-up").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -4445,7 +4215,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.BackupInfo._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.backup_info.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster("backup-info").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.BackupInfo._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -4453,9 +4226,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.BackupInfo._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.backup_info.get(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.cluster("backup-info").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -4495,17 +4266,14 @@ class ProxmoxAPI:
                             sid: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.ha.resources(
-                                    self.sid
-                                ).migrate.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.ha.resources(self.sid).migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.ha.resources(
-                                    self.sid
-                                ).migrate.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.ha.resources(self.sid).migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -4541,17 +4309,14 @@ class ProxmoxAPI:
                             sid: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.ha.resources(
-                                    self.sid
-                                ).relocate.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.ha.resources(self.sid).relocate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.ha.resources(
-                                    self.sid
-                                ).relocate.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.ha.resources(self.sid).relocate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -4583,17 +4348,14 @@ class ProxmoxAPI:
                         sid: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ha.resources(
-                                self.sid
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.resources(self.sid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.ha.resources(
-                                self.sid
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.resources(self.sid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -4647,8 +4409,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict":
-                            return self.proxmox_api.cluster.ha.resources(self.sid).get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.ha.resources(self.sid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.TypedDict",
+                                data,
                             )
 
                         def model(
@@ -4657,9 +4421,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Cluster.Ha.Resources.Sid._Get.Model"
 
-                            data: Any = self.proxmox_api.cluster.ha.resources(
-                                self.sid
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.resources(self.sid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -4669,17 +4431,14 @@ class ProxmoxAPI:
                         sid: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ha.resources(self.sid).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.resources(self.sid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.ha.resources(
-                                self.sid
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.resources(self.sid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -4743,8 +4502,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.ha.resources.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.ha.resources.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Ha.Resources._Get.TypedDict"], data
                         )
 
                     def model(
@@ -4753,9 +4513,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Ha.Resources._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.ha.resources.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ha.resources.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -4763,17 +4521,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ha.resources.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ha.resources.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.ha.resources.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ha.resources.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -4815,17 +4570,14 @@ class ProxmoxAPI:
                         group: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ha.groups(
-                                self.group
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.groups(self.group).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.ha.groups(
-                                self.group
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.groups(self.group).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -4835,17 +4587,14 @@ class ProxmoxAPI:
                         group: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.ha.groups(self.group).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.groups(self.group).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.ha.groups(
-                                self.group
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.groups(self.group).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -4855,17 +4604,14 @@ class ProxmoxAPI:
                         group: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ha.groups(self.group).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.groups(self.group).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.ha.groups(
-                                self.group
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ha.groups(self.group).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -4929,7 +4675,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.ha.groups.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ha.groups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Ha.Groups._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -4937,9 +4686,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Ha.Groups._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.ha.groups.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ha.groups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -4947,15 +4694,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.ha.groups.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ha.groups.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.ha.groups.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ha.groups.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5033,8 +4779,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Cluster.Ha.Status.Current._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.cluster.ha.status.current.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.ha.status.current.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Ha.Status.Current._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -5045,9 +4795,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Cluster.Ha.Status.Current._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.cluster.ha.status.current.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.status.current.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -5073,21 +4821,14 @@ class ProxmoxAPI:
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return (
-                                self.proxmox_api.cluster.ha.status.manager_status.get(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.status.manager_status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = (
-                                self.proxmox_api.cluster.ha.status.manager_status.get(
-                                    *args, **kwargs
-                                )
-                            )
+                            data: Any = self.proxmox_api.cluster.ha.status.manager_status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -5111,15 +4852,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.cluster.ha.status.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ha.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.cluster.ha.status.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ha.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5155,7 +4895,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.ha.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.ha.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Ha._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -5163,7 +4906,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Ha._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.ha.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.ha.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -5199,17 +4942,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.acme.plugins(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.plugins(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.acme.plugins(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.plugins(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -5219,17 +4959,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.acme.plugins(self.id).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.acme.plugins(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.acme.plugins(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.plugins(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -5239,17 +4976,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.acme.plugins(self.id).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.acme.plugins(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.acme.plugins(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.plugins(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -5313,8 +5047,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.acme.plugins.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.acme.plugins.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Acme.Plugins._Get.TypedDict"], data
                         )
 
                     def model(
@@ -5323,9 +5058,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Acme.Plugins._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.acme.plugins.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.plugins.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -5333,17 +5066,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.acme.plugins.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.plugins.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.acme.plugins.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.plugins.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5385,17 +5115,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.cluster.acme.account(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.account(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.cluster.acme.account(
-                                self.name
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.account(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -5425,8 +5152,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict":
-                            return self.proxmox_api.cluster.acme.account(self.name).get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.cluster.acme.account(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Acme.Account.Name._Get.TypedDict",
+                                data,
                             )
 
                         def model(
@@ -5435,9 +5164,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Cluster.Acme.Account.Name._Get.Model"
 
-                            data: Any = self.proxmox_api.cluster.acme.account(
-                                self.name
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.account(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -5447,17 +5174,14 @@ class ProxmoxAPI:
                         name: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.cluster.acme.account(self.name).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.acme.account(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.cluster.acme.account(
-                                self.name
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.acme.account(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -5509,17 +5233,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.cluster.acme.account.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.account.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.cluster.acme.account.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.account.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -5527,17 +5248,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.cluster.acme.account.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.account.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.cluster.acme.account.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.account.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5573,15 +5291,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.cluster.acme.tos.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.acme.tos.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.cluster.acme.tos.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.tos.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5633,7 +5350,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Acme.Meta._Get.TypedDict":
-                        return self.proxmox_api.cluster.acme.meta.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.acme.meta.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Acme.Meta._Get.TypedDict", data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -5641,9 +5361,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Cluster.Acme.Meta._Get.Model"
 
-                        data: Any = self.proxmox_api.cluster.acme.meta.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.meta.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5685,8 +5403,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.acme.directories.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.acme.directories.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Acme.Directories._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -5695,9 +5415,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Acme.Directories._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.acme.directories.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme.directories.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5743,8 +5461,12 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.acme.challenge_schema.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.acme("challenge-schema").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -5755,9 +5477,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Acme.ChallengeSchema._Get.Model"
                             ]
 
-                        data: Any = self.proxmox_api.cluster.acme.challenge_schema.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.acme("challenge-schema").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -5779,13 +5499,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.acme.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.acme.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.acme.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.acme.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -6043,8 +5764,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict":
-                        return self.proxmox_api.cluster.ceph.metadata.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.ceph.metadata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict", data
                         )
 
                     def model(
@@ -6053,9 +5775,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Cluster.Ceph.Metadata._Get.Model"
 
-                        data: Any = self.proxmox_api.cluster.ceph.metadata.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ceph.metadata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -6081,15 +5801,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                        return self.proxmox_api.cluster.ceph.status.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ceph.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(dict[str, Any], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                         class validate(pydantic.BaseModel):
                             data: dict[str, Any]
 
-                        data: Any = self.proxmox_api.cluster.ceph.status.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ceph.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -6121,17 +5840,14 @@ class ProxmoxAPI:
                         flag: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> bool:
-                            return self.proxmox_api.cluster.ceph.flags(self.flag).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.ceph.flags(self.flag).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(bool, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> bool:
                             class validate(pydantic.BaseModel):
                                 data: bool
 
-                            data: Any = self.proxmox_api.cluster.ceph.flags(
-                                self.flag
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ceph.flags(self.flag).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6141,17 +5857,14 @@ class ProxmoxAPI:
                         flag: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.ceph.flags(self.flag).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.ceph.flags(self.flag).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.ceph.flags(
-                                self.flag
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.ceph.flags(self.flag).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -6236,7 +5949,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.ceph.flags.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ceph.flags.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Ceph.Flags._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -6244,9 +5960,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Ceph.Flags._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.ceph.flags.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ceph.flags.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -6254,15 +5968,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.cluster.ceph.flags.put(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.ceph.flags.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.cluster.ceph.flags.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.ceph.flags.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -6294,13 +6007,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.ceph.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.ceph.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.ceph.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.ceph.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -6336,17 +6050,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6356,17 +6067,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6376,17 +6084,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).post(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6396,17 +6101,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.jobs.realm_sync(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.jobs("realm-sync")(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -6503,8 +6205,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Jobs.RealmSync._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.jobs.realm_sync.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.jobs("realm-sync").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Jobs.RealmSync._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -6513,9 +6217,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Jobs.RealmSync._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.jobs.realm_sync.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.jobs("realm-sync").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -6557,8 +6259,12 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Jobs.ScheduleAnalyze._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.jobs.schedule_analyze.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.jobs("schedule-analyze").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Jobs.ScheduleAnalyze._Get.TypedDict"
+                            ],
+                            data,
                         )
 
                     def model(
@@ -6569,9 +6275,7 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Jobs.ScheduleAnalyze._Get.Model"
                             ]
 
-                        data: Any = self.proxmox_api.cluster.jobs.schedule_analyze.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.jobs("schedule-analyze").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -6607,7 +6311,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Jobs._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.jobs.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.jobs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Jobs._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -6615,7 +6322,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Jobs._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.jobs.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.jobs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -6651,17 +6358,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.mapping.dir(self.id).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.dir(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.mapping.dir(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.dir(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6671,17 +6375,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.mapping.dir(self.id).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.dir(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.mapping.dir(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.dir(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6691,17 +6392,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.mapping.dir(self.id).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.dir(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.mapping.dir(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.dir(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -6795,7 +6493,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Mapping.Dir._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.mapping.dir.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.mapping.dir.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Mapping.Dir._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -6803,9 +6504,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Mapping.Dir._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.mapping.dir.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.dir.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -6813,17 +6512,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.mapping.dir.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.dir.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.mapping.dir.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.dir.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -6865,17 +6561,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.mapping.pci(self.id).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.pci(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.mapping.pci(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.pci(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6885,17 +6578,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.mapping.pci(self.id).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.pci(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.mapping.pci(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.pci(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -6905,17 +6595,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.mapping.pci(self.id).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.pci(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.mapping.pci(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.pci(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -7009,7 +6696,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Mapping.Pci._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.mapping.pci.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.mapping.pci.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Mapping.Pci._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -7017,9 +6707,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Mapping.Pci._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.mapping.pci.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.pci.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -7027,17 +6715,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.mapping.pci.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.pci.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.mapping.pci.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.pci.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -7079,17 +6764,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.mapping.usb(self.id).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.usb(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.mapping.usb(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.usb(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -7099,17 +6781,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.mapping.usb(self.id).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.usb(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.mapping.usb(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.usb(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -7119,17 +6798,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.mapping.usb(self.id).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.mapping.usb(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.mapping.usb(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.mapping.usb(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -7199,7 +6875,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Mapping.Usb._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.mapping.usb.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.mapping.usb.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Mapping.Usb._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -7207,9 +6886,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Mapping.Usb._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.mapping.usb.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.usb.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -7217,17 +6894,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.mapping.usb.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.usb.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.mapping.usb.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.mapping.usb.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -7259,13 +6933,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.mapping.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.mapping.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.mapping.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.mapping.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -7317,25 +6992,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.cluster.sdn.vnets(
-                                                self.vnet
-                                            )
-                                            .firewall.rules(self.pos)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.cluster.sdn.vnets(
-                                                self.vnet
-                                            )
-                                            .firewall.rules(self.pos)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -7415,12 +7079,10 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.TypedDict":
-                                        return (
-                                            self.proxmox_api.cluster.sdn.vnets(
-                                                self.vnet
-                                            )
-                                            .firewall.rules(self.pos)
-                                            .get(*args, **kwargs)
+                                        data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(
+                                            "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.TypedDict",
+                                            data,
                                         )
 
                                     def model(
@@ -7429,13 +7091,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules.Pos._Get.Model"
 
-                                        data: Any = (
-                                            self.proxmox_api.cluster.sdn.vnets(
-                                                self.vnet
-                                            )
-                                            .firewall.rules(self.pos)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -7449,25 +7105,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.cluster.sdn.vnets(
-                                                self.vnet
-                                            )
-                                            .firewall.rules(self.pos)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.cluster.sdn.vnets(
-                                                self.vnet
-                                            )
-                                            .firewall.rules(self.pos)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -7544,9 +7189,13 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules._Get.TypedDict"
                                 ]:
-                                    return self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.rules.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules._Get.TypedDict"
+                                        ],
+                                        data,
+                                    )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -7558,9 +7207,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules._Get.Model"
                                         ]
 
-                                    data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.rules.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -7570,17 +7217,14 @@ class ProxmoxAPI:
                                 vnet: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.rules.post(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.rules.post(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -7669,9 +7313,11 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.TypedDict":
-                                    return self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.options.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.TypedDict",
+                                        data,
+                                    )
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -7679,9 +7325,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Options._Get.Model"
 
-                                    data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.options.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -7691,17 +7335,14 @@ class ProxmoxAPI:
                                 vnet: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.options.put(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                        self.vnet
-                                    ).firewall.options.put(*args, **kwargs)
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -7742,9 +7383,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).firewall.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -7752,9 +7392,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).firewall.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -7792,21 +7430,14 @@ class ProxmoxAPI:
                                 subnet: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                        .subnets(self.subnet)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets(self.subnet).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                        .subnets(self.subnet)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets(self.subnet).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -7820,11 +7451,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                        .subnets(self.subnet)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets(self.subnet).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -7832,11 +7460,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                        .subnets(self.subnet)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets(self.subnet).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -7848,21 +7472,14 @@ class ProxmoxAPI:
                                 subnet: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                        .subnets(self.subnet)
-                                        .put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets(self.subnet).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.cluster.sdn.vnets(self.vnet)
-                                        .subnets(self.subnet)
-                                        .put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets(self.subnet).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -7923,9 +7540,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).subnets.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -7933,9 +7549,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).subnets.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -7945,17 +7559,14 @@ class ProxmoxAPI:
                             vnet: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).subnets.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).subnets.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).subnets.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -7998,17 +7609,14 @@ class ProxmoxAPI:
                             vnet: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).ips.delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).ips.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).ips.delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).ips.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -8018,17 +7626,14 @@ class ProxmoxAPI:
                             vnet: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).ips.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).ips.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).ips.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).ips.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -8038,17 +7643,14 @@ class ProxmoxAPI:
                             vnet: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).ips.put(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).ips.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                    self.vnet
-                                ).ips.put(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).ips.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -8098,17 +7700,14 @@ class ProxmoxAPI:
                         vnet: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.vnets(self.vnet).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                self.vnet
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8118,17 +7717,14 @@ class ProxmoxAPI:
                         vnet: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.sdn.vnets(self.vnet).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                self.vnet
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8138,17 +7734,14 @@ class ProxmoxAPI:
                         vnet: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.vnets(self.vnet).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.vnets(
-                                self.vnet
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.vnets(self.vnet).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -8200,15 +7793,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.cluster.sdn.vnets.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.vnets.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.cluster.sdn.vnets.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.vnets.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -8216,15 +7808,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.vnets.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.vnets.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.sdn.vnets.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.vnets.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -8266,17 +7857,14 @@ class ProxmoxAPI:
                         zone: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.zones(self.zone).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.zones(self.zone).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.zones(
-                                self.zone
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.zones(self.zone).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8286,17 +7874,14 @@ class ProxmoxAPI:
                         zone: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.sdn.zones(self.zone).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.zones(self.zone).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.sdn.zones(
-                                self.zone
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.zones(self.zone).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8306,17 +7891,14 @@ class ProxmoxAPI:
                         zone: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.zones(self.zone).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.zones(self.zone).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.zones(
-                                self.zone
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.zones(self.zone).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -8400,7 +7982,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.sdn.zones.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.zones.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Sdn.Zones._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -8408,9 +7993,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Sdn.Zones._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.sdn.zones.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.zones.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -8418,15 +8001,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.zones.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.zones.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.sdn.zones.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.zones.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -8468,17 +8050,14 @@ class ProxmoxAPI:
                         controller: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.controllers(
-                                self.controller
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(self.controller).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.controllers(
-                                self.controller
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(self.controller).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8488,17 +8067,14 @@ class ProxmoxAPI:
                         controller: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.sdn.controllers(
-                                self.controller
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(self.controller).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.sdn.controllers(
-                                self.controller
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(self.controller).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8508,17 +8084,14 @@ class ProxmoxAPI:
                         controller: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.controllers(
-                                self.controller
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(self.controller).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.controllers(
-                                self.controller
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.controllers(self.controller).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -8590,8 +8163,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.sdn.controllers.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.cluster.sdn.controllers.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -8600,9 +8175,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Sdn.Controllers._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.sdn.controllers.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.controllers.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -8610,17 +8183,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.controllers.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.controllers.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.sdn.controllers.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.controllers.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -8666,17 +8236,14 @@ class ProxmoxAPI:
                             ipam: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> list[Any]:
-                                return self.proxmox_api.cluster.sdn.ipams(
-                                    self.ipam
-                                ).status.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[Any], data)
 
                             def model(self, *args: Any, **kwargs: Any) -> list[Any]:
                                 class validate(pydantic.BaseModel):
                                     data: list[Any]
 
-                                data: Any = self.proxmox_api.cluster.sdn.ipams(
-                                    self.ipam
-                                ).status.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -8704,17 +8271,14 @@ class ProxmoxAPI:
                         ipam: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.ipams(self.ipam).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.ipams(
-                                self.ipam
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8724,17 +8288,14 @@ class ProxmoxAPI:
                         ipam: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.sdn.ipams(self.ipam).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.sdn.ipams(
-                                self.ipam
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8744,17 +8305,14 @@ class ProxmoxAPI:
                         ipam: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.ipams(self.ipam).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.ipams(
-                                self.ipam
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.ipams(self.ipam).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -8820,7 +8378,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.sdn.ipams.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.ipams.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -8828,9 +8389,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Sdn.Ipams._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.sdn.ipams.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.ipams.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -8838,15 +8397,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.ipams.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.ipams.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.sdn.ipams.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.ipams.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -8888,17 +8446,14 @@ class ProxmoxAPI:
                         dns: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.dns(self.dns).delete(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.dns(
-                                self.dns
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8908,17 +8463,14 @@ class ProxmoxAPI:
                         dns: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.cluster.sdn.dns(self.dns).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -8928,17 +8480,14 @@ class ProxmoxAPI:
                         dns: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.cluster.sdn.dns(self.dns).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.cluster.sdn.dns(self.dns).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -9004,7 +8553,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"]:
-                        return self.proxmox_api.cluster.sdn.dns.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.dns.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Sdn.Dns._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
@@ -9012,9 +8564,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Cluster.Sdn.Dns._Get.Model"]
 
-                        data: Any = self.proxmox_api.cluster.sdn.dns.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.dns.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -9022,15 +8572,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.cluster.sdn.dns.post(*args, **kwargs)
+                        data: Any = self.proxmox_api.cluster.sdn.dns.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.cluster.sdn.dns.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.cluster.sdn.dns.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -9076,7 +8625,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.sdn.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.sdn.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Sdn._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -9084,7 +8636,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Sdn._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.sdn.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.sdn.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -9092,13 +8644,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                    return self.proxmox_api.cluster.sdn.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.sdn.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(str, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> str:
                     class validate(pydantic.BaseModel):
                         data: str
 
-                    data: Any = self.proxmox_api.cluster.sdn.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.sdn.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9134,13 +8687,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.cluster.log.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.cluster.log.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9238,7 +8792,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.resources.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.resources.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Resources._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -9246,7 +8803,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Resources._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.resources.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.resources.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9286,7 +8843,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.tasks.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.tasks.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Tasks._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -9294,7 +8854,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Tasks._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.tasks.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.tasks.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9320,13 +8880,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                    return self.proxmox_api.cluster.options.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(dict[str, Any], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                     class validate(pydantic.BaseModel):
                         data: dict[str, Any]
 
-                    data: Any = self.proxmox_api.cluster.options.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -9334,13 +8895,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.cluster.options.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.cluster.options.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9410,7 +8972,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Cluster.Status._Get.TypedDict"]:
-                    return self.proxmox_api.cluster.status.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Cluster.Status._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -9418,7 +8983,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Cluster.Status._Get.Model"]
 
-                    data: Any = self.proxmox_api.cluster.status.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9444,13 +9009,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> int:
-                    return self.proxmox_api.cluster.nextid.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.nextid.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(int, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> int:
                     class validate(pydantic.BaseModel):
                         data: int
 
-                    data: Any = self.proxmox_api.cluster.nextid.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.cluster.nextid.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -9472,13 +9038,14 @@ class ProxmoxAPI:
             proxmox_api: ProxmoxerProxmoxAPI
 
             def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                return self.proxmox_api.cluster.get(*args, **kwargs)
+                data: Any = self.proxmox_api.cluster.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(list[dict[str, Any]], data)
 
             def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                 class validate(pydantic.BaseModel):
                     data: list[dict[str, Any]]
 
-                data: Any = self.proxmox_api.cluster.get(*args, **kwargs)
+                data: Any = self.proxmox_api.cluster.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @cached_property
@@ -9536,23 +9103,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -9634,11 +9192,10 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict":
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .get(*args, **kwargs)
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.TypedDict",
+                                            data,
                                         )
 
                                     def model(
@@ -9647,12 +9204,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules.Pos._Get.Model"
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -9668,23 +9220,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -9766,10 +9309,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.rules.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -9782,11 +9327,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.rules.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -9798,21 +9339,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.rules.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.rules.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -9869,23 +9403,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -9901,12 +9426,8 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> dict[str, Any]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(dict[str, Any], data)
 
                                     def model(
                                         self, *args: Any, **kwargs: Any
@@ -9914,12 +9435,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: dict[str, Any]
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -9935,23 +9451,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -10041,10 +9548,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -10057,11 +9566,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Aliases._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -10073,21 +9578,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.aliases.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.aliases.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -10150,12 +9648,8 @@ class ProxmoxAPI:
                                         def __call__(
                                             self, *args: Any, **kwargs: Any
                                         ) -> None:
-                                            return (
-                                                self.proxmox_api.nodes(self.node)
-                                                .qemu(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .delete(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name)(self.cidr).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                            return typing.cast(None, data)
 
                                         def model(
                                             self, *args: Any, **kwargs: Any
@@ -10163,12 +9657,7 @@ class ProxmoxAPI:
                                             class validate(pydantic.BaseModel):
                                                 data: None
 
-                                            data: Any = (
-                                                self.proxmox_api.nodes(self.node)
-                                                .qemu(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .delete(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name)(self.cidr).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                             return validate(data=data).data
 
                                     @dataclass
@@ -10186,12 +9675,8 @@ class ProxmoxAPI:
                                         def __call__(
                                             self, *args: Any, **kwargs: Any
                                         ) -> dict[str, Any]:
-                                            return (
-                                                self.proxmox_api.nodes(self.node)
-                                                .qemu(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .get(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name)(self.cidr).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                            return typing.cast(dict[str, Any], data)
 
                                         def model(
                                             self, *args: Any, **kwargs: Any
@@ -10199,12 +9684,7 @@ class ProxmoxAPI:
                                             class validate(pydantic.BaseModel):
                                                 data: dict[str, Any]
 
-                                            data: Any = (
-                                                self.proxmox_api.nodes(self.node)
-                                                .qemu(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .get(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name)(self.cidr).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                             return validate(data=data).data
 
                                     @dataclass
@@ -10222,12 +9702,8 @@ class ProxmoxAPI:
                                         def __call__(
                                             self, *args: Any, **kwargs: Any
                                         ) -> None:
-                                            return (
-                                                self.proxmox_api.nodes(self.node)
-                                                .qemu(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .put(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name)(self.cidr).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                            return typing.cast(None, data)
 
                                         def model(
                                             self, *args: Any, **kwargs: Any
@@ -10235,12 +9711,7 @@ class ProxmoxAPI:
                                             class validate(pydantic.BaseModel):
                                                 data: None
 
-                                            data: Any = (
-                                                self.proxmox_api.nodes(self.node)
-                                                .qemu(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .put(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name)(self.cidr).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                             return validate(data=data).data
 
                                     @cached_property
@@ -10317,23 +9788,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -10369,11 +9831,12 @@ class ProxmoxAPI:
                                     ) -> list[
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
                                     ]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .get(*args, **kwargs)
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(
+                                            list[
+                                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                            ],
+                                            data,
                                         )
 
                                     def model(
@@ -10386,12 +9849,7 @@ class ProxmoxAPI:
                                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset.Name._Get.Model"
                                             ]
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -10407,23 +9865,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -10511,10 +9960,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -10527,11 +9978,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Ipset._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -10543,21 +9990,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.ipset.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.ipset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -10694,10 +10134,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.options.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -10706,11 +10146,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Options._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.options.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -10722,21 +10158,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.options.put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.options.put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -10805,10 +10234,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.log.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -10821,11 +10252,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Log._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.log.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -10888,10 +10315,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.refs.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.refs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -10904,11 +10333,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Refs._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .firewall.refs.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.refs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -10943,11 +10368,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -10955,11 +10377,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .firewall.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -11002,11 +10420,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fsfreeze_freeze.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("fsfreeze-freeze").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11014,11 +10429,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fsfreeze_freeze.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("fsfreeze-freeze").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11061,11 +10472,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fsfreeze_status.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("fsfreeze-status").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11073,11 +10481,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fsfreeze_status.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("fsfreeze-status").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11120,11 +10524,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fsfreeze_thaw.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("fsfreeze-thaw").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11132,11 +10533,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fsfreeze_thaw.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("fsfreeze-thaw").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11179,11 +10576,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fstrim.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.fstrim.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11191,11 +10585,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.fstrim.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.fstrim.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11238,11 +10628,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_fsinfo.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-fsinfo").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11250,11 +10637,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_fsinfo.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-fsinfo").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11293,11 +10676,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_host_name.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-host-name").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11305,11 +10685,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_host_name.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-host-name").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11348,13 +10724,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_memory_block_info.get(
-                                            *args, **kwargs
-                                        )
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-memory-block-info").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11362,13 +10733,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_memory_block_info.get(
-                                            *args, **kwargs
-                                        )
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-memory-block-info").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11407,11 +10772,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_memory_blocks.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-memory-blocks").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11419,11 +10781,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_memory_blocks.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-memory-blocks").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11462,11 +10820,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_osinfo.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-osinfo").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11474,11 +10829,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_osinfo.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-osinfo").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11517,11 +10868,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_time.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-time").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11529,11 +10877,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_time.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-time").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11572,11 +10916,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_timezone.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-timezone").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11584,11 +10925,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_timezone.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-timezone").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11627,11 +10964,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_users.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-users").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11639,11 +10973,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_users.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-users").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11682,11 +11012,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_vcpus.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-vcpus").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11694,11 +11021,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.get_vcpus.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-vcpus").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11737,11 +11060,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.info.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.info.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11749,11 +11069,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.info.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.info.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11792,13 +11108,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.network_get_interfaces.get(
-                                            *args, **kwargs
-                                        )
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("network-get-interfaces").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11806,13 +11117,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.network_get_interfaces.get(
-                                            *args, **kwargs
-                                        )
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("network-get-interfaces").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11851,11 +11156,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.ping.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.ping.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11863,11 +11165,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.ping.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.ping.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11910,11 +11208,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.shutdown.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.shutdown.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11922,11 +11217,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.shutdown.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.shutdown.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -11969,11 +11260,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.suspend_disk.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("suspend-disk").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -11981,11 +11269,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.suspend_disk.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("suspend-disk").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12028,11 +11312,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.suspend_hybrid.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("suspend-hybrid").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -12040,11 +11321,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.suspend_hybrid.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("suspend-hybrid").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12087,11 +11364,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.suspend_ram.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("suspend-ram").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -12099,11 +11373,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.suspend_ram.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("suspend-ram").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12146,11 +11416,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> dict[str, Any]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.set_user_password.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("set-user-password").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -12158,11 +11425,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: dict[str, Any]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.set_user_password.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("set-user-password").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12219,10 +11482,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.exec.post(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.exec.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -12231,11 +11494,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.Exec._Post.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.exec.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.exec.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12310,10 +11569,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.exec_status.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("exec-status").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -12322,11 +11581,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.ExecStatus._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.exec_status.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("exec-status").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12379,10 +11634,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.file_read.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("file-read").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -12391,11 +11646,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Agent.FileRead._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.file_read.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("file-read").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12432,21 +11683,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.file_write.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("file-write").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .agent.file_write.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("file-write").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -12485,11 +11729,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -12497,11 +11738,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -12515,11 +11752,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> dict[str, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(dict[str, Any], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -12527,11 +11761,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: dict[str, Any]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .agent.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -12594,10 +11824,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .rrd.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -12608,11 +11838,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrd._Get.Model"
                                     )
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .rrd.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -12651,11 +11877,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .rrddata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -12663,11 +11886,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .rrddata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13044,10 +12263,10 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict"
                             ):
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .config.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -13056,11 +12275,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Config._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .config.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -13072,21 +12287,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .config.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).config.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .config.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).config.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -13098,21 +12306,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .config.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .config.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13197,10 +12398,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .pending.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).pending.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -13213,11 +12416,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Pending._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .pending.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).pending.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13258,21 +12457,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .cloudinit.dump.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).cloudinit.dump.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .cloudinit.dump.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).cloudinit.dump.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -13329,10 +12521,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Cloudinit._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .cloudinit.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).cloudinit.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Cloudinit._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -13345,11 +12539,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Cloudinit._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .cloudinit.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).cloudinit.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -13361,21 +12551,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .cloudinit.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).cloudinit.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .cloudinit.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).cloudinit.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13424,21 +12607,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .unlink.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).unlink.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .unlink.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).unlink.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13505,10 +12681,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .vncproxy.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).vncproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -13517,11 +12693,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncproxy._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .vncproxy.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).vncproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13584,10 +12756,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .termproxy.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).termproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -13598,11 +12770,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Termproxy._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .termproxy.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).termproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13659,10 +12827,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .vncwebsocket.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).vncwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -13671,11 +12839,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Vncwebsocket._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .vncwebsocket.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).vncwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13736,10 +12900,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .spiceproxy.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).spiceproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -13750,11 +12914,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Spiceproxy._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .spiceproxy.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).spiceproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -13865,10 +13025,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.current.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.current.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -13877,11 +13037,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status.Current._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.current.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.current.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -13918,21 +13074,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.start.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.start.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -13973,21 +13122,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.stop.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.stop.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -14028,21 +13170,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.reset.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.reset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.reset.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.reset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -14083,21 +13218,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.shutdown.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.shutdown.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.shutdown.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.shutdown.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -14138,21 +13266,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.reboot.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.reboot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.reboot.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.reboot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -14193,21 +13314,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.suspend.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.suspend.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.suspend.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.suspend.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -14248,21 +13362,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.resume.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.resume.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .status.resume.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.resume.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -14317,10 +13424,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -14333,11 +13442,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Status._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14374,21 +13479,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .sendkey.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).sendkey.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .sendkey.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).sendkey.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14449,10 +13547,10 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict"
                             ):
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .feature.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).feature.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -14461,11 +13559,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Feature._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .feature.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).feature.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14502,21 +13596,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .clone.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).clone.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .clone.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).clone.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14557,21 +13644,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .move_disk.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).move_disk.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .move_disk.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).move_disk.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14700,10 +13780,10 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict"
                             ):
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .migrate.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).migrate.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -14712,11 +13792,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .migrate.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).migrate.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -14728,21 +13804,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14791,21 +13860,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .remote_migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).remote_migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .remote_migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).remote_migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14846,21 +13908,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .monitor.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).monitor.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .monitor.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).monitor.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14901,21 +13956,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .resize.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).resize.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .resize.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).resize.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -14968,12 +14016,8 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> dict[str, Any]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(dict[str, Any], data)
 
                                     def model(
                                         self, *args: Any, **kwargs: Any
@@ -14981,12 +14025,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: dict[str, Any]
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -15002,23 +14041,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -15075,23 +14105,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> str:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .rollback.post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).rollback.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(str, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> str:
                                         class validate(pydantic.BaseModel):
                                             data: str
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .qemu(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .rollback.post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).rollback.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -15133,23 +14154,14 @@ class ProxmoxAPI:
                                 snapname: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -15165,12 +14177,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> list[dict[str, Any]]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(list[dict[str, Any]], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -15178,12 +14186,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: list[dict[str, Any]]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .qemu(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot(self.snapname).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -15262,10 +14265,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .snapshot.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -15278,11 +14283,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Snapshot._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .snapshot.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -15294,21 +14295,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .snapshot.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .snapshot.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).snapshot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -15357,21 +14351,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .template.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).template.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .template.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).template.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -15432,10 +14419,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .mtunnel.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).mtunnel.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -15444,11 +14431,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnel._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .mtunnel.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).mtunnel.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -15507,10 +14490,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .mtunnelwebsocket.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).mtunnelwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -15519,11 +14502,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Mtunnelwebsocket._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .qemu(self.vmid)
-                                    .mtunnelwebsocket.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).mtunnelwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -15556,21 +14535,14 @@ class ProxmoxAPI:
                         vmid: int
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -15596,10 +14568,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -15608,11 +14580,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Qemu.Vmid._Get.Model"]
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .qemu(self.vmid)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -15715,8 +14683,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).qemu.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).qemu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Qemu._Get.TypedDict"], data
                         )
 
                     def model(
@@ -15725,9 +14694,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Qemu._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).qemu.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).qemu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -15737,17 +14704,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).qemu.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).qemu.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).qemu.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).qemu.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -15962,10 +14926,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .config.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -15974,11 +14938,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Config._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .config.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -15990,21 +14950,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .config.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .config.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -16109,10 +15062,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.current.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.current.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -16121,11 +15074,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status.Current._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.current.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.current.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16162,21 +15111,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.start.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.start.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16217,21 +15159,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.stop.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.stop.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16272,21 +15207,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.shutdown.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.shutdown.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.shutdown.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.shutdown.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16327,21 +15255,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.suspend.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.suspend.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.suspend.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.suspend.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16382,21 +15303,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.resume.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.resume.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.resume.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.resume.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16437,21 +15351,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.reboot.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.reboot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .status.reboot.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.reboot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16506,10 +15413,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -16522,11 +15431,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Status._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -16575,23 +15480,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> str:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .rollback.post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).rollback.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(str, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> str:
                                         class validate(pydantic.BaseModel):
                                             data: str
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .rollback.post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).rollback.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -16639,12 +15535,8 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> dict[str, Any]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(dict[str, Any], data)
 
                                     def model(
                                         self, *args: Any, **kwargs: Any
@@ -16652,12 +15544,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: dict[str, Any]
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -16673,23 +15560,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .snapshot(self.snapname)
-                                            .config.put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -16740,23 +15618,14 @@ class ProxmoxAPI:
                                 snapname: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -16772,12 +15641,8 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> list[dict[str, Any]]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(list[dict[str, Any]], data)
 
                                 def model(
                                     self, *args: Any, **kwargs: Any
@@ -16785,12 +15650,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: list[dict[str, Any]]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .snapshot(self.snapname)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot(self.snapname).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -16867,10 +15727,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .snapshot.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -16883,11 +15745,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Snapshot._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .snapshot.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -16899,21 +15757,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .snapshot.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .snapshot.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).snapshot.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -16974,23 +15825,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -17072,11 +15914,10 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict":
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .get(*args, **kwargs)
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.TypedDict",
+                                            data,
                                         )
 
                                     def model(
@@ -17085,12 +15926,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules.Pos._Get.Model"
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -17106,23 +15942,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.rules(self.pos)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -17206,10 +16033,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.rules.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -17222,11 +16051,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.rules.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -17238,21 +16063,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.rules.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.rules.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -17309,23 +16127,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -17341,12 +16150,8 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> dict[str, Any]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(dict[str, Any], data)
 
                                     def model(
                                         self, *args: Any, **kwargs: Any
@@ -17354,12 +16159,7 @@ class ProxmoxAPI:
                                         class validate(pydantic.BaseModel):
                                             data: dict[str, Any]
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -17375,23 +16175,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.aliases(self.name)
-                                            .put(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -17481,10 +16272,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -17497,11 +16290,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Aliases._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -17513,21 +16302,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.aliases.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.aliases.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -17590,12 +16372,8 @@ class ProxmoxAPI:
                                         def __call__(
                                             self, *args: Any, **kwargs: Any
                                         ) -> None:
-                                            return (
-                                                self.proxmox_api.nodes(self.node)
-                                                .lxc(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .delete(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name)(self.cidr).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                            return typing.cast(None, data)
 
                                         def model(
                                             self, *args: Any, **kwargs: Any
@@ -17603,12 +16381,7 @@ class ProxmoxAPI:
                                             class validate(pydantic.BaseModel):
                                                 data: None
 
-                                            data: Any = (
-                                                self.proxmox_api.nodes(self.node)
-                                                .lxc(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .delete(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name)(self.cidr).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                             return validate(data=data).data
 
                                     @dataclass
@@ -17626,12 +16399,8 @@ class ProxmoxAPI:
                                         def __call__(
                                             self, *args: Any, **kwargs: Any
                                         ) -> dict[str, Any]:
-                                            return (
-                                                self.proxmox_api.nodes(self.node)
-                                                .lxc(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .get(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name)(self.cidr).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                            return typing.cast(dict[str, Any], data)
 
                                         def model(
                                             self, *args: Any, **kwargs: Any
@@ -17639,12 +16408,7 @@ class ProxmoxAPI:
                                             class validate(pydantic.BaseModel):
                                                 data: dict[str, Any]
 
-                                            data: Any = (
-                                                self.proxmox_api.nodes(self.node)
-                                                .lxc(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .get(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name)(self.cidr).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                             return validate(data=data).data
 
                                     @dataclass
@@ -17662,12 +16426,8 @@ class ProxmoxAPI:
                                         def __call__(
                                             self, *args: Any, **kwargs: Any
                                         ) -> None:
-                                            return (
-                                                self.proxmox_api.nodes(self.node)
-                                                .lxc(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .put(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name)(self.cidr).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                            return typing.cast(None, data)
 
                                         def model(
                                             self, *args: Any, **kwargs: Any
@@ -17675,12 +16435,7 @@ class ProxmoxAPI:
                                             class validate(pydantic.BaseModel):
                                                 data: None
 
-                                            data: Any = (
-                                                self.proxmox_api.nodes(self.node)
-                                                .lxc(self.vmid)
-                                                .firewall.ipset(self.name)(self.cidr)
-                                                .put(*args, **kwargs)
-                                            )
+                                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name)(self.cidr).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                             return validate(data=data).data
 
                                     @cached_property
@@ -17757,23 +16512,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .delete(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -17809,11 +16555,12 @@ class ProxmoxAPI:
                                     ) -> list[
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
                                     ]:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .get(*args, **kwargs)
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(
+                                            list[
+                                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.TypedDict"
+                                            ],
+                                            data,
                                         )
 
                                     def model(
@@ -17826,12 +16573,7 @@ class ProxmoxAPI:
                                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset.Name._Get.Model"
                                             ]
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .get(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @dataclass
@@ -17847,23 +16589,14 @@ class ProxmoxAPI:
                                     def __call__(
                                         self, *args: Any, **kwargs: Any
                                     ) -> None:
-                                        return (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
 
                                     def model(self, *args: Any, **kwargs: Any) -> None:
                                         class validate(pydantic.BaseModel):
                                             data: None
 
-                                        data: Any = (
-                                            self.proxmox_api.nodes(self.node)
-                                            .lxc(self.vmid)
-                                            .firewall.ipset(self.name)
-                                            .post(*args, **kwargs)
-                                        )
+                                        data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                         return validate(data=data).data
 
                                 @cached_property
@@ -17951,10 +16684,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -17967,11 +16702,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Ipset._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -17983,21 +16714,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.ipset.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.ipset.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -18134,10 +16858,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.options.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -18146,11 +16870,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Options._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.options.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -18162,21 +16882,14 @@ class ProxmoxAPI:
                                 vmid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.options.put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.options.put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -18245,10 +16958,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.log.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -18261,11 +16976,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Log._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.log.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -18328,10 +17039,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.refs.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.refs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -18344,11 +17057,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Refs._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .lxc(self.vmid)
-                                        .firewall.refs.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.refs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -18383,11 +17092,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -18395,11 +17101,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .firewall.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18450,10 +17152,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .rrd.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -18464,11 +17166,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrd._Get.Model"
                                     )
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .rrd.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18507,11 +17205,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .rrddata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -18519,11 +17214,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .rrddata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18584,10 +17275,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .vncproxy.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).vncproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -18596,11 +17287,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncproxy._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .vncproxy.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).vncproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18663,10 +17350,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .termproxy.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).termproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -18675,11 +17362,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Termproxy._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .termproxy.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).termproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18736,10 +17419,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .vncwebsocket.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).vncwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -18750,11 +17433,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Vncwebsocket._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .vncwebsocket.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).vncwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18815,10 +17494,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .spiceproxy.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).spiceproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -18829,11 +17508,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Spiceproxy._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .spiceproxy.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).spiceproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18874,21 +17549,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .remote_migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).remote_migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .remote_migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).remote_migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -18929,21 +17597,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .migrate.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).migrate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19002,10 +17663,10 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict"
                             ):
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .feature.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).feature.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -19014,11 +17675,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Feature._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .feature.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).feature.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19055,21 +17712,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .template.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).template.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .template.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).template.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19110,21 +17760,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .clone.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).clone.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .clone.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).clone.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19165,21 +17808,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .resize.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).resize.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .resize.put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).resize.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19220,21 +17856,14 @@ class ProxmoxAPI:
                             vmid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .move_volume.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).move_volume.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .move_volume.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).move_volume.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19299,10 +17928,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .pending.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).pending.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -19315,11 +17946,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Pending._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .pending.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).pending.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19418,10 +18045,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Interfaces._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .interfaces.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).interfaces.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Interfaces._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -19434,11 +18063,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Interfaces._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .interfaces.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).interfaces.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19497,10 +18122,10 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict"
                             ):
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .mtunnel.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).mtunnel.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -19509,11 +18134,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnel._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .mtunnel.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).mtunnel.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19572,10 +18193,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .mtunnelwebsocket.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).mtunnelwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -19584,11 +18205,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Mtunnelwebsocket._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .lxc(self.vmid)
-                                    .mtunnelwebsocket.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).mtunnelwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19621,21 +18238,14 @@ class ProxmoxAPI:
                         vmid: int
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -19661,10 +18271,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -19673,11 +18283,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Lxc.Vmid._Get.Model"]
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .lxc(self.vmid)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -19770,8 +18376,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).lxc.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).lxc.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Lxc._Get.TypedDict"], data
                         )
 
                     def model(
@@ -19780,9 +18387,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Lxc._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).lxc.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).lxc.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -19792,17 +18397,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).lxc.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).lxc.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).lxc.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).lxc.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -19853,17 +18455,14 @@ class ProxmoxAPI:
                             node: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).ceph.cfg.raw.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.raw.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).ceph.cfg.raw.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.raw.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19921,9 +18520,13 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Ceph.Cfg.Db._Get.TypedDict"
                             ]:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).ceph.cfg.db.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.db.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Ceph.Cfg.Db._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -19933,9 +18536,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Ceph.Cfg.Db._Get.Model"
                                     ]
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).ceph.cfg.db.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.db.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -19969,9 +18570,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> dict[str, Any]:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).ceph.cfg.value.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.value.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(dict[str, Any], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -19979,9 +18579,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: dict[str, Any]
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).ceph.cfg.value.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.value.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -20011,9 +18609,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return self.proxmox_api.nodes(self.node).ceph.cfg.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -20021,9 +18618,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.cfg.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -20157,10 +18752,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .metadata.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).metadata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -20169,11 +18764,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .metadata.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).metadata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -20236,10 +18827,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .lv_info.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid)("lv-info").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -20248,11 +18839,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.LvInfo._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .lv_info.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid)("lv-info").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -20289,21 +18876,14 @@ class ProxmoxAPI:
                                 osdid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .in_.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid)("in").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .in_.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid)("in").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -20344,21 +18924,14 @@ class ProxmoxAPI:
                                 osdid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .out.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).out.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .out.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).out.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -20399,21 +18972,14 @@ class ProxmoxAPI:
                                 osdid: int
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .scrub.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).scrub.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.osd(self.osdid)
-                                        .scrub.post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).scrub.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -20450,21 +19016,14 @@ class ProxmoxAPI:
                             osdid: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -20478,11 +19037,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -20490,11 +19046,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.osd(self.osdid)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.osd(self.osdid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -20539,17 +19091,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.nodes(self.node).ceph.osd.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -20559,17 +19108,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).ceph.osd.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.osd.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -20618,21 +19164,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mds(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mds(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mds(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mds(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -20644,21 +19183,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mds(self.name)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mds(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mds(self.name)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mds(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -20731,8 +19263,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.mds.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mds.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -20741,9 +19275,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Ceph.Mds._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.mds.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mds.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -20781,21 +19313,14 @@ class ProxmoxAPI:
                             id: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mgr(self.id)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mgr(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mgr(self.id)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mgr(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -20807,21 +19332,14 @@ class ProxmoxAPI:
                             id: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mgr(self.id)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mgr(self.id).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mgr(self.id)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mgr(self.id).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -20890,8 +19408,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.mgr.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mgr.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -20900,9 +19420,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.mgr.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mgr.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -20940,21 +19458,14 @@ class ProxmoxAPI:
                             monid: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mon(self.monid)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mon(self.monid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mon(self.monid)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mon(self.monid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -20966,21 +19477,14 @@ class ProxmoxAPI:
                             monid: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mon(self.monid)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mon(self.monid).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.mon(self.monid)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.mon(self.monid).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -21061,8 +19565,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.mon.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mon.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -21071,9 +19577,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Ceph.Mon._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.mon.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.mon.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21111,21 +19615,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.fs(self.name)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.fs(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.fs(self.name)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.fs(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -21184,8 +19681,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.fs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.fs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -21194,9 +19693,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Ceph.Fs._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.fs.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.fs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21310,10 +19807,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.pool(self.name)
-                                        .status.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -21322,11 +19819,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Ceph.Pool.Name.Status._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .ceph.pool(self.name)
-                                        .status.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -21359,21 +19852,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.pool(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.pool(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -21387,11 +19873,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.pool(self.name)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -21399,11 +19882,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.pool(self.name)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -21415,21 +19894,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.pool(self.name)
-                                    .put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .ceph.pool(self.name)
-                                    .put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.pool(self.name).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -21532,8 +20004,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Pool._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.pool.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.pool.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Pool._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -21542,9 +20016,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Ceph.Pool._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.pool.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.pool.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -21554,17 +20026,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).ceph.pool.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.pool.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.pool.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.pool.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21607,17 +20076,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.nodes(self.node).ceph.init.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.init.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.init.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.init.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21653,17 +20119,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).ceph.stop.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.stop.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21699,17 +20162,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).ceph.start.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.start.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21745,17 +20205,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).ceph.restart.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.restart.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.restart.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.restart.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21791,17 +20248,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                            return self.proxmox_api.nodes(self.node).ceph.status.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
 
                         def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                             class validate(pydantic.BaseModel):
                                 data: dict[str, Any]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.status.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21833,17 +20287,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).ceph.crush.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.crush.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.crush.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.crush.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21891,8 +20342,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.log.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -21901,9 +20354,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Ceph.Log._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).ceph.log.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -21949,8 +20400,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Rules._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).ceph.rules.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Ceph.Rules._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -21961,9 +20414,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Ceph.Rules._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.rules.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -22011,9 +20462,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict":
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.cmd_safety.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph("cmd-safety").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -22021,9 +20474,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Nodes.Node.Ceph.CmdSafety._Get.Model"
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).ceph.cmd_safety.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).ceph("cmd-safety").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -22053,17 +20504,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).ceph.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).ceph.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).ceph.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).ceph.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -22219,9 +20667,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict":
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).vzdump.defaults.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).vzdump.defaults.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -22229,9 +20679,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get.Model"
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).vzdump.defaults.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).vzdump.defaults.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -22263,17 +20711,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).vzdump.extractconfig.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).vzdump.extractconfig.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).vzdump.extractconfig.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).vzdump.extractconfig.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -22301,17 +20746,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).vzdump.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).vzdump.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).vzdump.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).vzdump.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -22359,11 +20801,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> dict[str, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .state.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).state.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(dict[str, Any], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -22371,11 +20810,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: dict[str, Any]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .state.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).state.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -22412,21 +20847,14 @@ class ProxmoxAPI:
                             service: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .start.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .start.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).start.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -22467,21 +20895,14 @@ class ProxmoxAPI:
                             service: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .stop.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .stop.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).stop.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -22522,21 +20943,14 @@ class ProxmoxAPI:
                             service: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .restart.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).restart.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .restart.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).restart.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -22577,21 +20991,14 @@ class ProxmoxAPI:
                             service: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .reload.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).reload.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .services(self.service)
-                                    .reload.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).services(self.service).reload.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -22644,10 +21051,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
                         ]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).services(self.service).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Services.Service._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -22658,11 +21067,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Services.Service._Get.Model"
                                 ]
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .services(self.service)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).services(self.service).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -22701,17 +21106,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).services.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).services.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).services.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).services.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -22743,17 +21145,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).subscription.delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(
-                            self.node
-                        ).subscription.delete(*args, **kwargs)
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -22813,8 +21212,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Subscription._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).subscription.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Subscription._Get.TypedDict", data
                         )
 
                     def model(
@@ -22823,9 +21223,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Subscription._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).subscription.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -22835,17 +21233,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).subscription.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).subscription.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -22855,17 +21250,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).subscription.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).subscription.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).subscription.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -22932,21 +21324,14 @@ class ProxmoxAPI:
                         iface: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .network(self.iface)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).network(self.iface).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .network(self.iface)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).network(self.iface).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -22974,10 +21359,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict":
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .network(self.iface)
-                                .get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).network(self.iface).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Network.Iface._Get.TypedDict",
+                                data,
                             )
 
                         def model(
@@ -22986,11 +21371,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Nodes.Node.Network.Iface._Get.Model"
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .network(self.iface)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).network(self.iface).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -23002,21 +21383,14 @@ class ProxmoxAPI:
                         iface: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .network(self.iface)
-                                .put(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).network(self.iface).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .network(self.iface)
-                                .put(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).network(self.iface).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -23073,17 +21447,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).network.delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).network.delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -23293,8 +21664,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Network._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).network.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).network.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Network._Get.TypedDict"], data
                         )
 
                     def model(
@@ -23303,9 +21675,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Network._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).network.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -23315,17 +21685,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).network.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).network.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -23335,17 +21702,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).network.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).network.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).network.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -23434,10 +21798,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .tasks(self.upid)
-                                    .log.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -23450,11 +21816,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Tasks.Upid.Log._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .tasks(self.upid)
-                                    .log.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -23527,10 +21889,10 @@ class ProxmoxAPI:
                             ) -> (
                                 "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict"
                             ):
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .tasks(self.upid)
-                                    .status.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -23539,11 +21901,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Tasks.Upid.Status._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .tasks(self.upid)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -23576,21 +21934,14 @@ class ProxmoxAPI:
                         upid: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .tasks(self.upid)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .tasks(self.upid)
-                                .delete(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -23604,11 +21955,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .tasks(self.upid)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -23616,11 +21964,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .tasks(self.upid)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).tasks(self.upid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -23697,8 +22041,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).tasks.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).tasks.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Tasks._Get.TypedDict"], data
                         )
 
                     def model(
@@ -23707,9 +22052,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Tasks._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).tasks.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).tasks.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -23761,8 +22104,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.nfs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.nfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -23771,9 +22116,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Scan.Nfs._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).scan.nfs.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).scan.nfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -23821,8 +22164,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.cifs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.cifs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -23831,9 +22176,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Scan.Cifs._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).scan.cifs.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).scan.cifs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -23881,8 +22224,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.pbs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.pbs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -23891,9 +22236,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Scan.Pbs._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).scan.pbs.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).scan.pbs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -23941,8 +22284,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.nodes(self.node).scan.glusterfs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.glusterfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -23953,9 +22300,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Scan.Glusterfs._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).scan.glusterfs.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).scan.glusterfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24003,8 +22348,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.iscsi.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.iscsi.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -24015,9 +22362,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Scan.Iscsi._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).scan.iscsi.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).scan.iscsi.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24063,8 +22408,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.lvm.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.lvm.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -24073,9 +22420,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Scan.Lvm._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).scan.lvm.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).scan.lvm.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24121,8 +22466,12 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.lvmthin.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.lvmthin.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -24133,9 +22482,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Scan.Lvmthin._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).scan.lvmthin.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).scan.lvmthin.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24181,8 +22528,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).scan.zfs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).scan.zfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -24191,9 +22540,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Scan.Zfs._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).scan.zfs.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).scan.zfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24235,8 +22582,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).scan.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).scan.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Scan._Get.TypedDict"], data
                         )
 
                     def model(
@@ -24245,9 +22593,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Scan._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).scan.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).scan.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -24315,10 +22661,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping.Mdev._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .hardware.pci(self.pci_id_or_mapping)
-                                        .mdev.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).hardware.pci(self.pci_id_or_mapping).mdev.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping.Mdev._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -24331,11 +22679,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping.Mdev._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .hardware.pci(self.pci_id_or_mapping)
-                                        .mdev.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).hardware.pci(self.pci_id_or_mapping).mdev.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -24386,10 +22730,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .hardware.pci(self.pci_id_or_mapping)
-                                    .get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).hardware.pci(self.pci_id_or_mapping).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -24402,11 +22748,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Hardware.Pci.PciIdOrMapping._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .hardware.pci(self.pci_id_or_mapping)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).hardware.pci(self.pci_id_or_mapping).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -24481,8 +22823,12 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).hardware.pci.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).hardware.pci.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -24493,9 +22839,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Hardware.Pci._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).hardware.pci.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).hardware.pci.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24563,8 +22907,12 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).hardware.usb.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).hardware.usb.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -24575,9 +22923,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Hardware.Usb._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).hardware.usb.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).hardware.usb.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24619,8 +22965,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).hardware.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).hardware.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Hardware._Get.TypedDict"], data
                         )
 
                     def model(
@@ -24629,9 +22976,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Hardware._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).hardware.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).hardware.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -24693,9 +23038,13 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Cpu._Get.TypedDict"
                             ]:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).capabilities.qemu.cpu.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).capabilities.qemu.cpu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Cpu._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -24707,9 +23056,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Cpu._Get.Model"
                                     ]
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).capabilities.qemu.cpu.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).capabilities.qemu.cpu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -24765,9 +23112,13 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
                             ]:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).capabilities.qemu.machines.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).capabilities.qemu.machines.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -24779,9 +23130,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.Machines._Get.Model"
                                     ]
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).capabilities.qemu.machines.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).capabilities.qemu.machines.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -24811,9 +23160,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).capabilities.qemu.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).capabilities.qemu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -24821,9 +23169,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).capabilities.qemu.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).capabilities.qemu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -24853,17 +23199,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).capabilities.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).capabilities.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).capabilities.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).capabilities.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -24905,21 +23248,14 @@ class ProxmoxAPI:
                             storage: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .prunebackups.delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).prunebackups.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .prunebackups.delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).prunebackups.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -24957,10 +23293,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .prunebackups.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).prunebackups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -24973,11 +23311,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Storage.Storage.Prunebackups._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .prunebackups.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).prunebackups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25028,23 +23362,14 @@ class ProxmoxAPI:
                                 volume: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .delete(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -25082,11 +23407,10 @@ class ProxmoxAPI:
                                 def __call__(
                                     self, *args: Any, **kwargs: Any
                                 ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict":
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.TypedDict",
+                                        data,
                                     )
 
                                 def model(
@@ -25095,12 +23419,7 @@ class ProxmoxAPI:
                                     class validate(pydantic.BaseModel):
                                         data: "ProxmoxAPI.Nodes.Node.Storage.Storage.Content.Volume._Get.Model"
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -25114,23 +23433,14 @@ class ProxmoxAPI:
                                 volume: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(str, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> str:
                                     class validate(pydantic.BaseModel):
                                         data: str
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .post(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @dataclass
@@ -25144,23 +23454,14 @@ class ProxmoxAPI:
                                 volume: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> None:
                                     class validate(pydantic.BaseModel):
                                         data: None
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .content(self.volume)
-                                        .put(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content(self.volume).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -25303,10 +23604,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -25319,11 +23622,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -25335,21 +23634,14 @@ class ProxmoxAPI:
                             storage: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .content.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).content.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25428,10 +23720,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .file_restore.list.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("file-restore").list.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -25444,11 +23738,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Storage.Storage.FileRestore.List._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .file_restore.list.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("file-restore").list.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -25485,21 +23775,14 @@ class ProxmoxAPI:
                                 storage: str
 
                                 def __call__(self, *args: Any, **kwargs: Any) -> Any:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .file_restore.download.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("file-restore").download.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(Any, data)
 
                                 def model(self, *args: Any, **kwargs: Any) -> Any:
                                     class validate(pydantic.BaseModel):
                                         data: Any
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .storage(self.storage)
-                                        .file_restore.download.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("file-restore").download.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -25551,11 +23834,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> dict[str, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(dict[str, Any], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -25563,11 +23843,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: dict[str, Any]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25620,10 +23896,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .rrd.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -25632,11 +23908,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrd._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .rrd.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25675,11 +23947,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> list[dict[str, Any]]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .rrddata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -25687,11 +23956,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: list[dict[str, Any]]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .rrddata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25728,21 +23993,14 @@ class ProxmoxAPI:
                             storage: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .upload.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).upload.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .upload.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).upload.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25783,21 +24041,14 @@ class ProxmoxAPI:
                             storage: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .download_url.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("download-url").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .download_url.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("download-url").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25912,10 +24163,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .import_metadata.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("import-metadata").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -25924,11 +24175,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Storage.Storage.ImportMetadata._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .storage(self.storage)
-                                    .import_metadata.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage)("import-metadata").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -25977,10 +24224,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
                         ]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -25991,11 +24240,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Storage.Storage._Get.Model"
                                 ]
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .storage(self.storage)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -26064,8 +24309,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).storage.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).storage.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Storage._Get.TypedDict"], data
                         )
 
                     def model(
@@ -26074,9 +24320,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Storage._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).storage.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).storage.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -26118,21 +24362,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.lvm(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.lvm(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.lvm(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.lvm(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -26249,8 +24486,9 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict":
-                            return self.proxmox_api.nodes(self.node).disks.lvm.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvm.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.TypedDict", data
                             )
 
                         def model(
@@ -26259,9 +24497,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get.Model"
 
-                            data: Any = self.proxmox_api.nodes(self.node).disks.lvm.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvm.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -26271,17 +24507,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).disks.lvm.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvm.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.lvm.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvm.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -26330,21 +24563,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.lvmthin(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.lvmthin(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.lvmthin(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.lvmthin(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -26407,8 +24633,12 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).disks.lvmthin.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvmthin.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -26419,9 +24649,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Disks.Lvmthin._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.lvmthin.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvmthin.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -26431,17 +24659,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).disks.lvmthin.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvmthin.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.lvmthin.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.lvmthin.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -26490,21 +24715,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.directory(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.directory(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.directory(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.directory(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -26567,9 +24785,13 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).disks.directory.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.directory.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.TypedDict"
+                                ],
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -26579,9 +24801,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Disks.Directory._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.directory.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.directory.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -26591,17 +24811,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).disks.directory.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.directory.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.directory.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.directory.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -26650,21 +24867,14 @@ class ProxmoxAPI:
                             name: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.zfs(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.zfs(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.zfs(self.name)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.zfs(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -26736,10 +24946,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.zfs(self.name)
-                                    .get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).disks.zfs(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -26748,11 +24958,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Disks.Zfs.Name._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .disks.zfs(self.name)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).disks.zfs(self.name).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -26823,8 +25029,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).disks.zfs.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).disks.zfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -26833,9 +25041,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Disks.Zfs._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).disks.zfs.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.zfs.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -26845,17 +25051,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).disks.zfs.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.zfs.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.zfs.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.zfs.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -26936,8 +25139,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).disks.list.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).disks.list.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Disks.List._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -26948,9 +25153,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Disks.List._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.list.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.list.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27002,8 +25205,9 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict":
-                            return self.proxmox_api.nodes(self.node).disks.smart.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).disks.smart.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.TypedDict", data
                             )
 
                         def model(
@@ -27012,9 +25216,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Nodes.Node.Disks.Smart._Get.Model"
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.smart.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.smart.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27046,17 +25248,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).disks.initgpt.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.initgpt.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.initgpt.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.initgpt.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27092,17 +25291,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).disks.wipedisk.put(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).disks.wipedisk.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).disks.wipedisk.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).disks.wipedisk.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27136,17 +25332,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).disks.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).disks.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).disks.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).disks.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -27184,9 +25377,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return self.proxmox_api.nodes(self.node).apt.update.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).apt.update.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -27194,9 +25386,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.update.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.update.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -27206,17 +25396,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).apt.update.post(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).apt.update.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.update.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.update.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27259,17 +25446,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.nodes(self.node).apt.changelog.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).apt.changelog.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.changelog.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.changelog.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27513,9 +25697,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict":
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).apt.repositories.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.repositories.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -27525,9 +25711,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Apt.Repositories._Get.Model"
                                 )
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.repositories.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.repositories.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -27537,17 +25721,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).apt.repositories.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.repositories.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.repositories.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.repositories.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -27557,17 +25738,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).apt.repositories.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.repositories.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.repositories.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.repositories.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27623,9 +25801,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return self.proxmox_api.nodes(self.node).apt.versions.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).apt.versions.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -27633,9 +25810,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).apt.versions.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).apt.versions.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -27677,8 +25852,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).apt.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).apt.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Apt._Get.TypedDict"], data
                         )
 
                     def model(
@@ -27687,9 +25863,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Apt._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).apt.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).apt.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -27731,21 +25905,14 @@ class ProxmoxAPI:
                             pos: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .firewall.rules(self.pos)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .firewall.rules(self.pos)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).firewall.rules(self.pos).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -27827,10 +25994,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .firewall.rules(self.pos)
-                                    .get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -27839,11 +26006,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Nodes.Node.Firewall.Rules.Pos._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .firewall.rules(self.pos)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).firewall.rules(self.pos).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -27855,21 +26018,14 @@ class ProxmoxAPI:
                             pos: int
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .firewall.rules(self.pos)
-                                    .put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .firewall.rules(self.pos)
-                                    .put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).firewall.rules(self.pos).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -27942,8 +26098,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.nodes(self.node).firewall.rules.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -27954,9 +26114,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.rules.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.rules.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -27966,17 +26124,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.rules.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.rules.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.rules.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -28191,9 +26346,11 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict":
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.options.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -28203,9 +26360,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Firewall.Options._Get.Model"
                                 )
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.options.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -28215,17 +26370,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.options.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.options.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.options.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -28284,8 +26436,12 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).firewall.log.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -28296,9 +26452,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Firewall.Log._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).firewall.log.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).firewall.log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -28328,17 +26482,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).firewall.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).firewall.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).firewall.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -28382,11 +26533,8 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> dict[str, Any]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .replication(self.id)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).replication(self.id).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(dict[str, Any], data)
 
                             def model(
                                 self, *args: Any, **kwargs: Any
@@ -28394,11 +26542,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: dict[str, Any]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .replication(self.id)
-                                    .status.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).replication(self.id).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -28455,10 +26599,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .replication(self.id)
-                                    .log.get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).replication(self.id).log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -28471,11 +26617,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Replication.Id.Log._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .replication(self.id)
-                                    .log.get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).replication(self.id).log.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -28512,21 +26654,14 @@ class ProxmoxAPI:
                             id: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .replication(self.id)
-                                    .schedule_now.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).replication(self.id).schedule_now.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .replication(self.id)
-                                    .schedule_now.post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).replication(self.id).schedule_now.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -28565,11 +26700,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return (
-                                self.proxmox_api.nodes(self.node)
-                                .replication(self.id)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).replication(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -28577,11 +26709,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = (
-                                self.proxmox_api.nodes(self.node)
-                                .replication(self.id)
-                                .get(*args, **kwargs)
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).replication(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -28632,8 +26760,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).replication.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).replication.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Replication._Get.TypedDict"],
+                            data,
                         )
 
                     def model(
@@ -28642,9 +26772,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Replication._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).replication.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).replication.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -28684,17 +26812,14 @@ class ProxmoxAPI:
                             node: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).certificates.acme.certificate.delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).certificates.acme.certificate.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).certificates.acme.certificate.delete(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).certificates.acme.certificate.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -28704,17 +26829,14 @@ class ProxmoxAPI:
                             node: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).certificates.acme.certificate.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).certificates.acme.certificate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).certificates.acme.certificate.post(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).certificates.acme.certificate.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -28724,17 +26846,14 @@ class ProxmoxAPI:
                             node: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> str:
-                                return self.proxmox_api.nodes(
-                                    self.node
-                                ).certificates.acme.certificate.put(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).certificates.acme.certificate.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> str:
                                 class validate(pydantic.BaseModel):
                                     data: str
 
-                                data: Any = self.proxmox_api.nodes(
-                                    self.node
-                                ).certificates.acme.certificate.put(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).certificates.acme.certificate.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -28786,9 +26905,8 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list[dict[str, Any]]:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.acme.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.acme.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(list[dict[str, Any]], data)
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -28796,9 +26914,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list[dict[str, Any]]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.acme.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.acme.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -28868,9 +26984,13 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.info.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.info.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.TypedDict"
+                                ],
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -28880,9 +27000,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Nodes.Node.Certificates.Info._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.info.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.info.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -28914,17 +27032,14 @@ class ProxmoxAPI:
                         node: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.custom.delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.custom.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.custom.delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.custom.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -28974,9 +27089,11 @@ class ProxmoxAPI:
                         ) -> (
                             "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict"
                         ):
-                            return self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.custom.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.custom.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.TypedDict",
+                                data,
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -28984,9 +27101,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Nodes.Node.Certificates.Custom._Post.Model"
 
-                            data: Any = self.proxmox_api.nodes(
-                                self.node
-                            ).certificates.custom.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.nodes(self.node).certificates.custom.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -29027,17 +27142,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).certificates.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).certificates.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).certificates.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).certificates.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29101,8 +27213,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Config._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).config.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Config._Get.TypedDict", data
                         )
 
                     def model(
@@ -29111,9 +27224,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Config._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).config.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).config.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -29123,17 +27234,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).config.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).config.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).config.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29212,10 +27320,12 @@ class ProxmoxAPI:
                                 ) -> list[
                                     "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
                                 ]:
-                                    return (
-                                        self.proxmox_api.nodes(self.node)
-                                        .sdn.zones(self.zone)
-                                        .content.get(*args, **kwargs)
+                                    data: Any = self.proxmox_api.nodes(self.node).sdn.zones(self.zone).content.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(
+                                        list[
+                                            "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.TypedDict"
+                                        ],
+                                        data,
                                     )
 
                                 def model(
@@ -29228,11 +27338,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone.Content._Get.Model"
                                         ]
 
-                                    data: Any = (
-                                        self.proxmox_api.nodes(self.node)
-                                        .sdn.zones(self.zone)
-                                        .content.get(*args, **kwargs)
-                                    )
+                                    data: Any = self.proxmox_api.nodes(self.node).sdn.zones(self.zone).content.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                     return validate(data=data).data
 
                             @cached_property
@@ -29281,10 +27387,12 @@ class ProxmoxAPI:
                             ) -> list[
                                 "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
                             ]:
-                                return (
-                                    self.proxmox_api.nodes(self.node)
-                                    .sdn.zones(self.zone)
-                                    .get(*args, **kwargs)
+                                data: Any = self.proxmox_api.nodes(self.node).sdn.zones(self.zone).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.TypedDict"
+                                    ],
+                                    data,
                                 )
 
                             def model(
@@ -29297,11 +27405,7 @@ class ProxmoxAPI:
                                         "ProxmoxAPI.Nodes.Node.Sdn.Zones.Zone._Get.Model"
                                     ]
 
-                                data: Any = (
-                                    self.proxmox_api.nodes(self.node)
-                                    .sdn.zones(self.zone)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.nodes(self.node).sdn.zones(self.zone).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -29354,8 +27458,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> list["ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"]:
-                            return self.proxmox_api.nodes(self.node).sdn.zones.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.nodes(self.node).sdn.zones.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list["ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.TypedDict"],
+                                data,
                             )
 
                         def model(
@@ -29364,9 +27470,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: list["ProxmoxAPI.Nodes.Node.Sdn.Zones._Get.Model"]
 
-                            data: Any = self.proxmox_api.nodes(self.node).sdn.zones.get(
-                                *args, **kwargs
-                            )
+                            data: Any = self.proxmox_api.nodes(self.node).sdn.zones.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -29396,17 +27500,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).sdn.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).sdn.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).sdn.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).sdn.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29456,8 +27557,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Version._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).version.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).version.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Version._Get.TypedDict", data
                         )
 
                     def model(
@@ -29466,9 +27568,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Version._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).version.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).version.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29648,8 +27748,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Status._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).status.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Status._Get.TypedDict", data
                         )
 
                     def model(
@@ -29658,9 +27759,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Status._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).status.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -29670,17 +27769,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).status.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).status.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).status.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).status.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29725,17 +27821,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).netstat.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).netstat.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).netstat.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).netstat.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29769,17 +27862,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).execute.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).execute.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).execute.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).execute.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29815,17 +27905,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).wakeonlan.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).wakeonlan.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).wakeonlan.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).wakeonlan.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29875,8 +27962,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).rrd.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Rrd._Get.TypedDict", data
                         )
 
                     def model(
@@ -29885,9 +27973,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Rrd._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).rrd.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).rrd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29921,17 +28007,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).rrddata.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).rrddata.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -29979,8 +28062,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"]:
-                        return self.proxmox_api.nodes(self.node).syslog.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).syslog.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Syslog._Get.TypedDict"], data
                         )
 
                     def model(
@@ -29989,9 +28073,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Nodes.Node.Syslog._Get.Model"]
 
-                        data: Any = self.proxmox_api.nodes(self.node).syslog.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).syslog.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30023,17 +28105,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> list[str]:
-                        return self.proxmox_api.nodes(self.node).journal.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).journal.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[str], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[str]:
                         class validate(pydantic.BaseModel):
                             data: list[str]
 
-                        data: Any = self.proxmox_api.nodes(self.node).journal.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).journal.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30087,8 +28166,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict":
-                        return self.proxmox_api.nodes(self.node).vncshell.post(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).vncshell.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Vncshell._Post.TypedDict", data
                         )
 
                     def model(
@@ -30097,9 +28177,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Vncshell._Post.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).vncshell.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).vncshell.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30155,8 +28233,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict":
-                        return self.proxmox_api.nodes(self.node).termproxy.post(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).termproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Termproxy._Post.TypedDict", data
                         )
 
                     def model(
@@ -30165,9 +28244,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Termproxy._Post.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).termproxy.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).termproxy.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30217,8 +28294,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).vncwebsocket.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).vncwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.TypedDict", data
                         )
 
                     def model(
@@ -30227,9 +28305,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Vncwebsocket._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).vncwebsocket.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).vncwebsocket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30283,8 +28359,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict":
-                        return self.proxmox_api.nodes(self.node).spiceshell.post(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).spiceshell.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Spiceshell._Post.TypedDict", data
                         )
 
                     def model(
@@ -30293,9 +28370,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Spiceshell._Post.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).spiceshell.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).spiceshell.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30351,8 +28426,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).dns.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).dns.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Dns._Get.TypedDict", data
                         )
 
                     def model(
@@ -30361,9 +28437,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Dns._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).dns.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).dns.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -30373,17 +28447,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).dns.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).dns.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).dns.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).dns.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30444,8 +28515,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Time._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).time.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).time.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Time._Get.TypedDict", data
                         )
 
                     def model(
@@ -30454,9 +28526,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Time._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).time.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).time.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -30466,17 +28536,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).time.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).time.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).time.put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).time.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30521,17 +28588,14 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list[dict[str, Any]]:
-                        return self.proxmox_api.nodes(self.node).aplinfo.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                         class validate(pydantic.BaseModel):
                             data: list[dict[str, Any]]
 
-                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -30541,17 +28605,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).aplinfo.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).aplinfo.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30612,8 +28673,10 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).query_url_metadata.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node)("query-url-metadata").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.TypedDict",
+                            data,
                         )
 
                     def model(
@@ -30622,9 +28685,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.QueryUrlMetadata._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(
-                            self.node
-                        ).query_url_metadata.get(*args, **kwargs)
+                        data: Any = self.proxmox_api.nodes(self.node)("query-url-metadata").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30656,17 +28717,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).report.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).report.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).report.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).report.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30698,17 +28756,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).startall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).startall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).startall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).startall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30744,17 +28799,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).stopall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).stopall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).stopall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).stopall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30790,17 +28842,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).suspendall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).suspendall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).suspendall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).suspendall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30836,17 +28885,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.nodes(self.node).migrateall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).migrateall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.nodes(self.node).migrateall.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).migrateall.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30898,8 +28944,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict":
-                        return self.proxmox_api.nodes(self.node).hosts.get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.nodes(self.node).hosts.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Nodes.Node.Hosts._Get.TypedDict", data
                         )
 
                     def model(
@@ -30908,9 +28955,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Nodes.Node.Hosts._Get.Model"
 
-                        data: Any = self.proxmox_api.nodes(self.node).hosts.get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).hosts.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -30920,17 +28965,14 @@ class ProxmoxAPI:
                     node: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.nodes(self.node).hosts.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).hosts.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.nodes(self.node).hosts.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.nodes(self.node).hosts.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -30969,13 +29011,14 @@ class ProxmoxAPI:
                 node: str
 
                 def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
-                    return self.proxmox_api.nodes(self.node).get(*args, **kwargs)
+                    data: Any = self.proxmox_api.nodes(self.node).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
                     class validate(pydantic.BaseModel):
                         data: list[dict[str, Any]]
 
-                    data: Any = self.proxmox_api.nodes(self.node).get(*args, **kwargs)
+                    data: Any = self.proxmox_api.nodes(self.node).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -31037,7 +29080,8 @@ class ProxmoxAPI:
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> list["ProxmoxAPI.Nodes._Get.TypedDict"]:
-                return self.proxmox_api.nodes.get(*args, **kwargs)
+                data: Any = self.proxmox_api.nodes.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(list["ProxmoxAPI.Nodes._Get.TypedDict"], data)
 
             def model(
                 self, *args: Any, **kwargs: Any
@@ -31045,7 +29089,7 @@ class ProxmoxAPI:
                 class validate(pydantic.BaseModel):
                     data: list["ProxmoxAPI.Nodes._Get.Model"]
 
-                data: Any = self.proxmox_api.nodes.get(*args, **kwargs)
+                data: Any = self.proxmox_api.nodes.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @cached_property
@@ -31077,17 +29121,14 @@ class ProxmoxAPI:
                 storage: str
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.storage(self.storage).delete(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.storage(self.storage).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.storage(self.storage).delete(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.storage(self.storage).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -31097,15 +29138,14 @@ class ProxmoxAPI:
                 storage: str
 
                 def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                    return self.proxmox_api.storage(self.storage).get(*args, **kwargs)
+                    data: Any = self.proxmox_api.storage(self.storage).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(dict[str, Any], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                     class validate(pydantic.BaseModel):
                         data: dict[str, Any]
 
-                    data: Any = self.proxmox_api.storage(self.storage).get(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.storage(self.storage).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -31189,7 +29229,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Storage.Storage._Put.TypedDict":
-                    return self.proxmox_api.storage(self.storage).put(*args, **kwargs)
+                    data: Any = self.proxmox_api.storage(self.storage).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        "ProxmoxAPI.Storage.Storage._Put.TypedDict", data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -31197,9 +29240,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: "ProxmoxAPI.Storage.Storage._Put.Model"
 
-                    data: Any = self.proxmox_api.storage(self.storage).put(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.storage(self.storage).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -31263,7 +29304,8 @@ class ProxmoxAPI:
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> list["ProxmoxAPI.Storage._Get.TypedDict"]:
-                return self.proxmox_api.storage.get(*args, **kwargs)
+                data: Any = self.proxmox_api.storage.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(list["ProxmoxAPI.Storage._Get.TypedDict"], data)
 
             def model(
                 self, *args: Any, **kwargs: Any
@@ -31271,7 +29313,7 @@ class ProxmoxAPI:
                 class validate(pydantic.BaseModel):
                     data: list["ProxmoxAPI.Storage._Get.Model"]
 
-                data: Any = self.proxmox_api.storage.get(*args, **kwargs)
+                data: Any = self.proxmox_api.storage.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @dataclass
@@ -31347,7 +29389,8 @@ class ProxmoxAPI:
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Storage._Post.TypedDict":
-                return self.proxmox_api.storage.post(*args, **kwargs)
+                data: Any = self.proxmox_api.storage.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast("ProxmoxAPI.Storage._Post.TypedDict", data)
 
             def model(
                 self, *args: Any, **kwargs: Any
@@ -31355,7 +29398,7 @@ class ProxmoxAPI:
                 class validate(pydantic.BaseModel):
                     data: "ProxmoxAPI.Storage._Post.Model"
 
-                data: Any = self.proxmox_api.storage.post(*args, **kwargs)
+                data: Any = self.proxmox_api.storage.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @cached_property
@@ -31439,8 +29482,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict":
-                            return self.proxmox_api.access.users(self.userid).tfa.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.access.users(self.userid).tfa.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Access.Users.Userid.Tfa._Get.TypedDict",
+                                data,
                             )
 
                         def model(
@@ -31449,9 +29494,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Access.Users.Userid.Tfa._Get.Model"
 
-                            data: Any = self.proxmox_api.access.users(
-                                self.userid
-                            ).tfa.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.users(self.userid).tfa.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -31483,17 +29526,14 @@ class ProxmoxAPI:
                         userid: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> bool:
-                            return self.proxmox_api.access.users(
-                                self.userid
-                            ).unlock_tfa.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.users(self.userid)("unlock-tfa").put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(bool, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> bool:
                             class validate(pydantic.BaseModel):
                                 data: bool
 
-                            data: Any = self.proxmox_api.access.users(
-                                self.userid
-                            ).unlock_tfa.put(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.users(self.userid)("unlock-tfa").put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -31535,21 +29575,14 @@ class ProxmoxAPI:
                             tokenid: str
 
                             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                                return (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
 
                             def model(self, *args: Any, **kwargs: Any) -> None:
                                 class validate(pydantic.BaseModel):
                                     data: None
 
-                                data: Any = (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .delete(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -31581,10 +29614,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict":
-                                return (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .get(*args, **kwargs)
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -31593,11 +29626,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Get.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .get(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -31653,10 +29682,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict":
-                                return (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .post(*args, **kwargs)
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -31665,11 +29694,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Post.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .post(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @dataclass
@@ -31701,10 +29726,10 @@ class ProxmoxAPI:
                             def __call__(
                                 self, *args: Any, **kwargs: Any
                             ) -> "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict":
-                                return (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .put(*args, **kwargs)
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.TypedDict",
+                                    data,
                                 )
 
                             def model(
@@ -31713,11 +29738,7 @@ class ProxmoxAPI:
                                 class validate(pydantic.BaseModel):
                                     data: "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put.Model"
 
-                                data: Any = (
-                                    self.proxmox_api.access.users(self.userid)
-                                    .token(self.tokenid)
-                                    .put(*args, **kwargs)
-                                )
+                                data: Any = self.proxmox_api.access.users(self.userid).token(self.tokenid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
 
                         @cached_property
@@ -31810,8 +29831,12 @@ class ProxmoxAPI:
                         ) -> list[
                             "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
                         ]:
-                            return self.proxmox_api.access.users(self.userid).token.get(
-                                *args, **kwargs
+                            data: Any = self.proxmox_api.access.users(self.userid).token.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Access.Users.Userid.Token._Get.TypedDict"
+                                ],
+                                data,
                             )
 
                         def model(
@@ -31822,9 +29847,7 @@ class ProxmoxAPI:
                                     "ProxmoxAPI.Access.Users.Userid.Token._Get.Model"
                                 ]
 
-                            data: Any = self.proxmox_api.access.users(
-                                self.userid
-                            ).token.get(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.users(self.userid).token.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -31852,17 +29875,14 @@ class ProxmoxAPI:
                     userid: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.users(self.userid).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.users(self.userid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.users(self.userid).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.users(self.userid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -31902,8 +29922,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Users.Userid._Get.TypedDict":
-                        return self.proxmox_api.access.users(self.userid).get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.access.users(self.userid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Access.Users.Userid._Get.TypedDict", data
                         )
 
                     def model(
@@ -31912,9 +29933,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Access.Users.Userid._Get.Model"
 
-                        data: Any = self.proxmox_api.access.users(self.userid).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.users(self.userid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -31924,17 +29943,14 @@ class ProxmoxAPI:
                     userid: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.users(self.userid).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.users(self.userid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.users(self.userid).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.users(self.userid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -32054,7 +30070,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Users._Get.TypedDict"]:
-                    return self.proxmox_api.access.users.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.users.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Users._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -32062,7 +30081,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Users._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.users.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.users.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -32070,13 +30089,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.users.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.users.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.users.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.users.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -32118,17 +30138,14 @@ class ProxmoxAPI:
                     groupid: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.groups(self.groupid).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.groups(self.groupid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.groups(self.groupid).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.groups(self.groupid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -32154,8 +30171,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict":
-                        return self.proxmox_api.access.groups(self.groupid).get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.access.groups(self.groupid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Access.Groups.Groupid._Get.TypedDict", data
                         )
 
                     def model(
@@ -32164,9 +30182,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Access.Groups.Groupid._Get.Model"
 
-                        data: Any = self.proxmox_api.access.groups(self.groupid).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.groups(self.groupid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -32176,17 +30192,14 @@ class ProxmoxAPI:
                     groupid: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.groups(self.groupid).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.groups(self.groupid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.groups(self.groupid).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.groups(self.groupid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -32254,7 +30267,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Groups._Get.TypedDict"]:
-                    return self.proxmox_api.access.groups.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.groups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Groups._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -32262,7 +30278,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Groups._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.groups.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.groups.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -32270,13 +30286,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.groups.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.groups.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.groups.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.groups.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -32318,17 +30335,14 @@ class ProxmoxAPI:
                     roleid: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.roles(self.roleid).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.roles(self.roleid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.roles(self.roleid).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.roles(self.roleid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -32518,8 +30532,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict":
-                        return self.proxmox_api.access.roles(self.roleid).get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.access.roles(self.roleid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Access.Roles.Roleid._Get.TypedDict", data
                         )
 
                     def model(
@@ -32528,9 +30543,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Access.Roles.Roleid._Get.Model"
 
-                        data: Any = self.proxmox_api.access.roles(self.roleid).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.roles(self.roleid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -32540,17 +30553,14 @@ class ProxmoxAPI:
                     roleid: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.roles(self.roleid).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.roles(self.roleid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.roles(self.roleid).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.roles(self.roleid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -32618,7 +30628,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Roles._Get.TypedDict"]:
-                    return self.proxmox_api.access.roles.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.roles.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Roles._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -32626,7 +30639,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Roles._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.roles.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.roles.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -32634,13 +30647,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.roles.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.roles.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.roles.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.roles.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -32698,7 +30712,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Acl._Get.TypedDict"]:
-                    return self.proxmox_api.access.acl.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.acl.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Acl._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -32706,7 +30723,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Acl._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.acl.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.acl.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -32714,13 +30731,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.acl.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.acl.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.acl.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.acl.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -32766,17 +30784,14 @@ class ProxmoxAPI:
                         realm: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> str:
-                            return self.proxmox_api.access.domains(
-                                self.realm
-                            ).sync.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.domains(self.realm).sync.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> str:
                             class validate(pydantic.BaseModel):
                                 data: str
 
-                            data: Any = self.proxmox_api.access.domains(
-                                self.realm
-                            ).sync.post(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.domains(self.realm).sync.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -32808,17 +30823,14 @@ class ProxmoxAPI:
                     realm: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.domains(self.realm).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.domains(self.realm).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.domains(self.realm).delete(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.domains(self.realm).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -32828,17 +30840,14 @@ class ProxmoxAPI:
                     realm: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                        return self.proxmox_api.access.domains(self.realm).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.domains(self.realm).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(dict[str, Any], data)
 
                     def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                         class validate(pydantic.BaseModel):
                             data: dict[str, Any]
 
-                        data: Any = self.proxmox_api.access.domains(self.realm).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.domains(self.realm).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -32848,17 +30857,14 @@ class ProxmoxAPI:
                     realm: str
 
                     def __call__(self, *args: Any, **kwargs: Any) -> None:
-                        return self.proxmox_api.access.domains(self.realm).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.domains(self.realm).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> None:
                         class validate(pydantic.BaseModel):
                             data: None
 
-                        data: Any = self.proxmox_api.access.domains(self.realm).put(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.domains(self.realm).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -32928,7 +30934,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Domains._Get.TypedDict"]:
-                    return self.proxmox_api.access.domains.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.domains.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Domains._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -32936,7 +30945,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Domains._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.domains.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.domains.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -32944,13 +30953,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.domains.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.domains.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.domains.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.domains.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -32990,17 +31000,14 @@ class ProxmoxAPI:
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     def __call__(self, *args: Any, **kwargs: Any) -> str:
-                        return self.proxmox_api.access.openid.auth_url.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.openid("auth-url").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> str:
                         class validate(pydantic.BaseModel):
                             data: str
 
-                        data: Any = self.proxmox_api.access.openid.auth_url.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.openid("auth-url").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -33054,8 +31061,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Openid.Login._Post.TypedDict":
-                        return self.proxmox_api.access.openid.login.post(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.access.openid.login.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Access.Openid.Login._Post.TypedDict", data
                         )
 
                     def model(
@@ -33064,9 +31072,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Access.Openid.Login._Post.Model"
 
-                        data: Any = self.proxmox_api.access.openid.login.post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.openid.login.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -33106,7 +31112,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Openid._Get.TypedDict"]:
-                    return self.proxmox_api.access.openid.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.openid.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Openid._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -33114,7 +31123,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Openid._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.openid.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.openid.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -33152,17 +31161,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.access.tfa(self.userid)(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.access.tfa(self.userid)(
-                                self.id
-                            ).delete(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -33200,9 +31206,10 @@ class ProxmoxAPI:
                         def __call__(
                             self, *args: Any, **kwargs: Any
                         ) -> "ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict":
-                            return self.proxmox_api.access.tfa(self.userid)(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Access.Tfa.Userid.Id._Get.TypedDict", data
+                            )
 
                         def model(
                             self, *args: Any, **kwargs: Any
@@ -33210,9 +31217,7 @@ class ProxmoxAPI:
                             class validate(pydantic.BaseModel):
                                 data: "ProxmoxAPI.Access.Tfa.Userid.Id._Get.Model"
 
-                            data: Any = self.proxmox_api.access.tfa(self.userid)(
-                                self.id
-                            ).get(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @dataclass
@@ -33224,17 +31229,14 @@ class ProxmoxAPI:
                         id: str
 
                         def __call__(self, *args: Any, **kwargs: Any) -> None:
-                            return self.proxmox_api.access.tfa(self.userid)(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> None:
                             class validate(pydantic.BaseModel):
                                 data: None
 
-                            data: Any = self.proxmox_api.access.tfa(self.userid)(
-                                self.id
-                            ).put(*args, **kwargs)
+                            data: Any = self.proxmox_api.access.tfa(self.userid)(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
 
                     @cached_property
@@ -33315,8 +31317,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> list["ProxmoxAPI.Access.Tfa.Userid._Get.TypedDict"]:
-                        return self.proxmox_api.access.tfa(self.userid).get(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.access.tfa(self.userid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Access.Tfa.Userid._Get.TypedDict"], data
                         )
 
                     def model(
@@ -33325,9 +31328,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: list["ProxmoxAPI.Access.Tfa.Userid._Get.Model"]
 
-                        data: Any = self.proxmox_api.access.tfa(self.userid).get(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.tfa(self.userid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @dataclass
@@ -33355,8 +31356,9 @@ class ProxmoxAPI:
                     def __call__(
                         self, *args: Any, **kwargs: Any
                     ) -> "ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict":
-                        return self.proxmox_api.access.tfa(self.userid).post(
-                            *args, **kwargs
+                        data: Any = self.proxmox_api.access.tfa(self.userid).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Access.Tfa.Userid._Post.TypedDict", data
                         )
 
                     def model(
@@ -33365,9 +31367,7 @@ class ProxmoxAPI:
                         class validate(pydantic.BaseModel):
                             data: "ProxmoxAPI.Access.Tfa.Userid._Post.Model"
 
-                        data: Any = self.proxmox_api.access.tfa(self.userid).post(
-                            *args, **kwargs
-                        )
+                        data: Any = self.proxmox_api.access.tfa(self.userid).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
 
                 @cached_property
@@ -33462,7 +31462,10 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> list["ProxmoxAPI.Access.Tfa._Get.TypedDict"]:
-                    return self.proxmox_api.access.tfa.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.tfa.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(
+                        list["ProxmoxAPI.Access.Tfa._Get.TypedDict"], data
+                    )
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -33470,7 +31473,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: list["ProxmoxAPI.Access.Tfa._Get.Model"]
 
-                    data: Any = self.proxmox_api.access.tfa.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.tfa.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -33496,13 +31499,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.ticket.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.ticket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.ticket.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.ticket.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -33532,7 +31536,8 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Access.Ticket._Post.TypedDict":
-                    return self.proxmox_api.access.ticket.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast("ProxmoxAPI.Access.Ticket._Post.TypedDict", data)
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -33540,7 +31545,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: "ProxmoxAPI.Access.Ticket._Post.Model"
 
-                    data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.ticket.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -33576,13 +31581,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.access.password.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.password.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.access.password.put(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.password.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -33612,13 +31618,14 @@ class ProxmoxAPI:
                 proxmox_api: ProxmoxerProxmoxAPI
 
                 def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
-                    return self.proxmox_api.access.permissions.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.permissions.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(dict[str, Any], data)
 
                 def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
                     class validate(pydantic.BaseModel):
                         data: dict[str, Any]
 
-                    data: Any = self.proxmox_api.access.permissions.get(*args, **kwargs)
+                    data: Any = self.proxmox_api.access.permissions.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -33654,7 +31661,8 @@ class ProxmoxAPI:
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> list["ProxmoxAPI.Access._Get.TypedDict"]:
-                return self.proxmox_api.access.get(*args, **kwargs)
+                data: Any = self.proxmox_api.access.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(list["ProxmoxAPI.Access._Get.TypedDict"], data)
 
             def model(
                 self, *args: Any, **kwargs: Any
@@ -33662,7 +31670,7 @@ class ProxmoxAPI:
                 class validate(pydantic.BaseModel):
                     data: list["ProxmoxAPI.Access._Get.Model"]
 
-                data: Any = self.proxmox_api.access.get(*args, **kwargs)
+                data: Any = self.proxmox_api.access.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @cached_property
@@ -33694,15 +31702,14 @@ class ProxmoxAPI:
                 poolid: str
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.pools(self.poolid).delete(*args, **kwargs)
+                    data: Any = self.proxmox_api.pools(self.poolid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.pools(self.poolid).delete(
-                        *args, **kwargs
-                    )
+                    data: Any = self.proxmox_api.pools(self.poolid).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -33756,7 +31763,8 @@ class ProxmoxAPI:
                 def __call__(
                     self, *args: Any, **kwargs: Any
                 ) -> "ProxmoxAPI.Pools.Poolid._Get.TypedDict":
-                    return self.proxmox_api.pools(self.poolid).get(*args, **kwargs)
+                    data: Any = self.proxmox_api.pools(self.poolid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast("ProxmoxAPI.Pools.Poolid._Get.TypedDict", data)
 
                 def model(
                     self, *args: Any, **kwargs: Any
@@ -33764,7 +31772,7 @@ class ProxmoxAPI:
                     class validate(pydantic.BaseModel):
                         data: "ProxmoxAPI.Pools.Poolid._Get.Model"
 
-                    data: Any = self.proxmox_api.pools(self.poolid).get(*args, **kwargs)
+                    data: Any = self.proxmox_api.pools(self.poolid).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @dataclass
@@ -33774,13 +31782,14 @@ class ProxmoxAPI:
                 poolid: str
 
                 def __call__(self, *args: Any, **kwargs: Any) -> None:
-                    return self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
+                    data: Any = self.proxmox_api.pools(self.poolid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(None, data)
 
                 def model(self, *args: Any, **kwargs: Any) -> None:
                     class validate(pydantic.BaseModel):
                         data: None
 
-                    data: Any = self.proxmox_api.pools(self.poolid).put(*args, **kwargs)
+                    data: Any = self.proxmox_api.pools(self.poolid).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
 
             @cached_property
@@ -33830,13 +31839,14 @@ class ProxmoxAPI:
             proxmox_api: ProxmoxerProxmoxAPI
 
             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.pools.delete(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(None, data)
 
             def model(self, *args: Any, **kwargs: Any) -> None:
                 class validate(pydantic.BaseModel):
                     data: None
 
-                data: Any = self.proxmox_api.pools.delete(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @dataclass
@@ -33888,7 +31898,8 @@ class ProxmoxAPI:
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> list["ProxmoxAPI.Pools._Get.TypedDict"]:
-                return self.proxmox_api.pools.get(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(list["ProxmoxAPI.Pools._Get.TypedDict"], data)
 
             def model(
                 self, *args: Any, **kwargs: Any
@@ -33896,7 +31907,7 @@ class ProxmoxAPI:
                 class validate(pydantic.BaseModel):
                     data: list["ProxmoxAPI.Pools._Get.Model"]
 
-                data: Any = self.proxmox_api.pools.get(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @dataclass
@@ -33904,13 +31915,14 @@ class ProxmoxAPI:
             proxmox_api: ProxmoxerProxmoxAPI
 
             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.pools.post(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(None, data)
 
             def model(self, *args: Any, **kwargs: Any) -> None:
                 class validate(pydantic.BaseModel):
                     data: None
 
-                data: Any = self.proxmox_api.pools.post(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @dataclass
@@ -33918,13 +31930,14 @@ class ProxmoxAPI:
             proxmox_api: ProxmoxerProxmoxAPI
 
             def __call__(self, *args: Any, **kwargs: Any) -> None:
-                return self.proxmox_api.pools.put(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast(None, data)
 
             def model(self, *args: Any, **kwargs: Any) -> None:
                 class validate(pydantic.BaseModel):
                     data: None
 
-                data: Any = self.proxmox_api.pools.put(*args, **kwargs)
+                data: Any = self.proxmox_api.pools.put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @cached_property
@@ -33996,7 +32009,8 @@ class ProxmoxAPI:
             def __call__(
                 self, *args: Any, **kwargs: Any
             ) -> "ProxmoxAPI.Version._Get.TypedDict":
-                return self.proxmox_api.version.get(*args, **kwargs)
+                data: Any = self.proxmox_api.version.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                return typing.cast("ProxmoxAPI.Version._Get.TypedDict", data)
 
             def model(
                 self, *args: Any, **kwargs: Any
@@ -34004,7 +32018,7 @@ class ProxmoxAPI:
                 class validate(pydantic.BaseModel):
                     data: "ProxmoxAPI.Version._Get.Model"
 
-                data: Any = self.proxmox_api.version.get(*args, **kwargs)
+                data: Any = self.proxmox_api.version.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                 return validate(data=data).data
 
         @cached_property
