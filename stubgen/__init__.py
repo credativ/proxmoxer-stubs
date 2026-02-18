@@ -150,10 +150,17 @@ class Path(pydantic.BaseModel):
                 continue
             if segment.is_param:
                 render += f"({next(params)})"
-            elif render:
-                render += f".{segment.as_property}"
             else:
-                render = segment.as_property
+                if segment.as_property == segment.orig:
+                    if render:
+                        render += f".{segment.as_property}"
+                    else:
+                        render = segment.as_property
+                else:
+                    if render:
+                        render += f"({repr(segment.orig)})"
+                    else:
+                        raise ValueError("BUG")
         return render
 
     def copy_append(self, segment: Segment) -> Self:
@@ -220,12 +227,13 @@ class BaseModel(pydantic.BaseModel):
                 {%   endfor %}
                 {% endif %}
                     def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
-                        return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                        data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast({{ dicttype }}, data)
 
                     def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
                         class validate(pydantic.BaseModel):
                             data: {{ modeltype }}
-                        data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                        data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
                 """,
                 path=path,
@@ -340,12 +348,13 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                     {%   endfor %}
                     {% endif %}
                         def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
-                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast({{ dicttype }}, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
                             class validate(pydantic.BaseModel):
                                 data: {{ modeltype }}
-                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
                     """,
                     path=path.copy_append(Path.CodeSegment(orig=name)),
@@ -402,12 +411,13 @@ class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
                     {%   endfor %}
                     {% endif %}
                         def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
-                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast({{ dicttype }}, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
                             class validate(pydantic.BaseModel):
                                 data: {{ modeltype }}
-                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
                     """,
                     path=path,
@@ -489,12 +499,13 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
 
                     {%- if call %}
                         def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
-                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast({{ dicttype }}, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
                             class validate(pydantic.BaseModel):
                                 data: {{ modeltype }}
-                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
                     {%- endif %}
                     """,
@@ -559,12 +570,13 @@ class ApiSchemaItemInfoMethodReturnsObject(BaseModel):
                     {%   endfor %}
                     {% endif %}
                         def __call__(self, *args: Any, **kwargs: Any) -> {{ dicttype }}:
-                            return self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast({{ dicttype }}, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> {{ modeltype }}:
                             class validate(pydantic.BaseModel):
                                 data: {{ modeltype }}
-                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)
+                            data: Any = self.proxmox_api.{{ path.rendered_call }}.{{ path[-1] }}(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
                     """,
                     path=path,
