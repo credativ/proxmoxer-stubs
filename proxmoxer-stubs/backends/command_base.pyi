@@ -12,7 +12,9 @@ class Response:
     content: Incomplete
     text: Incomplete
     headers: Incomplete
-    def __init__(self, content: Incomplete, status_code: Incomplete) -> None: ...
+    def __init__(
+        self, content: Incomplete, status_code: Incomplete, exit_code: Incomplete
+    ) -> None: ...
 
 class CommandBaseSession:
     service: Incomplete

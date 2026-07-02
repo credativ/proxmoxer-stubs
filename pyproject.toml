@@ -29,7 +29,7 @@ classifiers = [
 python = ">= 3.11"
 
 [tool.poetry.group.dev.dependencies]
-proxmoxer = "2.2.0"
+proxmoxer = "^2.3.0"
 requests = "^2.34.2"
 types-requests = "^2.33.0.20260518"
 mypy = "^2.1.0"

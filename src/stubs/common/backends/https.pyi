@@ -28,6 +28,7 @@ class ProxmoxHTTPAuthBase(AuthBase):
         service: str = "PVE",
         verify_ssl: bool = False,
         cert: Incomplete | None = None,
+        proxies: Incomplete | None = None,
     ) -> None: ...
 
 class ProxmoxHTTPAuth(ProxmoxHTTPAuthBase):
@@ -41,6 +42,7 @@ class ProxmoxHTTPAuth(ProxmoxHTTPAuthBase):
         password: Incomplete,
         otp: Incomplete | None = None,
         base_url: str = "",
+        otptype: str = "totp",
         **kwargs: Incomplete
     ) -> None: ...
     def get_cookies(self) -> Incomplete: ...
@@ -108,6 +110,7 @@ class Backend:
         path_prefix: Incomplete | None = None,
         service: str = "PVE",
         cert: Incomplete | None = None,
+        proxies: Incomplete | None = None,
     ) -> None: ...
     def get_session(self) -> Incomplete: ...
     def get_base_url(self) -> Incomplete: ...
