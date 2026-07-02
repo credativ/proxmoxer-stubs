@@ -4,6 +4,7 @@ from .. import (
     ApiSchemaItemInfoMethodReturns,
     ApiSchemaItemInfoMethodReturnsArray,
     ApiSchemaItemInfoMethodReturnsBoolean,
+    ApiSchemaItemInfoMethodReturnsBoolint,
     ApiSchemaItemInfoMethodReturnsInteger,
     ApiSchemaItemInfoMethodReturnsNumber,
     ApiSchemaItemInfoMethodReturnsObject,
@@ -73,6 +74,16 @@ class Patch(BasePatch):
             assert isinstance(obj, ApiSchemaItemInfoMethodReturnsObject)
             assert isinstance(obj.properties, dict)
             obj.properties["index"] = ApiSchemaItemInfoMethodReturnsInteger(optional=False, type="integer")
+
+        if self == '/nodes/{node}/storage.info.GET.array.object':
+            print(f'{__name__}: Patching {self}: Patching boolean to boolint')
+            assert isinstance(obj, ApiSchemaItemInfoMethodReturnsObject)
+            assert isinstance(obj.properties, dict)
+            for prop in ('active', 'enabled'):
+                obj.properties[prop] = ApiSchemaItemInfoMethodReturnsBoolint(
+                    type='boolint',
+                    optional=obj.properties[prop].optional,
+                )
 
         if self in (
             '/nodes/{node}/rrddata.info.GET.array',
