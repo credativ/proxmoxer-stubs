@@ -27,6 +27,7 @@ class ResourceException(Exception):
         status_message: Incomplete,
         content: Incomplete,
         errors: Incomplete | None = None,
+        exit_code: Incomplete | None = None,
     ) -> None: ...
 
 class AuthenticationError(Exception): ...
