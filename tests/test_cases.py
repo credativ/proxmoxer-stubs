@@ -34,6 +34,11 @@ def typechecks() -> None:
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get().get("log"), Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
+    storage = proxmoxer.ProxmoxAPI().nodes('42').storage.get()[0]
+    assert 'active' in storage
+    assert 'enabled' in storage
+    assert_type(storage['active'], Literal[0, 1])
+    assert_type(storage['enabled'], Literal[0, 1])
 
 def models() -> None:
     import proxmoxer
@@ -41,6 +46,11 @@ def models() -> None:
     assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get.model().jobnum, int)
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get.model().log, Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
+    storage = proxmoxer.ProxmoxAPI().nodes('42').storage.get.model()[0]
+    assert storage.active is not None
+    assert storage.enabled is not None
+    assert_type(storage.active, bool)
+    assert_type(storage.enabled, bool)
 
 def aliases() -> None:
     import proxmoxer

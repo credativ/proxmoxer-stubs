@@ -28133,10 +28133,10 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "active": NotRequired[bool],
+                            "active": NotRequired[Literal[0, 1]],
                             "avail": NotRequired[int],
                             "content": str,
-                            "enabled": NotRequired[bool],
+                            "enabled": NotRequired[Literal[0, 1]],
                             "formats": NotRequired[
                                 "ProxmoxAPI.Nodes.Node.Storage._Get._Formats.TypedDict"
                             ],

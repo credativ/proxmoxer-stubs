@@ -15,6 +15,7 @@ ApiSchemaItemInfoMethodReturns: TypeAlias = Union[
     "ApiSchemaItemInfoMethodReturnsAny",
     "ApiSchemaItemInfoMethodReturnsArray",
     "ApiSchemaItemInfoMethodReturnsBoolean",
+    "ApiSchemaItemInfoMethodReturnsBoolint",
     "ApiSchemaItemInfoMethodReturnsInteger",
     "ApiSchemaItemInfoMethodReturnsNull",
     "ApiSchemaItemInfoMethodReturnsNumber",
@@ -214,7 +215,7 @@ class Field:
 class BaseModel(pydantic.BaseModel):
     optional: bool = False
 
-    def _dump(self, path: Path, optional: bool, type: str, param_type: Callable[[str], str | None]) -> Return:
+    def _dump(self, path: Path, optional: bool, dicttype: str, modeltype: str, param_type: Callable[[str], str | None]) -> Return:
         code = Code(
             head = render(
                 """
@@ -237,8 +238,8 @@ class BaseModel(pydantic.BaseModel):
                         return validate(data=data).data
                 """,
                 path=path,
-                dicttype=type,
-                modeltype=type,
+                dicttype=dicttype,
+                modeltype=modeltype,
                 param_type=param_type,
             ),
             tail=render(
@@ -262,10 +263,9 @@ class BaseModel(pydantic.BaseModel):
                 {% endif -%}
                 """,
                 path=path,
-                type=type,
             )
         )
-        return Return(code=code, optional=optional, primitive=True, dicttype=type, modeltype=type)
+        return Return(code=code, optional=optional, primitive=True, dicttype=dicttype, modeltype=modeltype)
 
 
 class ApiSchemaItemInfoMethodReturnsString(BaseModel):
@@ -274,10 +274,8 @@ class ApiSchemaItemInfoMethodReturnsString(BaseModel):
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        if self.enum:
-            return self._dump(path=path, optional=self.optional, param_type=param_type, type=f"Literal{repr(self.enum)}")
-        else:
-            return self._dump(path=path, optional=self.optional, param_type=param_type, type="str")
+        type_ = f'Literal{repr(self.enum)}' if self.enum else 'str'
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
 
 
 class ApiSchemaItemInfoMethodReturnsInteger(BaseModel):
@@ -285,7 +283,8 @@ class ApiSchemaItemInfoMethodReturnsInteger(BaseModel):
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        return self._dump(path=path, optional=self.optional, param_type=param_type, type="int")
+        type_ = 'int'
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
 
 
 class ApiSchemaItemInfoMethodReturnsNumber(BaseModel):
@@ -293,7 +292,8 @@ class ApiSchemaItemInfoMethodReturnsNumber(BaseModel):
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        return self._dump(path=path, optional=self.optional, param_type=param_type, type="float")
+        type_ = 'float'
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
 
 
 class ApiSchemaItemInfoMethodReturnsBoolean(BaseModel):
@@ -301,7 +301,16 @@ class ApiSchemaItemInfoMethodReturnsBoolean(BaseModel):
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        return self._dump(path=path, optional=self.optional, param_type=param_type, type="bool")
+        type_ = 'bool'
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
+
+
+class ApiSchemaItemInfoMethodReturnsBoolint(BaseModel):
+    type: Literal["boolint"]
+
+    def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
+        path = path.copy_append(Path.CodeSegment(orig=name))
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype='Literal[0,1]', modeltype='bool')
 
 
 class ApiSchemaItemInfoMethodReturnsNull(BaseModel):
@@ -309,7 +318,8 @@ class ApiSchemaItemInfoMethodReturnsNull(BaseModel):
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        return self._dump(path=path, optional=self.optional, param_type=param_type, type="None")
+        type_ = 'None'
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
 
 
 class ApiSchemaItemInfoMethodReturnsAny(BaseModel):
@@ -317,7 +327,8 @@ class ApiSchemaItemInfoMethodReturnsAny(BaseModel):
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        return self._dump(path=path, optional=self.optional, param_type=param_type, type="Any")
+        type_ = 'Any'
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
 
 
 class ApiSchemaItemInfoMethodReturnsArray(BaseModel):
