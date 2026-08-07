@@ -14948,6 +14948,54 @@ class ProxmoxAPI:
 
                         @dataclass
                         class _Get:
+                            TypedDict = typing.TypedDict(
+                                "TypedDict",
+                                {
+                                    "time": int,
+                                    "maxcpu": NotRequired[float],
+                                    "cpu": NotRequired[float],
+                                    "maxmem": NotRequired[float],
+                                    "mem": NotRequired[float],
+                                    "maxdisk": NotRequired[float],
+                                    "disk": NotRequired[float],
+                                    "netin": NotRequired[float],
+                                    "netout": NotRequired[float],
+                                    "diskread": NotRequired[float],
+                                    "diskwrite": NotRequired[float],
+                                    "memhost": NotRequired[float],
+                                    "pressurecpusome": NotRequired[float],
+                                    "pressurecpufull": NotRequired[float],
+                                    "pressureiosome": NotRequired[float],
+                                    "pressureiofull": NotRequired[float],
+                                    "pressurememorysome": NotRequired[float],
+                                    "pressurememoryfull": NotRequired[float],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                time: int
+                                maxcpu: Optional[float] = None
+                                cpu: Optional[float] = None
+                                maxmem: Optional[float] = None
+                                mem: Optional[float] = None
+                                maxdisk: Optional[float] = None
+                                disk: Optional[float] = None
+                                netin: Optional[float] = None
+                                netout: Optional[float] = None
+                                diskread: Optional[float] = None
+                                diskwrite: Optional[float] = None
+                                memhost: Optional[float] = None
+                                pressurecpusome: Optional[float] = None
+                                pressurecpufull: Optional[float] = None
+                                pressureiosome: Optional[float] = None
+                                pressureiofull: Optional[float] = None
+                                pressurememorysome: Optional[float] = None
+                                pressurememoryfull: Optional[float] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrddata._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -14956,15 +15004,26 @@ class ProxmoxAPI:
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, float]]:
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrddata._Get.TypedDict"
+                            ]:
                                 data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                                return typing.cast(list[dict[str, float]], data)
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrddata._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, float]]:
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrddata._Get.Model"
+                            ]:
                                 class validate(pydantic.BaseModel):
-                                    data: list[dict[str, float]]
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Rrddata._Get.Model"
+                                    ]
 
                                 data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
@@ -20496,6 +20555,54 @@ class ProxmoxAPI:
 
                         @dataclass
                         class _Get:
+                            TypedDict = typing.TypedDict(
+                                "TypedDict",
+                                {
+                                    "time": int,
+                                    "maxcpu": NotRequired[float],
+                                    "cpu": NotRequired[float],
+                                    "maxmem": NotRequired[float],
+                                    "mem": NotRequired[float],
+                                    "maxdisk": NotRequired[float],
+                                    "disk": NotRequired[float],
+                                    "netin": NotRequired[float],
+                                    "netout": NotRequired[float],
+                                    "diskread": NotRequired[float],
+                                    "diskwrite": NotRequired[float],
+                                    "memhost": NotRequired[float],
+                                    "pressurecpusome": NotRequired[float],
+                                    "pressurecpufull": NotRequired[float],
+                                    "pressureiosome": NotRequired[float],
+                                    "pressureiofull": NotRequired[float],
+                                    "pressurememorysome": NotRequired[float],
+                                    "pressurememoryfull": NotRequired[float],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                time: int
+                                maxcpu: Optional[float] = None
+                                cpu: Optional[float] = None
+                                maxmem: Optional[float] = None
+                                mem: Optional[float] = None
+                                maxdisk: Optional[float] = None
+                                disk: Optional[float] = None
+                                netin: Optional[float] = None
+                                netout: Optional[float] = None
+                                diskread: Optional[float] = None
+                                diskwrite: Optional[float] = None
+                                memhost: Optional[float] = None
+                                pressurecpusome: Optional[float] = None
+                                pressurecpufull: Optional[float] = None
+                                pressureiosome: Optional[float] = None
+                                pressureiofull: Optional[float] = None
+                                pressurememorysome: Optional[float] = None
+                                pressurememoryfull: Optional[float] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrddata._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -20504,15 +20611,26 @@ class ProxmoxAPI:
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, float]]:
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrddata._Get.TypedDict"
+                            ]:
                                 data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                                return typing.cast(list[dict[str, float]], data)
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrddata._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, float]]:
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrddata._Get.Model"
+                            ]:
                                 class validate(pydantic.BaseModel):
-                                    data: list[dict[str, float]]
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Rrddata._Get.Model"
+                                    ]
 
                                 data: Any = self.proxmox_api.nodes(self.node).lxc(self.vmid).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
@@ -27726,6 +27844,24 @@ class ProxmoxAPI:
 
                         @dataclass
                         class _Get:
+                            TypedDict = typing.TypedDict(
+                                "TypedDict",
+                                {
+                                    "time": int,
+                                    "total": NotRequired[float],
+                                    "used": NotRequired[float],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                time: int
+                                total: Optional[float] = None
+                                used: Optional[float] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrddata._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -27734,15 +27870,26 @@ class ProxmoxAPI:
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrddata._Get.TypedDict"
+                            ]:
                                 data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                                return typing.cast(list[dict[str, Any]], data)
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrddata._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
-                            ) -> list[dict[str, Any]]:
+                            ) -> list[
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrddata._Get.Model"
+                            ]:
                                 class validate(pydantic.BaseModel):
-                                    data: list[dict[str, Any]]
+                                    data: list[
+                                        "ProxmoxAPI.Nodes.Node.Storage.Storage.Rrddata._Get.Model"
+                                    ]
 
                                 data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
@@ -32734,21 +32881,75 @@ class ProxmoxAPI:
 
                 @dataclass
                 class _Get:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "time": int,
+                            "loadavg": NotRequired[float],
+                            "maxcpu": NotRequired[float],
+                            "cpu": NotRequired[float],
+                            "iowait": NotRequired[float],
+                            "memtotal": NotRequired[float],
+                            "memused": NotRequired[float],
+                            "swaptotal": NotRequired[float],
+                            "swapused": NotRequired[float],
+                            "roottotal": NotRequired[float],
+                            "rootused": NotRequired[float],
+                            "netin": NotRequired[float],
+                            "netout": NotRequired[float],
+                            "memavailable": NotRequired[float],
+                            "arcsize": NotRequired[float],
+                            "pressurecpusome": NotRequired[float],
+                            "pressureiosome": NotRequired[float],
+                            "pressureiofull": NotRequired[float],
+                            "pressurememorysome": NotRequired[float],
+                            "pressurememoryfull": NotRequired[float],
+                            "memfree": NotRequired[float],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        time: int
+                        loadavg: Optional[float] = None
+                        maxcpu: Optional[float] = None
+                        cpu: Optional[float] = None
+                        iowait: Optional[float] = None
+                        memtotal: Optional[float] = None
+                        memused: Optional[float] = None
+                        swaptotal: Optional[float] = None
+                        swapused: Optional[float] = None
+                        roottotal: Optional[float] = None
+                        rootused: Optional[float] = None
+                        netin: Optional[float] = None
+                        netout: Optional[float] = None
+                        memavailable: Optional[float] = None
+                        arcsize: Optional[float] = None
+                        pressurecpusome: Optional[float] = None
+                        pressureiosome: Optional[float] = None
+                        pressureiofull: Optional[float] = None
+                        pressurememorysome: Optional[float] = None
+                        pressurememoryfull: Optional[float] = None
+                        memfree: Optional[float] = None
+
+                    Model.__name__ = "ProxmoxAPI.Nodes.Node.Rrddata._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     node: str
 
                     def __call__(
                         self, *args: Any, **kwargs: Any
-                    ) -> list[dict[str, float]]:
+                    ) -> list["ProxmoxAPI.Nodes.Node.Rrddata._Get.TypedDict"]:
                         data: Any = self.proxmox_api.nodes(self.node).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                        return typing.cast(list[dict[str, float]], data)
+                        return typing.cast(
+                            list["ProxmoxAPI.Nodes.Node.Rrddata._Get.TypedDict"], data
+                        )
 
                     def model(
                         self, *args: Any, **kwargs: Any
-                    ) -> list[dict[str, float]]:
+                    ) -> list["ProxmoxAPI.Nodes.Node.Rrddata._Get.Model"]:
                         class validate(pydantic.BaseModel):
-                            data: list[dict[str, float]]
+                            data: list["ProxmoxAPI.Nodes.Node.Rrddata._Get.Model"]
 
                         data: Any = self.proxmox_api.nodes(self.node).rrddata.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
