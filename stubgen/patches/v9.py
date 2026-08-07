@@ -13,6 +13,60 @@ from .. import (
 
 __all__ = ["Patch"]
 
+# RRD fields from pve-cluster.git src/pmxcfs/status.c
+
+RRDDATA_DS_NODE: tuple[str, ...] = (
+    "loadavg",
+    "maxcpu",
+    "cpu",
+    "iowait",
+    "memtotal",
+    "memused",
+    "swaptotal",
+    "swapused",
+    "roottotal",
+    "rootused",
+    "netin",
+    "netout",
+    "memavailable",
+    "arcsize",
+    "pressurecpusome",
+    "pressureiosome",
+    "pressureiofull",
+    "pressurememorysome",
+    "pressurememoryfull",
+    # "memavailable" was named "memfree" when the pve9 format was introduced and
+    # renamed shortly after; create_rrd_data() still reads such files and passes
+    # the original name through next to the renamed one.
+    "memfree",
+)
+
+RRDDATA_DS_VM: tuple[str, ...] = (
+    "maxcpu",
+    "cpu",
+    "maxmem",
+    "mem",
+    "maxdisk",
+    "disk",
+    "netin",
+    "netout",
+    "diskread",
+    "diskwrite",
+    "memhost",
+    "pressurecpusome",
+    "pressurecpufull",
+    "pressureiosome",
+    "pressureiofull",
+    "pressurememorysome",
+    "pressurememoryfull",
+)
+
+RRDDATA_DS_STORAGE: tuple[str, ...] = (
+    "total",
+    "used",
+)
+
+
 class Patch(BasePatch):
     def hook(self) -> None:
         obj = self.callpath[-1].call
@@ -85,13 +139,31 @@ class Patch(BasePatch):
                     optional=obj.properties[prop].optional,
                 )
 
+        # The documentation declares an rrddata row as an object without any
+        # properties at all. The keys it actually carries are the RRD data
+        # sources, which differ between nodes, guests and storages.
         if self in (
             '/nodes/{node}/rrddata.info.GET.array',
             '/nodes/{node}/qemu/{vmid}/rrddata.info.GET.array',
             '/nodes/{node}/lxc/{vmid}/rrddata.info.GET.array',
+            '/nodes/{node}/storage/{storage}/rrddata.info.GET.array',
         ):
             print(f"{__name__}: Patching {self}: Define rrddata")
             assert isinstance(obj, ApiSchemaItemInfoMethodReturnsArray)
             assert isinstance(obj.items, ApiSchemaItemInfoMethodReturnsObject)
-            obj.items.properties = None
-            obj.items.values = ApiSchemaItemInfoMethodReturnsNumber(optional=False, type="number")
+
+            if self == '/nodes/{node}/rrddata.info.GET.array':
+                data_sources = RRDDATA_DS_NODE
+            elif self == '/nodes/{node}/storage/{storage}/rrddata.info.GET.array':
+                data_sources = RRDDATA_DS_STORAGE
+            else:
+                data_sources = RRDDATA_DS_VM
+
+            obj.items.values = None
+            obj.items.properties = {
+                "time": ApiSchemaItemInfoMethodReturnsInteger(optional=False, type="integer"),
+                **{
+                    name: ApiSchemaItemInfoMethodReturnsNumber(optional=True, type="number")
+                    for name in data_sources
+                },
+            }

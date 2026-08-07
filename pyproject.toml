@@ -60,3 +60,10 @@ addopts = [
 
 [tool.pyright]
 exclude = ["src"]
+reportUnnecessaryTypeIgnoreComment = "error"
+
+# The generated code carries "# type: ignore[operator, unused-ignore]" on every
+# API call, which mypy needs and pyright considers unnecessary.
+[[tool.pyright.executionEnvironments]]
+root = "proxmoxer_types"
+reportUnnecessaryTypeIgnoreComment = "none"
