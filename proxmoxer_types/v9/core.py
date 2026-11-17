@@ -62,16 +62,16 @@ class ProxmoxAPI:
                             "comment": NotRequired[str],
                             "digest": NotRequired[str],
                             "disable": NotRequired[bool],
-                            "guest": int,
-                            "id": str,
-                            "jobnum": int,
+                            "guest": NotRequired[int],
+                            "id": NotRequired[str],
+                            "jobnum": NotRequired[int],
                             "rate": NotRequired[float],
                             "remove_job": NotRequired[Literal["local", "full"]],
                             "schedule": NotRequired[str],
                             "skip-freeze-fs": NotRequired[bool],
                             "source": NotRequired[str],
-                            "target": str,
-                            "type": Literal["local"],
+                            "target": NotRequired[str],
+                            "type": NotRequired[Literal["local"]],
                         },
                     )
 
@@ -79,9 +79,9 @@ class ProxmoxAPI:
                         comment: Optional[str] = None
                         digest: Optional[str] = None
                         disable: Optional[bool] = None
-                        guest: int
-                        id: str
-                        jobnum: int
+                        guest: Optional[int] = None
+                        id: Optional[str] = None
+                        jobnum: Optional[int] = None
                         rate: Optional[float] = None
                         remove_job: Optional[Literal["local", "full"]] = None
                         schedule: Optional[str] = None
@@ -89,8 +89,8 @@ class ProxmoxAPI:
                             alias="skip-freeze-fs", default=None
                         )
                         source: Optional[str] = None
-                        target: str
-                        type: Literal["local"]
+                        target: Optional[str] = None
+                        type: Optional[Literal["local"]] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Replication.Id._Get"
 
@@ -181,25 +181,25 @@ class ProxmoxAPI:
                     {
                         "comment": NotRequired[str],
                         "disable": NotRequired[bool],
-                        "guest": int,
-                        "id": str,
-                        "jobnum": int,
+                        "guest": NotRequired[int],
+                        "id": NotRequired[str],
+                        "jobnum": NotRequired[int],
                         "rate": NotRequired[float],
                         "remove_job": NotRequired[Literal["local", "full"]],
                         "schedule": NotRequired[str],
                         "skip-freeze-fs": NotRequired[bool],
                         "source": NotRequired[str],
-                        "target": str,
-                        "type": Literal["local"],
+                        "target": NotRequired[str],
+                        "type": NotRequired[Literal["local"]],
                     },
                 )
 
                 class Model(BaseModel):
                     comment: Optional[str] = None
                     disable: Optional[bool] = None
-                    guest: int
-                    id: str
-                    jobnum: int
+                    guest: Optional[int] = None
+                    id: Optional[str] = None
+                    jobnum: Optional[int] = None
                     rate: Optional[float] = None
                     remove_job: Optional[Literal["local", "full"]] = None
                     schedule: Optional[str] = None
@@ -207,8 +207,8 @@ class ProxmoxAPI:
                         alias="skip-freeze-fs", default=None
                     )
                     source: Optional[str] = None
-                    target: str
-                    type: Literal["local"]
+                    target: Optional[str] = None
+                    type: Optional[Literal["local"]] = None
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Replication._Get"
 
@@ -3623,7 +3623,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "action": str,
+                                "action": NotRequired[str],
                                 "comment": NotRequired[str],
                                 "dest": NotRequired[str],
                                 "dport": NotRequired[str],
@@ -3649,12 +3649,12 @@ class ProxmoxAPI:
                                 "proto": NotRequired[str],
                                 "source": NotRequired[str],
                                 "sport": NotRequired[str],
-                                "type": str,
+                                "type": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            action: str
+                            action: Optional[str] = None
                             comment: Optional[str] = None
                             dest: Optional[str] = None
                             dport: Optional[str] = None
@@ -3682,7 +3682,7 @@ class ProxmoxAPI:
                             proto: Optional[str] = None
                             source: Optional[str] = None
                             sport: Optional[str] = None
-                            type: str
+                            type: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get"
 
@@ -4031,7 +4031,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "action": str,
+                            "action": NotRequired[str],
                             "comment": NotRequired[str],
                             "dest": NotRequired[str],
                             "dport": NotRequired[str],
@@ -4057,12 +4057,12 @@ class ProxmoxAPI:
                             "proto": NotRequired[str],
                             "source": NotRequired[str],
                             "sport": NotRequired[str],
-                            "type": str,
+                            "type": NotRequired[str],
                         },
                     )
 
                     class Model(BaseModel):
-                        action: str
+                        action: Optional[str] = None
                         comment: Optional[str] = None
                         dest: Optional[str] = None
                         dport: Optional[str] = None
@@ -4090,7 +4090,7 @@ class ProxmoxAPI:
                         proto: Optional[str] = None
                         source: Optional[str] = None
                         sport: Optional[str] = None
-                        type: str
+                        type: Optional[str] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Rules._Get"
 
@@ -5144,7 +5144,7 @@ class ProxmoxAPI:
                             "fleecing": NotRequired[
                                 "ProxmoxAPI.Cluster.Backup.Id._Get._Fleecing.TypedDict"
                             ],
-                            "id": str,
+                            "id": NotRequired[str],
                             "ionice": NotRequired[int],
                             "lockwait": NotRequired[int],
                             "mailnotification": NotRequired[
@@ -5184,6 +5184,7 @@ class ProxmoxAPI:
                             "tmpdir": NotRequired[str],
                             "vmid": NotRequired[str],
                             "zstd": NotRequired[int],
+                            "maxfiles": NotRequired[int],
                         },
                     )
 
@@ -5203,7 +5204,7 @@ class ProxmoxAPI:
                         fleecing: Optional[
                             "ProxmoxAPI.Cluster.Backup.Id._Get._Fleecing.Model"
                         ] = None
-                        id: str
+                        id: Optional[str] = None
                         ionice: Optional[int] = None
                         lockwait: Optional[int] = None
                         mailnotification: Optional[Literal["always", "failure"]] = None
@@ -5247,6 +5248,7 @@ class ProxmoxAPI:
                         tmpdir: Optional[str] = None
                         vmid: Optional[str] = None
                         zstd: Optional[int] = None
+                        maxfiles: Optional[int] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Backup.Id._Get"
 
@@ -5466,6 +5468,7 @@ class ProxmoxAPI:
                         "tmpdir": NotRequired[str],
                         "vmid": NotRequired[str],
                         "zstd": NotRequired[int],
+                        "maxfiles": NotRequired[int],
                     },
                 )
 
@@ -5525,6 +5528,7 @@ class ProxmoxAPI:
                     tmpdir: Optional[str] = None
                     vmid: Optional[str] = None
                     zstd: Optional[int] = None
+                    maxfiles: Optional[int] = None
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get"
 
@@ -7016,8 +7020,8 @@ class ProxmoxAPI:
                                 "digest": NotRequired[str],
                                 "disable": NotRequired[bool],
                                 "nodes": NotRequired[str],
-                                "plugin": str,
-                                "type": Literal["dns", "standalone"],
+                                "plugin": NotRequired[str],
+                                "type": NotRequired[Literal["dns", "standalone"]],
                                 "validation-delay": NotRequired[int],
                             },
                         )
@@ -7191,8 +7195,8 @@ class ProxmoxAPI:
                             digest: Optional[str] = None
                             disable: Optional[bool] = None
                             nodes: Optional[str] = None
-                            plugin: str
-                            type: Literal["dns", "standalone"]
+                            plugin: Optional[str] = None
+                            type: Optional[Literal["dns", "standalone"]] = None
                             validation_delay: Optional[int] = pydantic.Field(
                                 alias="validation-delay", default=None
                             )
@@ -7454,7 +7458,7 @@ class ProxmoxAPI:
                             "disable": NotRequired[bool],
                             "nodes": NotRequired[str],
                             "plugin": str,
-                            "type": Literal["dns", "standalone"],
+                            "type": NotRequired[Literal["dns", "standalone"]],
                             "validation-delay": NotRequired[int],
                         },
                     )
@@ -7629,7 +7633,7 @@ class ProxmoxAPI:
                         disable: Optional[bool] = None
                         nodes: Optional[str] = None
                         plugin: str
-                        type: Literal["dns", "standalone"]
+                        type: Optional[Literal["dns", "standalone"]] = None
                         validation_delay: Optional[int] = pydantic.Field(
                             alias="validation-delay", default=None
                         )
@@ -8132,38 +8136,40 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "back_addr": str,
-                                "ceph_release": str,
-                                "ceph_version": str,
-                                "ceph_version_short": str,
+                                "back_addr": NotRequired[str],
+                                "ceph_release": NotRequired[str],
+                                "ceph_version": NotRequired[str],
+                                "ceph_version_short": NotRequired[str],
                                 "device_ids": NotRequired[str],
                                 "device_paths": NotRequired[str],
                                 "devices": NotRequired[str],
-                                "front_addr": str,
-                                "hostname": str,
-                                "id": int,
-                                "mem_swap_kb": int,
-                                "mem_total_kb": int,
-                                "osd_data": str,
-                                "osd_objectstore": str,
+                                "front_addr": NotRequired[str],
+                                "hostname": NotRequired[str],
+                                "id": NotRequired[int],
+                                "mem_swap_kb": NotRequired[int],
+                                "mem_total_kb": NotRequired[int],
+                                "osd_data": NotRequired[str],
+                                "osd_objectstore": NotRequired[str],
+                                "device_id": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            back_addr: str
-                            ceph_release: str
-                            ceph_version: str
-                            ceph_version_short: str
+                            back_addr: Optional[str] = None
+                            ceph_release: Optional[str] = None
+                            ceph_version: Optional[str] = None
+                            ceph_version_short: Optional[str] = None
                             device_ids: Optional[str] = None
                             device_paths: Optional[str] = None
                             devices: Optional[str] = None
-                            front_addr: str
-                            hostname: str
-                            id: int
-                            mem_swap_kb: int
-                            mem_total_kb: int
-                            osd_data: str
-                            osd_objectstore: str
+                            front_addr: Optional[str] = None
+                            hostname: Optional[str] = None
+                            id: Optional[int] = None
+                            mem_swap_kb: Optional[int] = None
+                            mem_total_kb: Optional[int] = None
+                            osd_data: Optional[str] = None
+                            osd_objectstore: Optional[str] = None
+                            device_id: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Osd"
 
@@ -9965,7 +9971,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "action": str,
+                                        "action": NotRequired[str],
                                         "comment": NotRequired[str],
                                         "dest": NotRequired[str],
                                         "dport": NotRequired[str],
@@ -9991,12 +9997,12 @@ class ProxmoxAPI:
                                         "proto": NotRequired[str],
                                         "source": NotRequired[str],
                                         "sport": NotRequired[str],
-                                        "type": str,
+                                        "type": NotRequired[str],
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    action: str
+                                    action: Optional[str] = None
                                     comment: Optional[str] = None
                                     dest: Optional[str] = None
                                     dport: Optional[str] = None
@@ -10024,7 +10030,7 @@ class ProxmoxAPI:
                                     proto: Optional[str] = None
                                     source: Optional[str] = None
                                     sport: Optional[str] = None
-                                    type: str
+                                    type: Optional[str] = None
 
                                 Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules._Get"
 
@@ -10603,9 +10609,9 @@ class ProxmoxAPI:
                                     Literal["new", "changed", "deleted"]
                                 ],
                                 "tag": NotRequired[int],
-                                "type": Literal["vnet"],
+                                "type": NotRequired[Literal["vnet"]],
                                 "vlanaware": NotRequired[bool],
-                                "vnet": str,
+                                "vnet": NotRequired[str],
                                 "zone": NotRequired[str],
                             },
                         )
@@ -10621,9 +10627,9 @@ class ProxmoxAPI:
                             ] = None
                             state: Optional[Literal["new", "changed", "deleted"]] = None
                             tag: Optional[int] = None
-                            type: Literal["vnet"]
+                            type: Optional[Literal["vnet"]] = None
                             vlanaware: Optional[bool] = None
-                            vnet: str
+                            vnet: Optional[str] = None
                             zone: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet._Get"
@@ -10747,9 +10753,9 @@ class ProxmoxAPI:
                             ],
                             "state": NotRequired[Literal["new", "changed", "deleted"]],
                             "tag": NotRequired[int],
-                            "type": Literal["vnet"],
+                            "type": NotRequired[Literal["vnet"]],
                             "vlanaware": NotRequired[bool],
-                            "vnet": str,
+                            "vnet": NotRequired[str],
                             "zone": NotRequired[str],
                         },
                     )
@@ -10765,9 +10771,9 @@ class ProxmoxAPI:
                         ] = None
                         state: Optional[Literal["new", "changed", "deleted"]] = None
                         tag: Optional[int] = None
-                        type: Literal["vnet"]
+                        type: Optional[Literal["vnet"]] = None
                         vlanaware: Optional[bool] = None
-                        vnet: str
+                        vnet: Optional[str] = None
                         zone: Optional[str] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Vnets._Get"
@@ -10982,15 +10988,22 @@ class ProxmoxAPI:
                                     Literal["new", "changed", "deleted"]
                                 ],
                                 "tag": NotRequired[int],
-                                "type": Literal[
-                                    "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
+                                "type": NotRequired[
+                                    Literal[
+                                        "evpn",
+                                        "faucet",
+                                        "qinq",
+                                        "simple",
+                                        "vlan",
+                                        "vxlan",
+                                    ]
                                 ],
                                 "vlan-protocol": NotRequired[
                                     Literal["802.1q", "802.1ad"]
                                 ],
                                 "vrf-vxlan": NotRequired[int],
                                 "vxlan-port": NotRequired[int],
-                                "zone": str,
+                                "zone": NotRequired[str],
                             },
                         )
 
@@ -11036,9 +11049,11 @@ class ProxmoxAPI:
                             )
                             state: Optional[Literal["new", "changed", "deleted"]] = None
                             tag: Optional[int] = None
-                            type: Literal[
-                                "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
-                            ]
+                            type: Optional[
+                                Literal[
+                                    "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
+                                ]
+                            ] = None
                             vlan_protocol: Optional[Literal["802.1q", "802.1ad"]] = (
                                 pydantic.Field(alias="vlan-protocol", default=None)
                             )
@@ -11048,7 +11063,7 @@ class ProxmoxAPI:
                             vxlan_port: Optional[int] = pydantic.Field(
                                 alias="vxlan-port", default=None
                             )
-                            zone: str
+                            zone: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Zones.Zone._Get"
 
@@ -11225,7 +11240,7 @@ class ProxmoxAPI:
                             "bridge": NotRequired[str],
                             "bridge-disable-mac-learning": NotRequired[bool],
                             "controller": NotRequired[str],
-                            "dhcp": NotRequired[Literal["dnsmasq"]],
+                            "dhcp": NotRequired[str],
                             "digest": NotRequired[str],
                             "disable-arp-nd-suppression": NotRequired[bool],
                             "dns": NotRequired[str],
@@ -11244,11 +11259,9 @@ class ProxmoxAPI:
                             "reversedns": NotRequired[str],
                             "rt-import": NotRequired[str],
                             "secondary-controllers": NotRequired[list[str]],
-                            "state": NotRequired[Literal["new", "changed", "deleted"]],
+                            "state": NotRequired[str],
                             "tag": NotRequired[int],
-                            "type": Literal[
-                                "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
-                            ],
+                            "type": str,
                             "vlan-protocol": NotRequired[Literal["802.1q", "802.1ad"]],
                             "vrf-vxlan": NotRequired[int],
                             "vxlan-port": NotRequired[int],
@@ -11265,7 +11278,7 @@ class ProxmoxAPI:
                             alias="bridge-disable-mac-learning", default=None
                         )
                         controller: Optional[str] = None
-                        dhcp: Optional[Literal["dnsmasq"]] = None
+                        dhcp: Optional[str] = None
                         digest: Optional[str] = None
                         disable_arp_nd_suppression: Optional[bool] = pydantic.Field(
                             alias="disable-arp-nd-suppression", default=None
@@ -11294,11 +11307,9 @@ class ProxmoxAPI:
                         secondary_controllers: Optional[list[str]] = pydantic.Field(
                             alias="secondary-controllers", default=None
                         )
-                        state: Optional[Literal["new", "changed", "deleted"]] = None
+                        state: Optional[str] = None
                         tag: Optional[int] = None
-                        type: Literal[
-                            "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
-                        ]
+                        type: str
                         vlan_protocol: Optional[Literal["802.1q", "802.1ad"]] = (
                             pydantic.Field(alias="vlan-protocol", default=None)
                         )
@@ -11463,7 +11474,7 @@ class ProxmoxAPI:
                                     Literal["auto", "external", "internal"]
                                 ],
                                 "bgp-multipath-as-relax": NotRequired[bool],
-                                "controller": str,
+                                "controller": NotRequired[str],
                                 "digest": NotRequired[str],
                                 "ebgp": NotRequired[bool],
                                 "ebgp-multihop": NotRequired[int],
@@ -11481,7 +11492,9 @@ class ProxmoxAPI:
                                 "state": NotRequired[
                                     Literal["new", "changed", "deleted"]
                                 ],
-                                "type": Literal["bgp", "evpn", "faucet", "isis"],
+                                "type": NotRequired[
+                                    Literal["bgp", "evpn", "faucet", "isis"]
+                                ],
                             },
                         )
 
@@ -11493,7 +11506,7 @@ class ProxmoxAPI:
                             bgp_multipath_as_relax: Optional[bool] = pydantic.Field(
                                 alias="bgp-multipath-as-relax", default=None
                             )
-                            controller: str
+                            controller: Optional[str] = None
                             digest: Optional[str] = None
                             ebgp: Optional[bool] = None
                             ebgp_multihop: Optional[int] = pydantic.Field(
@@ -11519,7 +11532,9 @@ class ProxmoxAPI:
                                 "ProxmoxAPI.Cluster.Sdn.Controllers.Controller._Get._Pending.Model"
                             ] = None
                             state: Optional[Literal["new", "changed", "deleted"]] = None
-                            type: Literal["bgp", "evpn", "faucet", "isis"]
+                            type: Optional[Literal["bgp", "evpn", "faucet", "isis"]] = (
+                                None
+                            )
 
                         Model.__name__ = (
                             "ProxmoxAPI.Cluster.Sdn.Controllers.Controller._Get"
@@ -11691,8 +11706,8 @@ class ProxmoxAPI:
                             "pending": NotRequired[
                                 "ProxmoxAPI.Cluster.Sdn.Controllers._Get._Pending.TypedDict"
                             ],
-                            "state": NotRequired[Literal["new", "changed", "deleted"]],
-                            "type": Literal["bgp", "evpn", "faucet", "isis"],
+                            "state": NotRequired[str],
+                            "type": str,
                         },
                     )
 
@@ -11729,8 +11744,8 @@ class ProxmoxAPI:
                         pending: Optional[
                             "ProxmoxAPI.Cluster.Sdn.Controllers._Get._Pending.Model"
                         ] = None
-                        state: Optional[Literal["new", "changed", "deleted"]] = None
-                        type: Literal["bgp", "evpn", "faucet", "isis"]
+                        state: Optional[str] = None
+                        type: str
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Controllers._Get"
 
@@ -12228,7 +12243,7 @@ class ProxmoxAPI:
                                     "protocol": Literal[
                                         "openfabric", "ospf", "wireguard", "bgp"
                                     ],
-                                    "redistribute": list[Any],
+                                    "redistribute": NotRequired[list[Any]],
                                     "route_filter": NotRequired[str],
                                 },
                             )
@@ -12248,7 +12263,7 @@ class ProxmoxAPI:
                                 protocol: Literal[
                                     "openfabric", "ospf", "wireguard", "bgp"
                                 ]
-                                redistribute: list[Any]
+                                redistribute: Optional[list[Any]] = None
                                 route_filter: Optional[str] = None
 
                             Model.__name__ = (
@@ -12353,7 +12368,7 @@ class ProxmoxAPI:
                                 "protocol": Literal[
                                     "openfabric", "ospf", "wireguard", "bgp"
                                 ],
-                                "redistribute": list[Any],
+                                "redistribute": NotRequired[list[Any]],
                                 "route_filter": NotRequired[str],
                             },
                         )
@@ -12371,7 +12386,7 @@ class ProxmoxAPI:
                             )
                             persistent_keepalive: Optional[float] = None
                             protocol: Literal["openfabric", "ospf", "wireguard", "bgp"]
-                            redistribute: list[Any]
+                            redistribute: Optional[list[Any]] = None
                             route_filter: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Fabrics.Fabric._Get"
@@ -12847,7 +12862,7 @@ class ProxmoxAPI:
                                     "protocol": Literal[
                                         "openfabric", "ospf", "wireguard", "bgp"
                                     ],
-                                    "redistribute": list[Any],
+                                    "redistribute": NotRequired[list[Any]],
                                     "route_filter": NotRequired[str],
                                 },
                             )
@@ -12867,7 +12882,7 @@ class ProxmoxAPI:
                                 protocol: Literal[
                                     "openfabric", "ospf", "wireguard", "bgp"
                                 ]
-                                redistribute: list[Any]
+                                redistribute: Optional[list[Any]] = None
                                 route_filter: Optional[str] = None
 
                             Model.__name__ = (
@@ -14244,7 +14259,7 @@ class ProxmoxAPI:
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
-                        "allowed-tags": list[str],
+                        "allowed-tags": NotRequired[list[str]],
                         "bwlimit": NotRequired[str],
                         "consent-text": NotRequired[str],
                         "console": NotRequired[
@@ -14333,7 +14348,9 @@ class ProxmoxAPI:
                 )
 
                 class Model(BaseModel):
-                    allowed_tags: list[str] = pydantic.Field(alias="allowed-tags")
+                    allowed_tags: Optional[list[str]] = pydantic.Field(
+                        alias="allowed-tags", default=None
+                    )
                     bwlimit: Optional[str] = None
                     consent_text: Optional[str] = pydantic.Field(
                         alias="consent-text", default=None
@@ -14849,7 +14866,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "action": str,
+                                        "action": NotRequired[str],
                                         "comment": NotRequired[str],
                                         "dest": NotRequired[str],
                                         "dport": NotRequired[str],
@@ -14875,12 +14892,12 @@ class ProxmoxAPI:
                                         "proto": NotRequired[str],
                                         "source": NotRequired[str],
                                         "sport": NotRequired[str],
-                                        "type": str,
+                                        "type": NotRequired[str],
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    action: str
+                                    action: Optional[str] = None
                                     comment: Optional[str] = None
                                     dest: Optional[str] = None
                                     dport: Optional[str] = None
@@ -14908,7 +14925,7 @@ class ProxmoxAPI:
                                     proto: Optional[str] = None
                                     source: Optional[str] = None
                                     sport: Optional[str] = None
-                                    type: str
+                                    type: Optional[str] = None
 
                                 Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get"
 
@@ -22046,7 +22063,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "action": str,
+                                        "action": NotRequired[str],
                                         "comment": NotRequired[str],
                                         "dest": NotRequired[str],
                                         "dport": NotRequired[str],
@@ -22072,12 +22089,12 @@ class ProxmoxAPI:
                                         "proto": NotRequired[str],
                                         "source": NotRequired[str],
                                         "sport": NotRequired[str],
-                                        "type": str,
+                                        "type": NotRequired[str],
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    action: str
+                                    action: Optional[str] = None
                                     comment: Optional[str] = None
                                     dest: Optional[str] = None
                                     dport: Optional[str] = None
@@ -22105,7 +22122,7 @@ class ProxmoxAPI:
                                     proto: Optional[str] = None
                                     source: Optional[str] = None
                                     sport: Optional[str] = None
-                                    type: str
+                                    type: Optional[str] = None
 
                                 Model.__name__ = (
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get"
@@ -24777,7 +24794,7 @@ class ProxmoxAPI:
                                 "TypedDict",
                                 {
                                     "can_update_at_runtime": bool,
-                                    "level": Literal["basic", "advanced", "dev"],
+                                    "level": str,
                                     "mask": str,
                                     "name": str,
                                     "section": str,
@@ -24787,7 +24804,7 @@ class ProxmoxAPI:
 
                             class Model(BaseModel):
                                 can_update_at_runtime: bool
-                                level: Literal["basic", "advanced", "dev"]
+                                level: str
                                 mask: str
                                 name: str
                                 section: str
@@ -24944,20 +24961,22 @@ class ProxmoxAPI:
                                         {
                                             "dev_node": str,
                                             "device": Literal["block", "db", "wal"],
-                                            "physical_device": str,
+                                            "physical_device": NotRequired[str],
                                             "size": int,
                                             "support_discard": bool,
                                             "type": str,
+                                            "devices": NotRequired[str],
                                         },
                                     )
 
                                     class Model(BaseModel):
                                         dev_node: str
                                         device: Literal["block", "db", "wal"]
-                                        physical_device: str
+                                        physical_device: Optional[str] = None
                                         size: int
                                         support_discard: bool
                                         type: str
+                                        devices: Optional[str] = None
 
                                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Devices"
 
@@ -24973,7 +24992,7 @@ class ProxmoxAPI:
                                         "TypedDict",
                                         {
                                             "back_addr": str,
-                                            "encrypted": bool,
+                                            "encrypted": NotRequired[bool],
                                             "front_addr": str,
                                             "hb_back_addr": str,
                                             "hb_front_addr": str,
@@ -24989,7 +25008,7 @@ class ProxmoxAPI:
 
                                     class Model(BaseModel):
                                         back_addr: str
-                                        encrypted: bool
+                                        encrypted: Optional[bool] = None
                                         front_addr: str
                                         hb_back_addr: str
                                         hb_front_addr: str
@@ -25376,13 +25395,13 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "flags": NotRequired[str],
-                                "root": dict[str, Any],
+                                "root": NotRequired[dict[str, Any]],
                             },
                         )
 
                         class Model(BaseModel):
                             flags: Optional[str] = None
-                            root: dict[str, Any]
+                            root: Optional[dict[str, Any]] = None
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Osd._Get"
 
@@ -27058,6 +27077,7 @@ class ProxmoxAPI:
                                 "tmpdir": NotRequired[str],
                                 "vmid": NotRequired[str],
                                 "zstd": NotRequired[int],
+                                "maxfiles": NotRequired[int],
                             },
                         )
 
@@ -27113,6 +27133,7 @@ class ProxmoxAPI:
                             tmpdir: Optional[str] = None
                             vmid: Optional[str] = None
                             zstd: Optional[int] = None
+                            maxfiles: Optional[int] = None
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get"
 
@@ -27251,7 +27272,78 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "active-state": Literal[
+                                    "active-state": NotRequired[
+                                        Literal[
+                                            "active",
+                                            "inactive",
+                                            "failed",
+                                            "activating",
+                                            "deactivating",
+                                            "maintenance",
+                                            "reloading",
+                                            "refreshing",
+                                            "unknown",
+                                        ]
+                                    ],
+                                    "desc": NotRequired[str],
+                                    "name": NotRequired[str],
+                                    "service": NotRequired[str],
+                                    "state": NotRequired[
+                                        Literal[
+                                            "dead",
+                                            "condition",
+                                            "start-pre",
+                                            "start",
+                                            "start-post",
+                                            "running",
+                                            "exited",
+                                            "reload",
+                                            "reload-signal",
+                                            "reload-notify",
+                                            "mounting",
+                                            "stop",
+                                            "stop-watchdog",
+                                            "stop-sigterm",
+                                            "stop-sigkill",
+                                            "stop-post",
+                                            "final-watchdog",
+                                            "final-sigterm",
+                                            "final-sigkill",
+                                            "failed",
+                                            "dead-before-auto-restart",
+                                            "failed-before-auto-restart",
+                                            "dead-resources-pinned",
+                                            "auto-restart",
+                                            "auto-restart-queued",
+                                            "cleaning",
+                                            "unknown",
+                                        ]
+                                    ],
+                                    "unit-state": NotRequired[
+                                        Literal[
+                                            "enabled",
+                                            "enabled-runtime",
+                                            "linked",
+                                            "linked-runtime",
+                                            "alias",
+                                            "masked",
+                                            "masked-runtime",
+                                            "static",
+                                            "disabled",
+                                            "indirect",
+                                            "generated",
+                                            "transient",
+                                            "bad",
+                                            "not-found",
+                                            "unknown",
+                                        ]
+                                    ],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                active_state: Optional[
+                                    Literal[
                                         "active",
                                         "inactive",
                                         "failed",
@@ -27261,11 +27353,13 @@ class ProxmoxAPI:
                                         "reloading",
                                         "refreshing",
                                         "unknown",
-                                    ],
-                                    "desc": str,
-                                    "name": str,
-                                    "service": str,
-                                    "state": Literal[
+                                    ]
+                                ] = pydantic.Field(alias="active-state", default=None)
+                                desc: Optional[str] = None
+                                name: Optional[str] = None
+                                service: Optional[str] = None
+                                state: Optional[
+                                    Literal[
                                         "dead",
                                         "condition",
                                         "start-pre",
@@ -27293,8 +27387,10 @@ class ProxmoxAPI:
                                         "auto-restart-queued",
                                         "cleaning",
                                         "unknown",
-                                    ],
-                                    "unit-state": Literal[
+                                    ]
+                                ] = None
+                                unit_state: Optional[
+                                    Literal[
                                         "enabled",
                                         "enabled-runtime",
                                         "linked",
@@ -27310,71 +27406,8 @@ class ProxmoxAPI:
                                         "bad",
                                         "not-found",
                                         "unknown",
-                                    ],
-                                },
-                            )
-
-                            class Model(BaseModel):
-                                active_state: Literal[
-                                    "active",
-                                    "inactive",
-                                    "failed",
-                                    "activating",
-                                    "deactivating",
-                                    "maintenance",
-                                    "reloading",
-                                    "refreshing",
-                                    "unknown",
-                                ] = pydantic.Field(alias="active-state")
-                                desc: str
-                                name: str
-                                service: str
-                                state: Literal[
-                                    "dead",
-                                    "condition",
-                                    "start-pre",
-                                    "start",
-                                    "start-post",
-                                    "running",
-                                    "exited",
-                                    "reload",
-                                    "reload-signal",
-                                    "reload-notify",
-                                    "mounting",
-                                    "stop",
-                                    "stop-watchdog",
-                                    "stop-sigterm",
-                                    "stop-sigkill",
-                                    "stop-post",
-                                    "final-watchdog",
-                                    "final-sigterm",
-                                    "final-sigkill",
-                                    "failed",
-                                    "dead-before-auto-restart",
-                                    "failed-before-auto-restart",
-                                    "dead-resources-pinned",
-                                    "auto-restart",
-                                    "auto-restart-queued",
-                                    "cleaning",
-                                    "unknown",
-                                ]
-                                unit_state: Literal[
-                                    "enabled",
-                                    "enabled-runtime",
-                                    "linked",
-                                    "linked-runtime",
-                                    "alias",
-                                    "masked",
-                                    "masked-runtime",
-                                    "static",
-                                    "disabled",
-                                    "indirect",
-                                    "generated",
-                                    "transient",
-                                    "bad",
-                                    "not-found",
-                                    "unknown",
-                                ] = pydantic.Field(alias="unit-state")
+                                    ]
+                                ] = pydantic.Field(alias="unit-state", default=None)
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Nodes.Node.Services.Service.State._Get"
@@ -27693,7 +27726,78 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "active-state": Literal[
+                            "active-state": NotRequired[
+                                Literal[
+                                    "active",
+                                    "inactive",
+                                    "failed",
+                                    "activating",
+                                    "deactivating",
+                                    "maintenance",
+                                    "reloading",
+                                    "refreshing",
+                                    "unknown",
+                                ]
+                            ],
+                            "desc": NotRequired[str],
+                            "name": NotRequired[str],
+                            "service": NotRequired[str],
+                            "state": NotRequired[
+                                Literal[
+                                    "dead",
+                                    "condition",
+                                    "start-pre",
+                                    "start",
+                                    "start-post",
+                                    "running",
+                                    "exited",
+                                    "reload",
+                                    "reload-signal",
+                                    "reload-notify",
+                                    "mounting",
+                                    "stop",
+                                    "stop-watchdog",
+                                    "stop-sigterm",
+                                    "stop-sigkill",
+                                    "stop-post",
+                                    "final-watchdog",
+                                    "final-sigterm",
+                                    "final-sigkill",
+                                    "failed",
+                                    "dead-before-auto-restart",
+                                    "failed-before-auto-restart",
+                                    "dead-resources-pinned",
+                                    "auto-restart",
+                                    "auto-restart-queued",
+                                    "cleaning",
+                                    "unknown",
+                                ]
+                            ],
+                            "unit-state": NotRequired[
+                                Literal[
+                                    "enabled",
+                                    "enabled-runtime",
+                                    "linked",
+                                    "linked-runtime",
+                                    "alias",
+                                    "masked",
+                                    "masked-runtime",
+                                    "static",
+                                    "disabled",
+                                    "indirect",
+                                    "generated",
+                                    "transient",
+                                    "bad",
+                                    "not-found",
+                                    "unknown",
+                                ]
+                            ],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        active_state: Optional[
+                            Literal[
                                 "active",
                                 "inactive",
                                 "failed",
@@ -27703,11 +27807,13 @@ class ProxmoxAPI:
                                 "reloading",
                                 "refreshing",
                                 "unknown",
-                            ],
-                            "desc": str,
-                            "name": str,
-                            "service": str,
-                            "state": Literal[
+                            ]
+                        ] = pydantic.Field(alias="active-state", default=None)
+                        desc: Optional[str] = None
+                        name: Optional[str] = None
+                        service: Optional[str] = None
+                        state: Optional[
+                            Literal[
                                 "dead",
                                 "condition",
                                 "start-pre",
@@ -27735,8 +27841,10 @@ class ProxmoxAPI:
                                 "auto-restart-queued",
                                 "cleaning",
                                 "unknown",
-                            ],
-                            "unit-state": Literal[
+                            ]
+                        ] = None
+                        unit_state: Optional[
+                            Literal[
                                 "enabled",
                                 "enabled-runtime",
                                 "linked",
@@ -27752,71 +27860,8 @@ class ProxmoxAPI:
                                 "bad",
                                 "not-found",
                                 "unknown",
-                            ],
-                        },
-                    )
-
-                    class Model(BaseModel):
-                        active_state: Literal[
-                            "active",
-                            "inactive",
-                            "failed",
-                            "activating",
-                            "deactivating",
-                            "maintenance",
-                            "reloading",
-                            "refreshing",
-                            "unknown",
-                        ] = pydantic.Field(alias="active-state")
-                        desc: str
-                        name: str
-                        service: str
-                        state: Literal[
-                            "dead",
-                            "condition",
-                            "start-pre",
-                            "start",
-                            "start-post",
-                            "running",
-                            "exited",
-                            "reload",
-                            "reload-signal",
-                            "reload-notify",
-                            "mounting",
-                            "stop",
-                            "stop-watchdog",
-                            "stop-sigterm",
-                            "stop-sigkill",
-                            "stop-post",
-                            "final-watchdog",
-                            "final-sigterm",
-                            "final-sigkill",
-                            "failed",
-                            "dead-before-auto-restart",
-                            "failed-before-auto-restart",
-                            "dead-resources-pinned",
-                            "auto-restart",
-                            "auto-restart-queued",
-                            "cleaning",
-                            "unknown",
-                        ]
-                        unit_state: Literal[
-                            "enabled",
-                            "enabled-runtime",
-                            "linked",
-                            "linked-runtime",
-                            "alias",
-                            "masked",
-                            "masked-runtime",
-                            "static",
-                            "disabled",
-                            "indirect",
-                            "generated",
-                            "transient",
-                            "bad",
-                            "not-found",
-                            "unknown",
-                        ] = pydantic.Field(alias="unit-state")
+                            ]
+                        ] = pydantic.Field(alias="unit-state", default=None)
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Services._Get"
 
@@ -29899,13 +29944,17 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "has-dbus-vmstate": bool,
+                                    "has-dbus-vmstate": NotRequired[bool],
+                                    "dbus-vmstate": NotRequired[bool],
                                 },
                             )
 
                             class Model(BaseModel):
-                                has_dbus_vmstate: bool = pydantic.Field(
-                                    alias="has-dbus-vmstate"
+                                has_dbus_vmstate: Optional[bool] = pydantic.Field(
+                                    alias="has-dbus-vmstate", default=None
+                                )
+                                dbus_vmstate: Optional[bool] = pydantic.Field(
+                                    alias="dbus-vmstate", default=None
                                 )
 
                             Model.__name__ = (
@@ -30635,11 +30684,11 @@ class ProxmoxAPI:
                                 {
                                     "active": NotRequired[bool],
                                     "avail": NotRequired[int],
-                                    "content": str,
+                                    "content": NotRequired[str],
                                     "enabled": NotRequired[bool],
                                     "shared": NotRequired[bool],
                                     "total": NotRequired[int],
-                                    "type": str,
+                                    "type": NotRequired[str],
                                     "used": NotRequired[int],
                                 },
                             )
@@ -30647,11 +30696,11 @@ class ProxmoxAPI:
                             class Model(BaseModel):
                                 active: Optional[bool] = None
                                 avail: Optional[int] = None
-                                content: str
+                                content: Optional[str] = None
                                 enabled: Optional[bool] = None
                                 shared: Optional[bool] = None
                                 total: Optional[int] = None
-                                type: str
+                                type: Optional[str] = None
                                 used: Optional[int] = None
 
                             Model.__name__ = (
@@ -32413,50 +32462,50 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "Arch": Literal[
-                                    "armhf",
-                                    "arm64",
-                                    "amd64",
-                                    "ppc64el",
-                                    "riscv64",
-                                    "s390x",
-                                    "all",
-                                ],
-                                "Description": str,
+                                "Arch": NotRequired[str],
+                                "Description": NotRequired[str],
                                 "NotifyStatus": NotRequired[str],
                                 "OldVersion": NotRequired[str],
-                                "Origin": str,
-                                "Package": str,
-                                "Priority": str,
-                                "Section": str,
-                                "Title": str,
-                                "Version": str,
+                                "Origin": NotRequired[str],
+                                "Package": NotRequired[str],
+                                "Priority": NotRequired[str],
+                                "Section": NotRequired[str],
+                                "Title": NotRequired[str],
+                                "Version": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            arch: Literal[
-                                "armhf",
-                                "arm64",
-                                "amd64",
-                                "ppc64el",
-                                "riscv64",
-                                "s390x",
-                                "all",
-                            ] = pydantic.Field(alias="Arch")
-                            description: str = pydantic.Field(alias="Description")
+                            arch: Optional[str] = pydantic.Field(
+                                alias="Arch", default=None
+                            )
+                            description: Optional[str] = pydantic.Field(
+                                alias="Description", default=None
+                            )
                             notify_status: Optional[str] = pydantic.Field(
                                 alias="NotifyStatus", default=None
                             )
                             old_version: Optional[str] = pydantic.Field(
                                 alias="OldVersion", default=None
                             )
-                            origin: str = pydantic.Field(alias="Origin")
-                            package: str = pydantic.Field(alias="Package")
-                            priority: str = pydantic.Field(alias="Priority")
-                            section: str = pydantic.Field(alias="Section")
-                            title: str = pydantic.Field(alias="Title")
-                            version: str = pydantic.Field(alias="Version")
+                            origin: Optional[str] = pydantic.Field(
+                                alias="Origin", default=None
+                            )
+                            package: Optional[str] = pydantic.Field(
+                                alias="Package", default=None
+                            )
+                            priority: Optional[str] = pydantic.Field(
+                                alias="Priority", default=None
+                            )
+                            section: Optional[str] = pydantic.Field(
+                                alias="Section", default=None
+                            )
+                            title: Optional[str] = pydantic.Field(
+                                alias="Title", default=None
+                            )
+                            version: Optional[str] = pydantic.Field(
+                                alias="Version", default=None
+                            )
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Apt.Update._Get"
 
@@ -32892,7 +32941,45 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "Arch": Literal[
+                                "Arch": NotRequired[
+                                    Literal[
+                                        "armhf",
+                                        "arm64",
+                                        "amd64",
+                                        "ppc64el",
+                                        "riscv64",
+                                        "s390x",
+                                        "all",
+                                        "risc64",
+                                    ]
+                                ],
+                                "CurrentState": NotRequired[
+                                    Literal[
+                                        "Installed",
+                                        "NotInstalled",
+                                        "UnPacked",
+                                        "HalfConfigured",
+                                        "HalfInstalled",
+                                        "ConfigFiles",
+                                    ]
+                                ],
+                                "Description": NotRequired[str],
+                                "ManagerVersion": NotRequired[str],
+                                "NotifyStatus": NotRequired[str],
+                                "OldVersion": NotRequired[str],
+                                "Origin": NotRequired[str],
+                                "Package": NotRequired[str],
+                                "Priority": NotRequired[str],
+                                "RunningKernel": NotRequired[str],
+                                "Section": NotRequired[str],
+                                "Title": NotRequired[str],
+                                "Version": NotRequired[str],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            arch: Optional[
+                                Literal[
                                     "armhf",
                                     "arm64",
                                     "amd64",
@@ -32900,48 +32987,22 @@ class ProxmoxAPI:
                                     "riscv64",
                                     "s390x",
                                     "all",
-                                ],
-                                "CurrentState": Literal[
+                                    "risc64",
+                                ]
+                            ] = pydantic.Field(alias="Arch", default=None)
+                            current_state: Optional[
+                                Literal[
                                     "Installed",
                                     "NotInstalled",
                                     "UnPacked",
                                     "HalfConfigured",
                                     "HalfInstalled",
                                     "ConfigFiles",
-                                ],
-                                "Description": str,
-                                "ManagerVersion": NotRequired[str],
-                                "NotifyStatus": NotRequired[str],
-                                "OldVersion": NotRequired[str],
-                                "Origin": str,
-                                "Package": str,
-                                "Priority": str,
-                                "RunningKernel": NotRequired[str],
-                                "Section": str,
-                                "Title": str,
-                                "Version": str,
-                            },
-                        )
-
-                        class Model(BaseModel):
-                            arch: Literal[
-                                "armhf",
-                                "arm64",
-                                "amd64",
-                                "ppc64el",
-                                "riscv64",
-                                "s390x",
-                                "all",
-                            ] = pydantic.Field(alias="Arch")
-                            current_state: Literal[
-                                "Installed",
-                                "NotInstalled",
-                                "UnPacked",
-                                "HalfConfigured",
-                                "HalfInstalled",
-                                "ConfigFiles",
-                            ] = pydantic.Field(alias="CurrentState")
-                            description: str = pydantic.Field(alias="Description")
+                                ]
+                            ] = pydantic.Field(alias="CurrentState", default=None)
+                            description: Optional[str] = pydantic.Field(
+                                alias="Description", default=None
+                            )
                             manager_version: Optional[str] = pydantic.Field(
                                 alias="ManagerVersion", default=None
                             )
@@ -32951,15 +33012,27 @@ class ProxmoxAPI:
                             old_version: Optional[str] = pydantic.Field(
                                 alias="OldVersion", default=None
                             )
-                            origin: str = pydantic.Field(alias="Origin")
-                            package: str = pydantic.Field(alias="Package")
-                            priority: str = pydantic.Field(alias="Priority")
+                            origin: Optional[str] = pydantic.Field(
+                                alias="Origin", default=None
+                            )
+                            package: Optional[str] = pydantic.Field(
+                                alias="Package", default=None
+                            )
+                            priority: Optional[str] = pydantic.Field(
+                                alias="Priority", default=None
+                            )
                             running_kernel: Optional[str] = pydantic.Field(
                                 alias="RunningKernel", default=None
                             )
-                            section: str = pydantic.Field(alias="Section")
-                            title: str = pydantic.Field(alias="Title")
-                            version: str = pydantic.Field(alias="Version")
+                            section: Optional[str] = pydantic.Field(
+                                alias="Section", default=None
+                            )
+                            title: Optional[str] = pydantic.Field(
+                                alias="Title", default=None
+                            )
+                            version: Optional[str] = pydantic.Field(
+                                alias="Version", default=None
+                            )
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Apt.Versions._Get"
 
@@ -33256,7 +33329,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "action": str,
+                                "action": NotRequired[str],
                                 "comment": NotRequired[str],
                                 "dest": NotRequired[str],
                                 "dport": NotRequired[str],
@@ -33282,12 +33355,12 @@ class ProxmoxAPI:
                                 "proto": NotRequired[str],
                                 "source": NotRequired[str],
                                 "sport": NotRequired[str],
-                                "type": str,
+                                "type": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            action: str
+                            action: Optional[str] = None
                             comment: Optional[str] = None
                             dest: Optional[str] = None
                             dport: Optional[str] = None
@@ -33315,7 +33388,7 @@ class ProxmoxAPI:
                             proto: Optional[str] = None
                             source: Optional[str] = None
                             sport: Optional[str] = None
-                            type: str
+                            type: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get"
 
@@ -33762,9 +33835,9 @@ class ProxmoxAPI:
                                     "duration": NotRequired[float],
                                     "error": NotRequired[str],
                                     "fail_count": NotRequired[int],
-                                    "guest": int,
-                                    "id": str,
-                                    "jobnum": int,
+                                    "guest": NotRequired[int],
+                                    "id": NotRequired[str],
+                                    "jobnum": NotRequired[int],
                                     "last_sync": NotRequired[int],
                                     "last_try": NotRequired[int],
                                     "next_sync": NotRequired[int],
@@ -33774,8 +33847,8 @@ class ProxmoxAPI:
                                     "schedule": NotRequired[str],
                                     "source": NotRequired[str],
                                     "target": NotRequired[str],
-                                    "type": Literal["local"],
-                                    "vmtype": Literal["qemu", "lxc"],
+                                    "type": NotRequired[Literal["local"]],
+                                    "vmtype": NotRequired[Literal["qemu", "lxc"]],
                                 },
                             )
 
@@ -33785,9 +33858,9 @@ class ProxmoxAPI:
                                 duration: Optional[float] = None
                                 error: Optional[str] = None
                                 fail_count: Optional[int] = None
-                                guest: int
-                                id: str
-                                jobnum: int
+                                guest: Optional[int] = None
+                                id: Optional[str] = None
+                                jobnum: Optional[int] = None
                                 last_sync: Optional[int] = None
                                 last_try: Optional[int] = None
                                 next_sync: Optional[int] = None
@@ -33797,8 +33870,8 @@ class ProxmoxAPI:
                                 schedule: Optional[str] = None
                                 source: Optional[str] = None
                                 target: Optional[str] = None
-                                type: Literal["local"]
-                                vmtype: Literal["qemu", "lxc"]
+                                type: Optional[Literal["local"]] = None
+                                vmtype: Optional[Literal["qemu", "lxc"]] = None
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Nodes.Node.Replication.Id.Status._Get"
@@ -34034,9 +34107,9 @@ class ProxmoxAPI:
                             "duration": NotRequired[float],
                             "error": NotRequired[str],
                             "fail_count": NotRequired[int],
-                            "guest": int,
+                            "guest": NotRequired[int],
                             "id": str,
-                            "jobnum": int,
+                            "jobnum": NotRequired[int],
                             "last_sync": NotRequired[int],
                             "last_try": NotRequired[int],
                             "next_sync": NotRequired[int],
@@ -34046,8 +34119,8 @@ class ProxmoxAPI:
                             "schedule": NotRequired[str],
                             "source": NotRequired[str],
                             "target": NotRequired[str],
-                            "type": Literal["local"],
-                            "vmtype": Literal["qemu", "lxc"],
+                            "type": NotRequired[Literal["local"]],
+                            "vmtype": NotRequired[Literal["qemu", "lxc"]],
                         },
                     )
 
@@ -34057,9 +34130,9 @@ class ProxmoxAPI:
                         duration: Optional[float] = None
                         error: Optional[str] = None
                         fail_count: Optional[int] = None
-                        guest: int
+                        guest: Optional[int] = None
                         id: str
-                        jobnum: int
+                        jobnum: Optional[int] = None
                         last_sync: Optional[int] = None
                         last_try: Optional[int] = None
                         next_sync: Optional[int] = None
@@ -34069,8 +34142,8 @@ class ProxmoxAPI:
                         schedule: Optional[str] = None
                         source: Optional[str] = None
                         target: Optional[str] = None
-                        type: Literal["local"]
-                        vmtype: Literal["qemu", "lxc"]
+                        type: Optional[Literal["local"]] = None
+                        vmtype: Optional[Literal["qemu", "lxc"]] = None
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Replication._Get"
 
@@ -35719,12 +35792,12 @@ class ProxmoxAPI:
                             "cpu": float,
                             "cpuinfo": "ProxmoxAPI.Nodes.Node.Status._Get._Cpuinfo.TypedDict",
                             "current-kernel": "ProxmoxAPI.Nodes.Node.Status._Get._CurrentKernel.TypedDict",
-                            "idle": int,
+                            "idle": NotRequired[int],
                             "loadavg": list[str],
                             "memory": "ProxmoxAPI.Nodes.Node.Status._Get._Memory.TypedDict",
                             "pveversion": str,
                             "rootfs": "ProxmoxAPI.Nodes.Node.Status._Get._Rootfs.TypedDict",
-                            "uptime": int,
+                            "uptime": NotRequired[int],
                         },
                     )
 
@@ -35737,12 +35810,12 @@ class ProxmoxAPI:
                         current_kernel: (
                             "ProxmoxAPI.Nodes.Node.Status._Get._CurrentKernel.Model"
                         ) = pydantic.Field(alias="current-kernel")
-                        idle: int
+                        idle: Optional[int] = None
                         loadavg: list[str]
                         memory: "ProxmoxAPI.Nodes.Node.Status._Get._Memory.Model"
                         pveversion: str
                         rootfs: "ProxmoxAPI.Nodes.Node.Status._Get._Rootfs.Model"
-                        uptime: int
+                        uptime: Optional[int] = None
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Status._Get"
 

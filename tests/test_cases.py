@@ -24,13 +24,13 @@ def typechecks() -> None:
     assert_type(proxmoxer9.ProxmoxAPI().cluster.ceph.metadata.get()["mon"], dict[str, Any])
     assert_type(proxmoxer9.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], Literal['quorum', 'master', 'lrm', 'service', 'fencing'])
     assert_type(proxmoxer9.ProxmoxAPI().cluster.replication("some-id").get(), proxmoxer9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict)
-    assert_type(proxmoxer9.ProxmoxAPI().cluster.replication("some-id").get()["jobnum"], int)
+    assert_type(proxmoxer9.ProxmoxAPI().cluster.replication("some-id").get().get("jobnum"), Optional[int])
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get(), proxmoxer9.core.ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict)
     assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get()["mon"], dict[str, Any])
     assert_type(proxmoxer.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], Literal['quorum', 'master', 'lrm', 'service', 'fencing'])
     assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get(), proxmoxer9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict)
-    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get()["jobnum"], int)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get().get("jobnum"), Optional[int])
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get().get("log"), Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
@@ -43,7 +43,7 @@ def typechecks() -> None:
 def models() -> None:
     import proxmoxer
     assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get.model().mon, dict[str, Any])
-    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get.model().jobnum, int)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get.model().jobnum, Optional[int])
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get.model().log, Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
     storage = proxmoxer.ProxmoxAPI().nodes('42').storage.get.model()[0]

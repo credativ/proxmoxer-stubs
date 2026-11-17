@@ -16,7 +16,7 @@ typing.reveal_type(api.cluster.replication("some-id").get())
 ```
 
 ```
-replication.py:6: note: Revealed type is "TypedDict('proxmoxer_types.v9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict', {'comment'?: builtins.str, 'digest'?: builtins.str, 'disable'?: builtins.bool, 'guest': builtins.int, 'id': builtins.str, 'jobnum': builtins.int, 'rate'?: builtins.float, 'remove_job'?: builtins.str, 'schedule'?: builtins.str, 'source'?: builtins.str, 'target': builtins.str, 'type': builtins.str})"
+replication.py:6: note: Revealed type is "TypedDict(proxmoxer_types.v9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict, {'comment'?: str, 'digest'?: str, 'disable'?: bool, 'guest'?: int, 'id'?: str, 'jobnum'?: int, 'rate'?: float, 'remove_job'?: Literal['local'] | Literal['full'], 'schedule'?: str, 'skip-freeze-fs'?: bool, 'source'?: str, 'target'?: str, 'type'?: Literal['local']})"
 Success: no issues found in 1 source file
 ```
 
@@ -107,6 +107,29 @@ Values of optional fields are possibly `None` in the model instance.
 - At runtime: `proxmoxer-stubs`, `pydantic`
 
 ## Caveats
+
+### Minor releases
+
+Each `proxmoxer_types.v*` module covers a whole major release and is generated
+from the schema of its newest minor release. Endpoints, parameters and enum
+values added in later minor releases are annotated even though older servers
+of the same major release do not support them.
+
+For v9, return types are relaxed so they hold for every release since 9.0,
+according to the documented schema of each release (see
+`apidata/history-v9.json`):
+
+- A return field is only annotated as required (and validated as such by
+  `method.model(...)`) if every release marks it as required. A field that was
+  added or documented later is `NotRequired` in the `TypedDict` and `Optional`
+  in the model.
+- An enum contains the values of all releases, including values that newer
+  releases no longer list. An enum that some release does not constrain at all
+  is annotated as `str`.
+- A return field that older releases document but newer ones do not is kept as
+  an optional field.
+
+### Endpoint notation
 
 `proxmoxer.ProxmoxAPI` has several ways of expressing the same endpoint due to its magic implementation.
 

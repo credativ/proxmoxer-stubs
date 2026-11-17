@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from . import ApiSchema
 from .patches import Patch as BasePatch
+from .history import apply_history
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -30,6 +31,11 @@ parser.add_argument(
     help="PVE major version of the JSON schema",
     required=True,
 )
+parser.add_argument(
+    "--history",
+    type=Path,
+    help="return types of older releases of the major version (see stubgen.history) to relax the schema with",
+)
 
 args = parser.parse_args()
 
@@ -47,7 +53,18 @@ else:
     raise RuntimeError(f"API-Version {args.apiversion} unsupported")
 
 with args.config.open() as src:
-    schema = ApiSchema(children=json.load(src))
+    data = json.load(src)
+
+if args.history:
+    with args.history.open() as src:
+        applied = apply_history(data, json.load(src))
+    print(
+        f"stubgen: according to {args.history}: {applied.optional} return fields marked optional, "
+        f"{applied.enum_values} enum values added, {applied.enum_opened} enums opened to str, "
+        f"{applied.restored} removed fields restored as optional"
+    )
+
+schema = ApiSchema(children=data)
 
 for todo in (
     (args.stubs, schema.stubs),

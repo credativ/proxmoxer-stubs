@@ -3,6 +3,10 @@
 APIFILES := $(notdir $(wildcard apidata/apidata-v*.json))
 VERSIONS := $(patsubst apidata-%.json,%,$(APIFILES))
 LATEST := v9
+# Range of pve-docs schema snapshots that apidata/history-v9.json is computed from:
+# last snapshot before 9.0 GA, and the snapshot apidata-v9.json was taken from.
+V9_SINCE := a658d63
+V9_UNTIL := 5be56f5
 
 .PHONY: help
 
@@ -15,14 +19,14 @@ all: proxmoxer-stubs proxmoxer_types pretty ## proxmoxer-stubs, proxmoxer_types 
 
 proxmoxer-stubs: poetry clean-stubs ## Create stubs
 	cp -r src/stubs/common proxmoxer-stubs
-	poetry run python3 -m stubgen --config apidata/apidata-$(LATEST).json --stubs proxmoxer-stubs/core.pyi --apiversion $(LATEST) ; \
+	poetry run python3 -m stubgen --config apidata/apidata-$(LATEST).json --stubs proxmoxer-stubs/core.pyi --apiversion $(LATEST) $(if $(wildcard apidata/history-$(LATEST).json),--history apidata/history-$(LATEST).json) ; \
 
 
 proxmoxer_types: poetry clean-types ## Create type containers
 	cp -r src/types/common proxmoxer_types
 	for V in $(VERSIONS) ; do \
 		cp -r src/types/each proxmoxer_types/$$V ; \
-		poetry run python3 -m stubgen --config apidata/apidata-$$V.json --types proxmoxer_types/$$V/core.py --apiversion $$V ; \
+		poetry run python3 -m stubgen --config apidata/apidata-$$V.json --types proxmoxer_types/$$V/core.py --apiversion $$V $$( [ -f apidata/history-$$V.json ] && echo --history apidata/history-$$V.json ) ; \
 	done
 
 
@@ -34,6 +38,11 @@ test: poetry ## pytest, mypy, pyright, stubtest
 	poetry run py.test --mypy
 	poetry run pyright
 	poetry run stubtest --ignore-missing-stub --allowlist tests/stubtest-allowlist --ignore-unused-allowlist proxmoxer
+
+
+history-v9: poetry ## Recompute v9 required fields and enums of older releases, needs PVE_DOCS=<pve-docs clone>
+	test -n "$(PVE_DOCS)" || { echo "set PVE_DOCS to a clone of git://git.proxmox.com/git/pve-docs.git" >&2 ; exit 1 ; }
+	poetry run python3 -m stubgen.history --pve-docs $(PVE_DOCS) --since $(V9_SINCE) --until $(V9_UNTIL) --reference apidata/apidata-v9.json --output apidata/history-v9.json
 
 
 poetry:
