@@ -26,7 +26,9 @@ ApiSchemaItemInfoMethodReturns: TypeAlias = Union[
 from .patches import Patch
 
 def render(template: str, *args: Any, **kwargs: Any) -> str:
-    return Template(textwrap.dedent(template)).render(
+    # jinja2 annotates Template.__new__ as returning Any
+    compiled: Template = Template(textwrap.dedent(template))
+    return compiled.render(
         str=str, repr=repr, *args, **kwargs
     )
 
