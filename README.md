@@ -16,7 +16,7 @@ typing.reveal_type(api.cluster.replication("some-id").get())
 ```
 
 ```
-replication.py:6: note: Revealed type is "TypedDict(proxmoxer_types.v9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict, {'comment'?: str, 'digest'?: str, 'disable'?: bool, 'guest'?: int, 'id'?: str, 'jobnum'?: int, 'rate'?: float, 'remove_job'?: Literal['local'] | Literal['full'], 'schedule'?: str, 'skip-freeze-fs'?: bool, 'source'?: str, 'target'?: str, 'type'?: Literal['local']})"
+replication.py:6: note: Revealed type is "TypedDict(proxmoxer_types.v9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict, {'comment'?: str, 'digest'?: str, 'disable'?: Literal[0] | Literal[1] | bool, 'guest'?: int, 'id'?: str, 'jobnum'?: int, 'rate'?: float, 'remove_job'?: Literal['local'] | Literal['full'], 'schedule'?: str, 'skip-freeze-fs'?: Literal[0] | Literal[1] | bool, 'source'?: str, 'target'?: str, 'type'?: Literal['local']})"
 Success: no issues found in 1 source file
 ```
 
@@ -128,6 +128,27 @@ according to the documented schema of each release (see
   is annotated as `str`.
 - A return field that older releases document but newer ones do not is kept as
   an optional field.
+
+A changed type in the documentation is usually a correction and is not merged.
+Where the server output itself changed, a patch has to cover both forms.
+Output changes that the documentation never reflected can only be found by
+reviewing the PVE source.
+
+### Booleans
+
+PVE documents many return fields as boolean, but its Perl handlers send `0`/`1`
+unless they explicitly return JSON booleans; values read from configuration
+files are always sent as numbers. Documented booleans are therefore annotated as
+`proxmoxer_types.PveBool`, an alias of `Literal[0, 1] | bool`, in the
+`TypedDict`. Truth tests and `== True` work on both; use `method.model(...)`
+for actual `bool` values.
+
+```python
+from proxmoxer_types import PveBool
+
+def is_enabled(flag: PveBool | None) -> bool:
+    return flag is None or bool(flag)
+```
 
 ### Endpoint notation
 

@@ -1,5 +1,7 @@
 from typing import Any, Literal, Optional, assert_type, TYPE_CHECKING
 
+from proxmoxer_types import PveBool
+
 def typechecks() -> None:
     import proxmoxer
     import proxmoxer_types.v6 as proxmoxer6
@@ -39,6 +41,11 @@ def typechecks() -> None:
     assert 'enabled' in storage
     assert_type(storage['active'], Literal[0, 1])
     assert_type(storage['enabled'], Literal[0, 1])
+
+    assert_type(proxmoxer.ProxmoxAPI().cluster.backup("job").get().get("enabled"), Literal[0, 1] | bool | None)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.backup("job").get.model().enabled, Optional[bool])
+    assert_type(proxmoxer.ProxmoxAPI().nodes('42').ceph.mon.get()[0].get('service'), Literal[0, 1] | bool | None)
+    assert_type(proxmoxer8.ProxmoxAPI().cluster.metrics.server.get()[0]["disable"], PveBool)
 
 def models() -> None:
     import proxmoxer
