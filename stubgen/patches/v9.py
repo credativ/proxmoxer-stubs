@@ -1,6 +1,8 @@
 from typing import Any
 from . import Patch as BasePatch
 from .. import (
+    ApiSchemaItem,
+    ApiSchemaItemInfoMethodProperty,
     ApiSchemaItemInfoMethodReturns,
     ApiSchemaItemInfoMethodReturnsArray,
     ApiSchemaItemInfoMethodReturnsBoolean,
@@ -89,7 +91,20 @@ class Patch(BasePatch):
             print(f"{__name__}: Patching {self}: Specify type property as string")
             assert isinstance(obj, ApiSchemaItemInfoMethodReturnsObject)
             assert isinstance(obj.properties, dict)
-            obj.properties["type"] = ApiSchemaItemInfoMethodReturnsString(optional=False, type="string", enum=["quorum", "master", "lrm", "service"])
+            obj.properties["type"] = ApiSchemaItemInfoMethodReturnsString(optional=False, type="string", enum=["quorum", "master", "lrm", "service", "fencing"])
+
+        if self == "/cluster/sdn/prefix-lists/{id}/entries/{url_seq}":
+            # The handlers in pve-network (PVE/API2/Network/SDN/PrefixLists/PrefixListEntry.pm)
+            # extract url_seq but do not declare it; proxmox-perl-rs takes it as `seq: u32`.
+            print(f"{__name__}: Patching {self}: Add missing url_seq path parameter as integer")
+            assert isinstance(obj, ApiSchemaItem)
+            assert obj.info is not None
+            for method in (obj.info.DELETE, obj.info.GET, obj.info.POST, obj.info.PUT):
+                if method is None:
+                    continue
+                assert method.parameters.properties is not None
+                assert "url_seq" not in method.parameters.properties
+                method.parameters.properties["url_seq"] = ApiSchemaItemInfoMethodProperty(type="integer")
 
         # /nodes/...
 

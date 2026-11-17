@@ -26,7 +26,9 @@ ApiSchemaItemInfoMethodReturns: TypeAlias = Union[
 from .patches import Patch
 
 def render(template: str, *args: Any, **kwargs: Any) -> str:
-    return Template(textwrap.dedent(template)).render(
+    # jinja2 annotates Template.__new__ as returning Any
+    compiled: Template = Template(textwrap.dedent(template))
+    return compiled.render(
         str=str, repr=repr, *args, **kwargs
     )
 
@@ -297,12 +299,15 @@ class ApiSchemaItemInfoMethodReturnsNumber(BaseModel):
 
 
 class ApiSchemaItemInfoMethodReturnsBoolean(BaseModel):
+    """A documented boolean, sent as 0/1 or bool; see proxmoxer_types.PveBool.
+
+    Models keep bool, pydantic converts 0/1.
+    """
     type: Literal["boolean"]
 
     def dump(self, path: Path, name: str, param_type: Callable[[str], str | None], **kwargs: Any) -> Return:
         path = path.copy_append(Path.CodeSegment(orig=name))
-        type_ = 'bool'
-        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype=type_, modeltype=type_)
+        return self._dump(path=path, optional=self.optional, param_type=param_type, dicttype='PveBool', modeltype='bool')
 
 
 class ApiSchemaItemInfoMethodReturnsBoolint(BaseModel):
@@ -652,9 +657,12 @@ class ApiSchemaItemInfoMethod(BaseModel):
     def param_type(self, name: str) -> ApiSchemaItemInfoMethodProperty | None:
         return self.parameters.properties.get(name) if self.parameters.properties else None
 
-    def dump(self, path: Path, method: str, patch: Patch) -> Code | None:
+    def dump(
+        self, path: Path, method: str, patch: Patch, fallback: Callable[[str], ApiSchemaItemInfoMethodProperty]
+    ) -> Code | None:
         def param_type(name: str) -> str | None:
-            return str(self.param_type(name)) if self.param_type(name) else None
+            # path parameters are not always declared on each method (e.g. allOf parameter schemas)
+            return str(self.param_type(name) or fallback(name))
         return self.returns.dump(path=path, name=method, patch=patch(self), param_type=param_type, call=True).code
 
 
@@ -673,13 +681,13 @@ class ApiSchemaItemInfo(BaseModel):
 
     def dump(self, path: Path, patch: Patch) -> Code:
         codelist: list[Code] = []
-        if self.DELETE and (code := self.DELETE.dump(path=path, method="delete", patch=patch(self))):
+        if self.DELETE and (code := self.DELETE.dump(path=path, method="delete", patch=patch(self), fallback=self.param_type)):
             codelist.append(code)
-        if self.GET and (code := self.GET.dump(path=path, method="get", patch=patch(self))):
+        if self.GET and (code := self.GET.dump(path=path, method="get", patch=patch(self), fallback=self.param_type)):
             codelist.append(code)
-        if self.POST and (code := self.POST.dump(path=path, method="post", patch=patch(self))):
+        if self.POST and (code := self.POST.dump(path=path, method="post", patch=patch(self), fallback=self.param_type)):
             codelist.append(code)
-        if self.PUT and (code := self.PUT.dump(path=path, method="put", patch=patch(self))):
+        if self.PUT and (code := self.PUT.dump(path=path, method="put", patch=patch(self), fallback=self.param_type)):
             codelist.append(code)
         return Code(
             head=render(
@@ -861,6 +869,8 @@ class ApiSchema(BaseModel):
                 from dataclasses import dataclass
                 from functools import cached_property, lru_cache
                 from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
+
+                from .. import PveBool
 
                 if TYPE_CHECKING:
                     from ..{{ apiversion }} import ProxmoxAPI as ProxmoxerProxmoxAPI

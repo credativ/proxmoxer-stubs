@@ -1,5 +1,7 @@
 from typing import Any, Literal, Optional, assert_type, TYPE_CHECKING
 
+from proxmoxer_types import PveBool
+
 def typechecks() -> None:
     import proxmoxer
     import proxmoxer_types.v6 as proxmoxer6
@@ -21,16 +23,16 @@ def typechecks() -> None:
     assert_type(proxmoxer8.ProxmoxAPI().cluster.replication("some-id").get(), dict[str, Any])
 
     assert_type(proxmoxer9.ProxmoxAPI().cluster.ceph.metadata.get(), proxmoxer9.core.ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict)
-    assert_type(proxmoxer9.ProxmoxAPI().cluster.ceph.metadata.get()["mon"]["{id}"]["ceph_version"], str)
-    assert_type(proxmoxer9.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], Literal['quorum', 'master', 'lrm', 'service'])
+    assert_type(proxmoxer9.ProxmoxAPI().cluster.ceph.metadata.get()["mon"], dict[str, Any])
+    assert_type(proxmoxer9.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], Literal['quorum', 'master', 'lrm', 'service', 'fencing'])
     assert_type(proxmoxer9.ProxmoxAPI().cluster.replication("some-id").get(), proxmoxer9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict)
-    assert_type(proxmoxer9.ProxmoxAPI().cluster.replication("some-id").get()["jobnum"], int)
+    assert_type(proxmoxer9.ProxmoxAPI().cluster.replication("some-id").get().get("jobnum"), Optional[int])
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get(), proxmoxer9.core.ProxmoxAPI.Cluster.Ceph.Metadata._Get.TypedDict)
-    assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get()["mon"]["{id}"]["ceph_version"], str)
-    assert_type(proxmoxer.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], Literal['quorum', 'master', 'lrm', 'service'])
+    assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get()["mon"], dict[str, Any])
+    assert_type(proxmoxer.ProxmoxAPI().cluster.ha.status.current.get()[42]["type"], Literal['quorum', 'master', 'lrm', 'service', 'fencing'])
     assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get(), proxmoxer9.core.ProxmoxAPI.Cluster.Replication.Id._Get.TypedDict)
-    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get()["jobnum"], int)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get().get("jobnum"), Optional[int])
 
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get().get("log"), Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
@@ -40,10 +42,15 @@ def typechecks() -> None:
     assert_type(storage['active'], Literal[0, 1])
     assert_type(storage['enabled'], Literal[0, 1])
 
+    assert_type(proxmoxer.ProxmoxAPI().cluster.backup("job").get().get("enabled"), Literal[0, 1] | bool | None)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.backup("job").get.model().enabled, Optional[bool])
+    assert_type(proxmoxer.ProxmoxAPI().nodes('42').ceph.mon.get()[0].get('service'), Literal[0, 1] | bool | None)
+    assert_type(proxmoxer8.ProxmoxAPI().cluster.metrics.server.get()[0]["disable"], PveBool)
+
 def models() -> None:
     import proxmoxer
-    assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get.model().mon.id.ceph_version, str)
-    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get.model().jobnum, int)
+    assert_type(proxmoxer.ProxmoxAPI().cluster.ceph.metadata.get.model().mon, dict[str, Any])
+    assert_type(proxmoxer.ProxmoxAPI().cluster.replication("some-id").get.model().jobnum, Optional[int])
     assert_type(proxmoxer.ProxmoxAPI().cluster.firewall.groups("foo")(42).get.model().log, Optional[Literal['emerg', 'alert', 'crit', 'err', 'warning', 'notice', 'info', 'debug', 'nolog']])
 
     storage = proxmoxer.ProxmoxAPI().nodes('42').storage.get.model()[0]

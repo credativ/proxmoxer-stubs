@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from functools import cached_property, lru_cache
 from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
 
+from .. import PveBool
+
 if TYPE_CHECKING:
     from ..v9 import ProxmoxAPI as ProxmoxerProxmoxAPI
 else:
@@ -61,16 +63,17 @@ class ProxmoxAPI:
                         {
                             "comment": NotRequired[str],
                             "digest": NotRequired[str],
-                            "disable": NotRequired[bool],
-                            "guest": int,
-                            "id": str,
-                            "jobnum": int,
+                            "disable": NotRequired[PveBool],
+                            "guest": NotRequired[int],
+                            "id": NotRequired[str],
+                            "jobnum": NotRequired[int],
                             "rate": NotRequired[float],
                             "remove_job": NotRequired[Literal["local", "full"]],
                             "schedule": NotRequired[str],
+                            "skip-freeze-fs": NotRequired[PveBool],
                             "source": NotRequired[str],
-                            "target": str,
-                            "type": Literal["local"],
+                            "target": NotRequired[str],
+                            "type": NotRequired[Literal["local"]],
                         },
                     )
 
@@ -78,15 +81,18 @@ class ProxmoxAPI:
                         comment: Optional[str] = None
                         digest: Optional[str] = None
                         disable: Optional[bool] = None
-                        guest: int
-                        id: str
-                        jobnum: int
+                        guest: Optional[int] = None
+                        id: Optional[str] = None
+                        jobnum: Optional[int] = None
                         rate: Optional[float] = None
                         remove_job: Optional[Literal["local", "full"]] = None
                         schedule: Optional[str] = None
+                        skip_freeze_fs: Optional[bool] = pydantic.Field(
+                            alias="skip-freeze-fs", default=None
+                        )
                         source: Optional[str] = None
-                        target: str
-                        type: Literal["local"]
+                        target: Optional[str] = None
+                        type: Optional[Literal["local"]] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Replication.Id._Get"
 
@@ -176,31 +182,35 @@ class ProxmoxAPI:
                     "TypedDict",
                     {
                         "comment": NotRequired[str],
-                        "disable": NotRequired[bool],
-                        "guest": int,
-                        "id": str,
-                        "jobnum": int,
+                        "disable": NotRequired[PveBool],
+                        "guest": NotRequired[int],
+                        "id": NotRequired[str],
+                        "jobnum": NotRequired[int],
                         "rate": NotRequired[float],
                         "remove_job": NotRequired[Literal["local", "full"]],
                         "schedule": NotRequired[str],
+                        "skip-freeze-fs": NotRequired[PveBool],
                         "source": NotRequired[str],
-                        "target": str,
-                        "type": Literal["local"],
+                        "target": NotRequired[str],
+                        "type": NotRequired[Literal["local"]],
                     },
                 )
 
                 class Model(BaseModel):
                     comment: Optional[str] = None
                     disable: Optional[bool] = None
-                    guest: int
-                    id: str
-                    jobnum: int
+                    guest: Optional[int] = None
+                    id: Optional[str] = None
+                    jobnum: Optional[int] = None
                     rate: Optional[float] = None
                     remove_job: Optional[Literal["local", "full"]] = None
                     schedule: Optional[str] = None
+                    skip_freeze_fs: Optional[bool] = pydantic.Field(
+                        alias="skip-freeze-fs", default=None
+                    )
                     source: Optional[str] = None
-                    target: str
-                    type: Literal["local"]
+                    target: Optional[str] = None
+                    type: Optional[Literal["local"]] = None
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Replication._Get"
 
@@ -400,7 +410,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "disable": bool,
+                            "disable": PveBool,
                             "id": str,
                             "port": int,
                             "server": str,
@@ -726,7 +736,7 @@ class ProxmoxAPI:
                                     "author": NotRequired[str],
                                     "comment": NotRequired[str],
                                     "digest": NotRequired[str],
-                                    "disable": NotRequired[bool],
+                                    "disable": NotRequired[PveBool],
                                     "from-address": NotRequired[str],
                                     "mailto": NotRequired[list[str]],
                                     "mailto-user": NotRequired[list[str]],
@@ -840,7 +850,7 @@ class ProxmoxAPI:
                             {
                                 "author": NotRequired[str],
                                 "comment": NotRequired[str],
-                                "disable": NotRequired[bool],
+                                "disable": NotRequired[PveBool],
                                 "from-address": NotRequired[str],
                                 "mailto": NotRequired[list[str]],
                                 "mailto-user": NotRequired[list[str]],
@@ -970,7 +980,7 @@ class ProxmoxAPI:
                                 {
                                     "comment": NotRequired[str],
                                     "digest": NotRequired[str],
-                                    "disable": NotRequired[bool],
+                                    "disable": NotRequired[PveBool],
                                     "name": str,
                                     "server": str,
                                 },
@@ -1074,7 +1084,7 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "comment": NotRequired[str],
-                                "disable": NotRequired[bool],
+                                "disable": NotRequired[PveBool],
                                 "name": str,
                                 "origin": Literal[
                                     "user-created", "builtin", "modified-builtin"
@@ -1196,7 +1206,7 @@ class ProxmoxAPI:
                                     "author": NotRequired[str],
                                     "comment": NotRequired[str],
                                     "digest": NotRequired[str],
-                                    "disable": NotRequired[bool],
+                                    "disable": NotRequired[PveBool],
                                     "from-address": str,
                                     "mailto": NotRequired[list[str]],
                                     "mailto-user": NotRequired[list[str]],
@@ -1320,7 +1330,7 @@ class ProxmoxAPI:
                             {
                                 "author": NotRequired[str],
                                 "comment": NotRequired[str],
-                                "disable": NotRequired[bool],
+                                "disable": NotRequired[PveBool],
                                 "from-address": str,
                                 "mailto": NotRequired[list[str]],
                                 "mailto-user": NotRequired[list[str]],
@@ -1461,7 +1471,7 @@ class ProxmoxAPI:
                                     "body": NotRequired[str],
                                     "comment": NotRequired[str],
                                     "digest": NotRequired[str],
-                                    "disable": NotRequired[bool],
+                                    "disable": NotRequired[PveBool],
                                     "header": NotRequired[list[str]],
                                     "method": Literal["post", "put", "get"],
                                     "name": str,
@@ -1573,7 +1583,7 @@ class ProxmoxAPI:
                             {
                                 "body": NotRequired[str],
                                 "comment": NotRequired[str],
-                                "disable": NotRequired[bool],
+                                "disable": NotRequired[PveBool],
                                 "header": NotRequired[list[str]],
                                 "method": Literal["post", "put", "get"],
                                 "name": str,
@@ -1776,7 +1786,7 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "comment": NotRequired[str],
-                            "disable": NotRequired[bool],
+                            "disable": NotRequired[PveBool],
                             "name": str,
                             "origin": Literal[
                                 "user-created", "builtin", "modified-builtin"
@@ -1866,8 +1876,9 @@ class ProxmoxAPI:
                             {
                                 "comment": NotRequired[str],
                                 "digest": NotRequired[str],
-                                "disable": NotRequired[bool],
-                                "invert-match": NotRequired[bool],
+                                "disable": NotRequired[PveBool],
+                                "expression": NotRequired[str],
+                                "invert-match": NotRequired[PveBool],
                                 "match-calendar": NotRequired[list[str]],
                                 "match-field": NotRequired[list[str]],
                                 "match-severity": NotRequired[list[str]],
@@ -1881,6 +1892,7 @@ class ProxmoxAPI:
                             comment: Optional[str] = None
                             digest: Optional[str] = None
                             disable: Optional[bool] = None
+                            expression: Optional[str] = None
                             invert_match: Optional[bool] = pydantic.Field(
                                 alias="invert-match", default=None
                             )
@@ -1992,8 +2004,9 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "comment": NotRequired[str],
-                            "disable": NotRequired[bool],
-                            "invert-match": NotRequired[bool],
+                            "disable": NotRequired[PveBool],
+                            "expression": NotRequired[str],
+                            "invert-match": NotRequired[PveBool],
                             "match-calendar": NotRequired[list[str]],
                             "match-field": NotRequired[list[str]],
                             "match-severity": NotRequired[list[str]],
@@ -2009,6 +2022,7 @@ class ProxmoxAPI:
                     class Model(BaseModel):
                         comment: Optional[str] = None
                         disable: Optional[bool] = None
+                        expression: Optional[str] = None
                         invert_match: Optional[bool] = pydantic.Field(
                             alias="invert-match", default=None
                         )
@@ -2119,6 +2133,860 @@ class ProxmoxAPI:
         @cached_property
         def notifications(self) -> Notifications:
             return self.Notifications(
+                proxmox_api=self.proxmox_api,
+            )
+
+        # /cluster/qemu
+        @dataclass
+        class Qemu:
+
+            # /cluster/qemu/cpu-flags
+            @dataclass
+            class CpuFlags:
+
+                @dataclass
+                class _Get:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "description": NotRequired[str],
+                            "name": str,
+                            "supported-on": NotRequired[list[str]],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        description: Optional[str] = None
+                        name: str
+                        supported_on: Optional[list[str]] = pydantic.Field(
+                            alias="supported-on", default=None
+                        )
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Qemu.CpuFlags._Get"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Qemu.CpuFlags._Get.TypedDict"]:
+                        data: Any = self.proxmox_api.cluster.qemu("cpu-flags").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Qemu.CpuFlags._Get.TypedDict"],
+                            data,
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Qemu.CpuFlags._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Qemu.CpuFlags._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.qemu("cpu-flags").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def cpu_flags(self) -> CpuFlags:
+                return self.CpuFlags(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            # /cluster/qemu/custom-cpu-models
+            @dataclass
+            class CustomCpuModels:
+
+                # /cluster/qemu/custom-cpu-models/{cputype}
+                @dataclass
+                class Cputype:
+
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        cputype: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models")(self.cputype).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models")(self.cputype).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "cputype": NotRequired[str],
+                                "digest": NotRequired[str],
+                                "flags": NotRequired[str],
+                                "guest-phys-bits": NotRequired[int],
+                                "hidden": NotRequired[PveBool],
+                                "hv-vendor-id": NotRequired[str],
+                                "level": NotRequired[int],
+                                "phys-bits": NotRequired[str],
+                                "reported-model": NotRequired[
+                                    Literal[
+                                        "486",
+                                        "a64fx",
+                                        "athlon",
+                                        "Broadwell",
+                                        "Broadwell-IBRS",
+                                        "Broadwell-noTSX",
+                                        "Broadwell-noTSX-IBRS",
+                                        "Cascadelake-Server",
+                                        "Cascadelake-Server-noTSX",
+                                        "Cascadelake-Server-v2",
+                                        "Cascadelake-Server-v4",
+                                        "Cascadelake-Server-v5",
+                                        "Cascadelake-Server-v6",
+                                        "Cascadelake-Server-v7",
+                                        "ClearwaterForest",
+                                        "ClearwaterForest-v2",
+                                        "ClearwaterForest-v3",
+                                        "ClearwaterForest-v4",
+                                        "Conroe",
+                                        "Cooperlake",
+                                        "Cooperlake-v2",
+                                        "core2duo",
+                                        "coreduo",
+                                        "cortex-a35",
+                                        "cortex-a53",
+                                        "cortex-a55",
+                                        "cortex-a57",
+                                        "cortex-a710",
+                                        "cortex-a72",
+                                        "cortex-a76",
+                                        "cortex-a78ae",
+                                        "DiamondRapids",
+                                        "DiamondRapids-v2",
+                                        "EPYC",
+                                        "EPYC-Genoa",
+                                        "EPYC-Genoa-v2",
+                                        "EPYC-Genoa-v3",
+                                        "EPYC-IBPB",
+                                        "EPYC-Milan",
+                                        "EPYC-Milan-v2",
+                                        "EPYC-Milan-v3",
+                                        "EPYC-Milan-v4",
+                                        "EPYC-Rome",
+                                        "EPYC-Rome-v2",
+                                        "EPYC-Rome-v3",
+                                        "EPYC-Rome-v4",
+                                        "EPYC-Rome-v5",
+                                        "EPYC-Turin",
+                                        "EPYC-Turin-v2",
+                                        "EPYC-v3",
+                                        "EPYC-v4",
+                                        "EPYC-v5",
+                                        "GraniteRapids",
+                                        "GraniteRapids-v2",
+                                        "GraniteRapids-v3",
+                                        "GraniteRapids-v4",
+                                        "GraniteRapids-v5",
+                                        "GraniteRapids-v6",
+                                        "GraniteRapids-v7",
+                                        "Haswell",
+                                        "Haswell-IBRS",
+                                        "Haswell-noTSX",
+                                        "Haswell-noTSX-IBRS",
+                                        "host",
+                                        "Icelake-Client",
+                                        "Icelake-Client-noTSX",
+                                        "Icelake-Server",
+                                        "Icelake-Server-noTSX",
+                                        "Icelake-Server-v3",
+                                        "Icelake-Server-v4",
+                                        "Icelake-Server-v5",
+                                        "Icelake-Server-v6",
+                                        "Icelake-Server-v7",
+                                        "Icelake-Server-v8",
+                                        "Icelake-Server-v9",
+                                        "IvyBridge",
+                                        "IvyBridge-IBRS",
+                                        "KnightsMill",
+                                        "kvm32",
+                                        "kvm64",
+                                        "max",
+                                        "Nehalem",
+                                        "Nehalem-IBRS",
+                                        "neoverse-n1",
+                                        "neoverse-n2",
+                                        "neoverse-v1",
+                                        "Opteron_G1",
+                                        "Opteron_G2",
+                                        "Opteron_G3",
+                                        "Opteron_G4",
+                                        "Opteron_G5",
+                                        "Penryn",
+                                        "pentium",
+                                        "pentium2",
+                                        "pentium3",
+                                        "phenom",
+                                        "qemu32",
+                                        "qemu64",
+                                        "SandyBridge",
+                                        "SandyBridge-IBRS",
+                                        "SapphireRapids",
+                                        "SapphireRapids-v2",
+                                        "SapphireRapids-v3",
+                                        "SapphireRapids-v4",
+                                        "SapphireRapids-v5",
+                                        "SapphireRapids-v6",
+                                        "SapphireRapids-v7",
+                                        "SapphireRapids-v8",
+                                        "SierraForest",
+                                        "SierraForest-v2",
+                                        "SierraForest-v3",
+                                        "SierraForest-v4",
+                                        "SierraForest-v5",
+                                        "SierraForest-v6",
+                                        "Skylake-Client",
+                                        "Skylake-Client-IBRS",
+                                        "Skylake-Client-noTSX-IBRS",
+                                        "Skylake-Client-v4",
+                                        "Skylake-Server",
+                                        "Skylake-Server-IBRS",
+                                        "Skylake-Server-noTSX-IBRS",
+                                        "Skylake-Server-v4",
+                                        "Skylake-Server-v5",
+                                        "Skylake-Server-v6",
+                                        "Westmere",
+                                        "Westmere-IBRS",
+                                    ]
+                                ],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            cputype: Optional[str] = None
+                            digest: Optional[str] = None
+                            flags: Optional[str] = None
+                            guest_phys_bits: Optional[int] = pydantic.Field(
+                                alias="guest-phys-bits", default=None
+                            )
+                            hidden: Optional[bool] = None
+                            hv_vendor_id: Optional[str] = pydantic.Field(
+                                alias="hv-vendor-id", default=None
+                            )
+                            level: Optional[int] = None
+                            phys_bits: Optional[str] = pydantic.Field(
+                                alias="phys-bits", default=None
+                            )
+                            reported_model: Optional[
+                                Literal[
+                                    "486",
+                                    "a64fx",
+                                    "athlon",
+                                    "Broadwell",
+                                    "Broadwell-IBRS",
+                                    "Broadwell-noTSX",
+                                    "Broadwell-noTSX-IBRS",
+                                    "Cascadelake-Server",
+                                    "Cascadelake-Server-noTSX",
+                                    "Cascadelake-Server-v2",
+                                    "Cascadelake-Server-v4",
+                                    "Cascadelake-Server-v5",
+                                    "Cascadelake-Server-v6",
+                                    "Cascadelake-Server-v7",
+                                    "ClearwaterForest",
+                                    "ClearwaterForest-v2",
+                                    "ClearwaterForest-v3",
+                                    "ClearwaterForest-v4",
+                                    "Conroe",
+                                    "Cooperlake",
+                                    "Cooperlake-v2",
+                                    "core2duo",
+                                    "coreduo",
+                                    "cortex-a35",
+                                    "cortex-a53",
+                                    "cortex-a55",
+                                    "cortex-a57",
+                                    "cortex-a710",
+                                    "cortex-a72",
+                                    "cortex-a76",
+                                    "cortex-a78ae",
+                                    "DiamondRapids",
+                                    "DiamondRapids-v2",
+                                    "EPYC",
+                                    "EPYC-Genoa",
+                                    "EPYC-Genoa-v2",
+                                    "EPYC-Genoa-v3",
+                                    "EPYC-IBPB",
+                                    "EPYC-Milan",
+                                    "EPYC-Milan-v2",
+                                    "EPYC-Milan-v3",
+                                    "EPYC-Milan-v4",
+                                    "EPYC-Rome",
+                                    "EPYC-Rome-v2",
+                                    "EPYC-Rome-v3",
+                                    "EPYC-Rome-v4",
+                                    "EPYC-Rome-v5",
+                                    "EPYC-Turin",
+                                    "EPYC-Turin-v2",
+                                    "EPYC-v3",
+                                    "EPYC-v4",
+                                    "EPYC-v5",
+                                    "GraniteRapids",
+                                    "GraniteRapids-v2",
+                                    "GraniteRapids-v3",
+                                    "GraniteRapids-v4",
+                                    "GraniteRapids-v5",
+                                    "GraniteRapids-v6",
+                                    "GraniteRapids-v7",
+                                    "Haswell",
+                                    "Haswell-IBRS",
+                                    "Haswell-noTSX",
+                                    "Haswell-noTSX-IBRS",
+                                    "host",
+                                    "Icelake-Client",
+                                    "Icelake-Client-noTSX",
+                                    "Icelake-Server",
+                                    "Icelake-Server-noTSX",
+                                    "Icelake-Server-v3",
+                                    "Icelake-Server-v4",
+                                    "Icelake-Server-v5",
+                                    "Icelake-Server-v6",
+                                    "Icelake-Server-v7",
+                                    "Icelake-Server-v8",
+                                    "Icelake-Server-v9",
+                                    "IvyBridge",
+                                    "IvyBridge-IBRS",
+                                    "KnightsMill",
+                                    "kvm32",
+                                    "kvm64",
+                                    "max",
+                                    "Nehalem",
+                                    "Nehalem-IBRS",
+                                    "neoverse-n1",
+                                    "neoverse-n2",
+                                    "neoverse-v1",
+                                    "Opteron_G1",
+                                    "Opteron_G2",
+                                    "Opteron_G3",
+                                    "Opteron_G4",
+                                    "Opteron_G5",
+                                    "Penryn",
+                                    "pentium",
+                                    "pentium2",
+                                    "pentium3",
+                                    "phenom",
+                                    "qemu32",
+                                    "qemu64",
+                                    "SandyBridge",
+                                    "SandyBridge-IBRS",
+                                    "SapphireRapids",
+                                    "SapphireRapids-v2",
+                                    "SapphireRapids-v3",
+                                    "SapphireRapids-v4",
+                                    "SapphireRapids-v5",
+                                    "SapphireRapids-v6",
+                                    "SapphireRapids-v7",
+                                    "SapphireRapids-v8",
+                                    "SierraForest",
+                                    "SierraForest-v2",
+                                    "SierraForest-v3",
+                                    "SierraForest-v4",
+                                    "SierraForest-v5",
+                                    "SierraForest-v6",
+                                    "Skylake-Client",
+                                    "Skylake-Client-IBRS",
+                                    "Skylake-Client-noTSX-IBRS",
+                                    "Skylake-Client-v4",
+                                    "Skylake-Server",
+                                    "Skylake-Server-IBRS",
+                                    "Skylake-Server-noTSX-IBRS",
+                                    "Skylake-Server-v4",
+                                    "Skylake-Server-v5",
+                                    "Skylake-Server-v6",
+                                    "Westmere",
+                                    "Westmere-IBRS",
+                                ]
+                            ] = pydantic.Field(alias="reported-model", default=None)
+
+                        Model.__name__ = (
+                            "ProxmoxAPI.Cluster.Qemu.CustomCpuModels.Cputype._Get"
+                        )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        cputype: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Cluster.Qemu.CustomCpuModels.Cputype._Get.TypedDict":
+                            data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models")(self.cputype).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                "ProxmoxAPI.Cluster.Qemu.CustomCpuModels.Cputype._Get.TypedDict",
+                                data,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> (
+                            "ProxmoxAPI.Cluster.Qemu.CustomCpuModels.Cputype._Get.Model"
+                        ):
+                            class validate(pydantic.BaseModel):
+                                data: "ProxmoxAPI.Cluster.Qemu.CustomCpuModels.Cputype._Get.Model"
+
+                            data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models")(self.cputype).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        cputype: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models")(self.cputype).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models")(self.cputype).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            cputype=self.cputype,
+                        )
+
+                    @cached_property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            cputype=self.cputype,
+                        )
+
+                    @cached_property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            cputype=self.cputype,
+                        )
+
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    cputype: str
+
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(
+                        cputype: str,
+                    ) -> ProxmoxAPI.Cluster.Qemu.CustomCpuModels.Cputype:
+                        return self.Cputype(
+                            proxmox_api=self.proxmox_api,
+                            cputype=cputype,
+                        )
+
+                    self.__cache = cache
+
+                def __call__(self, cputype: str) -> Cputype:
+                    return self.__cache(cputype)
+
+                @dataclass
+                class _Get:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "cputype": NotRequired[str],
+                            "digest": NotRequired[str],
+                            "flags": NotRequired[str],
+                            "guest-phys-bits": NotRequired[int],
+                            "hidden": NotRequired[PveBool],
+                            "hv-vendor-id": NotRequired[str],
+                            "level": NotRequired[int],
+                            "phys-bits": NotRequired[str],
+                            "reported-model": NotRequired[
+                                Literal[
+                                    "486",
+                                    "a64fx",
+                                    "athlon",
+                                    "Broadwell",
+                                    "Broadwell-IBRS",
+                                    "Broadwell-noTSX",
+                                    "Broadwell-noTSX-IBRS",
+                                    "Cascadelake-Server",
+                                    "Cascadelake-Server-noTSX",
+                                    "Cascadelake-Server-v2",
+                                    "Cascadelake-Server-v4",
+                                    "Cascadelake-Server-v5",
+                                    "Cascadelake-Server-v6",
+                                    "Cascadelake-Server-v7",
+                                    "ClearwaterForest",
+                                    "ClearwaterForest-v2",
+                                    "ClearwaterForest-v3",
+                                    "ClearwaterForest-v4",
+                                    "Conroe",
+                                    "Cooperlake",
+                                    "Cooperlake-v2",
+                                    "core2duo",
+                                    "coreduo",
+                                    "cortex-a35",
+                                    "cortex-a53",
+                                    "cortex-a55",
+                                    "cortex-a57",
+                                    "cortex-a710",
+                                    "cortex-a72",
+                                    "cortex-a76",
+                                    "cortex-a78ae",
+                                    "DiamondRapids",
+                                    "DiamondRapids-v2",
+                                    "EPYC",
+                                    "EPYC-Genoa",
+                                    "EPYC-Genoa-v2",
+                                    "EPYC-Genoa-v3",
+                                    "EPYC-IBPB",
+                                    "EPYC-Milan",
+                                    "EPYC-Milan-v2",
+                                    "EPYC-Milan-v3",
+                                    "EPYC-Milan-v4",
+                                    "EPYC-Rome",
+                                    "EPYC-Rome-v2",
+                                    "EPYC-Rome-v3",
+                                    "EPYC-Rome-v4",
+                                    "EPYC-Rome-v5",
+                                    "EPYC-Turin",
+                                    "EPYC-Turin-v2",
+                                    "EPYC-v3",
+                                    "EPYC-v4",
+                                    "EPYC-v5",
+                                    "GraniteRapids",
+                                    "GraniteRapids-v2",
+                                    "GraniteRapids-v3",
+                                    "GraniteRapids-v4",
+                                    "GraniteRapids-v5",
+                                    "GraniteRapids-v6",
+                                    "GraniteRapids-v7",
+                                    "Haswell",
+                                    "Haswell-IBRS",
+                                    "Haswell-noTSX",
+                                    "Haswell-noTSX-IBRS",
+                                    "host",
+                                    "Icelake-Client",
+                                    "Icelake-Client-noTSX",
+                                    "Icelake-Server",
+                                    "Icelake-Server-noTSX",
+                                    "Icelake-Server-v3",
+                                    "Icelake-Server-v4",
+                                    "Icelake-Server-v5",
+                                    "Icelake-Server-v6",
+                                    "Icelake-Server-v7",
+                                    "Icelake-Server-v8",
+                                    "Icelake-Server-v9",
+                                    "IvyBridge",
+                                    "IvyBridge-IBRS",
+                                    "KnightsMill",
+                                    "kvm32",
+                                    "kvm64",
+                                    "max",
+                                    "Nehalem",
+                                    "Nehalem-IBRS",
+                                    "neoverse-n1",
+                                    "neoverse-n2",
+                                    "neoverse-v1",
+                                    "Opteron_G1",
+                                    "Opteron_G2",
+                                    "Opteron_G3",
+                                    "Opteron_G4",
+                                    "Opteron_G5",
+                                    "Penryn",
+                                    "pentium",
+                                    "pentium2",
+                                    "pentium3",
+                                    "phenom",
+                                    "qemu32",
+                                    "qemu64",
+                                    "SandyBridge",
+                                    "SandyBridge-IBRS",
+                                    "SapphireRapids",
+                                    "SapphireRapids-v2",
+                                    "SapphireRapids-v3",
+                                    "SapphireRapids-v4",
+                                    "SapphireRapids-v5",
+                                    "SapphireRapids-v6",
+                                    "SapphireRapids-v7",
+                                    "SapphireRapids-v8",
+                                    "SierraForest",
+                                    "SierraForest-v2",
+                                    "SierraForest-v3",
+                                    "SierraForest-v4",
+                                    "SierraForest-v5",
+                                    "SierraForest-v6",
+                                    "Skylake-Client",
+                                    "Skylake-Client-IBRS",
+                                    "Skylake-Client-noTSX-IBRS",
+                                    "Skylake-Client-v4",
+                                    "Skylake-Server",
+                                    "Skylake-Server-IBRS",
+                                    "Skylake-Server-noTSX-IBRS",
+                                    "Skylake-Server-v4",
+                                    "Skylake-Server-v5",
+                                    "Skylake-Server-v6",
+                                    "Westmere",
+                                    "Westmere-IBRS",
+                                ]
+                            ],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        cputype: Optional[str] = None
+                        digest: Optional[str] = None
+                        flags: Optional[str] = None
+                        guest_phys_bits: Optional[int] = pydantic.Field(
+                            alias="guest-phys-bits", default=None
+                        )
+                        hidden: Optional[bool] = None
+                        hv_vendor_id: Optional[str] = pydantic.Field(
+                            alias="hv-vendor-id", default=None
+                        )
+                        level: Optional[int] = None
+                        phys_bits: Optional[str] = pydantic.Field(
+                            alias="phys-bits", default=None
+                        )
+                        reported_model: Optional[
+                            Literal[
+                                "486",
+                                "a64fx",
+                                "athlon",
+                                "Broadwell",
+                                "Broadwell-IBRS",
+                                "Broadwell-noTSX",
+                                "Broadwell-noTSX-IBRS",
+                                "Cascadelake-Server",
+                                "Cascadelake-Server-noTSX",
+                                "Cascadelake-Server-v2",
+                                "Cascadelake-Server-v4",
+                                "Cascadelake-Server-v5",
+                                "Cascadelake-Server-v6",
+                                "Cascadelake-Server-v7",
+                                "ClearwaterForest",
+                                "ClearwaterForest-v2",
+                                "ClearwaterForest-v3",
+                                "ClearwaterForest-v4",
+                                "Conroe",
+                                "Cooperlake",
+                                "Cooperlake-v2",
+                                "core2duo",
+                                "coreduo",
+                                "cortex-a35",
+                                "cortex-a53",
+                                "cortex-a55",
+                                "cortex-a57",
+                                "cortex-a710",
+                                "cortex-a72",
+                                "cortex-a76",
+                                "cortex-a78ae",
+                                "DiamondRapids",
+                                "DiamondRapids-v2",
+                                "EPYC",
+                                "EPYC-Genoa",
+                                "EPYC-Genoa-v2",
+                                "EPYC-Genoa-v3",
+                                "EPYC-IBPB",
+                                "EPYC-Milan",
+                                "EPYC-Milan-v2",
+                                "EPYC-Milan-v3",
+                                "EPYC-Milan-v4",
+                                "EPYC-Rome",
+                                "EPYC-Rome-v2",
+                                "EPYC-Rome-v3",
+                                "EPYC-Rome-v4",
+                                "EPYC-Rome-v5",
+                                "EPYC-Turin",
+                                "EPYC-Turin-v2",
+                                "EPYC-v3",
+                                "EPYC-v4",
+                                "EPYC-v5",
+                                "GraniteRapids",
+                                "GraniteRapids-v2",
+                                "GraniteRapids-v3",
+                                "GraniteRapids-v4",
+                                "GraniteRapids-v5",
+                                "GraniteRapids-v6",
+                                "GraniteRapids-v7",
+                                "Haswell",
+                                "Haswell-IBRS",
+                                "Haswell-noTSX",
+                                "Haswell-noTSX-IBRS",
+                                "host",
+                                "Icelake-Client",
+                                "Icelake-Client-noTSX",
+                                "Icelake-Server",
+                                "Icelake-Server-noTSX",
+                                "Icelake-Server-v3",
+                                "Icelake-Server-v4",
+                                "Icelake-Server-v5",
+                                "Icelake-Server-v6",
+                                "Icelake-Server-v7",
+                                "Icelake-Server-v8",
+                                "Icelake-Server-v9",
+                                "IvyBridge",
+                                "IvyBridge-IBRS",
+                                "KnightsMill",
+                                "kvm32",
+                                "kvm64",
+                                "max",
+                                "Nehalem",
+                                "Nehalem-IBRS",
+                                "neoverse-n1",
+                                "neoverse-n2",
+                                "neoverse-v1",
+                                "Opteron_G1",
+                                "Opteron_G2",
+                                "Opteron_G3",
+                                "Opteron_G4",
+                                "Opteron_G5",
+                                "Penryn",
+                                "pentium",
+                                "pentium2",
+                                "pentium3",
+                                "phenom",
+                                "qemu32",
+                                "qemu64",
+                                "SandyBridge",
+                                "SandyBridge-IBRS",
+                                "SapphireRapids",
+                                "SapphireRapids-v2",
+                                "SapphireRapids-v3",
+                                "SapphireRapids-v4",
+                                "SapphireRapids-v5",
+                                "SapphireRapids-v6",
+                                "SapphireRapids-v7",
+                                "SapphireRapids-v8",
+                                "SierraForest",
+                                "SierraForest-v2",
+                                "SierraForest-v3",
+                                "SierraForest-v4",
+                                "SierraForest-v5",
+                                "SierraForest-v6",
+                                "Skylake-Client",
+                                "Skylake-Client-IBRS",
+                                "Skylake-Client-noTSX-IBRS",
+                                "Skylake-Client-v4",
+                                "Skylake-Server",
+                                "Skylake-Server-IBRS",
+                                "Skylake-Server-noTSX-IBRS",
+                                "Skylake-Server-v4",
+                                "Skylake-Server-v5",
+                                "Skylake-Server-v6",
+                                "Westmere",
+                                "Westmere-IBRS",
+                            ]
+                        ] = pydantic.Field(alias="reported-model", default=None)
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Qemu.CustomCpuModels._Get"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Qemu.CustomCpuModels._Get.TypedDict"]:
+                        data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list[
+                                "ProxmoxAPI.Cluster.Qemu.CustomCpuModels._Get.TypedDict"
+                            ],
+                            data,
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Qemu.CustomCpuModels._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list[
+                                "ProxmoxAPI.Cluster.Qemu.CustomCpuModels._Get.Model"
+                            ]
+
+                        data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.qemu("custom-cpu-models").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @cached_property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def create(self) -> _Post:
+                    return self.post
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def custom_cpu_models(self) -> CustomCpuModels:
+                return self.CustomCpuModels(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            @dataclass
+            class _Get:
+                proxmox_api: ProxmoxerProxmoxAPI
+
+                def __call__(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    data: Any = self.proxmox_api.cluster.qemu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return typing.cast(list[dict[str, Any]], data)
+
+                def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                    class validate(pydantic.BaseModel):
+                        data: list[dict[str, Any]]
+
+                    data: Any = self.proxmox_api.cluster.qemu.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                    return validate(data=data).data
+
+            @cached_property
+            def get(self) -> _Get:
+                return self._Get(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            proxmox_api: ProxmoxerProxmoxAPI
+
+        @cached_property
+        def qemu(self) -> Qemu:
+            return self.Qemu(
                 proxmox_api=self.proxmox_api,
             )
 
@@ -2757,7 +3625,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "action": str,
+                                "action": NotRequired[str],
                                 "comment": NotRequired[str],
                                 "dest": NotRequired[str],
                                 "dport": NotRequired[str],
@@ -2783,12 +3651,12 @@ class ProxmoxAPI:
                                 "proto": NotRequired[str],
                                 "source": NotRequired[str],
                                 "sport": NotRequired[str],
-                                "type": str,
+                                "type": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            action: str
+                            action: Optional[str] = None
                             comment: Optional[str] = None
                             dest: Optional[str] = None
                             dport: Optional[str] = None
@@ -2816,7 +3684,7 @@ class ProxmoxAPI:
                             proto: Optional[str] = None
                             source: Optional[str] = None
                             sport: Optional[str] = None
-                            type: str
+                            type: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Groups.Group._Get"
 
@@ -3165,7 +4033,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "action": str,
+                            "action": NotRequired[str],
                             "comment": NotRequired[str],
                             "dest": NotRequired[str],
                             "dport": NotRequired[str],
@@ -3191,12 +4059,12 @@ class ProxmoxAPI:
                             "proto": NotRequired[str],
                             "source": NotRequired[str],
                             "sport": NotRequired[str],
-                            "type": str,
+                            "type": NotRequired[str],
                         },
                     )
 
                     class Model(BaseModel):
-                        action: str
+                        action: Optional[str] = None
                         comment: Optional[str] = None
                         dest: Optional[str] = None
                         dport: Optional[str] = None
@@ -3224,7 +4092,7 @@ class ProxmoxAPI:
                         proto: Optional[str] = None
                         source: Optional[str] = None
                         sport: Optional[str] = None
-                        type: str
+                        type: Optional[str] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Firewall.Rules._Get"
 
@@ -3434,7 +4302,7 @@ class ProxmoxAPI:
                                 "cidr": str,
                                 "comment": NotRequired[str],
                                 "digest": str,
-                                "nomatch": NotRequired[bool],
+                                "nomatch": NotRequired[PveBool],
                             },
                         )
 
@@ -3799,7 +4667,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "ebtables": NotRequired[bool],
+                            "ebtables": NotRequired[PveBool],
                             "enable": NotRequired[int],
                             "log_ratelimit": NotRequired[str],
                             "policy_forward": NotRequired[Literal["ACCEPT", "DROP"]],
@@ -4045,7 +4913,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "id": str,
-                                        "included": bool,
+                                        "included": PveBool,
                                         "name": str,
                                         "reason": str,
                                     },
@@ -4170,17 +5038,239 @@ class ProxmoxAPI:
 
                 @dataclass
                 class _Get:
+                    @dataclass
+                    class _Fleecing:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "enabled": NotRequired[PveBool],
+                                "storage": NotRequired[str],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            enabled: Optional[bool] = None
+                            storage: Optional[str] = None
+
+                        Model.__name__ = "ProxmoxAPI.Cluster.Backup.Id._Get._Fleecing"
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                    @dataclass
+                    class _Performance:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "max-workers": NotRequired[int],
+                                "pbs-entries-max": NotRequired[int],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            max_workers: Optional[int] = pydantic.Field(
+                                alias="max-workers", default=None
+                            )
+                            pbs_entries_max: Optional[int] = pydantic.Field(
+                                alias="pbs-entries-max", default=None
+                            )
+
+                        Model.__name__ = (
+                            "ProxmoxAPI.Cluster.Backup.Id._Get._Performance"
+                        )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                    @dataclass
+                    class _PruneBackups:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "keep-all": NotRequired[PveBool],
+                                "keep-daily": NotRequired[int],
+                                "keep-hourly": NotRequired[int],
+                                "keep-last": NotRequired[int],
+                                "keep-monthly": NotRequired[int],
+                                "keep-weekly": NotRequired[int],
+                                "keep-yearly": NotRequired[int],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            keep_all: Optional[bool] = pydantic.Field(
+                                alias="keep-all", default=None
+                            )
+                            keep_daily: Optional[int] = pydantic.Field(
+                                alias="keep-daily", default=None
+                            )
+                            keep_hourly: Optional[int] = pydantic.Field(
+                                alias="keep-hourly", default=None
+                            )
+                            keep_last: Optional[int] = pydantic.Field(
+                                alias="keep-last", default=None
+                            )
+                            keep_monthly: Optional[int] = pydantic.Field(
+                                alias="keep-monthly", default=None
+                            )
+                            keep_weekly: Optional[int] = pydantic.Field(
+                                alias="keep-weekly", default=None
+                            )
+                            keep_yearly: Optional[int] = pydantic.Field(
+                                alias="keep-yearly", default=None
+                            )
+
+                        Model.__name__ = (
+                            "ProxmoxAPI.Cluster.Backup.Id._Get._PruneBackups"
+                        )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "all": NotRequired[PveBool],
+                            "bwlimit": NotRequired[int],
+                            "comment": NotRequired[str],
+                            "compress": NotRequired[
+                                Literal["0", "1", "gzip", "lzo", "zstd"]
+                            ],
+                            "dumpdir": NotRequired[str],
+                            "enabled": NotRequired[PveBool],
+                            "exclude": NotRequired[str],
+                            "exclude-path": NotRequired[list[str]],
+                            "fleecing": NotRequired[
+                                "ProxmoxAPI.Cluster.Backup.Id._Get._Fleecing.TypedDict"
+                            ],
+                            "id": NotRequired[str],
+                            "ionice": NotRequired[int],
+                            "lockwait": NotRequired[int],
+                            "mailnotification": NotRequired[
+                                Literal["always", "failure"]
+                            ],
+                            "mailto": NotRequired[str],
+                            "mode": NotRequired[Literal["snapshot", "suspend", "stop"]],
+                            "next-run": NotRequired[int],
+                            "node": NotRequired[str],
+                            "notes-template": NotRequired[str],
+                            "notification-mode": NotRequired[
+                                Literal[
+                                    "auto", "legacy-sendmail", "notification-system"
+                                ]
+                            ],
+                            "pbs-change-detection-mode": NotRequired[
+                                Literal["legacy", "data", "metadata"]
+                            ],
+                            "performance": NotRequired[
+                                "ProxmoxAPI.Cluster.Backup.Id._Get._Performance.TypedDict"
+                            ],
+                            "pigz": NotRequired[int],
+                            "pool": NotRequired[str],
+                            "protected": NotRequired[PveBool],
+                            "prune-backups": NotRequired[
+                                "ProxmoxAPI.Cluster.Backup.Id._Get._PruneBackups.TypedDict"
+                            ],
+                            "quiet": NotRequired[PveBool],
+                            "remove": NotRequired[PveBool],
+                            "repeat-missed": NotRequired[PveBool],
+                            "schedule": NotRequired[str],
+                            "script": NotRequired[str],
+                            "stdexcludes": NotRequired[PveBool],
+                            "stop": NotRequired[PveBool],
+                            "stopwait": NotRequired[int],
+                            "storage": NotRequired[str],
+                            "tmpdir": NotRequired[str],
+                            "vmid": NotRequired[str],
+                            "zstd": NotRequired[int],
+                            "maxfiles": NotRequired[int],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        all: Optional[bool] = None
+                        bwlimit: Optional[int] = None
+                        comment: Optional[str] = None
+                        compress: Optional[Literal["0", "1", "gzip", "lzo", "zstd"]] = (
+                            None
+                        )
+                        dumpdir: Optional[str] = None
+                        enabled: Optional[bool] = None
+                        exclude: Optional[str] = None
+                        exclude_path: Optional[list[str]] = pydantic.Field(
+                            alias="exclude-path", default=None
+                        )
+                        fleecing: Optional[
+                            "ProxmoxAPI.Cluster.Backup.Id._Get._Fleecing.Model"
+                        ] = None
+                        id: Optional[str] = None
+                        ionice: Optional[int] = None
+                        lockwait: Optional[int] = None
+                        mailnotification: Optional[Literal["always", "failure"]] = None
+                        mailto: Optional[str] = None
+                        mode: Optional[Literal["snapshot", "suspend", "stop"]] = None
+                        next_run: Optional[int] = pydantic.Field(
+                            alias="next-run", default=None
+                        )
+                        node: Optional[str] = None
+                        notes_template: Optional[str] = pydantic.Field(
+                            alias="notes-template", default=None
+                        )
+                        notification_mode: Optional[
+                            Literal["auto", "legacy-sendmail", "notification-system"]
+                        ] = pydantic.Field(alias="notification-mode", default=None)
+                        pbs_change_detection_mode: Optional[
+                            Literal["legacy", "data", "metadata"]
+                        ] = pydantic.Field(
+                            alias="pbs-change-detection-mode", default=None
+                        )
+                        performance: Optional[
+                            "ProxmoxAPI.Cluster.Backup.Id._Get._Performance.Model"
+                        ] = None
+                        pigz: Optional[int] = None
+                        pool: Optional[str] = None
+                        protected: Optional[bool] = None
+                        prune_backups: Optional[
+                            "ProxmoxAPI.Cluster.Backup.Id._Get._PruneBackups.Model"
+                        ] = pydantic.Field(alias="prune-backups", default=None)
+                        quiet: Optional[bool] = None
+                        remove: Optional[bool] = None
+                        repeat_missed: Optional[bool] = pydantic.Field(
+                            alias="repeat-missed", default=None
+                        )
+                        schedule: Optional[str] = None
+                        script: Optional[str] = None
+                        stdexcludes: Optional[bool] = None
+                        stop: Optional[bool] = None
+                        stopwait: Optional[int] = None
+                        storage: Optional[str] = None
+                        tmpdir: Optional[str] = None
+                        vmid: Optional[str] = None
+                        zstd: Optional[int] = None
+                        maxfiles: Optional[int] = None
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Backup.Id._Get"
+
                     proxmox_api: ProxmoxerProxmoxAPI
 
                     id: str
 
-                    def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Backup.Id._Get.TypedDict":
                         data: Any = self.proxmox_api.cluster.backup(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                        return typing.cast(dict[str, Any], data)
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Backup.Id._Get.TypedDict", data
+                        )
 
-                    def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Backup.Id._Get.Model":
                         class validate(pydantic.BaseModel):
-                            data: dict[str, Any]
+                            data: "ProxmoxAPI.Cluster.Backup.Id._Get.Model"
 
                         data: Any = self.proxmox_api.cluster.backup(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                         return validate(data=data).data
@@ -4246,15 +5336,201 @@ class ProxmoxAPI:
 
             @dataclass
             class _Get:
+                @dataclass
+                class _Fleecing:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "enabled": NotRequired[PveBool],
+                            "storage": NotRequired[str],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        enabled: Optional[bool] = None
+                        storage: Optional[str] = None
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get._Fleecing"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                @dataclass
+                class _Performance:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "max-workers": NotRequired[int],
+                            "pbs-entries-max": NotRequired[int],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        max_workers: Optional[int] = pydantic.Field(
+                            alias="max-workers", default=None
+                        )
+                        pbs_entries_max: Optional[int] = pydantic.Field(
+                            alias="pbs-entries-max", default=None
+                        )
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get._Performance"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                @dataclass
+                class _PruneBackups:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "keep-all": NotRequired[PveBool],
+                            "keep-daily": NotRequired[int],
+                            "keep-hourly": NotRequired[int],
+                            "keep-last": NotRequired[int],
+                            "keep-monthly": NotRequired[int],
+                            "keep-weekly": NotRequired[int],
+                            "keep-yearly": NotRequired[int],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        keep_all: Optional[bool] = pydantic.Field(
+                            alias="keep-all", default=None
+                        )
+                        keep_daily: Optional[int] = pydantic.Field(
+                            alias="keep-daily", default=None
+                        )
+                        keep_hourly: Optional[int] = pydantic.Field(
+                            alias="keep-hourly", default=None
+                        )
+                        keep_last: Optional[int] = pydantic.Field(
+                            alias="keep-last", default=None
+                        )
+                        keep_monthly: Optional[int] = pydantic.Field(
+                            alias="keep-monthly", default=None
+                        )
+                        keep_weekly: Optional[int] = pydantic.Field(
+                            alias="keep-weekly", default=None
+                        )
+                        keep_yearly: Optional[int] = pydantic.Field(
+                            alias="keep-yearly", default=None
+                        )
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get._PruneBackups"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
                 TypedDict = typing.TypedDict(
                     "TypedDict",
                     {
+                        "all": NotRequired[PveBool],
+                        "bwlimit": NotRequired[int],
+                        "comment": NotRequired[str],
+                        "compress": NotRequired[
+                            Literal["0", "1", "gzip", "lzo", "zstd"]
+                        ],
+                        "dumpdir": NotRequired[str],
+                        "enabled": NotRequired[PveBool],
+                        "exclude": NotRequired[str],
+                        "exclude-path": NotRequired[list[str]],
+                        "fleecing": NotRequired[
+                            "ProxmoxAPI.Cluster.Backup._Get._Fleecing.TypedDict"
+                        ],
                         "id": str,
+                        "ionice": NotRequired[int],
+                        "lockwait": NotRequired[int],
+                        "mailnotification": NotRequired[Literal["always", "failure"]],
+                        "mailto": NotRequired[str],
+                        "mode": NotRequired[Literal["snapshot", "suspend", "stop"]],
+                        "next-run": NotRequired[int],
+                        "node": NotRequired[str],
+                        "notes-template": NotRequired[str],
+                        "notification-mode": NotRequired[
+                            Literal["auto", "legacy-sendmail", "notification-system"]
+                        ],
+                        "pbs-change-detection-mode": NotRequired[
+                            Literal["legacy", "data", "metadata"]
+                        ],
+                        "performance": NotRequired[
+                            "ProxmoxAPI.Cluster.Backup._Get._Performance.TypedDict"
+                        ],
+                        "pigz": NotRequired[int],
+                        "pool": NotRequired[str],
+                        "protected": NotRequired[PveBool],
+                        "prune-backups": NotRequired[
+                            "ProxmoxAPI.Cluster.Backup._Get._PruneBackups.TypedDict"
+                        ],
+                        "quiet": NotRequired[PveBool],
+                        "remove": NotRequired[PveBool],
+                        "repeat-missed": NotRequired[PveBool],
+                        "schedule": NotRequired[str],
+                        "script": NotRequired[str],
+                        "stdexcludes": NotRequired[PveBool],
+                        "stop": NotRequired[PveBool],
+                        "stopwait": NotRequired[int],
+                        "storage": NotRequired[str],
+                        "tmpdir": NotRequired[str],
+                        "vmid": NotRequired[str],
+                        "zstd": NotRequired[int],
+                        "maxfiles": NotRequired[int],
                     },
                 )
 
                 class Model(BaseModel):
+                    all: Optional[bool] = None
+                    bwlimit: Optional[int] = None
+                    comment: Optional[str] = None
+                    compress: Optional[Literal["0", "1", "gzip", "lzo", "zstd"]] = None
+                    dumpdir: Optional[str] = None
+                    enabled: Optional[bool] = None
+                    exclude: Optional[str] = None
+                    exclude_path: Optional[list[str]] = pydantic.Field(
+                        alias="exclude-path", default=None
+                    )
+                    fleecing: Optional[
+                        "ProxmoxAPI.Cluster.Backup._Get._Fleecing.Model"
+                    ] = None
                     id: str
+                    ionice: Optional[int] = None
+                    lockwait: Optional[int] = None
+                    mailnotification: Optional[Literal["always", "failure"]] = None
+                    mailto: Optional[str] = None
+                    mode: Optional[Literal["snapshot", "suspend", "stop"]] = None
+                    next_run: Optional[int] = pydantic.Field(
+                        alias="next-run", default=None
+                    )
+                    node: Optional[str] = None
+                    notes_template: Optional[str] = pydantic.Field(
+                        alias="notes-template", default=None
+                    )
+                    notification_mode: Optional[
+                        Literal["auto", "legacy-sendmail", "notification-system"]
+                    ] = pydantic.Field(alias="notification-mode", default=None)
+                    pbs_change_detection_mode: Optional[
+                        Literal["legacy", "data", "metadata"]
+                    ] = pydantic.Field(alias="pbs-change-detection-mode", default=None)
+                    performance: Optional[
+                        "ProxmoxAPI.Cluster.Backup._Get._Performance.Model"
+                    ] = None
+                    pigz: Optional[int] = None
+                    pool: Optional[str] = None
+                    protected: Optional[bool] = None
+                    prune_backups: Optional[
+                        "ProxmoxAPI.Cluster.Backup._Get._PruneBackups.Model"
+                    ] = pydantic.Field(alias="prune-backups", default=None)
+                    quiet: Optional[bool] = None
+                    remove: Optional[bool] = None
+                    repeat_missed: Optional[bool] = pydantic.Field(
+                        alias="repeat-missed", default=None
+                    )
+                    schedule: Optional[str] = None
+                    script: Optional[str] = None
+                    stdexcludes: Optional[bool] = None
+                    stop: Optional[bool] = None
+                    stopwait: Optional[int] = None
+                    storage: Optional[str] = None
+                    tmpdir: Optional[str] = None
+                    vmid: Optional[str] = None
+                    zstd: Optional[int] = None
+                    maxfiles: Optional[int] = None
 
                 Model.__name__ = "ProxmoxAPI.Cluster.Backup._Get"
 
@@ -4452,13 +5728,15 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "cause": Literal["resource-affinity"],
+                                        "cause": Literal[
+                                            "node-affinity", "resource-affinity"
+                                        ],
                                         "sid": str,
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    cause: Literal["resource-affinity"]
+                                    cause: Literal["node-affinity", "resource-affinity"]
                                     sid: str
 
                                 Model.__name__ = "ProxmoxAPI.Cluster.Ha.Resources.Sid.Migrate._Post._BlockingResources"
@@ -4558,13 +5836,15 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "cause": Literal["resource-affinity"],
+                                        "cause": Literal[
+                                            "node-affinity", "resource-affinity"
+                                        ],
                                         "sid": str,
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    cause: Literal["resource-affinity"]
+                                    cause: Literal["node-affinity", "resource-affinity"]
                                     sid: str
 
                                 Model.__name__ = "ProxmoxAPI.Cluster.Ha.Resources.Sid.Relocate._Post._BlockingResources"
@@ -4675,9 +5955,10 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
+                                "auto-rebalance": NotRequired[PveBool],
                                 "comment": NotRequired[str],
                                 "digest": str,
-                                "failback": NotRequired[bool],
+                                "failback": NotRequired[PveBool],
                                 "group": NotRequired[str],
                                 "max_relocate": NotRequired[int],
                                 "max_restart": NotRequired[int],
@@ -4696,6 +5977,9 @@ class ProxmoxAPI:
                         )
 
                         class Model(BaseModel):
+                            auto_rebalance: Optional[bool] = pydantic.Field(
+                                alias="auto-rebalance", default=None
+                            )
                             comment: Optional[str] = None
                             digest: str
                             failback: Optional[bool] = None
@@ -5170,8 +6454,8 @@ class ProxmoxAPI:
                         {
                             "rule": str,
                             "affinity": NotRequired[str],
-                            "disable": NotRequired[bool],
-                            "strict": NotRequired[bool],
+                            "disable": NotRequired[PveBool],
+                            "strict": NotRequired[PveBool],
                             "nodes": NotRequired[str],
                             "resources": NotRequired[str],
                             "type": str,
@@ -5260,23 +6544,38 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
+                                "armed-state": NotRequired[
+                                    Literal["armed", "standby", "disarming", "disarmed"]
+                                ],
+                                "auto-rebalance": NotRequired[PveBool],
                                 "crm_state": NotRequired[str],
-                                "failback": NotRequired[bool],
+                                "failback": NotRequired[PveBool],
                                 "id": str,
                                 "max_relocate": NotRequired[int],
                                 "max_restart": NotRequired[int],
                                 "node": str,
-                                "quorate": NotRequired[bool],
+                                "quorate": NotRequired[PveBool],
                                 "request_state": NotRequired[str],
+                                "resource_mode": NotRequired[
+                                    Literal["freeze", "ignore"]
+                                ],
                                 "sid": NotRequired[str],
                                 "state": NotRequired[str],
                                 "status": str,
                                 "timestamp": NotRequired[int],
-                                "type": Literal["quorum", "master", "lrm", "service"],
+                                "type": Literal[
+                                    "quorum", "master", "lrm", "service", "fencing"
+                                ],
                             },
                         )
 
                         class Model(BaseModel):
+                            armed_state: Optional[
+                                Literal["armed", "standby", "disarming", "disarmed"]
+                            ] = pydantic.Field(alias="armed-state", default=None)
+                            auto_rebalance: Optional[bool] = pydantic.Field(
+                                alias="auto-rebalance", default=None
+                            )
                             crm_state: Optional[str] = None
                             failback: Optional[bool] = None
                             id: str
@@ -5285,11 +6584,14 @@ class ProxmoxAPI:
                             node: str
                             quorate: Optional[bool] = None
                             request_state: Optional[str] = None
+                            resource_mode: Optional[Literal["freeze", "ignore"]] = None
                             sid: Optional[str] = None
                             state: Optional[str] = None
                             status: str
                             timestamp: Optional[int] = None
-                            type: Literal["quorum", "master", "lrm", "service"]
+                            type: Literal[
+                                "quorum", "master", "lrm", "service", "fencing"
+                            ]
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Ha.Status.Current._Get"
 
@@ -5363,6 +6665,80 @@ class ProxmoxAPI:
                 @cached_property
                 def manager_status(self) -> ManagerStatus:
                     return self.ManagerStatus(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                # /cluster/ha/status/disarm-ha
+                @dataclass
+                class DisarmHa:
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.ha.status("disarm-ha").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ha.status("disarm-ha").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                        )
+
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                @cached_property
+                def disarm_ha(self) -> DisarmHa:
+                    return self.DisarmHa(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                # /cluster/ha/status/arm-ha
+                @dataclass
+                class ArmHa:
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.ha.status("arm-ha").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ha.status("arm-ha").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                        )
+
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                @cached_property
+                def arm_ha(self) -> ArmHa:
+                    return self.ArmHa(
                         proxmox_api=self.proxmox_api,
                     )
 
@@ -5543,6 +6919,7 @@ class ProxmoxAPI:
                                         "he",
                                         "he_ddns",
                                         "hetzner",
+                                        "hetznercloud",
                                         "hexonet",
                                         "hostingde",
                                         "huaweicloud",
@@ -5597,6 +6974,7 @@ class ProxmoxAPI:
                                         "one",
                                         "online",
                                         "openprovider",
+                                        "openprovider_rest",
                                         "openstack",
                                         "opnsense",
                                         "ovh",
@@ -5615,6 +6993,7 @@ class ProxmoxAPI:
                                         "selfhost",
                                         "servercow",
                                         "simply",
+                                        "spaceship",
                                         "technitium",
                                         "tele3",
                                         "tencent",
@@ -5641,10 +7020,10 @@ class ProxmoxAPI:
                                 ],
                                 "data": NotRequired[str],
                                 "digest": NotRequired[str],
-                                "disable": NotRequired[bool],
+                                "disable": NotRequired[PveBool],
                                 "nodes": NotRequired[str],
-                                "plugin": str,
-                                "type": Literal["dns", "standalone"],
+                                "plugin": NotRequired[str],
+                                "type": NotRequired[Literal["dns", "standalone"]],
                                 "validation-delay": NotRequired[int],
                             },
                         )
@@ -5715,6 +7094,7 @@ class ProxmoxAPI:
                                     "he",
                                     "he_ddns",
                                     "hetzner",
+                                    "hetznercloud",
                                     "hexonet",
                                     "hostingde",
                                     "huaweicloud",
@@ -5769,6 +7149,7 @@ class ProxmoxAPI:
                                     "one",
                                     "online",
                                     "openprovider",
+                                    "openprovider_rest",
                                     "openstack",
                                     "opnsense",
                                     "ovh",
@@ -5787,6 +7168,7 @@ class ProxmoxAPI:
                                     "selfhost",
                                     "servercow",
                                     "simply",
+                                    "spaceship",
                                     "technitium",
                                     "tele3",
                                     "tencent",
@@ -5815,8 +7197,8 @@ class ProxmoxAPI:
                             digest: Optional[str] = None
                             disable: Optional[bool] = None
                             nodes: Optional[str] = None
-                            plugin: str
-                            type: Literal["dns", "standalone"]
+                            plugin: Optional[str] = None
+                            type: Optional[Literal["dns", "standalone"]] = None
                             validation_delay: Optional[int] = pydantic.Field(
                                 alias="validation-delay", default=None
                             )
@@ -5974,6 +7356,7 @@ class ProxmoxAPI:
                                     "he",
                                     "he_ddns",
                                     "hetzner",
+                                    "hetznercloud",
                                     "hexonet",
                                     "hostingde",
                                     "huaweicloud",
@@ -6028,6 +7411,7 @@ class ProxmoxAPI:
                                     "one",
                                     "online",
                                     "openprovider",
+                                    "openprovider_rest",
                                     "openstack",
                                     "opnsense",
                                     "ovh",
@@ -6046,6 +7430,7 @@ class ProxmoxAPI:
                                     "selfhost",
                                     "servercow",
                                     "simply",
+                                    "spaceship",
                                     "technitium",
                                     "tele3",
                                     "tencent",
@@ -6072,10 +7457,10 @@ class ProxmoxAPI:
                             ],
                             "data": NotRequired[str],
                             "digest": NotRequired[str],
-                            "disable": NotRequired[bool],
+                            "disable": NotRequired[PveBool],
                             "nodes": NotRequired[str],
                             "plugin": str,
-                            "type": Literal["dns", "standalone"],
+                            "type": NotRequired[Literal["dns", "standalone"]],
                             "validation-delay": NotRequired[int],
                         },
                     )
@@ -6146,6 +7531,7 @@ class ProxmoxAPI:
                                 "he",
                                 "he_ddns",
                                 "hetzner",
+                                "hetznercloud",
                                 "hexonet",
                                 "hostingde",
                                 "huaweicloud",
@@ -6200,6 +7586,7 @@ class ProxmoxAPI:
                                 "one",
                                 "online",
                                 "openprovider",
+                                "openprovider_rest",
                                 "openstack",
                                 "opnsense",
                                 "ovh",
@@ -6218,6 +7605,7 @@ class ProxmoxAPI:
                                 "selfhost",
                                 "servercow",
                                 "simply",
+                                "spaceship",
                                 "technitium",
                                 "tele3",
                                 "tencent",
@@ -6247,7 +7635,7 @@ class ProxmoxAPI:
                         disable: Optional[bool] = None
                         nodes: Optional[str] = None
                         plugin: str
-                        type: Literal["dns", "standalone"]
+                        type: Optional[Literal["dns", "standalone"]] = None
                         validation_delay: Optional[int] = pydantic.Field(
                             alias="validation-delay", default=None
                         )
@@ -6537,7 +7925,7 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "caaIdentities": NotRequired[list[str]],
-                            "externalAccountRequired": NotRequired[bool],
+                            "externalAccountRequired": NotRequired[PveBool],
                             "termsOfService": NotRequired[str],
                             "website": NotRequired[str],
                         },
@@ -6746,228 +8134,68 @@ class ProxmoxAPI:
                 @dataclass
                 class _Get:
                     @dataclass
-                    class _Mds:
-                        @dataclass
-                        class _Id:
-                            TypedDict = typing.TypedDict(
-                                "TypedDict",
-                                {
-                                    "addr": str,
-                                    "ceph_release": str,
-                                    "ceph_version": str,
-                                    "ceph_version_short": str,
-                                    "hostname": str,
-                                    "mem_swap_kb": int,
-                                    "mem_total_kb": int,
-                                    "name": str,
-                                },
-                            )
-
-                            class Model(BaseModel):
-                                addr: str
-                                ceph_release: str
-                                ceph_version: str
-                                ceph_version_short: str
-                                hostname: str
-                                mem_swap_kb: int
-                                mem_total_kb: int
-                                name: str
-
-                            Model.__name__ = (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds._Id"
-                            )
-
-                            proxmox_api: ProxmoxerProxmoxAPI
-
+                    class _Osd:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "{id}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds._Id.TypedDict",
+                                "back_addr": NotRequired[str],
+                                "ceph_release": NotRequired[str],
+                                "ceph_version": NotRequired[str],
+                                "ceph_version_short": NotRequired[str],
+                                "device_ids": NotRequired[str],
+                                "device_paths": NotRequired[str],
+                                "devices": NotRequired[str],
+                                "front_addr": NotRequired[str],
+                                "hostname": NotRequired[str],
+                                "id": NotRequired[int],
+                                "mem_swap_kb": NotRequired[int],
+                                "mem_total_kb": NotRequired[int],
+                                "osd_data": NotRequired[str],
+                                "osd_objectstore": NotRequired[str],
+                                "device_id": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            id: (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds._Id.Model"
-                            ) = pydantic.Field(alias="{id}")
+                            back_addr: Optional[str] = None
+                            ceph_release: Optional[str] = None
+                            ceph_version: Optional[str] = None
+                            ceph_version_short: Optional[str] = None
+                            device_ids: Optional[str] = None
+                            device_paths: Optional[str] = None
+                            devices: Optional[str] = None
+                            front_addr: Optional[str] = None
+                            hostname: Optional[str] = None
+                            id: Optional[int] = None
+                            mem_swap_kb: Optional[int] = None
+                            mem_total_kb: Optional[int] = None
+                            osd_data: Optional[str] = None
+                            osd_objectstore: Optional[str] = None
+                            device_id: Optional[str] = None
 
-                        Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds"
-
-                        proxmox_api: ProxmoxerProxmoxAPI
-
-                    @dataclass
-                    class _Mgr:
-                        @dataclass
-                        class _Id:
-                            TypedDict = typing.TypedDict(
-                                "TypedDict",
-                                {
-                                    "addr": str,
-                                    "ceph_release": str,
-                                    "ceph_version": str,
-                                    "ceph_version_short": str,
-                                    "hostname": str,
-                                    "mem_swap_kb": int,
-                                    "mem_total_kb": int,
-                                    "name": str,
-                                },
-                            )
-
-                            class Model(BaseModel):
-                                addr: str
-                                ceph_release: str
-                                ceph_version: str
-                                ceph_version_short: str
-                                hostname: str
-                                mem_swap_kb: int
-                                mem_total_kb: int
-                                name: str
-
-                            Model.__name__ = (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr._Id"
-                            )
-
-                            proxmox_api: ProxmoxerProxmoxAPI
-
-                        TypedDict = typing.TypedDict(
-                            "TypedDict",
-                            {
-                                "{id}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr._Id.TypedDict",
-                            },
-                        )
-
-                        class Model(BaseModel):
-                            id: (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr._Id.Model"
-                            ) = pydantic.Field(alias="{id}")
-
-                        Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr"
-
-                        proxmox_api: ProxmoxerProxmoxAPI
-
-                    @dataclass
-                    class _Mon:
-                        @dataclass
-                        class _Id:
-                            TypedDict = typing.TypedDict(
-                                "TypedDict",
-                                {
-                                    "addrs": str,
-                                    "ceph_release": str,
-                                    "ceph_version": str,
-                                    "ceph_version_short": str,
-                                    "hostname": str,
-                                    "mem_swap_kb": int,
-                                    "mem_total_kb": int,
-                                    "name": str,
-                                },
-                            )
-
-                            class Model(BaseModel):
-                                addrs: str
-                                ceph_release: str
-                                ceph_version: str
-                                ceph_version_short: str
-                                hostname: str
-                                mem_swap_kb: int
-                                mem_total_kb: int
-                                name: str
-
-                            Model.__name__ = (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon._Id"
-                            )
-
-                            proxmox_api: ProxmoxerProxmoxAPI
-
-                        TypedDict = typing.TypedDict(
-                            "TypedDict",
-                            {
-                                "{id}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon._Id.TypedDict",
-                            },
-                        )
-
-                        class Model(BaseModel):
-                            id: (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon._Id.Model"
-                            ) = pydantic.Field(alias="{id}")
-
-                        Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon"
-
-                        proxmox_api: ProxmoxerProxmoxAPI
-
-                    @dataclass
-                    class _Node:
-                        @dataclass
-                        class _Node:
-                            @dataclass
-                            class _Version:
-                                TypedDict = typing.TypedDict(
-                                    "TypedDict",
-                                    {
-                                        "parts": list[Any],
-                                        "str": str,
-                                    },
-                                )
-
-                                class Model(BaseModel):
-                                    parts: list[Any]
-                                    str: str
-
-                                Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node._Version"
-
-                                proxmox_api: ProxmoxerProxmoxAPI
-
-                            TypedDict = typing.TypedDict(
-                                "TypedDict",
-                                {
-                                    "buildcommit": str,
-                                    "version": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node._Version.TypedDict",
-                                },
-                            )
-
-                            class Model(BaseModel):
-                                buildcommit: str
-                                version: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node._Version.Model"
-
-                            Model.__name__ = (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node"
-                            )
-
-                            proxmox_api: ProxmoxerProxmoxAPI
-
-                        TypedDict = typing.TypedDict(
-                            "TypedDict",
-                            {
-                                "{node}": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node.TypedDict",
-                            },
-                        )
-
-                        class Model(BaseModel):
-                            node: (
-                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node._Node.Model"
-                            ) = pydantic.Field(alias="{node}")
-
-                        Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node"
+                        Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Osd"
 
                         proxmox_api: ProxmoxerProxmoxAPI
 
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "mds": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds.TypedDict",
-                            "mgr": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr.TypedDict",
-                            "mon": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon.TypedDict",
-                            "node": "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node.TypedDict",
-                            "osd": list[Any],
+                            "mds": dict[str, Any],
+                            "mgr": dict[str, Any],
+                            "mon": dict[str, Any],
+                            "node": dict[str, Any],
+                            "osd": list[
+                                "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Osd.TypedDict"
+                            ],
                         },
                     )
 
                     class Model(BaseModel):
-                        mds: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mds.Model"
-                        mgr: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mgr.Model"
-                        mon: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Mon.Model"
-                        node: "ProxmoxAPI.Cluster.Ceph.Metadata._Get._Node.Model"
-                        osd: list[Any]
+                        mds: dict[str, Any]
+                        mgr: dict[str, Any]
+                        mon: dict[str, Any]
+                        node: dict[str, Any]
+                        osd: list["ProxmoxAPI.Cluster.Ceph.Metadata._Get._Osd.Model"]
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Ceph.Metadata._Get"
 
@@ -7037,6 +8265,43 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
+            # /cluster/ceph/restart-bulk
+            @dataclass
+            class RestartBulk:
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> str:
+                        data: Any = self.proxmox_api.cluster.ceph("restart-bulk").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(str, data)
+
+                    def model(self, *args: Any, **kwargs: Any) -> str:
+                        class validate(pydantic.BaseModel):
+                            data: str
+
+                        data: Any = self.proxmox_api.cluster.ceph("restart-bulk").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def create(self) -> _Post:
+                    return self.post
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def restart_bulk(self) -> RestartBulk:
+                return self.RestartBulk(
+                    proxmox_api=self.proxmox_api,
+                )
+
             # /cluster/ceph/flags
             @dataclass
             class Flags:
@@ -7051,9 +8316,9 @@ class ProxmoxAPI:
 
                         flag: str
 
-                        def __call__(self, *args: Any, **kwargs: Any) -> bool:
+                        def __call__(self, *args: Any, **kwargs: Any) -> PveBool:
                             data: Any = self.proxmox_api.cluster.ceph.flags(self.flag).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                            return typing.cast(bool, data)
+                            return typing.cast(PveBool, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> bool:
                             class validate(pydantic.BaseModel):
@@ -7121,6 +8386,7 @@ class ProxmoxAPI:
                         {
                             "description": str,
                             "name": Literal[
+                                "noautoscale",
                                 "nobackfill",
                                 "nodeep-scrub",
                                 "nodown",
@@ -7133,13 +8399,14 @@ class ProxmoxAPI:
                                 "noup",
                                 "pause",
                             ],
-                            "value": bool,
+                            "value": PveBool,
                         },
                     )
 
                     class Model(BaseModel):
                         description: str
                         name: Literal[
+                            "noautoscale",
                             "nobackfill",
                             "nodeep-scrub",
                             "nodown",
@@ -7211,6 +8478,113 @@ class ProxmoxAPI:
             @cached_property
             def flags(self) -> Flags:
                 return self.Flags(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            # /cluster/ceph/health-mute
+            @dataclass
+            class HealthMute:
+
+                # /cluster/ceph/health-mute/{code}
+                @dataclass
+                class Code:
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        code: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.ceph("health-mute")(self.code).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.ceph("health-mute")(self.code).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            code=self.code,
+                        )
+
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    code: str
+
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(code: str) -> ProxmoxAPI.Cluster.Ceph.HealthMute.Code:
+                        return self.Code(
+                            proxmox_api=self.proxmox_api,
+                            code=code,
+                        )
+
+                    self.__cache = cache
+
+                def __call__(self, code: str) -> Code:
+                    return self.__cache(code)
+
+                @dataclass
+                class _Get:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "code": str,
+                            "sticky": PveBool,
+                            "summary": NotRequired[str],
+                            "ttl": NotRequired[str],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        code: str
+                        sticky: bool
+                        summary: Optional[str] = None
+                        ttl: Optional[str] = None
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Ceph.HealthMute._Get"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ceph.HealthMute._Get.TypedDict"]:
+                        data: Any = self.proxmox_api.cluster.ceph("health-mute").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Ceph.HealthMute._Get.TypedDict"],
+                            data,
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Ceph.HealthMute._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Ceph.HealthMute._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.ceph("health-mute").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def health_mute(self) -> HealthMute:
+                return self.HealthMute(
                     proxmox_api=self.proxmox_api,
                 )
 
@@ -7382,7 +8756,7 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "comment": NotRequired[str],
-                            "enabled": bool,
+                            "enabled": PveBool,
                             "id": str,
                             "last-run": NotRequired[int],
                             "next-run": NotRequired[int],
@@ -8599,7 +9973,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "action": str,
+                                        "action": NotRequired[str],
                                         "comment": NotRequired[str],
                                         "dest": NotRequired[str],
                                         "dport": NotRequired[str],
@@ -8625,12 +9999,12 @@ class ProxmoxAPI:
                                         "proto": NotRequired[str],
                                         "source": NotRequired[str],
                                         "sport": NotRequired[str],
-                                        "type": str,
+                                        "type": NotRequired[str],
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    action: str
+                                    action: Optional[str] = None
                                     comment: Optional[str] = None
                                     dest: Optional[str] = None
                                     dport: Optional[str] = None
@@ -8658,7 +10032,7 @@ class ProxmoxAPI:
                                     proto: Optional[str] = None
                                     source: Optional[str] = None
                                     sport: Optional[str] = None
-                                    type: str
+                                    type: Optional[str] = None
 
                                 Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet.Firewall.Rules._Get"
 
@@ -8747,7 +10121,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "enable": NotRequired[bool],
+                                        "enable": NotRequired[PveBool],
                                         "log_level_forward": NotRequired[
                                             Literal[
                                                 "emerg",
@@ -9200,9 +10574,9 @@ class ProxmoxAPI:
                                 "TypedDict",
                                 {
                                     "alias": NotRequired[str],
-                                    "isolate-ports": NotRequired[bool],
+                                    "isolate-ports": NotRequired[PveBool],
                                     "tag": NotRequired[int],
-                                    "vlanaware": NotRequired[bool],
+                                    "vlanaware": NotRequired[PveBool],
                                     "zone": NotRequired[str],
                                 },
                             )
@@ -9229,7 +10603,7 @@ class ProxmoxAPI:
                             {
                                 "alias": NotRequired[str],
                                 "digest": NotRequired[str],
-                                "isolate-ports": NotRequired[bool],
+                                "isolate-ports": NotRequired[PveBool],
                                 "pending": NotRequired[
                                     "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet._Get._Pending.TypedDict"
                                 ],
@@ -9237,9 +10611,9 @@ class ProxmoxAPI:
                                     Literal["new", "changed", "deleted"]
                                 ],
                                 "tag": NotRequired[int],
-                                "type": Literal["vnet"],
-                                "vlanaware": NotRequired[bool],
-                                "vnet": str,
+                                "type": NotRequired[Literal["vnet"]],
+                                "vlanaware": NotRequired[PveBool],
+                                "vnet": NotRequired[str],
                                 "zone": NotRequired[str],
                             },
                         )
@@ -9255,9 +10629,9 @@ class ProxmoxAPI:
                             ] = None
                             state: Optional[Literal["new", "changed", "deleted"]] = None
                             tag: Optional[int] = None
-                            type: Literal["vnet"]
+                            type: Optional[Literal["vnet"]] = None
                             vlanaware: Optional[bool] = None
-                            vnet: str
+                            vnet: Optional[str] = None
                             zone: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Vnets.Vnet._Get"
@@ -9350,9 +10724,9 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "alias": NotRequired[str],
-                                "isolate-ports": NotRequired[bool],
+                                "isolate-ports": NotRequired[PveBool],
                                 "tag": NotRequired[int],
-                                "vlanaware": NotRequired[bool],
+                                "vlanaware": NotRequired[PveBool],
                                 "zone": NotRequired[str],
                             },
                         )
@@ -9375,15 +10749,15 @@ class ProxmoxAPI:
                         {
                             "alias": NotRequired[str],
                             "digest": NotRequired[str],
-                            "isolate-ports": NotRequired[bool],
+                            "isolate-ports": NotRequired[PveBool],
                             "pending": NotRequired[
                                 "ProxmoxAPI.Cluster.Sdn.Vnets._Get._Pending.TypedDict"
                             ],
                             "state": NotRequired[Literal["new", "changed", "deleted"]],
                             "tag": NotRequired[int],
-                            "type": Literal["vnet"],
-                            "vlanaware": NotRequired[bool],
-                            "vnet": str,
+                            "type": NotRequired[Literal["vnet"]],
+                            "vlanaware": NotRequired[PveBool],
+                            "vnet": NotRequired[str],
                             "zone": NotRequired[str],
                         },
                     )
@@ -9399,9 +10773,9 @@ class ProxmoxAPI:
                         ] = None
                         state: Optional[Literal["new", "changed", "deleted"]] = None
                         tag: Optional[int] = None
-                        type: Literal["vnet"]
+                        type: Optional[Literal["vnet"]] = None
                         vlanaware: Optional[bool] = None
-                        vnet: str
+                        vnet: Optional[str] = None
                         zone: Optional[str] = None
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Vnets._Get"
@@ -9496,16 +10870,16 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "advertise-subnets": NotRequired[bool],
+                                    "advertise-subnets": NotRequired[PveBool],
                                     "bridge": NotRequired[str],
-                                    "bridge-disable-mac-learning": NotRequired[bool],
+                                    "bridge-disable-mac-learning": NotRequired[PveBool],
                                     "controller": NotRequired[str],
                                     "dhcp": NotRequired[Literal["dnsmasq"]],
-                                    "disable-arp-nd-suppression": NotRequired[bool],
+                                    "disable-arp-nd-suppression": NotRequired[PveBool],
                                     "dns": NotRequired[str],
                                     "dnszone": NotRequired[str],
                                     "exitnodes": NotRequired[str],
-                                    "exitnodes-local-routing": NotRequired[bool],
+                                    "exitnodes-local-routing": NotRequired[PveBool],
                                     "exitnodes-primary": NotRequired[str],
                                     "ipam": NotRequired[str],
                                     "mac": NotRequired[str],
@@ -9514,6 +10888,7 @@ class ProxmoxAPI:
                                     "peers": NotRequired[str],
                                     "reversedns": NotRequired[str],
                                     "rt-import": NotRequired[str],
+                                    "secondary-controllers": NotRequired[list[str]],
                                     "tag": NotRequired[int],
                                     "vlan-protocol": NotRequired[
                                         Literal["802.1q", "802.1ad"]
@@ -9561,6 +10936,11 @@ class ProxmoxAPI:
                                 rt_import: Optional[str] = pydantic.Field(
                                     alias="rt-import", default=None
                                 )
+                                secondary_controllers: Optional[list[str]] = (
+                                    pydantic.Field(
+                                        alias="secondary-controllers", default=None
+                                    )
+                                )
                                 tag: Optional[int] = None
                                 vlan_protocol: Optional[
                                     Literal["802.1q", "802.1ad"]
@@ -9583,17 +10963,17 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "advertise-subnets": NotRequired[bool],
+                                "advertise-subnets": NotRequired[PveBool],
                                 "bridge": NotRequired[str],
-                                "bridge-disable-mac-learning": NotRequired[bool],
+                                "bridge-disable-mac-learning": NotRequired[PveBool],
                                 "controller": NotRequired[str],
                                 "dhcp": NotRequired[Literal["dnsmasq"]],
                                 "digest": NotRequired[str],
-                                "disable-arp-nd-suppression": NotRequired[bool],
+                                "disable-arp-nd-suppression": NotRequired[PveBool],
                                 "dns": NotRequired[str],
                                 "dnszone": NotRequired[str],
                                 "exitnodes": NotRequired[str],
-                                "exitnodes-local-routing": NotRequired[bool],
+                                "exitnodes-local-routing": NotRequired[PveBool],
                                 "exitnodes-primary": NotRequired[str],
                                 "ipam": NotRequired[str],
                                 "mac": NotRequired[str],
@@ -9605,19 +10985,27 @@ class ProxmoxAPI:
                                 ],
                                 "reversedns": NotRequired[str],
                                 "rt-import": NotRequired[str],
+                                "secondary-controllers": NotRequired[list[str]],
                                 "state": NotRequired[
                                     Literal["new", "changed", "deleted"]
                                 ],
                                 "tag": NotRequired[int],
-                                "type": Literal[
-                                    "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
+                                "type": NotRequired[
+                                    Literal[
+                                        "evpn",
+                                        "faucet",
+                                        "qinq",
+                                        "simple",
+                                        "vlan",
+                                        "vxlan",
+                                    ]
                                 ],
                                 "vlan-protocol": NotRequired[
                                     Literal["802.1q", "802.1ad"]
                                 ],
                                 "vrf-vxlan": NotRequired[int],
                                 "vxlan-port": NotRequired[int],
-                                "zone": str,
+                                "zone": NotRequired[str],
                             },
                         )
 
@@ -9658,11 +11046,16 @@ class ProxmoxAPI:
                             rt_import: Optional[str] = pydantic.Field(
                                 alias="rt-import", default=None
                             )
+                            secondary_controllers: Optional[list[str]] = pydantic.Field(
+                                alias="secondary-controllers", default=None
+                            )
                             state: Optional[Literal["new", "changed", "deleted"]] = None
                             tag: Optional[int] = None
-                            type: Literal[
-                                "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
-                            ]
+                            type: Optional[
+                                Literal[
+                                    "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
+                                ]
+                            ] = None
                             vlan_protocol: Optional[Literal["802.1q", "802.1ad"]] = (
                                 pydantic.Field(alias="vlan-protocol", default=None)
                             )
@@ -9672,7 +11065,7 @@ class ProxmoxAPI:
                             vxlan_port: Optional[int] = pydantic.Field(
                                 alias="vxlan-port", default=None
                             )
-                            zone: str
+                            zone: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Zones.Zone._Get"
 
@@ -9763,16 +11156,16 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "advertise-subnets": NotRequired[bool],
+                                "advertise-subnets": NotRequired[PveBool],
                                 "bridge": NotRequired[str],
-                                "bridge-disable-mac-learning": NotRequired[bool],
+                                "bridge-disable-mac-learning": NotRequired[PveBool],
                                 "controller": NotRequired[str],
                                 "dhcp": NotRequired[Literal["dnsmasq"]],
-                                "disable-arp-nd-suppression": NotRequired[bool],
+                                "disable-arp-nd-suppression": NotRequired[PveBool],
                                 "dns": NotRequired[str],
                                 "dnszone": NotRequired[str],
                                 "exitnodes": NotRequired[str],
-                                "exitnodes-local-routing": NotRequired[bool],
+                                "exitnodes-local-routing": NotRequired[PveBool],
                                 "exitnodes-primary": NotRequired[str],
                                 "ipam": NotRequired[str],
                                 "mac": NotRequired[str],
@@ -9781,6 +11174,7 @@ class ProxmoxAPI:
                                 "peers": NotRequired[str],
                                 "reversedns": NotRequired[str],
                                 "rt-import": NotRequired[str],
+                                "secondary-controllers": NotRequired[list[str]],
                                 "tag": NotRequired[int],
                                 "vlan-protocol": NotRequired[
                                     Literal["802.1q", "802.1ad"]
@@ -9823,6 +11217,9 @@ class ProxmoxAPI:
                             rt_import: Optional[str] = pydantic.Field(
                                 alias="rt-import", default=None
                             )
+                            secondary_controllers: Optional[list[str]] = pydantic.Field(
+                                alias="secondary-controllers", default=None
+                            )
                             tag: Optional[int] = None
                             vlan_protocol: Optional[Literal["802.1q", "802.1ad"]] = (
                                 pydantic.Field(alias="vlan-protocol", default=None)
@@ -9841,17 +11238,17 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "advertise-subnets": NotRequired[bool],
+                            "advertise-subnets": NotRequired[PveBool],
                             "bridge": NotRequired[str],
-                            "bridge-disable-mac-learning": NotRequired[bool],
+                            "bridge-disable-mac-learning": NotRequired[PveBool],
                             "controller": NotRequired[str],
-                            "dhcp": NotRequired[Literal["dnsmasq"]],
+                            "dhcp": NotRequired[str],
                             "digest": NotRequired[str],
-                            "disable-arp-nd-suppression": NotRequired[bool],
+                            "disable-arp-nd-suppression": NotRequired[PveBool],
                             "dns": NotRequired[str],
                             "dnszone": NotRequired[str],
                             "exitnodes": NotRequired[str],
-                            "exitnodes-local-routing": NotRequired[bool],
+                            "exitnodes-local-routing": NotRequired[PveBool],
                             "exitnodes-primary": NotRequired[str],
                             "ipam": NotRequired[str],
                             "mac": NotRequired[str],
@@ -9863,11 +11260,10 @@ class ProxmoxAPI:
                             ],
                             "reversedns": NotRequired[str],
                             "rt-import": NotRequired[str],
-                            "state": NotRequired[Literal["new", "changed", "deleted"]],
+                            "secondary-controllers": NotRequired[list[str]],
+                            "state": NotRequired[str],
                             "tag": NotRequired[int],
-                            "type": Literal[
-                                "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
-                            ],
+                            "type": str,
                             "vlan-protocol": NotRequired[Literal["802.1q", "802.1ad"]],
                             "vrf-vxlan": NotRequired[int],
                             "vxlan-port": NotRequired[int],
@@ -9884,7 +11280,7 @@ class ProxmoxAPI:
                             alias="bridge-disable-mac-learning", default=None
                         )
                         controller: Optional[str] = None
-                        dhcp: Optional[Literal["dnsmasq"]] = None
+                        dhcp: Optional[str] = None
                         digest: Optional[str] = None
                         disable_arp_nd_suppression: Optional[bool] = pydantic.Field(
                             alias="disable-arp-nd-suppression", default=None
@@ -9910,11 +11306,12 @@ class ProxmoxAPI:
                         rt_import: Optional[str] = pydantic.Field(
                             alias="rt-import", default=None
                         )
-                        state: Optional[Literal["new", "changed", "deleted"]] = None
+                        secondary_controllers: Optional[list[str]] = pydantic.Field(
+                            alias="secondary-controllers", default=None
+                        )
+                        state: Optional[str] = None
                         tag: Optional[int] = None
-                        type: Literal[
-                            "evpn", "faucet", "qinq", "simple", "vlan", "vxlan"
-                        ]
+                        type: str
                         vlan_protocol: Optional[Literal["802.1q", "802.1ad"]] = (
                             pydantic.Field(alias="vlan-protocol", default=None)
                         )
@@ -10019,20 +11416,28 @@ class ProxmoxAPI:
                                 "TypedDict",
                                 {
                                     "asn": NotRequired[int],
-                                    "bgp-multipath-as-relax": NotRequired[bool],
-                                    "ebgp": NotRequired[bool],
+                                    "bgp-mode": NotRequired[
+                                        Literal["auto", "external", "internal"]
+                                    ],
+                                    "bgp-multipath-as-relax": NotRequired[PveBool],
+                                    "ebgp": NotRequired[PveBool],
                                     "ebgp-multihop": NotRequired[int],
                                     "isis-domain": NotRequired[str],
                                     "isis-ifaces": NotRequired[str],
                                     "isis-net": NotRequired[str],
                                     "loopback": NotRequired[str],
                                     "node": NotRequired[str],
+                                    "nodes": NotRequired[str],
+                                    "peer-group-name": NotRequired[str],
                                     "peers": NotRequired[str],
                                 },
                             )
 
                             class Model(BaseModel):
                                 asn: Optional[int] = None
+                                bgp_mode: Optional[
+                                    Literal["auto", "external", "internal"]
+                                ] = pydantic.Field(alias="bgp-mode", default=None)
                                 bgp_multipath_as_relax: Optional[bool] = pydantic.Field(
                                     alias="bgp-multipath-as-relax", default=None
                                 )
@@ -10051,6 +11456,10 @@ class ProxmoxAPI:
                                 )
                                 loopback: Optional[str] = None
                                 node: Optional[str] = None
+                                nodes: Optional[str] = None
+                                peer_group_name: Optional[str] = pydantic.Field(
+                                    alias="peer-group-name", default=None
+                                )
                                 peers: Optional[str] = None
 
                             Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Controllers.Controller._Get._Pending"
@@ -10063,16 +11472,21 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "asn": NotRequired[int],
-                                "bgp-multipath-as-relax": NotRequired[bool],
-                                "controller": str,
+                                "bgp-mode": NotRequired[
+                                    Literal["auto", "external", "internal"]
+                                ],
+                                "bgp-multipath-as-relax": NotRequired[PveBool],
+                                "controller": NotRequired[str],
                                 "digest": NotRequired[str],
-                                "ebgp": NotRequired[bool],
+                                "ebgp": NotRequired[PveBool],
                                 "ebgp-multihop": NotRequired[int],
                                 "isis-domain": NotRequired[str],
                                 "isis-ifaces": NotRequired[str],
                                 "isis-net": NotRequired[str],
                                 "loopback": NotRequired[str],
                                 "node": NotRequired[str],
+                                "nodes": NotRequired[str],
+                                "peer-group-name": NotRequired[str],
                                 "peers": NotRequired[str],
                                 "pending": NotRequired[
                                     "ProxmoxAPI.Cluster.Sdn.Controllers.Controller._Get._Pending.TypedDict"
@@ -10080,16 +11494,21 @@ class ProxmoxAPI:
                                 "state": NotRequired[
                                     Literal["new", "changed", "deleted"]
                                 ],
-                                "type": Literal["bgp", "evpn", "faucet", "isis"],
+                                "type": NotRequired[
+                                    Literal["bgp", "evpn", "faucet", "isis"]
+                                ],
                             },
                         )
 
                         class Model(BaseModel):
                             asn: Optional[int] = None
+                            bgp_mode: Optional[
+                                Literal["auto", "external", "internal"]
+                            ] = pydantic.Field(alias="bgp-mode", default=None)
                             bgp_multipath_as_relax: Optional[bool] = pydantic.Field(
                                 alias="bgp-multipath-as-relax", default=None
                             )
-                            controller: str
+                            controller: Optional[str] = None
                             digest: Optional[str] = None
                             ebgp: Optional[bool] = None
                             ebgp_multihop: Optional[int] = pydantic.Field(
@@ -10106,12 +11525,18 @@ class ProxmoxAPI:
                             )
                             loopback: Optional[str] = None
                             node: Optional[str] = None
+                            nodes: Optional[str] = None
+                            peer_group_name: Optional[str] = pydantic.Field(
+                                alias="peer-group-name", default=None
+                            )
                             peers: Optional[str] = None
                             pending: Optional[
                                 "ProxmoxAPI.Cluster.Sdn.Controllers.Controller._Get._Pending.Model"
                             ] = None
                             state: Optional[Literal["new", "changed", "deleted"]] = None
-                            type: Literal["bgp", "evpn", "faucet", "isis"]
+                            type: Optional[Literal["bgp", "evpn", "faucet", "isis"]] = (
+                                None
+                            )
 
                         Model.__name__ = (
                             "ProxmoxAPI.Cluster.Sdn.Controllers.Controller._Get"
@@ -10208,20 +11633,28 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "asn": NotRequired[int],
-                                "bgp-multipath-as-relax": NotRequired[bool],
-                                "ebgp": NotRequired[bool],
+                                "bgp-mode": NotRequired[
+                                    Literal["auto", "external", "internal"]
+                                ],
+                                "bgp-multipath-as-relax": NotRequired[PveBool],
+                                "ebgp": NotRequired[PveBool],
                                 "ebgp-multihop": NotRequired[int],
                                 "isis-domain": NotRequired[str],
                                 "isis-ifaces": NotRequired[str],
                                 "isis-net": NotRequired[str],
                                 "loopback": NotRequired[str],
                                 "node": NotRequired[str],
+                                "nodes": NotRequired[str],
+                                "peer-group-name": NotRequired[str],
                                 "peers": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
                             asn: Optional[int] = None
+                            bgp_mode: Optional[
+                                Literal["auto", "external", "internal"]
+                            ] = pydantic.Field(alias="bgp-mode", default=None)
                             bgp_multipath_as_relax: Optional[bool] = pydantic.Field(
                                 alias="bgp-multipath-as-relax", default=None
                             )
@@ -10240,6 +11673,10 @@ class ProxmoxAPI:
                             )
                             loopback: Optional[str] = None
                             node: Optional[str] = None
+                            nodes: Optional[str] = None
+                            peer_group_name: Optional[str] = pydantic.Field(
+                                alias="peer-group-name", default=None
+                            )
                             peers: Optional[str] = None
 
                         Model.__name__ = (
@@ -10252,27 +11689,35 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "asn": NotRequired[int],
-                            "bgp-multipath-as-relax": NotRequired[bool],
+                            "bgp-mode": NotRequired[
+                                Literal["auto", "external", "internal"]
+                            ],
+                            "bgp-multipath-as-relax": NotRequired[PveBool],
                             "controller": str,
                             "digest": NotRequired[str],
-                            "ebgp": NotRequired[bool],
+                            "ebgp": NotRequired[PveBool],
                             "ebgp-multihop": NotRequired[int],
                             "isis-domain": NotRequired[str],
                             "isis-ifaces": NotRequired[str],
                             "isis-net": NotRequired[str],
                             "loopback": NotRequired[str],
                             "node": NotRequired[str],
+                            "nodes": NotRequired[str],
+                            "peer-group-name": NotRequired[str],
                             "peers": NotRequired[str],
                             "pending": NotRequired[
                                 "ProxmoxAPI.Cluster.Sdn.Controllers._Get._Pending.TypedDict"
                             ],
-                            "state": NotRequired[Literal["new", "changed", "deleted"]],
-                            "type": Literal["bgp", "evpn", "faucet", "isis"],
+                            "state": NotRequired[str],
+                            "type": str,
                         },
                     )
 
                     class Model(BaseModel):
                         asn: Optional[int] = None
+                        bgp_mode: Optional[Literal["auto", "external", "internal"]] = (
+                            pydantic.Field(alias="bgp-mode", default=None)
+                        )
                         bgp_multipath_as_relax: Optional[bool] = pydantic.Field(
                             alias="bgp-multipath-as-relax", default=None
                         )
@@ -10293,12 +11738,16 @@ class ProxmoxAPI:
                         )
                         loopback: Optional[str] = None
                         node: Optional[str] = None
+                        nodes: Optional[str] = None
+                        peer_group_name: Optional[str] = pydantic.Field(
+                            alias="peer-group-name", default=None
+                        )
                         peers: Optional[str] = None
                         pending: Optional[
                             "ProxmoxAPI.Cluster.Sdn.Controllers._Get._Pending.Model"
                         ] = None
-                        state: Optional[Literal["new", "changed", "deleted"]] = None
-                        type: Literal["bgp", "evpn", "faucet", "isis"]
+                        state: Optional[str] = None
+                        type: str
 
                     Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Controllers._Get"
 
@@ -10792,7 +12241,12 @@ class ProxmoxAPI:
                                     "ip6_prefix": NotRequired[str],
                                     "ip_prefix": NotRequired[str],
                                     "lock-token": NotRequired[str],
-                                    "protocol": Literal["openfabric", "ospf"],
+                                    "persistent_keepalive": NotRequired[float],
+                                    "protocol": Literal[
+                                        "openfabric", "ospf", "wireguard", "bgp"
+                                    ],
+                                    "redistribute": NotRequired[list[Any]],
+                                    "route_filter": NotRequired[str],
                                 },
                             )
 
@@ -10807,7 +12261,12 @@ class ProxmoxAPI:
                                 lock_token: Optional[str] = pydantic.Field(
                                     alias="lock-token", default=None
                                 )
-                                protocol: Literal["openfabric", "ospf"]
+                                persistent_keepalive: Optional[float] = None
+                                protocol: Literal[
+                                    "openfabric", "ospf", "wireguard", "bgp"
+                                ]
+                                redistribute: Optional[list[Any]] = None
+                                route_filter: Optional[str] = None
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Cluster.Sdn.Fabrics.Fabric.Id._Get"
@@ -10907,7 +12366,12 @@ class ProxmoxAPI:
                                 "ip6_prefix": NotRequired[str],
                                 "ip_prefix": NotRequired[str],
                                 "lock-token": NotRequired[str],
-                                "protocol": Literal["openfabric", "ospf"],
+                                "persistent_keepalive": NotRequired[float],
+                                "protocol": Literal[
+                                    "openfabric", "ospf", "wireguard", "bgp"
+                                ],
+                                "redistribute": NotRequired[list[Any]],
+                                "route_filter": NotRequired[str],
                             },
                         )
 
@@ -10922,7 +12386,10 @@ class ProxmoxAPI:
                             lock_token: Optional[str] = pydantic.Field(
                                 alias="lock-token", default=None
                             )
-                            protocol: Literal["openfabric", "ospf"]
+                            persistent_keepalive: Optional[float] = None
+                            protocol: Literal["openfabric", "ospf", "wireguard", "bgp"]
+                            redistribute: Optional[list[Any]] = None
+                            route_filter: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Fabrics.Fabric._Get"
 
@@ -11027,19 +12494,30 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
+                                        "allowed_ips": NotRequired[list[str]],
                                         "digest": NotRequired[str],
+                                        "endpoint": NotRequired[str],
                                         "fabric_id": str,
                                         "interfaces": list[Any],
                                         "ip": NotRequired[str],
                                         "ip6": NotRequired[str],
                                         "lock-token": NotRequired[str],
                                         "node_id": str,
-                                        "protocol": Literal["openfabric", "ospf"],
+                                        "peers": NotRequired[list[str]],
+                                        "protocol": Literal[
+                                            "openfabric", "ospf", "wireguard", "bgp"
+                                        ],
+                                        "public_key": NotRequired[str],
+                                        "role": NotRequired[
+                                            Literal["internal", "external"]
+                                        ],
                                     },
                                 )
 
                                 class Model(BaseModel):
+                                    allowed_ips: Optional[list[str]] = None
                                     digest: Optional[str] = None
+                                    endpoint: Optional[str] = None
                                     fabric_id: str
                                     interfaces: list[Any]
                                     ip: Optional[str] = None
@@ -11048,7 +12526,14 @@ class ProxmoxAPI:
                                         alias="lock-token", default=None
                                     )
                                     node_id: str
-                                    protocol: Literal["openfabric", "ospf"]
+                                    peers: Optional[list[str]] = None
+                                    protocol: Literal[
+                                        "openfabric", "ospf", "wireguard", "bgp"
+                                    ]
+                                    public_key: Optional[str] = None
+                                    role: Optional[Literal["internal", "external"]] = (
+                                        None
+                                    )
 
                                 Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Fabrics.Node.FabricId.NodeId._Get"
 
@@ -11149,19 +12634,30 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
+                                    "allowed_ips": NotRequired[list[str]],
                                     "digest": NotRequired[str],
+                                    "endpoint": NotRequired[str],
                                     "fabric_id": str,
                                     "interfaces": list[Any],
                                     "ip": NotRequired[str],
                                     "ip6": NotRequired[str],
                                     "lock-token": NotRequired[str],
                                     "node_id": str,
-                                    "protocol": Literal["openfabric", "ospf"],
+                                    "peers": NotRequired[list[str]],
+                                    "protocol": Literal[
+                                        "openfabric", "ospf", "wireguard", "bgp"
+                                    ],
+                                    "public_key": NotRequired[str],
+                                    "role": NotRequired[
+                                        Literal["internal", "external"]
+                                    ],
                                 },
                             )
 
                             class Model(BaseModel):
+                                allowed_ips: Optional[list[str]] = None
                                 digest: Optional[str] = None
+                                endpoint: Optional[str] = None
                                 fabric_id: str
                                 interfaces: list[Any]
                                 ip: Optional[str] = None
@@ -11170,7 +12666,12 @@ class ProxmoxAPI:
                                     alias="lock-token", default=None
                                 )
                                 node_id: str
-                                protocol: Literal["openfabric", "ospf"]
+                                peers: Optional[list[str]] = None
+                                protocol: Literal[
+                                    "openfabric", "ospf", "wireguard", "bgp"
+                                ]
+                                public_key: Optional[str] = None
+                                role: Optional[Literal["internal", "external"]] = None
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Cluster.Sdn.Fabrics.Node.FabricId._Get"
@@ -11265,19 +12766,28 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
+                                "allowed_ips": NotRequired[list[str]],
                                 "digest": NotRequired[str],
+                                "endpoint": NotRequired[str],
                                 "fabric_id": str,
                                 "interfaces": list[Any],
                                 "ip": NotRequired[str],
                                 "ip6": NotRequired[str],
                                 "lock-token": NotRequired[str],
                                 "node_id": str,
-                                "protocol": Literal["openfabric", "ospf"],
+                                "peers": NotRequired[list[str]],
+                                "protocol": Literal[
+                                    "openfabric", "ospf", "wireguard", "bgp"
+                                ],
+                                "public_key": NotRequired[str],
+                                "role": NotRequired[Literal["internal", "external"]],
                             },
                         )
 
                         class Model(BaseModel):
+                            allowed_ips: Optional[list[str]] = None
                             digest: Optional[str] = None
+                            endpoint: Optional[str] = None
                             fabric_id: str
                             interfaces: list[Any]
                             ip: Optional[str] = None
@@ -11286,7 +12796,10 @@ class ProxmoxAPI:
                                 alias="lock-token", default=None
                             )
                             node_id: str
-                            protocol: Literal["openfabric", "ospf"]
+                            peers: Optional[list[str]] = None
+                            protocol: Literal["openfabric", "ospf", "wireguard", "bgp"]
+                            public_key: Optional[str] = None
+                            role: Optional[Literal["internal", "external"]] = None
 
                         Model.__name__ = "ProxmoxAPI.Cluster.Sdn.Fabrics.Node._Get"
 
@@ -11347,7 +12860,12 @@ class ProxmoxAPI:
                                     "ip6_prefix": NotRequired[str],
                                     "ip_prefix": NotRequired[str],
                                     "lock-token": NotRequired[str],
-                                    "protocol": Literal["openfabric", "ospf"],
+                                    "persistent_keepalive": NotRequired[float],
+                                    "protocol": Literal[
+                                        "openfabric", "ospf", "wireguard", "bgp"
+                                    ],
+                                    "redistribute": NotRequired[list[Any]],
+                                    "route_filter": NotRequired[str],
                                 },
                             )
 
@@ -11362,7 +12880,12 @@ class ProxmoxAPI:
                                 lock_token: Optional[str] = pydantic.Field(
                                     alias="lock-token", default=None
                                 )
-                                protocol: Literal["openfabric", "ospf"]
+                                persistent_keepalive: Optional[float] = None
+                                protocol: Literal[
+                                    "openfabric", "ospf", "wireguard", "bgp"
+                                ]
+                                redistribute: Optional[list[Any]] = None
+                                route_filter: Optional[str] = None
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Cluster.Sdn.Fabrics.All._Get._Fabrics"
@@ -11375,19 +12898,30 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
+                                    "allowed_ips": NotRequired[list[str]],
                                     "digest": NotRequired[str],
+                                    "endpoint": NotRequired[str],
                                     "fabric_id": str,
                                     "interfaces": list[Any],
                                     "ip": NotRequired[str],
                                     "ip6": NotRequired[str],
                                     "lock-token": NotRequired[str],
                                     "node_id": str,
-                                    "protocol": Literal["openfabric", "ospf"],
+                                    "peers": NotRequired[list[str]],
+                                    "protocol": Literal[
+                                        "openfabric", "ospf", "wireguard", "bgp"
+                                    ],
+                                    "public_key": NotRequired[str],
+                                    "role": NotRequired[
+                                        Literal["internal", "external"]
+                                    ],
                                 },
                             )
 
                             class Model(BaseModel):
+                                allowed_ips: Optional[list[str]] = None
                                 digest: Optional[str] = None
+                                endpoint: Optional[str] = None
                                 fabric_id: str
                                 interfaces: list[Any]
                                 ip: Optional[str] = None
@@ -11396,7 +12930,12 @@ class ProxmoxAPI:
                                     alias="lock-token", default=None
                                 )
                                 node_id: str
-                                protocol: Literal["openfabric", "ospf"]
+                                peers: Optional[list[str]] = None
+                                protocol: Literal[
+                                    "openfabric", "ospf", "wireguard", "bgp"
+                                ]
+                                public_key: Optional[str] = None
+                                role: Optional[Literal["internal", "external"]] = None
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Cluster.Sdn.Fabrics.All._Get._Nodes"
@@ -11507,6 +13046,759 @@ class ProxmoxAPI:
                     proxmox_api=self.proxmox_api,
                 )
 
+            # /cluster/sdn/prefix-lists
+            @dataclass
+            class PrefixLists:
+
+                # /cluster/sdn/prefix-lists/{id}
+                @dataclass
+                class Id:
+
+                    # /cluster/sdn/prefix-lists/{id}/entries
+                    @dataclass
+                    class Entries:
+
+                        # /cluster/sdn/prefix-lists/{id}/entries/{url_seq}
+                        @dataclass
+                        class UrlSeq:
+
+                            @dataclass
+                            class _Delete:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                id: str
+
+                                url_seq: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries(self.url_seq).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries(self.url_seq).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                id: str
+
+                                url_seq: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries(self.url_seq).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries(self.url_seq).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @dataclass
+                            class _Put:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                id: str
+
+                                url_seq: int
+
+                                def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                    data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries(self.url_seq).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(None, data)
+
+                                def model(self, *args: Any, **kwargs: Any) -> None:
+                                    class validate(pydantic.BaseModel):
+                                        data: None
+
+                                    data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries(self.url_seq).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @cached_property
+                            def delete(self) -> _Delete:
+                                return self._Delete(
+                                    proxmox_api=self.proxmox_api,
+                                    id=self.id,
+                                    url_seq=self.url_seq,
+                                )
+
+                            @cached_property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    id=self.id,
+                                    url_seq=self.url_seq,
+                                )
+
+                            @cached_property
+                            def put(self) -> _Put:
+                                return self._Put(
+                                    proxmox_api=self.proxmox_api,
+                                    id=self.id,
+                                    url_seq=self.url_seq,
+                                )
+
+                            @property
+                            def set(self) -> _Put:
+                                return self.put
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            id: str
+                            url_seq: int
+
+                        def __post_init__(self) -> None:
+                            @lru_cache
+                            def cache(
+                                url_seq: int,
+                            ) -> ProxmoxAPI.Cluster.Sdn.PrefixLists.Id.Entries.UrlSeq:
+                                return self.UrlSeq(
+                                    proxmox_api=self.proxmox_api,
+                                    url_seq=url_seq,
+                                    id=self.id,
+                                )
+
+                            self.__cache = cache
+
+                        def __call__(self, url_seq: int) -> UrlSeq:
+                            return self.__cache(url_seq)
+
+                        @dataclass
+                        class _Get:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            id: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(list[dict[str, Any]], data)
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[dict[str, Any]]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[dict[str, Any]]
+
+                                data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return validate(data=data).data
+
+                        @dataclass
+                        class _Post:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            id: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> None:
+                                data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(None, data)
+
+                            def model(self, *args: Any, **kwargs: Any) -> None:
+                                class validate(pydantic.BaseModel):
+                                    data: None
+
+                                data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).entries.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return validate(data=data).data
+
+                        @cached_property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                id=self.id,
+                            )
+
+                        @cached_property
+                        def post(self) -> _Post:
+                            return self._Post(
+                                proxmox_api=self.proxmox_api,
+                                id=self.id,
+                            )
+
+                        @property
+                        def create(self) -> _Post:
+                            return self.post
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                    @cached_property
+                    def entries(self) -> Entries:
+                        return self.Entries(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
+                        )
+
+                    @dataclass
+                    class _Delete:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Get:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(dict[str, Any], data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                            class validate(pydantic.BaseModel):
+                                data: dict[str, Any]
+
+                            data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Put:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        id: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn("prefix-lists")(self.id).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def delete(self) -> _Delete:
+                        return self._Delete(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
+                        )
+
+                    @cached_property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
+                        )
+
+                    @cached_property
+                    def put(self) -> _Put:
+                        return self._Put(
+                            proxmox_api=self.proxmox_api,
+                            id=self.id,
+                        )
+
+                    @property
+                    def set(self) -> _Put:
+                        return self.put
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    id: str
+
+                def __post_init__(self) -> None:
+                    @lru_cache
+                    def cache(id: str) -> ProxmoxAPI.Cluster.Sdn.PrefixLists.Id:
+                        return self.Id(
+                            proxmox_api=self.proxmox_api,
+                            id=id,
+                        )
+
+                    self.__cache = cache
+
+                def __call__(self, id: str) -> Id:
+                    return self.__cache(id)
+
+                @dataclass
+                class _Get:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list[dict[str, Any]]:
+                        data: Any = self.proxmox_api.cluster.sdn("prefix-lists").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(list[dict[str, Any]], data)
+
+                    def model(self, *args: Any, **kwargs: Any) -> list[dict[str, Any]]:
+                        class validate(pydantic.BaseModel):
+                            data: list[dict[str, Any]]
+
+                        data: Any = self.proxmox_api.cluster.sdn("prefix-lists").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @dataclass
+                class _Post:
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(self, *args: Any, **kwargs: Any) -> None:
+                        data: Any = self.proxmox_api.cluster.sdn("prefix-lists").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(None, data)
+
+                    def model(self, *args: Any, **kwargs: Any) -> None:
+                        class validate(pydantic.BaseModel):
+                            data: None
+
+                        data: Any = self.proxmox_api.cluster.sdn("prefix-lists").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @cached_property
+                def post(self) -> _Post:
+                    return self._Post(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @property
+                def create(self) -> _Post:
+                    return self.post
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def prefix_lists(self) -> PrefixLists:
+                return self.PrefixLists(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            # /cluster/sdn/route-maps
+            @dataclass
+            class RouteMaps:
+
+                # /cluster/sdn/route-maps/entries
+                @dataclass
+                class Entries:
+
+                    # /cluster/sdn/route-maps/entries/{route-map-id}
+                    @dataclass
+                    class RouteMapId:
+
+                        # /cluster/sdn/route-maps/entries/{route-map-id}/entry
+                        @dataclass
+                        class Entry:
+
+                            # /cluster/sdn/route-maps/entries/{route-map-id}/entry/{order}
+                            @dataclass
+                            class Order:
+
+                                @dataclass
+                                class _Delete:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    route_map_id: str
+
+                                    order: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).entry(self.order).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).entry(self.order).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Get:
+                                    TypedDict = typing.TypedDict(
+                                        "TypedDict",
+                                        {
+                                            "action": Literal["permit", "deny"],
+                                            "call": NotRequired[str],
+                                            "digest": NotRequired[str],
+                                            "exit-action": NotRequired[str],
+                                            "match": NotRequired[list[str]],
+                                            "order": int,
+                                            "route-map-id": str,
+                                            "set": NotRequired[list[str]],
+                                        },
+                                    )
+
+                                    class Model(BaseModel):
+                                        action: Literal["permit", "deny"]
+                                        call: Optional[str] = None
+                                        digest: Optional[str] = None
+                                        exit_action: Optional[str] = pydantic.Field(
+                                            alias="exit-action", default=None
+                                        )
+                                        match: Optional[list[str]] = None
+                                        order: int
+                                        route_map_id: str = pydantic.Field(
+                                            alias="route-map-id"
+                                        )
+                                        set: Optional[list[str]] = None
+
+                                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId.Entry.Order._Get"
+
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    route_map_id: str
+
+                                    order: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId.Entry.Order._Get.TypedDict":
+                                        data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).entry(self.order).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(
+                                            "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId.Entry.Order._Get.TypedDict",
+                                            data,
+                                        )
+
+                                    def model(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId.Entry.Order._Get.Model":
+                                        class validate(pydantic.BaseModel):
+                                            data: "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId.Entry.Order._Get.Model"
+
+                                        data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).entry(self.order).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return validate(data=data).data
+
+                                @dataclass
+                                class _Put:
+                                    proxmox_api: ProxmoxerProxmoxAPI
+
+                                    route_map_id: str
+
+                                    order: int
+
+                                    def __call__(
+                                        self, *args: Any, **kwargs: Any
+                                    ) -> None:
+                                        data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).entry(self.order).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return typing.cast(None, data)
+
+                                    def model(self, *args: Any, **kwargs: Any) -> None:
+                                        class validate(pydantic.BaseModel):
+                                            data: None
+
+                                        data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).entry(self.order).put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                        return validate(data=data).data
+
+                                @cached_property
+                                def delete(self) -> _Delete:
+                                    return self._Delete(
+                                        proxmox_api=self.proxmox_api,
+                                        route_map_id=self.route_map_id,
+                                        order=self.order,
+                                    )
+
+                                @cached_property
+                                def get(self) -> _Get:
+                                    return self._Get(
+                                        proxmox_api=self.proxmox_api,
+                                        route_map_id=self.route_map_id,
+                                        order=self.order,
+                                    )
+
+                                @cached_property
+                                def put(self) -> _Put:
+                                    return self._Put(
+                                        proxmox_api=self.proxmox_api,
+                                        route_map_id=self.route_map_id,
+                                        order=self.order,
+                                    )
+
+                                @property
+                                def set(self) -> _Put:
+                                    return self.put
+
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                route_map_id: str
+                                order: int
+
+                            def __post_init__(self) -> None:
+                                @lru_cache
+                                def cache(
+                                    order: int,
+                                ) -> (
+                                    ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId.Entry.Order
+                                ):
+                                    return self.Order(
+                                        proxmox_api=self.proxmox_api,
+                                        order=order,
+                                        route_map_id=self.route_map_id,
+                                    )
+
+                                self.__cache = cache
+
+                            def __call__(self, order: int) -> Order:
+                                return self.__cache(order)
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            route_map_id: str
+
+                        @cached_property
+                        def entry(self) -> Entry:
+                            return self.Entry(
+                                proxmox_api=self.proxmox_api,
+                                route_map_id=self.route_map_id,
+                            )
+
+                        @dataclass
+                        class _Get:
+                            TypedDict = typing.TypedDict(
+                                "TypedDict",
+                                {
+                                    "action": Literal["permit", "deny"],
+                                    "call": NotRequired[str],
+                                    "digest": NotRequired[str],
+                                    "exit-action": NotRequired[str],
+                                    "match": NotRequired[list[str]],
+                                    "order": int,
+                                    "route-map-id": str,
+                                    "set": NotRequired[list[str]],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                action: Literal["permit", "deny"]
+                                call: Optional[str] = None
+                                digest: Optional[str] = None
+                                exit_action: Optional[str] = pydantic.Field(
+                                    alias="exit-action", default=None
+                                )
+                                match: Optional[list[str]] = None
+                                order: int
+                                route_map_id: str = pydantic.Field(alias="route-map-id")
+                                set: Optional[list[str]] = None
+
+                            Model.__name__ = "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId._Get"
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            route_map_id: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId._Get.TypedDict"
+                            ]:
+                                data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    list[
+                                        "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId._Get.TypedDict"
+                                    ],
+                                    data,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> list[
+                                "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId._Get.Model"
+                            ]:
+                                class validate(pydantic.BaseModel):
+                                    data: list[
+                                        "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId._Get.Model"
+                                    ]
+
+                                data: Any = self.proxmox_api.cluster.sdn("route-maps").entries(self.route_map_id).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return validate(data=data).data
+
+                        @cached_property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                route_map_id=self.route_map_id,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        route_map_id: str
+
+                    def __post_init__(self) -> None:
+                        @lru_cache
+                        def cache(
+                            route_map_id: str,
+                        ) -> ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries.RouteMapId:
+                            return self.RouteMapId(
+                                proxmox_api=self.proxmox_api,
+                                route_map_id=route_map_id,
+                            )
+
+                        self.__cache = cache
+
+                    def __call__(self, route_map_id: str) -> RouteMapId:
+                        return self.__cache(route_map_id)
+
+                    @dataclass
+                    class _Get:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "action": Literal["permit", "deny"],
+                                "call": NotRequired[str],
+                                "digest": NotRequired[str],
+                                "exit-action": NotRequired[str],
+                                "match": NotRequired[list[str]],
+                                "order": int,
+                                "route-map-id": str,
+                                "set": NotRequired[list[str]],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            action: Literal["permit", "deny"]
+                            call: Optional[str] = None
+                            digest: Optional[str] = None
+                            exit_action: Optional[str] = pydantic.Field(
+                                alias="exit-action", default=None
+                            )
+                            match: Optional[list[str]] = None
+                            order: int
+                            route_map_id: str = pydantic.Field(alias="route-map-id")
+                            set: Optional[list[str]] = None
+
+                        Model.__name__ = "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries._Get"
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries._Get.TypedDict"
+                        ]:
+                            data: Any = self.proxmox_api.cluster.sdn("route-maps").entries.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries._Get.TypedDict"
+                                ],
+                                data,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list[
+                            "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries._Get.Model"
+                        ]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Cluster.Sdn.RouteMaps.Entries._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.cluster.sdn("route-maps").entries.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> None:
+                            data: Any = self.proxmox_api.cluster.sdn("route-maps").entries.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(None, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> None:
+                            class validate(pydantic.BaseModel):
+                                data: None
+
+                            data: Any = self.proxmox_api.cluster.sdn("route-maps").entries.post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                        )
+
+                    @cached_property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                        )
+
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                @cached_property
+                def entries(self) -> Entries:
+                    return self.Entries(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                @dataclass
+                class _Get:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "id": str,
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        id: str
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.RouteMaps._Get"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.RouteMaps._Get.TypedDict"]:
+                        data: Any = self.proxmox_api.cluster.sdn("route-maps").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            list["ProxmoxAPI.Cluster.Sdn.RouteMaps._Get.TypedDict"],
+                            data,
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> list["ProxmoxAPI.Cluster.Sdn.RouteMaps._Get.Model"]:
+                        class validate(pydantic.BaseModel):
+                            data: list["ProxmoxAPI.Cluster.Sdn.RouteMaps._Get.Model"]
+
+                        data: Any = self.proxmox_api.cluster.sdn("route-maps").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def route_maps(self) -> RouteMaps:
+                return self.RouteMaps(
+                    proxmox_api=self.proxmox_api,
+                )
+
             # /cluster/sdn/lock
             @dataclass
             class Lock:
@@ -11599,6 +13891,63 @@ class ProxmoxAPI:
             @cached_property
             def rollback(self) -> Rollback:
                 return self.Rollback(
+                    proxmox_api=self.proxmox_api,
+                )
+
+            # /cluster/sdn/dry-run
+            @dataclass
+            class DryRun:
+
+                @dataclass
+                class _Get:
+                    TypedDict = typing.TypedDict(
+                        "TypedDict",
+                        {
+                            "frr-diff": NotRequired[str],
+                            "interfaces-diff": NotRequired[str],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        frr_diff: Optional[str] = pydantic.Field(
+                            alias="frr-diff", default=None
+                        )
+                        interfaces_diff: Optional[str] = pydantic.Field(
+                            alias="interfaces-diff", default=None
+                        )
+
+                    Model.__name__ = "ProxmoxAPI.Cluster.Sdn.DryRun._Get"
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    def __call__(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Sdn.DryRun._Get.TypedDict":
+                        data: Any = self.proxmox_api.cluster.sdn("dry-run").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return typing.cast(
+                            "ProxmoxAPI.Cluster.Sdn.DryRun._Get.TypedDict", data
+                        )
+
+                    def model(
+                        self, *args: Any, **kwargs: Any
+                    ) -> "ProxmoxAPI.Cluster.Sdn.DryRun._Get.Model":
+                        class validate(pydantic.BaseModel):
+                            data: "ProxmoxAPI.Cluster.Sdn.DryRun._Get.Model"
+
+                        data: Any = self.proxmox_api.cluster.sdn("dry-run").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                        return validate(data=data).data
+
+                @cached_property
+                def get(self) -> _Get:
+                    return self._Get(
+                        proxmox_api=self.proxmox_api,
+                    )
+
+                proxmox_api: ProxmoxerProxmoxAPI
+
+            @cached_property
+            def dry_run(self) -> DryRun:
+                return self.DryRun(
                     proxmox_api=self.proxmox_api,
                 )
 
@@ -11723,6 +14072,7 @@ class ProxmoxAPI:
                         "diskread": NotRequired[int],
                         "diskwrite": NotRequired[int],
                         "hastate": NotRequired[str],
+                        "host-arch": NotRequired[Literal["x86_64", "aarch64"]],
                         "id": str,
                         "level": NotRequired[str],
                         "lock": NotRequired[str],
@@ -11741,10 +14091,11 @@ class ProxmoxAPI:
                         "pool": NotRequired[str],
                         "protocol": NotRequired[str],
                         "sdn": NotRequired[str],
+                        "shared": NotRequired[PveBool],
                         "status": NotRequired[str],
                         "storage": NotRequired[str],
                         "tags": NotRequired[str],
-                        "template": NotRequired[bool],
+                        "template": NotRequired[PveBool],
                         "type": Literal[
                             "node",
                             "storage",
@@ -11771,6 +14122,9 @@ class ProxmoxAPI:
                     diskread: Optional[int] = None
                     diskwrite: Optional[int] = None
                     hastate: Optional[str] = None
+                    host_arch: Optional[Literal["x86_64", "aarch64"]] = pydantic.Field(
+                        alias="host-arch", default=None
+                    )
                     id: str
                     level: Optional[str] = None
                     lock: Optional[str] = None
@@ -11791,6 +14145,7 @@ class ProxmoxAPI:
                     pool: Optional[str] = None
                     protocol: Optional[str] = None
                     sdn: Optional[str] = None
+                    shared: Optional[bool] = None
                     status: Optional[str] = None
                     storage: Optional[str] = None
                     tags: Optional[str] = None
@@ -11903,15 +14258,213 @@ class ProxmoxAPI:
 
             @dataclass
             class _Get:
+                TypedDict = typing.TypedDict(
+                    "TypedDict",
+                    {
+                        "allowed-tags": NotRequired[list[str]],
+                        "bwlimit": NotRequired[str],
+                        "consent-text": NotRequired[str],
+                        "console": NotRequired[
+                            Literal["applet", "vv", "html5", "xtermjs"]
+                        ],
+                        "crs": NotRequired[str],
+                        "description": NotRequired[str],
+                        "email_from": NotRequired[str],
+                        "fencing": NotRequired[Literal["watchdog", "hardware", "both"]],
+                        "ha": NotRequired[str],
+                        "http_proxy": NotRequired[str],
+                        "keyboard": NotRequired[
+                            Literal[
+                                "de",
+                                "de-ch",
+                                "da",
+                                "en-gb",
+                                "en-us",
+                                "es",
+                                "fi",
+                                "fr",
+                                "fr-be",
+                                "fr-ca",
+                                "fr-ch",
+                                "hu",
+                                "is",
+                                "it",
+                                "ja",
+                                "lt",
+                                "mk",
+                                "nl",
+                                "no",
+                                "pl",
+                                "pt",
+                                "pt-br",
+                                "sv",
+                                "sl",
+                                "tr",
+                            ]
+                        ],
+                        "language": NotRequired[
+                            Literal[
+                                "ar",
+                                "ca",
+                                "da",
+                                "de",
+                                "en",
+                                "es",
+                                "eu",
+                                "fa",
+                                "fr",
+                                "hr",
+                                "he",
+                                "it",
+                                "ja",
+                                "ka",
+                                "kr",
+                                "nb",
+                                "nl",
+                                "nn",
+                                "pl",
+                                "pt_BR",
+                                "ru",
+                                "sl",
+                                "sv",
+                                "tr",
+                                "ukr",
+                                "zh_CN",
+                                "zh_TW",
+                            ]
+                        ],
+                        "location": NotRequired[str],
+                        "mac_prefix": NotRequired[str],
+                        "max_workers": NotRequired[int],
+                        "migration": NotRequired[str],
+                        "migration_unsecure": NotRequired[PveBool],
+                        "next-id": NotRequired[str],
+                        "notify": NotRequired[str],
+                        "registered-tags": NotRequired[str],
+                        "replication": NotRequired[str],
+                        "tag-style": NotRequired[str],
+                        "u2f": NotRequired[str],
+                        "user-tag-access": NotRequired[str],
+                        "webauthn": NotRequired[str],
+                    },
+                )
+
+                class Model(BaseModel):
+                    allowed_tags: Optional[list[str]] = pydantic.Field(
+                        alias="allowed-tags", default=None
+                    )
+                    bwlimit: Optional[str] = None
+                    consent_text: Optional[str] = pydantic.Field(
+                        alias="consent-text", default=None
+                    )
+                    console: Optional[Literal["applet", "vv", "html5", "xtermjs"]] = (
+                        None
+                    )
+                    crs: Optional[str] = None
+                    description: Optional[str] = None
+                    email_from: Optional[str] = None
+                    fencing: Optional[Literal["watchdog", "hardware", "both"]] = None
+                    ha: Optional[str] = None
+                    http_proxy: Optional[str] = None
+                    keyboard: Optional[
+                        Literal[
+                            "de",
+                            "de-ch",
+                            "da",
+                            "en-gb",
+                            "en-us",
+                            "es",
+                            "fi",
+                            "fr",
+                            "fr-be",
+                            "fr-ca",
+                            "fr-ch",
+                            "hu",
+                            "is",
+                            "it",
+                            "ja",
+                            "lt",
+                            "mk",
+                            "nl",
+                            "no",
+                            "pl",
+                            "pt",
+                            "pt-br",
+                            "sv",
+                            "sl",
+                            "tr",
+                        ]
+                    ] = None
+                    language: Optional[
+                        Literal[
+                            "ar",
+                            "ca",
+                            "da",
+                            "de",
+                            "en",
+                            "es",
+                            "eu",
+                            "fa",
+                            "fr",
+                            "hr",
+                            "he",
+                            "it",
+                            "ja",
+                            "ka",
+                            "kr",
+                            "nb",
+                            "nl",
+                            "nn",
+                            "pl",
+                            "pt_BR",
+                            "ru",
+                            "sl",
+                            "sv",
+                            "tr",
+                            "ukr",
+                            "zh_CN",
+                            "zh_TW",
+                        ]
+                    ] = None
+                    location: Optional[str] = None
+                    mac_prefix: Optional[str] = None
+                    max_workers: Optional[int] = None
+                    migration: Optional[str] = None
+                    migration_unsecure: Optional[bool] = None
+                    next_id: Optional[str] = pydantic.Field(
+                        alias="next-id", default=None
+                    )
+                    notify: Optional[str] = None
+                    registered_tags: Optional[str] = pydantic.Field(
+                        alias="registered-tags", default=None
+                    )
+                    replication: Optional[str] = None
+                    tag_style: Optional[str] = pydantic.Field(
+                        alias="tag-style", default=None
+                    )
+                    u2f: Optional[str] = None
+                    user_tag_access: Optional[str] = pydantic.Field(
+                        alias="user-tag-access", default=None
+                    )
+                    webauthn: Optional[str] = None
+
+                Model.__name__ = "ProxmoxAPI.Cluster.Options._Get"
+
                 proxmox_api: ProxmoxerProxmoxAPI
 
-                def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                def __call__(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Cluster.Options._Get.TypedDict":
                     data: Any = self.proxmox_api.cluster.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                    return typing.cast(dict[str, Any], data)
+                    return typing.cast(
+                        "ProxmoxAPI.Cluster.Options._Get.TypedDict", data
+                    )
 
-                def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                def model(
+                    self, *args: Any, **kwargs: Any
+                ) -> "ProxmoxAPI.Cluster.Options._Get.Model":
                     class validate(pydantic.BaseModel):
-                        data: dict[str, Any]
+                        data: "ProxmoxAPI.Cluster.Options._Get.Model"
 
                     data: Any = self.proxmox_api.cluster.options.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                     return validate(data=data).data
@@ -11967,12 +14520,12 @@ class ProxmoxAPI:
                         "id": str,
                         "ip": NotRequired[str],
                         "level": NotRequired[str],
-                        "local": NotRequired[bool],
+                        "local": NotRequired[PveBool],
                         "name": str,
                         "nodeid": NotRequired[int],
                         "nodes": NotRequired[int],
-                        "online": NotRequired[bool],
-                        "quorate": NotRequired[bool],
+                        "online": NotRequired[PveBool],
+                        "quorate": NotRequired[PveBool],
                         "type": Literal["cluster", "node"],
                         "version": NotRequired[int],
                     },
@@ -12315,7 +14868,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "action": str,
+                                        "action": NotRequired[str],
                                         "comment": NotRequired[str],
                                         "dest": NotRequired[str],
                                         "dport": NotRequired[str],
@@ -12341,12 +14894,12 @@ class ProxmoxAPI:
                                         "proto": NotRequired[str],
                                         "source": NotRequired[str],
                                         "sport": NotRequired[str],
-                                        "type": str,
+                                        "type": NotRequired[str],
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    action: str
+                                    action: Optional[str] = None
                                     comment: Optional[str] = None
                                     dest: Optional[str] = None
                                     dport: Optional[str] = None
@@ -12374,7 +14927,7 @@ class ProxmoxAPI:
                                     proto: Optional[str] = None
                                     source: Optional[str] = None
                                     sport: Optional[str] = None
-                                    type: str
+                                    type: Optional[str] = None
 
                                 Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Firewall.Rules._Get"
 
@@ -12886,7 +15439,7 @@ class ProxmoxAPI:
                                             "cidr": str,
                                             "comment": NotRequired[str],
                                             "digest": str,
-                                            "nomatch": NotRequired[bool],
+                                            "nomatch": NotRequired[PveBool],
                                         },
                                     )
 
@@ -13122,9 +15675,9 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "dhcp": NotRequired[bool],
-                                        "enable": NotRequired[bool],
-                                        "ipfilter": NotRequired[bool],
+                                        "dhcp": NotRequired[PveBool],
+                                        "enable": NotRequired[PveBool],
+                                        "ipfilter": NotRequired[PveBool],
                                         "log_level_in": NotRequired[
                                             Literal[
                                                 "emerg",
@@ -13151,15 +15704,15 @@ class ProxmoxAPI:
                                                 "nolog",
                                             ]
                                         ],
-                                        "macfilter": NotRequired[bool],
-                                        "ndp": NotRequired[bool],
+                                        "macfilter": NotRequired[PveBool],
+                                        "ndp": NotRequired[PveBool],
                                         "policy_in": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
                                         "policy_out": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
-                                        "radv": NotRequired[bool],
+                                        "radv": NotRequired[PveBool],
                                     },
                                 )
 
@@ -13693,6 +16246,150 @@ class ProxmoxAPI:
                                 vmid=self.vmid,
                             )
 
+                        # /nodes/{node}/qemu/{vmid}/agent/get-cpustats
+                        @dataclass
+                        class GetCpustats:
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-cpustats").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-cpustats").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @cached_property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
+                        @cached_property
+                        def get_cpustats(self) -> GetCpustats:
+                            return self.GetCpustats(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/agent/get-disks
+                        @dataclass
+                        class GetDisks:
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-disks").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-disks").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @cached_property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
+                        @cached_property
+                        def get_disks(self) -> GetDisks:
+                            return self.GetDisks(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/agent/get-diskstats
+                        @dataclass
+                        class GetDiskstats:
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-diskstats").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-diskstats").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @cached_property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
+                        @cached_property
+                        def get_diskstats(self) -> GetDiskstats:
+                            return self.GetDiskstats(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
                         # /nodes/{node}/qemu/{vmid}/agent/get-fsinfo
                         @dataclass
                         class GetFsinfo:
@@ -13784,6 +16481,54 @@ class ProxmoxAPI:
                         @cached_property
                         def get_host_name(self) -> GetHostName:
                             return self.GetHostName(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                vmid=self.vmid,
+                            )
+
+                        # /nodes/{node}/qemu/{vmid}/agent/get-load
+                        @dataclass
+                        class GetLoad:
+
+                            @dataclass
+                            class _Get:
+                                proxmox_api: ProxmoxerProxmoxAPI
+
+                                node: str
+
+                                vmid: int
+
+                                def __call__(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-load").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return typing.cast(dict[str, Any], data)
+
+                                def model(
+                                    self, *args: Any, **kwargs: Any
+                                ) -> dict[str, Any]:
+                                    class validate(pydantic.BaseModel):
+                                        data: dict[str, Any]
+
+                                    data: Any = self.proxmox_api.nodes(self.node).qemu(self.vmid).agent("get-load").get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                    return validate(data=data).data
+
+                            @cached_property
+                            def get(self) -> _Get:
+                                return self._Get(
+                                    proxmox_api=self.proxmox_api,
+                                    node=self.node,
+                                    vmid=self.vmid,
+                                )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+                            vmid: int
+
+                        @cached_property
+                        def get_load(self) -> GetLoad:
+                            return self.GetLoad(
                                 proxmox_api=self.proxmox_api,
                                 node=self.node,
                                 vmid=self.vmid,
@@ -14612,11 +17357,11 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "err-data": NotRequired[str],
-                                        "err-truncated": NotRequired[bool],
+                                        "err-truncated": NotRequired[PveBool],
                                         "exitcode": NotRequired[int],
-                                        "exited": bool,
+                                        "exited": PveBool,
                                         "out-data": NotRequired[str],
-                                        "out-truncated": NotRequired[bool],
+                                        "out-truncated": NotRequired[PveBool],
                                         "signal": NotRequired[int],
                                     },
                                 )
@@ -14695,7 +17440,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "content": str,
-                                        "truncated": NotRequired[bool],
+                                        "truncated": NotRequired[PveBool],
                                     },
                                 )
 
@@ -15058,15 +17803,15 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "acpi": NotRequired[bool],
+                                    "acpi": NotRequired[PveBool],
                                     "affinity": NotRequired[str],
                                     "agent": NotRequired[str],
-                                    "allow-ksm": NotRequired[bool],
+                                    "allow-ksm": NotRequired[PveBool],
                                     "amd-sev": NotRequired[str],
                                     "arch": NotRequired[Literal["x86_64", "aarch64"]],
                                     "args": NotRequired[str],
                                     "audio0": NotRequired[str],
-                                    "autostart": NotRequired[bool],
+                                    "autostart": NotRequired[PveBool],
                                     "balloon": NotRequired[int],
                                     "bios": NotRequired[Literal["seabios", "ovmf"]],
                                     "boot": NotRequired[str],
@@ -15077,7 +17822,7 @@ class ProxmoxAPI:
                                     "citype": NotRequired[
                                         Literal["configdrive2", "nocloud", "opennebula"]
                                     ],
-                                    "ciupgrade": NotRequired[bool],
+                                    "ciupgrade": NotRequired[PveBool],
                                     "ciuser": NotRequired[str],
                                     "cores": NotRequired[int],
                                     "cpu": NotRequired[str],
@@ -15086,7 +17831,7 @@ class ProxmoxAPI:
                                     "description": NotRequired[str],
                                     "digest": str,
                                     "efidisk0": NotRequired[str],
-                                    "freeze": NotRequired[bool],
+                                    "freeze": NotRequired[PveBool],
                                     "hookscript": NotRequired[str],
                                     "hostpci[n]": NotRequired[str],
                                     "hotplug": NotRequired[str],
@@ -15097,7 +17842,7 @@ class ProxmoxAPI:
                                     "intel-tdx": NotRequired[str],
                                     "ipconfig[n]": NotRequired[str],
                                     "ivshmem": NotRequired[str],
-                                    "keephugepages": NotRequired[bool],
+                                    "keephugepages": NotRequired[PveBool],
                                     "keyboard": NotRequired[
                                         Literal[
                                             "de",
@@ -15127,8 +17872,8 @@ class ProxmoxAPI:
                                             "tr",
                                         ]
                                     ],
-                                    "kvm": NotRequired[bool],
-                                    "localtime": NotRequired[bool],
+                                    "kvm": NotRequired[PveBool],
+                                    "localtime": NotRequired[PveBool],
                                     "lock": NotRequired[
                                         Literal[
                                             "backup",
@@ -15150,9 +17895,9 @@ class ProxmoxAPI:
                                     "name": NotRequired[str],
                                     "nameserver": NotRequired[str],
                                     "net[n]": NotRequired[str],
-                                    "numa": NotRequired[bool],
+                                    "numa": NotRequired[PveBool],
                                     "numa[n]": NotRequired[str],
-                                    "onboot": NotRequired[bool],
+                                    "onboot": NotRequired[PveBool],
                                     "ostype": NotRequired[
                                         Literal[
                                             "other",
@@ -15172,8 +17917,8 @@ class ProxmoxAPI:
                                     ],
                                     "parallel[n]": NotRequired[str],
                                     "parent": NotRequired[str],
-                                    "protection": NotRequired[bool],
-                                    "reboot": NotRequired[bool],
+                                    "protection": NotRequired[PveBool],
+                                    "reboot": NotRequired[PveBool],
                                     "rng0": NotRequired[str],
                                     "running-nets-host-mtu": NotRequired[str],
                                     "runningcpu": NotRequired[str],
@@ -15201,10 +17946,10 @@ class ProxmoxAPI:
                                     "sshkeys": NotRequired[str],
                                     "startdate": NotRequired[str],
                                     "startup": NotRequired[str],
-                                    "tablet": NotRequired[bool],
+                                    "tablet": NotRequired[PveBool],
                                     "tags": NotRequired[str],
-                                    "tdf": NotRequired[bool],
-                                    "template": NotRequired[bool],
+                                    "tdf": NotRequired[PveBool],
+                                    "template": NotRequired[PveBool],
                                     "tpmstate0": NotRequired[str],
                                     "unused[n]": NotRequired[str],
                                     "usb[n]": NotRequired[str],
@@ -16118,7 +18863,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "agent": NotRequired[bool],
+                                        "agent": NotRequired[PveBool],
                                         "clipboard": NotRequired[Literal["vnc"]],
                                         "cpu": NotRequired[float],
                                         "cpus": NotRequired[float],
@@ -16143,11 +18888,11 @@ class ProxmoxAPI:
                                         "qmpstatus": NotRequired[str],
                                         "running-machine": NotRequired[str],
                                         "running-qemu": NotRequired[str],
-                                        "serial": NotRequired[bool],
-                                        "spice": NotRequired[bool],
+                                        "serial": NotRequired[PveBool],
+                                        "spice": NotRequired[PveBool],
                                         "status": Literal["stopped", "running"],
                                         "tags": NotRequired[str],
-                                        "template": NotRequired[bool],
+                                        "template": NotRequired[PveBool],
                                         "uptime": NotRequired[int],
                                         "vmid": int,
                                     },
@@ -16700,7 +19445,7 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "hasFeature": bool,
+                                    "hasFeature": PveBool,
                                     "nodes": list[str],
                                 },
                             )
@@ -16867,8 +19612,8 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "cdrom": bool,
-                                        "is_unused": bool,
+                                        "cdrom": PveBool,
+                                        "is_unused": PveBool,
                                         "size": int,
                                         "volid": str,
                                     },
@@ -16895,13 +19640,17 @@ class ProxmoxAPI:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
                                         {
-                                            "cause": Literal["resource-affinity"],
+                                            "cause": Literal[
+                                                "node-affinity", "resource-affinity"
+                                            ],
                                             "sid": str,
                                         },
                                     )
 
                                     class Model(BaseModel):
-                                        cause: Literal["resource-affinity"]
+                                        cause: Literal[
+                                            "node-affinity", "resource-affinity"
+                                        ]
                                         sid: str
 
                                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._NotAllowedNodes._BlockingHaResources"
@@ -16947,7 +19696,7 @@ class ProxmoxAPI:
                                 {
                                     "allowed_nodes": NotRequired[list[str]],
                                     "dependent-ha-resources": NotRequired[list[str]],
-                                    "has-dbus-vmstate": bool,
+                                    "has-dbus-vmstate": PveBool,
                                     "local_disks": list[
                                         "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._LocalDisks.TypedDict"
                                     ],
@@ -16960,7 +19709,7 @@ class ProxmoxAPI:
                                             "ProxmoxAPI.Nodes.Node.Qemu.Vmid.Migrate._Get._NotAllowedNodes.TypedDict",
                                         ]
                                     ],
-                                    "running": bool,
+                                    "running": PveBool,
                                 },
                             )
 
@@ -17466,7 +20215,7 @@ class ProxmoxAPI:
                                     "name": str,
                                     "parent": NotRequired[str],
                                     "snaptime": NotRequired[int],
-                                    "vmstate": NotRequired[bool],
+                                    "vmstate": NotRequired[PveBool],
                                 },
                             )
 
@@ -17920,10 +20669,10 @@ class ProxmoxAPI:
                             "qmpstatus": NotRequired[str],
                             "running-machine": NotRequired[str],
                             "running-qemu": NotRequired[str],
-                            "serial": NotRequired[bool],
+                            "serial": NotRequired[PveBool],
                             "status": Literal["stopped", "running"],
                             "tags": NotRequired[str],
-                            "template": NotRequired[bool],
+                            "template": NotRequired[PveBool],
                             "uptime": NotRequired[int],
                             "vmid": int,
                             "disk": NotRequired[int],
@@ -18064,11 +20813,11 @@ class ProxmoxAPI:
                                     "cmode": NotRequired[
                                         Literal["shell", "console", "tty"]
                                     ],
-                                    "console": NotRequired[bool],
+                                    "console": NotRequired[PveBool],
                                     "cores": NotRequired[int],
                                     "cpulimit": NotRequired[float],
                                     "cpuunits": NotRequired[int],
-                                    "debug": NotRequired[bool],
+                                    "debug": NotRequired[PveBool],
                                     "description": NotRequired[str],
                                     "dev[n]": NotRequired[str],
                                     "digest": str,
@@ -18096,7 +20845,7 @@ class ProxmoxAPI:
                                     "mp[n]": NotRequired[str],
                                     "nameserver": NotRequired[str],
                                     "net[n]": NotRequired[str],
-                                    "onboot": NotRequired[bool],
+                                    "onboot": NotRequired[PveBool],
                                     "ostype": NotRequired[
                                         Literal[
                                             "debian",
@@ -18112,16 +20861,16 @@ class ProxmoxAPI:
                                             "unmanaged",
                                         ]
                                     ],
-                                    "protection": NotRequired[bool],
+                                    "protection": NotRequired[PveBool],
                                     "rootfs": NotRequired[str],
                                     "searchdomain": NotRequired[str],
                                     "startup": NotRequired[str],
                                     "swap": NotRequired[int],
                                     "tags": NotRequired[str],
-                                    "template": NotRequired[bool],
+                                    "template": NotRequired[PveBool],
                                     "timezone": NotRequired[str],
                                     "tty": NotRequired[int],
-                                    "unprivileged": NotRequired[bool],
+                                    "unprivileged": NotRequired[PveBool],
                                     "unused[n]": NotRequired[str],
                                 },
                             )
@@ -18322,7 +21071,7 @@ class ProxmoxAPI:
                                         "pressurememorysome": NotRequired[float],
                                         "status": Literal["stopped", "running"],
                                         "tags": NotRequired[str],
-                                        "template": NotRequired[bool],
+                                        "template": NotRequired[PveBool],
                                         "uptime": NotRequired[int],
                                         "vmid": int,
                                     },
@@ -19316,7 +22065,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "action": str,
+                                        "action": NotRequired[str],
                                         "comment": NotRequired[str],
                                         "dest": NotRequired[str],
                                         "dport": NotRequired[str],
@@ -19342,12 +22091,12 @@ class ProxmoxAPI:
                                         "proto": NotRequired[str],
                                         "source": NotRequired[str],
                                         "sport": NotRequired[str],
-                                        "type": str,
+                                        "type": NotRequired[str],
                                     },
                                 )
 
                                 class Model(BaseModel):
-                                    action: str
+                                    action: Optional[str] = None
                                     comment: Optional[str] = None
                                     dest: Optional[str] = None
                                     dport: Optional[str] = None
@@ -19375,7 +22124,7 @@ class ProxmoxAPI:
                                     proto: Optional[str] = None
                                     source: Optional[str] = None
                                     sport: Optional[str] = None
-                                    type: str
+                                    type: Optional[str] = None
 
                                 Model.__name__ = (
                                     "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Firewall.Rules._Get"
@@ -19889,7 +22638,7 @@ class ProxmoxAPI:
                                             "cidr": str,
                                             "comment": NotRequired[str],
                                             "digest": str,
-                                            "nomatch": NotRequired[bool],
+                                            "nomatch": NotRequired[PveBool],
                                         },
                                     )
 
@@ -20125,9 +22874,9 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "dhcp": NotRequired[bool],
-                                        "enable": NotRequired[bool],
-                                        "ipfilter": NotRequired[bool],
+                                        "dhcp": NotRequired[PveBool],
+                                        "enable": NotRequired[PveBool],
+                                        "ipfilter": NotRequired[PveBool],
                                         "log_level_in": NotRequired[
                                             Literal[
                                                 "emerg",
@@ -20154,15 +22903,15 @@ class ProxmoxAPI:
                                                 "nolog",
                                             ]
                                         ],
-                                        "macfilter": NotRequired[bool],
-                                        "ndp": NotRequired[bool],
+                                        "macfilter": NotRequired[PveBool],
+                                        "ndp": NotRequired[PveBool],
                                         "policy_in": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
                                         "policy_out": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
-                                        "radv": NotRequired[bool],
+                                        "radv": NotRequired[PveBool],
                                     },
                                 )
 
@@ -20666,6 +23415,7 @@ class ProxmoxAPI:
                                 "TypedDict",
                                 {
                                     "cert": str,
+                                    "password": NotRequired[str],
                                     "port": int,
                                     "ticket": str,
                                     "upid": str,
@@ -20675,6 +23425,7 @@ class ProxmoxAPI:
 
                             class Model(BaseModel):
                                 cert: str
+                                password: Optional[str] = None
                                 port: int
                                 ticket: str
                                 upid: str
@@ -21015,13 +23766,17 @@ class ProxmoxAPI:
                                     TypedDict = typing.TypedDict(
                                         "TypedDict",
                                         {
-                                            "cause": Literal["resource-affinity"],
+                                            "cause": Literal[
+                                                "node-affinity", "resource-affinity"
+                                            ],
                                             "sid": str,
                                         },
                                     )
 
                                     class Model(BaseModel):
-                                        cause: Literal["resource-affinity"]
+                                        cause: Literal[
+                                            "node-affinity", "resource-affinity"
+                                        ]
                                         sid: str
 
                                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Migrate._Get._NotAllowedNodes._BlockingHaResources"
@@ -21068,7 +23823,7 @@ class ProxmoxAPI:
                                     "not-allowed-nodes": NotRequired[
                                         "ProxmoxAPI.Nodes.Node.Lxc.Vmid.Migrate._Get._NotAllowedNodes.TypedDict"
                                     ],
-                                    "running": bool,
+                                    "running": PveBool,
                                 },
                             )
 
@@ -21179,7 +23934,7 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "hasFeature": bool,
+                                    "hasFeature": PveBool,
                                 },
                             )
 
@@ -21884,7 +24639,7 @@ class ProxmoxAPI:
                             "pressurememorysome": NotRequired[float],
                             "status": Literal["stopped", "running"],
                             "tags": NotRequired[str],
-                            "template": NotRequired[bool],
+                            "template": NotRequired[PveBool],
                             "uptime": NotRequired[int],
                             "vmid": int,
                         },
@@ -22040,7 +24795,7 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "can_update_at_runtime": bool,
+                                    "can_update_at_runtime": PveBool,
                                     "level": str,
                                     "mask": str,
                                     "name": str,
@@ -22208,20 +24963,22 @@ class ProxmoxAPI:
                                         {
                                             "dev_node": str,
                                             "device": Literal["block", "db", "wal"],
-                                            "devices": str,
+                                            "physical_device": NotRequired[str],
                                             "size": int,
-                                            "support_discard": bool,
+                                            "support_discard": PveBool,
                                             "type": str,
+                                            "devices": NotRequired[str],
                                         },
                                     )
 
                                     class Model(BaseModel):
                                         dev_node: str
                                         device: Literal["block", "db", "wal"]
-                                        devices: str
+                                        physical_device: Optional[str] = None
                                         size: int
                                         support_discard: bool
                                         type: str
+                                        devices: Optional[str] = None
 
                                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Devices"
 
@@ -22237,6 +24994,7 @@ class ProxmoxAPI:
                                         "TypedDict",
                                         {
                                             "back_addr": str,
+                                            "encrypted": NotRequired[PveBool],
                                             "front_addr": str,
                                             "hb_back_addr": str,
                                             "hb_front_addr": str,
@@ -22245,13 +25003,14 @@ class ProxmoxAPI:
                                             "mem_usage": int,
                                             "osd_data": str,
                                             "osd_objectstore": str,
-                                            "pid": int,
+                                            "pid": NotRequired[int],
                                             "version": str,
                                         },
                                     )
 
                                     class Model(BaseModel):
                                         back_addr: str
+                                        encrypted: Optional[bool] = None
                                         front_addr: str
                                         hb_back_addr: str
                                         hb_front_addr: str
@@ -22260,7 +25019,7 @@ class ProxmoxAPI:
                                         mem_usage: int
                                         osd_data: str
                                         osd_objectstore: str
-                                        pid: int
+                                        pid: Optional[int] = None
                                         version: str
 
                                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Osd.Osdid.Metadata._Get._Osd"
@@ -22634,17 +25393,37 @@ class ProxmoxAPI:
 
                     @dataclass
                     class _Get:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "flags": NotRequired[str],
+                                "root": NotRequired[dict[str, Any]],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            flags: Optional[str] = None
+                            root: Optional[dict[str, Any]] = None
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Osd._Get"
+
                         proxmox_api: ProxmoxerProxmoxAPI
 
                         node: str
 
-                        def __call__(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd._Get.TypedDict":
                             data: Any = self.proxmox_api.nodes(self.node).ceph.osd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                            return typing.cast(dict[str, Any], data)
+                            return typing.cast(
+                                "ProxmoxAPI.Nodes.Node.Ceph.Osd._Get.TypedDict", data
+                            )
 
-                        def model(self, *args: Any, **kwargs: Any) -> dict[str, Any]:
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> "ProxmoxAPI.Nodes.Node.Ceph.Osd._Get.Model":
                             class validate(pydantic.BaseModel):
-                                data: dict[str, Any]
+                                data: "ProxmoxAPI.Nodes.Node.Ceph.Osd._Get.Model"
 
                             data: Any = self.proxmox_api.nodes(self.node).ceph.osd.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                             return validate(data=data).data
@@ -22786,19 +25565,29 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "addr": NotRequired[str],
+                                "ceph_version": NotRequired[str],
+                                "ceph_version_short": NotRequired[str],
+                                "direxists": NotRequired[PveBool],
+                                "fs_name": NotRequired[str],
                                 "host": NotRequired[str],
                                 "name": str,
                                 "rank": NotRequired[int],
-                                "standby_replay": NotRequired[bool],
+                                "service": NotRequired[PveBool],
+                                "standby_replay": NotRequired[PveBool],
                                 "state": str,
                             },
                         )
 
                         class Model(BaseModel):
                             addr: Optional[str] = None
+                            ceph_version: Optional[str] = None
+                            ceph_version_short: Optional[str] = None
+                            direxists: Optional[bool] = None
+                            fs_name: Optional[str] = None
                             host: Optional[str] = None
                             name: str
                             rank: Optional[int] = None
+                            service: Optional[bool] = None
                             standby_replay: Optional[bool] = None
                             state: str
 
@@ -22935,16 +25724,24 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "addr": NotRequired[str],
+                                "ceph_version": NotRequired[str],
+                                "ceph_version_short": NotRequired[str],
+                                "direxists": NotRequired[PveBool],
                                 "host": NotRequired[str],
                                 "name": str,
+                                "service": NotRequired[PveBool],
                                 "state": str,
                             },
                         )
 
                         class Model(BaseModel):
                             addr: Optional[str] = None
+                            ceph_version: Optional[str] = None
+                            ceph_version_short: Optional[str] = None
+                            direxists: Optional[bool] = None
                             host: Optional[str] = None
                             name: str
+                            service: Optional[bool] = None
                             state: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Mgr._Get"
@@ -23082,12 +25879,12 @@ class ProxmoxAPI:
                                 "addr": NotRequired[str],
                                 "ceph_version": NotRequired[str],
                                 "ceph_version_short": NotRequired[str],
-                                "direxists": NotRequired[str],
-                                "host": NotRequired[bool],
+                                "direxists": NotRequired[PveBool],
+                                "host": NotRequired[str],
                                 "name": str,
-                                "quorum": NotRequired[bool],
+                                "quorum": NotRequired[PveBool],
                                 "rank": NotRequired[int],
-                                "service": NotRequired[int],
+                                "service": NotRequired[PveBool],
                                 "state": NotRequired[str],
                             },
                         )
@@ -23096,12 +25893,12 @@ class ProxmoxAPI:
                             addr: Optional[str] = None
                             ceph_version: Optional[str] = None
                             ceph_version_short: Optional[str] = None
-                            direxists: Optional[str] = None
-                            host: Optional[bool] = None
+                            direxists: Optional[bool] = None
+                            host: Optional[str] = None
                             name: str
                             quorum: Optional[bool] = None
                             rank: Optional[int] = None
-                            service: Optional[int] = None
+                            service: Optional[bool] = None
                             state: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Mon._Get"
@@ -23155,6 +25952,25 @@ class ProxmoxAPI:
                     class Name:
 
                         @dataclass
+                        class _Delete:
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            name: str
+
+                            def __call__(self, *args: Any, **kwargs: Any) -> str:
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.fs(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(str, data)
+
+                            def model(self, *args: Any, **kwargs: Any) -> str:
+                                class validate(pydantic.BaseModel):
+                                    data: str
+
+                                data: Any = self.proxmox_api.nodes(self.node).ceph.fs(self.name).delete(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return validate(data=data).data
+
+                        @dataclass
                         class _Post:
                             proxmox_api: ProxmoxerProxmoxAPI
 
@@ -23172,6 +25988,14 @@ class ProxmoxAPI:
 
                                 data: Any = self.proxmox_api.nodes(self.node).ceph.fs(self.name).post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
+
+                        @cached_property
+                        def delete(self) -> _Delete:
+                            return self._Delete(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                name=self.name,
+                            )
 
                         @cached_property
                         def post(self) -> _Post:
@@ -23210,14 +26034,20 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "data_pool": str,
+                                "data_pool_ids": NotRequired[list[int]],
+                                "data_pools": NotRequired[list[str]],
                                 "metadata_pool": str,
+                                "metadata_pool_id": NotRequired[int],
                                 "name": str,
                             },
                         )
 
                         class Model(BaseModel):
                             data_pool: str
+                            data_pool_ids: Optional[list[int]] = None
+                            data_pools: Optional[list[str]] = None
                             metadata_pool: str
+                            metadata_pool_id: Optional[int] = None
                             name: str
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Fs._Get"
@@ -23282,19 +26112,19 @@ class ProxmoxAPI:
                                         "application": NotRequired[
                                             Literal["rbd", "cephfs", "rgw"]
                                         ],
-                                        "application_list": NotRequired[list[Any]],
+                                        "application_list": NotRequired[list[str]],
                                         "autoscale_status": NotRequired[dict[str, Any]],
                                         "crush_rule": NotRequired[str],
-                                        "fast_read": bool,
-                                        "hashpspool": bool,
+                                        "fast_read": PveBool,
+                                        "hashpspool": PveBool,
                                         "id": int,
                                         "min_size": NotRequired[int],
                                         "name": str,
-                                        "nodeep-scrub": bool,
-                                        "nodelete": bool,
-                                        "nopgchange": bool,
-                                        "noscrub": bool,
-                                        "nosizechange": bool,
+                                        "nodeep-scrub": PveBool,
+                                        "nodelete": PveBool,
+                                        "nopgchange": PveBool,
+                                        "noscrub": PveBool,
+                                        "nosizechange": PveBool,
                                         "pg_autoscale_mode": NotRequired[
                                             Literal["on", "off", "warn"]
                                         ],
@@ -23305,8 +26135,8 @@ class ProxmoxAPI:
                                         "statistics": NotRequired[dict[str, Any]],
                                         "target_size": NotRequired[str],
                                         "target_size_ratio": NotRequired[float],
-                                        "use_gmt_hitset": bool,
-                                        "write_fadvise_dontneed": bool,
+                                        "use_gmt_hitset": PveBool,
+                                        "write_fadvise_dontneed": PveBool,
                                     },
                                 )
 
@@ -23314,7 +26144,7 @@ class ProxmoxAPI:
                                     application: Optional[
                                         Literal["rbd", "cephfs", "rgw"]
                                     ] = None
-                                    application_list: Optional[list[Any]] = None
+                                    application_list: Optional[list[str]] = None
                                     autoscale_status: Optional[dict[str, Any]] = None
                                     crush_rule: Optional[str] = None
                                     fast_read: bool
@@ -23506,11 +26336,11 @@ class ProxmoxAPI:
                             {
                                 "application_metadata": NotRequired[dict[str, Any]],
                                 "autoscale_status": NotRequired[dict[str, Any]],
-                                "bytes_used": int,
+                                "bytes_used": NotRequired[int],
                                 "crush_rule": int,
-                                "crush_rule_name": str,
+                                "crush_rule_name": NotRequired[str],
                                 "min_size": int,
-                                "percent_used": float,
+                                "percent_used": NotRequired[float],
                                 "pg_autoscale_mode": NotRequired[str],
                                 "pg_num": int,
                                 "pg_num_final": NotRequired[int],
@@ -23527,11 +26357,11 @@ class ProxmoxAPI:
                         class Model(BaseModel):
                             application_metadata: Optional[dict[str, Any]] = None
                             autoscale_status: Optional[dict[str, Any]] = None
-                            bytes_used: int
+                            bytes_used: Optional[int] = None
                             crush_rule: int
-                            crush_rule_name: str
+                            crush_rule_name: Optional[str] = None
                             min_size: int
-                            percent_used: float
+                            percent_used: Optional[float] = None
                             pg_autoscale_mode: Optional[str] = None
                             pg_num: int
                             pg_num_final: Optional[int] = None
@@ -23609,6 +26439,76 @@ class ProxmoxAPI:
                 @cached_property
                 def pool(self) -> Pool:
                     return self.Pool(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/ceph/releases
+                @dataclass
+                class Releases:
+
+                    @dataclass
+                    class _Get:
+                        TypedDict = typing.TypedDict(
+                            "TypedDict",
+                            {
+                                "available": PveBool,
+                                "is-default": PveBool,
+                                "release": str,
+                                "unsupported": PveBool,
+                                "version": str,
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            available: bool
+                            is_default: bool = pydantic.Field(alias="is-default")
+                            release: str
+                            unsupported: bool
+                            version: str
+
+                        Model.__name__ = "ProxmoxAPI.Nodes.Node.Ceph.Releases._Get"
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Releases._Get.TypedDict"]:
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.releases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(
+                                list[
+                                    "ProxmoxAPI.Nodes.Node.Ceph.Releases._Get.TypedDict"
+                                ],
+                                data,
+                            )
+
+                        def model(
+                            self, *args: Any, **kwargs: Any
+                        ) -> list["ProxmoxAPI.Nodes.Node.Ceph.Releases._Get.Model"]:
+                            class validate(pydantic.BaseModel):
+                                data: list[
+                                    "ProxmoxAPI.Nodes.Node.Ceph.Releases._Get.Model"
+                                ]
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph.releases.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def get(self) -> _Get:
+                        return self._Get(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                @cached_property
+                def releases(self) -> Releases:
+                    return self.Releases(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
@@ -23781,6 +26681,49 @@ class ProxmoxAPI:
                 @cached_property
                 def restart(self) -> Restart:
                     return self.Restart(
+                        proxmox_api=self.proxmox_api,
+                        node=self.node,
+                    )
+
+                # /nodes/{node}/ceph/restart-bulk
+                @dataclass
+                class RestartBulk:
+
+                    @dataclass
+                    class _Post:
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+
+                        def __call__(self, *args: Any, **kwargs: Any) -> str:
+                            data: Any = self.proxmox_api.nodes(self.node).ceph("restart-bulk").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return typing.cast(str, data)
+
+                        def model(self, *args: Any, **kwargs: Any) -> str:
+                            class validate(pydantic.BaseModel):
+                                data: str
+
+                            data: Any = self.proxmox_api.nodes(self.node).ceph("restart-bulk").post(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                            return validate(data=data).data
+
+                    @cached_property
+                    def post(self) -> _Post:
+                        return self._Post(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                        )
+
+                    @property
+                    def create(self) -> _Post:
+                        return self.post
+
+                    proxmox_api: ProxmoxerProxmoxAPI
+
+                    node: str
+
+                @cached_property
+                def restart_bulk(self) -> RestartBulk:
+                    return self.RestartBulk(
                         proxmox_api=self.proxmox_api,
                         node=self.node,
                     )
@@ -23992,7 +26935,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "safe": bool,
+                                "safe": PveBool,
                                 "status": NotRequired[str],
                             },
                         )
@@ -24093,7 +27036,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "all": NotRequired[bool],
+                                "all": NotRequired[PveBool],
                                 "bwlimit": NotRequired[int],
                                 "compress": NotRequired[
                                     Literal["0", "1", "gzip", "lzo", "zstd"]
@@ -24108,7 +27051,6 @@ class ProxmoxAPI:
                                     Literal["always", "failure"]
                                 ],
                                 "mailto": NotRequired[str],
-                                "maxfiles": NotRequired[int],
                                 "mode": NotRequired[
                                     Literal["snapshot", "suspend", "stop"]
                                 ],
@@ -24125,18 +27067,19 @@ class ProxmoxAPI:
                                 "performance": NotRequired[str],
                                 "pigz": NotRequired[int],
                                 "pool": NotRequired[str],
-                                "protected": NotRequired[bool],
+                                "protected": NotRequired[PveBool],
                                 "prune-backups": NotRequired[str],
-                                "quiet": NotRequired[bool],
-                                "remove": NotRequired[bool],
+                                "quiet": NotRequired[PveBool],
+                                "remove": NotRequired[PveBool],
                                 "script": NotRequired[str],
-                                "stdexcludes": NotRequired[bool],
-                                "stop": NotRequired[bool],
+                                "stdexcludes": NotRequired[PveBool],
+                                "stop": NotRequired[PveBool],
                                 "stopwait": NotRequired[int],
                                 "storage": NotRequired[str],
                                 "tmpdir": NotRequired[str],
                                 "vmid": NotRequired[str],
                                 "zstd": NotRequired[int],
+                                "maxfiles": NotRequired[int],
                             },
                         )
 
@@ -24158,7 +27101,6 @@ class ProxmoxAPI:
                                 None
                             )
                             mailto: Optional[str] = None
-                            maxfiles: Optional[int] = None
                             mode: Optional[Literal["snapshot", "suspend", "stop"]] = (
                                 None
                             )
@@ -24193,6 +27135,7 @@ class ProxmoxAPI:
                             tmpdir: Optional[str] = None
                             vmid: Optional[str] = None
                             zstd: Optional[int] = None
+                            maxfiles: Optional[int] = None
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Vzdump.Defaults._Get"
 
@@ -24331,7 +27274,78 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "active-state": Literal[
+                                    "active-state": NotRequired[
+                                        Literal[
+                                            "active",
+                                            "inactive",
+                                            "failed",
+                                            "activating",
+                                            "deactivating",
+                                            "maintenance",
+                                            "reloading",
+                                            "refreshing",
+                                            "unknown",
+                                        ]
+                                    ],
+                                    "desc": NotRequired[str],
+                                    "name": NotRequired[str],
+                                    "service": NotRequired[str],
+                                    "state": NotRequired[
+                                        Literal[
+                                            "dead",
+                                            "condition",
+                                            "start-pre",
+                                            "start",
+                                            "start-post",
+                                            "running",
+                                            "exited",
+                                            "reload",
+                                            "reload-signal",
+                                            "reload-notify",
+                                            "mounting",
+                                            "stop",
+                                            "stop-watchdog",
+                                            "stop-sigterm",
+                                            "stop-sigkill",
+                                            "stop-post",
+                                            "final-watchdog",
+                                            "final-sigterm",
+                                            "final-sigkill",
+                                            "failed",
+                                            "dead-before-auto-restart",
+                                            "failed-before-auto-restart",
+                                            "dead-resources-pinned",
+                                            "auto-restart",
+                                            "auto-restart-queued",
+                                            "cleaning",
+                                            "unknown",
+                                        ]
+                                    ],
+                                    "unit-state": NotRequired[
+                                        Literal[
+                                            "enabled",
+                                            "enabled-runtime",
+                                            "linked",
+                                            "linked-runtime",
+                                            "alias",
+                                            "masked",
+                                            "masked-runtime",
+                                            "static",
+                                            "disabled",
+                                            "indirect",
+                                            "generated",
+                                            "transient",
+                                            "bad",
+                                            "not-found",
+                                            "unknown",
+                                        ]
+                                    ],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                active_state: Optional[
+                                    Literal[
                                         "active",
                                         "inactive",
                                         "failed",
@@ -24341,11 +27355,13 @@ class ProxmoxAPI:
                                         "reloading",
                                         "refreshing",
                                         "unknown",
-                                    ],
-                                    "desc": str,
-                                    "name": str,
-                                    "service": str,
-                                    "state": Literal[
+                                    ]
+                                ] = pydantic.Field(alias="active-state", default=None)
+                                desc: Optional[str] = None
+                                name: Optional[str] = None
+                                service: Optional[str] = None
+                                state: Optional[
+                                    Literal[
                                         "dead",
                                         "condition",
                                         "start-pre",
@@ -24373,8 +27389,10 @@ class ProxmoxAPI:
                                         "auto-restart-queued",
                                         "cleaning",
                                         "unknown",
-                                    ],
-                                    "unit-state": Literal[
+                                    ]
+                                ] = None
+                                unit_state: Optional[
+                                    Literal[
                                         "enabled",
                                         "enabled-runtime",
                                         "linked",
@@ -24390,71 +27408,8 @@ class ProxmoxAPI:
                                         "bad",
                                         "not-found",
                                         "unknown",
-                                    ],
-                                },
-                            )
-
-                            class Model(BaseModel):
-                                active_state: Literal[
-                                    "active",
-                                    "inactive",
-                                    "failed",
-                                    "activating",
-                                    "deactivating",
-                                    "maintenance",
-                                    "reloading",
-                                    "refreshing",
-                                    "unknown",
-                                ] = pydantic.Field(alias="active-state")
-                                desc: str
-                                name: str
-                                service: str
-                                state: Literal[
-                                    "dead",
-                                    "condition",
-                                    "start-pre",
-                                    "start",
-                                    "start-post",
-                                    "running",
-                                    "exited",
-                                    "reload",
-                                    "reload-signal",
-                                    "reload-notify",
-                                    "mounting",
-                                    "stop",
-                                    "stop-watchdog",
-                                    "stop-sigterm",
-                                    "stop-sigkill",
-                                    "stop-post",
-                                    "final-watchdog",
-                                    "final-sigterm",
-                                    "final-sigkill",
-                                    "failed",
-                                    "dead-before-auto-restart",
-                                    "failed-before-auto-restart",
-                                    "dead-resources-pinned",
-                                    "auto-restart",
-                                    "auto-restart-queued",
-                                    "cleaning",
-                                    "unknown",
-                                ]
-                                unit_state: Literal[
-                                    "enabled",
-                                    "enabled-runtime",
-                                    "linked",
-                                    "linked-runtime",
-                                    "alias",
-                                    "masked",
-                                    "masked-runtime",
-                                    "static",
-                                    "disabled",
-                                    "indirect",
-                                    "generated",
-                                    "transient",
-                                    "bad",
-                                    "not-found",
-                                    "unknown",
-                                ] = pydantic.Field(alias="unit-state")
+                                    ]
+                                ] = pydantic.Field(alias="unit-state", default=None)
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Nodes.Node.Services.Service.State._Get"
@@ -24773,7 +27728,78 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "active-state": Literal[
+                            "active-state": NotRequired[
+                                Literal[
+                                    "active",
+                                    "inactive",
+                                    "failed",
+                                    "activating",
+                                    "deactivating",
+                                    "maintenance",
+                                    "reloading",
+                                    "refreshing",
+                                    "unknown",
+                                ]
+                            ],
+                            "desc": NotRequired[str],
+                            "name": NotRequired[str],
+                            "service": NotRequired[str],
+                            "state": NotRequired[
+                                Literal[
+                                    "dead",
+                                    "condition",
+                                    "start-pre",
+                                    "start",
+                                    "start-post",
+                                    "running",
+                                    "exited",
+                                    "reload",
+                                    "reload-signal",
+                                    "reload-notify",
+                                    "mounting",
+                                    "stop",
+                                    "stop-watchdog",
+                                    "stop-sigterm",
+                                    "stop-sigkill",
+                                    "stop-post",
+                                    "final-watchdog",
+                                    "final-sigterm",
+                                    "final-sigkill",
+                                    "failed",
+                                    "dead-before-auto-restart",
+                                    "failed-before-auto-restart",
+                                    "dead-resources-pinned",
+                                    "auto-restart",
+                                    "auto-restart-queued",
+                                    "cleaning",
+                                    "unknown",
+                                ]
+                            ],
+                            "unit-state": NotRequired[
+                                Literal[
+                                    "enabled",
+                                    "enabled-runtime",
+                                    "linked",
+                                    "linked-runtime",
+                                    "alias",
+                                    "masked",
+                                    "masked-runtime",
+                                    "static",
+                                    "disabled",
+                                    "indirect",
+                                    "generated",
+                                    "transient",
+                                    "bad",
+                                    "not-found",
+                                    "unknown",
+                                ]
+                            ],
+                        },
+                    )
+
+                    class Model(BaseModel):
+                        active_state: Optional[
+                            Literal[
                                 "active",
                                 "inactive",
                                 "failed",
@@ -24783,11 +27809,13 @@ class ProxmoxAPI:
                                 "reloading",
                                 "refreshing",
                                 "unknown",
-                            ],
-                            "desc": str,
-                            "name": str,
-                            "service": str,
-                            "state": Literal[
+                            ]
+                        ] = pydantic.Field(alias="active-state", default=None)
+                        desc: Optional[str] = None
+                        name: Optional[str] = None
+                        service: Optional[str] = None
+                        state: Optional[
+                            Literal[
                                 "dead",
                                 "condition",
                                 "start-pre",
@@ -24815,8 +27843,10 @@ class ProxmoxAPI:
                                 "auto-restart-queued",
                                 "cleaning",
                                 "unknown",
-                            ],
-                            "unit-state": Literal[
+                            ]
+                        ] = None
+                        unit_state: Optional[
+                            Literal[
                                 "enabled",
                                 "enabled-runtime",
                                 "linked",
@@ -24832,71 +27862,8 @@ class ProxmoxAPI:
                                 "bad",
                                 "not-found",
                                 "unknown",
-                            ],
-                        },
-                    )
-
-                    class Model(BaseModel):
-                        active_state: Literal[
-                            "active",
-                            "inactive",
-                            "failed",
-                            "activating",
-                            "deactivating",
-                            "maintenance",
-                            "reloading",
-                            "refreshing",
-                            "unknown",
-                        ] = pydantic.Field(alias="active-state")
-                        desc: str
-                        name: str
-                        service: str
-                        state: Literal[
-                            "dead",
-                            "condition",
-                            "start-pre",
-                            "start",
-                            "start-post",
-                            "running",
-                            "exited",
-                            "reload",
-                            "reload-signal",
-                            "reload-notify",
-                            "mounting",
-                            "stop",
-                            "stop-watchdog",
-                            "stop-sigterm",
-                            "stop-sigkill",
-                            "stop-post",
-                            "final-watchdog",
-                            "final-sigterm",
-                            "final-sigkill",
-                            "failed",
-                            "dead-before-auto-restart",
-                            "failed-before-auto-restart",
-                            "dead-resources-pinned",
-                            "auto-restart",
-                            "auto-restart-queued",
-                            "cleaning",
-                            "unknown",
-                        ]
-                        unit_state: Literal[
-                            "enabled",
-                            "enabled-runtime",
-                            "linked",
-                            "linked-runtime",
-                            "alias",
-                            "masked",
-                            "masked-runtime",
-                            "static",
-                            "disabled",
-                            "indirect",
-                            "generated",
-                            "transient",
-                            "bad",
-                            "not-found",
-                            "unknown",
-                        ] = pydantic.Field(alias="unit-state")
+                            ]
+                        ] = pydantic.Field(alias="unit-state", default=None)
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Services._Get"
 
@@ -25267,10 +28234,10 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "active": NotRequired[bool],
+                            "active": NotRequired[PveBool],
                             "address": NotRequired[str],
                             "address6": NotRequired[str],
-                            "autostart": NotRequired[bool],
+                            "autostart": NotRequired[PveBool],
                             "bond-primary": NotRequired[str],
                             "bond_mode": NotRequired[
                                 Literal[
@@ -25290,18 +28257,18 @@ class ProxmoxAPI:
                                 Literal["layer2", "layer2+3", "layer3+4"]
                             ],
                             "bridge-access": NotRequired[int],
-                            "bridge-arp-nd-suppress": NotRequired[bool],
-                            "bridge-learning": NotRequired[bool],
-                            "bridge-multicast-flood": NotRequired[bool],
-                            "bridge-unicast-flood": NotRequired[bool],
+                            "bridge-arp-nd-suppress": NotRequired[PveBool],
+                            "bridge-learning": NotRequired[PveBool],
+                            "bridge-multicast-flood": NotRequired[PveBool],
+                            "bridge-unicast-flood": NotRequired[PveBool],
                             "bridge_ports": NotRequired[str],
                             "bridge_vids": NotRequired[str],
-                            "bridge_vlan_aware": NotRequired[bool],
+                            "bridge_vlan_aware": NotRequired[PveBool],
                             "cidr": NotRequired[str],
                             "cidr6": NotRequired[str],
                             "comments": NotRequired[str],
                             "comments6": NotRequired[str],
-                            "exists": NotRequired[bool],
+                            "exists": NotRequired[PveBool],
                             "families": NotRequired[list[Literal["inet", "inet6"]]],
                             "gateway": NotRequired[str],
                             "gateway6": NotRequired[str],
@@ -26533,7 +29500,7 @@ class ProxmoxAPI:
                                 "device_name": NotRequired[str],
                                 "id": str,
                                 "iommugroup": int,
-                                "mdev": NotRequired[bool],
+                                "mdev": NotRequired[PveBool],
                                 "subsystem_device": NotRequired[str],
                                 "subsystem_device_name": NotRequired[str],
                                 "subsystem_vendor": NotRequired[str],
@@ -26757,13 +29724,15 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "custom": bool,
+                                    "abstract": NotRequired[PveBool],
+                                    "custom": PveBool,
                                     "name": str,
                                     "vendor": str,
                                 },
                             )
 
                             class Model(BaseModel):
+                                abstract: Optional[bool] = None
                                 custom: bool
                                 name: str
                                 vendor: str
@@ -26829,14 +29798,18 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "description": str,
+                                    "description": NotRequired[str],
                                     "name": str,
+                                    "supported-on": NotRequired[list[str]],
                                 },
                             )
 
                             class Model(BaseModel):
-                                description: str
+                                description: Optional[str] = None
                                 name: str
+                                supported_on: Optional[list[str]] = pydantic.Field(
+                                    alias="supported-on", default=None
+                                )
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Nodes.Node.Capabilities.Qemu.CpuFlags._Get"
@@ -26973,13 +29946,17 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "has-dbus-vmstate": bool,
+                                    "has-dbus-vmstate": NotRequired[PveBool],
+                                    "dbus-vmstate": NotRequired[PveBool],
                                 },
                             )
 
                             class Model(BaseModel):
-                                has_dbus_vmstate: bool = pydantic.Field(
-                                    alias="has-dbus-vmstate"
+                                has_dbus_vmstate: Optional[bool] = pydantic.Field(
+                                    alias="has-dbus-vmstate", default=None
+                                )
+                                dbus_vmstate: Optional[bool] = pydantic.Field(
+                                    alias="dbus-vmstate", default=None
                                 )
 
                             Model.__name__ = (
@@ -27255,7 +30232,7 @@ class ProxmoxAPI:
                                         "format": str,
                                         "notes": NotRequired[str],
                                         "path": str,
-                                        "protected": NotRequired[bool],
+                                        "protected": NotRequired[PveBool],
                                         "size": int,
                                         "used": int,
                                     },
@@ -27433,13 +30410,14 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
+                                    "approximate-size": NotRequired[int],
                                     "ctime": NotRequired[int],
                                     "encrypted": NotRequired[str],
                                     "format": str,
                                     "notes": NotRequired[str],
                                     "parent": NotRequired[str],
-                                    "protected": NotRequired[bool],
-                                    "size": int,
+                                    "protected": NotRequired[PveBool],
+                                    "size": NotRequired[int],
                                     "used": NotRequired[int],
                                     "verification": NotRequired[
                                         "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get._Verification.TypedDict"
@@ -27450,13 +30428,16 @@ class ProxmoxAPI:
                             )
 
                             class Model(BaseModel):
+                                approximate_size: Optional[int] = pydantic.Field(
+                                    alias="approximate-size", default=None
+                                )
                                 ctime: Optional[int] = None
                                 encrypted: Optional[str] = None
                                 format: str
                                 notes: Optional[str] = None
                                 parent: Optional[str] = None
                                 protected: Optional[bool] = None
-                                size: int
+                                size: Optional[int] = None
                                 used: Optional[int] = None
                                 verification: Optional[
                                     "ProxmoxAPI.Nodes.Node.Storage.Storage.Content._Get._Verification.Model"
@@ -27566,7 +30547,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "filepath": str,
-                                        "leaf": bool,
+                                        "leaf": PveBool,
                                         "mtime": NotRequired[int],
                                         "size": NotRequired[int],
                                         "text": str,
@@ -27703,13 +30684,13 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "active": NotRequired[bool],
+                                    "active": NotRequired[PveBool],
                                     "avail": NotRequired[int],
-                                    "content": str,
-                                    "enabled": NotRequired[bool],
-                                    "shared": NotRequired[bool],
+                                    "content": NotRequired[str],
+                                    "enabled": NotRequired[PveBool],
+                                    "shared": NotRequired[PveBool],
                                     "total": NotRequired[int],
-                                    "type": str,
+                                    "type": NotRequired[str],
                                     "used": NotRequired[int],
                                 },
                             )
@@ -27717,11 +30698,11 @@ class ProxmoxAPI:
                             class Model(BaseModel):
                                 active: Optional[bool] = None
                                 avail: Optional[int] = None
-                                content: str
+                                content: Optional[str] = None
                                 enabled: Optional[bool] = None
                                 shared: Optional[bool] = None
                                 total: Optional[int] = None
-                                type: str
+                                type: Optional[str] = None
                                 used: Optional[int] = None
 
                             Model.__name__ = (
@@ -28182,6 +31163,103 @@ class ProxmoxAPI:
                             storage=self.storage,
                         )
 
+                    # /nodes/{node}/storage/{storage}/identity
+                    @dataclass
+                    class Identity:
+
+                        @dataclass
+                        class _Get:
+                            TypedDict = typing.TypedDict(
+                                "TypedDict",
+                                {
+                                    "id": str,
+                                    "type": Literal[
+                                        "btrfs",
+                                        "cephfs",
+                                        "cifs",
+                                        "dir",
+                                        "esxi",
+                                        "iscsi",
+                                        "iscsidirect",
+                                        "lvm",
+                                        "lvmthin",
+                                        "nfs",
+                                        "pbs",
+                                        "rbd",
+                                        "zfs",
+                                        "zfspool",
+                                    ],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                id: str
+                                type: Literal[
+                                    "btrfs",
+                                    "cephfs",
+                                    "cifs",
+                                    "dir",
+                                    "esxi",
+                                    "iscsi",
+                                    "iscsidirect",
+                                    "lvm",
+                                    "lvmthin",
+                                    "nfs",
+                                    "pbs",
+                                    "rbd",
+                                    "zfs",
+                                    "zfspool",
+                                ]
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Storage.Storage.Identity._Get"
+                            )
+
+                            proxmox_api: ProxmoxerProxmoxAPI
+
+                            node: str
+
+                            storage: str
+
+                            def __call__(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Identity._Get.TypedDict":
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).identity.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Storage.Storage.Identity._Get.TypedDict",
+                                    data,
+                                )
+
+                            def model(
+                                self, *args: Any, **kwargs: Any
+                            ) -> "ProxmoxAPI.Nodes.Node.Storage.Storage.Identity._Get.Model":
+                                class validate(pydantic.BaseModel):
+                                    data: "ProxmoxAPI.Nodes.Node.Storage.Storage.Identity._Get.Model"
+
+                                data: Any = self.proxmox_api.nodes(self.node).storage(self.storage).identity.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
+                                return validate(data=data).data
+
+                        @cached_property
+                        def get(self) -> _Get:
+                            return self._Get(
+                                proxmox_api=self.proxmox_api,
+                                node=self.node,
+                                storage=self.storage,
+                            )
+
+                        proxmox_api: ProxmoxerProxmoxAPI
+
+                        node: str
+                        storage: str
+
+                    @cached_property
+                    def identity(self) -> Identity:
+                        return self.Identity(
+                            proxmox_api=self.proxmox_api,
+                            node=self.node,
+                            storage=self.storage,
+                        )
+
                     @dataclass
                     class _Get:
                         TypedDict = typing.TypedDict(
@@ -28287,8 +31365,8 @@ class ProxmoxAPI:
                             "formats": NotRequired[
                                 "ProxmoxAPI.Nodes.Node.Storage._Get._Formats.TypedDict"
                             ],
-                            "select_existing": NotRequired[bool],
-                            "shared": NotRequired[bool],
+                            "select_existing": NotRequired[PveBool],
+                            "shared": NotRequired[PveBool],
                             "storage": str,
                             "total": NotRequired[int],
                             "type": str,
@@ -28422,7 +31500,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "free": int,
-                                        "leaf": bool,
+                                        "leaf": PveBool,
                                         "name": str,
                                         "size": int,
                                     },
@@ -28449,7 +31527,7 @@ class ProxmoxAPI:
                                         ]
                                     ],
                                     "free": int,
-                                    "leaf": bool,
+                                    "leaf": PveBool,
                                     "name": str,
                                     "size": int,
                                 },
@@ -28480,7 +31558,7 @@ class ProxmoxAPI:
                                 "children": list[
                                     "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children.TypedDict"
                                 ],
-                                "leaf": bool,
+                                "leaf": PveBool,
                             },
                         )
 
@@ -29113,10 +32191,10 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "devpath": str,
-                                "gpt": bool,
+                                "gpt": PveBool,
                                 "health": NotRequired[str],
                                 "model": NotRequired[str],
-                                "mounted": bool,
+                                "mounted": PveBool,
                                 "osdid": int,
                                 "osdid-list": list[int],
                                 "parent": NotRequired[str],
@@ -29386,50 +32464,50 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "Arch": Literal[
-                                    "armhf",
-                                    "arm64",
-                                    "amd64",
-                                    "ppc64el",
-                                    "risc64",
-                                    "s390x",
-                                    "all",
-                                ],
-                                "Description": str,
+                                "Arch": NotRequired[str],
+                                "Description": NotRequired[str],
                                 "NotifyStatus": NotRequired[str],
                                 "OldVersion": NotRequired[str],
-                                "Origin": str,
-                                "Package": str,
-                                "Priority": str,
-                                "Section": str,
-                                "Title": str,
-                                "Version": str,
+                                "Origin": NotRequired[str],
+                                "Package": NotRequired[str],
+                                "Priority": NotRequired[str],
+                                "Section": NotRequired[str],
+                                "Title": NotRequired[str],
+                                "Version": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            arch: Literal[
-                                "armhf",
-                                "arm64",
-                                "amd64",
-                                "ppc64el",
-                                "risc64",
-                                "s390x",
-                                "all",
-                            ] = pydantic.Field(alias="Arch")
-                            description: str = pydantic.Field(alias="Description")
+                            arch: Optional[str] = pydantic.Field(
+                                alias="Arch", default=None
+                            )
+                            description: Optional[str] = pydantic.Field(
+                                alias="Description", default=None
+                            )
                             notify_status: Optional[str] = pydantic.Field(
                                 alias="NotifyStatus", default=None
                             )
                             old_version: Optional[str] = pydantic.Field(
                                 alias="OldVersion", default=None
                             )
-                            origin: str = pydantic.Field(alias="Origin")
-                            package: str = pydantic.Field(alias="Package")
-                            priority: str = pydantic.Field(alias="Priority")
-                            section: str = pydantic.Field(alias="Section")
-                            title: str = pydantic.Field(alias="Title")
-                            version: str = pydantic.Field(alias="Version")
+                            origin: Optional[str] = pydantic.Field(
+                                alias="Origin", default=None
+                            )
+                            package: Optional[str] = pydantic.Field(
+                                alias="Package", default=None
+                            )
+                            priority: Optional[str] = pydantic.Field(
+                                alias="Priority", default=None
+                            )
+                            section: Optional[str] = pydantic.Field(
+                                alias="Section", default=None
+                            )
+                            title: Optional[str] = pydantic.Field(
+                                alias="Title", default=None
+                            )
+                            version: Optional[str] = pydantic.Field(
+                                alias="Version", default=None
+                            )
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Apt.Update._Get"
 
@@ -29601,7 +32679,7 @@ class ProxmoxAPI:
                                     {
                                         "Comment": NotRequired[str],
                                         "Components": NotRequired[list[str]],
-                                        "Enabled": bool,
+                                        "Enabled": PveBool,
                                         "FileType": Literal["list", "sources"],
                                         "Options": NotRequired[
                                             list[
@@ -29707,7 +32785,7 @@ class ProxmoxAPI:
                                 {
                                     "handle": str,
                                     "name": str,
-                                    "status": NotRequired[bool],
+                                    "status": NotRequired[PveBool],
                                 },
                             )
 
@@ -29865,56 +32943,68 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "Arch": Literal[
+                                "Arch": NotRequired[
+                                    Literal[
+                                        "armhf",
+                                        "arm64",
+                                        "amd64",
+                                        "ppc64el",
+                                        "riscv64",
+                                        "s390x",
+                                        "all",
+                                        "risc64",
+                                    ]
+                                ],
+                                "CurrentState": NotRequired[
+                                    Literal[
+                                        "Installed",
+                                        "NotInstalled",
+                                        "UnPacked",
+                                        "HalfConfigured",
+                                        "HalfInstalled",
+                                        "ConfigFiles",
+                                    ]
+                                ],
+                                "Description": NotRequired[str],
+                                "ManagerVersion": NotRequired[str],
+                                "NotifyStatus": NotRequired[str],
+                                "OldVersion": NotRequired[str],
+                                "Origin": NotRequired[str],
+                                "Package": NotRequired[str],
+                                "Priority": NotRequired[str],
+                                "RunningKernel": NotRequired[str],
+                                "Section": NotRequired[str],
+                                "Title": NotRequired[str],
+                                "Version": NotRequired[str],
+                            },
+                        )
+
+                        class Model(BaseModel):
+                            arch: Optional[
+                                Literal[
                                     "armhf",
                                     "arm64",
                                     "amd64",
                                     "ppc64el",
-                                    "risc64",
+                                    "riscv64",
                                     "s390x",
                                     "all",
-                                ],
-                                "CurrentState": Literal[
+                                    "risc64",
+                                ]
+                            ] = pydantic.Field(alias="Arch", default=None)
+                            current_state: Optional[
+                                Literal[
                                     "Installed",
                                     "NotInstalled",
                                     "UnPacked",
                                     "HalfConfigured",
                                     "HalfInstalled",
                                     "ConfigFiles",
-                                ],
-                                "Description": str,
-                                "ManagerVersion": NotRequired[str],
-                                "NotifyStatus": NotRequired[str],
-                                "OldVersion": NotRequired[str],
-                                "Origin": str,
-                                "Package": str,
-                                "Priority": str,
-                                "RunningKernel": NotRequired[str],
-                                "Section": str,
-                                "Title": str,
-                                "Version": str,
-                            },
-                        )
-
-                        class Model(BaseModel):
-                            arch: Literal[
-                                "armhf",
-                                "arm64",
-                                "amd64",
-                                "ppc64el",
-                                "risc64",
-                                "s390x",
-                                "all",
-                            ] = pydantic.Field(alias="Arch")
-                            current_state: Literal[
-                                "Installed",
-                                "NotInstalled",
-                                "UnPacked",
-                                "HalfConfigured",
-                                "HalfInstalled",
-                                "ConfigFiles",
-                            ] = pydantic.Field(alias="CurrentState")
-                            description: str = pydantic.Field(alias="Description")
+                                ]
+                            ] = pydantic.Field(alias="CurrentState", default=None)
+                            description: Optional[str] = pydantic.Field(
+                                alias="Description", default=None
+                            )
                             manager_version: Optional[str] = pydantic.Field(
                                 alias="ManagerVersion", default=None
                             )
@@ -29924,15 +33014,27 @@ class ProxmoxAPI:
                             old_version: Optional[str] = pydantic.Field(
                                 alias="OldVersion", default=None
                             )
-                            origin: str = pydantic.Field(alias="Origin")
-                            package: str = pydantic.Field(alias="Package")
-                            priority: str = pydantic.Field(alias="Priority")
+                            origin: Optional[str] = pydantic.Field(
+                                alias="Origin", default=None
+                            )
+                            package: Optional[str] = pydantic.Field(
+                                alias="Package", default=None
+                            )
+                            priority: Optional[str] = pydantic.Field(
+                                alias="Priority", default=None
+                            )
                             running_kernel: Optional[str] = pydantic.Field(
                                 alias="RunningKernel", default=None
                             )
-                            section: str = pydantic.Field(alias="Section")
-                            title: str = pydantic.Field(alias="Title")
-                            version: str = pydantic.Field(alias="Version")
+                            section: Optional[str] = pydantic.Field(
+                                alias="Section", default=None
+                            )
+                            title: Optional[str] = pydantic.Field(
+                                alias="Title", default=None
+                            )
+                            version: Optional[str] = pydantic.Field(
+                                alias="Version", default=None
+                            )
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Apt.Versions._Get"
 
@@ -30229,7 +33331,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "action": str,
+                                "action": NotRequired[str],
                                 "comment": NotRequired[str],
                                 "dest": NotRequired[str],
                                 "dport": NotRequired[str],
@@ -30255,12 +33357,12 @@ class ProxmoxAPI:
                                 "proto": NotRequired[str],
                                 "source": NotRequired[str],
                                 "sport": NotRequired[str],
-                                "type": str,
+                                "type": NotRequired[str],
                             },
                         )
 
                         class Model(BaseModel):
-                            action: str
+                            action: Optional[str] = None
                             comment: Optional[str] = None
                             dest: Optional[str] = None
                             dport: Optional[str] = None
@@ -30288,7 +33390,7 @@ class ProxmoxAPI:
                             proto: Optional[str] = None
                             source: Optional[str] = None
                             sport: Optional[str] = None
-                            type: str
+                            type: Optional[str] = None
 
                         Model.__name__ = "ProxmoxAPI.Nodes.Node.Firewall.Rules._Get"
 
@@ -30375,7 +33477,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "enable": NotRequired[bool],
+                                "enable": NotRequired[PveBool],
                                 "log_level_forward": NotRequired[
                                     Literal[
                                         "emerg",
@@ -30415,18 +33517,18 @@ class ProxmoxAPI:
                                         "nolog",
                                     ]
                                 ],
-                                "log_nf_conntrack": NotRequired[bool],
-                                "ndp": NotRequired[bool],
-                                "nf_conntrack_allow_invalid": NotRequired[bool],
+                                "log_nf_conntrack": NotRequired[PveBool],
+                                "ndp": NotRequired[PveBool],
+                                "nf_conntrack_allow_invalid": NotRequired[PveBool],
                                 "nf_conntrack_helpers": NotRequired[str],
                                 "nf_conntrack_max": NotRequired[int],
                                 "nf_conntrack_tcp_timeout_established": NotRequired[
                                     int
                                 ],
                                 "nf_conntrack_tcp_timeout_syn_recv": NotRequired[int],
-                                "nftables": NotRequired[bool],
-                                "nosmurfs": NotRequired[bool],
-                                "protection_synflood": NotRequired[bool],
+                                "nftables": NotRequired[PveBool],
+                                "nosmurfs": NotRequired[PveBool],
+                                "protection_synflood": NotRequired[PveBool],
                                 "protection_synflood_burst": NotRequired[int],
                                 "protection_synflood_rate": NotRequired[int],
                                 "smurf_log_level": NotRequired[
@@ -30455,7 +33557,7 @@ class ProxmoxAPI:
                                         "nolog",
                                     ]
                                 ],
-                                "tcpflags": NotRequired[bool],
+                                "tcpflags": NotRequired[PveBool],
                             },
                         )
 
@@ -30727,6 +33829,56 @@ class ProxmoxAPI:
 
                         @dataclass
                         class _Get:
+                            TypedDict = typing.TypedDict(
+                                "TypedDict",
+                                {
+                                    "comment": NotRequired[str],
+                                    "disable": NotRequired[PveBool],
+                                    "duration": NotRequired[float],
+                                    "error": NotRequired[str],
+                                    "fail_count": NotRequired[int],
+                                    "guest": NotRequired[int],
+                                    "id": NotRequired[str],
+                                    "jobnum": NotRequired[int],
+                                    "last_sync": NotRequired[int],
+                                    "last_try": NotRequired[int],
+                                    "next_sync": NotRequired[int],
+                                    "pid": NotRequired[int],
+                                    "rate": NotRequired[float],
+                                    "remove_job": NotRequired[Literal["local", "full"]],
+                                    "schedule": NotRequired[str],
+                                    "source": NotRequired[str],
+                                    "target": NotRequired[str],
+                                    "type": NotRequired[Literal["local"]],
+                                    "vmtype": NotRequired[Literal["qemu", "lxc"]],
+                                },
+                            )
+
+                            class Model(BaseModel):
+                                comment: Optional[str] = None
+                                disable: Optional[bool] = None
+                                duration: Optional[float] = None
+                                error: Optional[str] = None
+                                fail_count: Optional[int] = None
+                                guest: Optional[int] = None
+                                id: Optional[str] = None
+                                jobnum: Optional[int] = None
+                                last_sync: Optional[int] = None
+                                last_try: Optional[int] = None
+                                next_sync: Optional[int] = None
+                                pid: Optional[int] = None
+                                rate: Optional[float] = None
+                                remove_job: Optional[Literal["local", "full"]] = None
+                                schedule: Optional[str] = None
+                                source: Optional[str] = None
+                                target: Optional[str] = None
+                                type: Optional[Literal["local"]] = None
+                                vmtype: Optional[Literal["qemu", "lxc"]] = None
+
+                            Model.__name__ = (
+                                "ProxmoxAPI.Nodes.Node.Replication.Id.Status._Get"
+                            )
+
                             proxmox_api: ProxmoxerProxmoxAPI
 
                             node: str
@@ -30735,15 +33887,20 @@ class ProxmoxAPI:
 
                             def __call__(
                                 self, *args: Any, **kwargs: Any
-                            ) -> dict[str, Any]:
+                            ) -> "ProxmoxAPI.Nodes.Node.Replication.Id.Status._Get.TypedDict":
                                 data: Any = self.proxmox_api.nodes(self.node).replication(self.id).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                                return typing.cast(dict[str, Any], data)
+                                return typing.cast(
+                                    "ProxmoxAPI.Nodes.Node.Replication.Id.Status._Get.TypedDict",
+                                    data,
+                                )
 
                             def model(
                                 self, *args: Any, **kwargs: Any
-                            ) -> dict[str, Any]:
+                            ) -> (
+                                "ProxmoxAPI.Nodes.Node.Replication.Id.Status._Get.Model"
+                            ):
                                 class validate(pydantic.BaseModel):
-                                    data: dict[str, Any]
+                                    data: "ProxmoxAPI.Nodes.Node.Replication.Id.Status._Get.Model"
 
                                 data: Any = self.proxmox_api.nodes(self.node).replication(self.id).status.get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
                                 return validate(data=data).data
@@ -30947,12 +34104,48 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
+                            "comment": NotRequired[str],
+                            "disable": NotRequired[PveBool],
+                            "duration": NotRequired[float],
+                            "error": NotRequired[str],
+                            "fail_count": NotRequired[int],
+                            "guest": NotRequired[int],
                             "id": str,
+                            "jobnum": NotRequired[int],
+                            "last_sync": NotRequired[int],
+                            "last_try": NotRequired[int],
+                            "next_sync": NotRequired[int],
+                            "pid": NotRequired[int],
+                            "rate": NotRequired[float],
+                            "remove_job": NotRequired[Literal["local", "full"]],
+                            "schedule": NotRequired[str],
+                            "source": NotRequired[str],
+                            "target": NotRequired[str],
+                            "type": NotRequired[Literal["local"]],
+                            "vmtype": NotRequired[Literal["qemu", "lxc"]],
                         },
                     )
 
                     class Model(BaseModel):
+                        comment: Optional[str] = None
+                        disable: Optional[bool] = None
+                        duration: Optional[float] = None
+                        error: Optional[str] = None
+                        fail_count: Optional[int] = None
+                        guest: Optional[int] = None
                         id: str
+                        jobnum: Optional[int] = None
+                        last_sync: Optional[int] = None
+                        last_try: Optional[int] = None
+                        next_sync: Optional[int] = None
+                        pid: Optional[int] = None
+                        rate: Optional[float] = None
+                        remove_job: Optional[Literal["local", "full"]] = None
+                        schedule: Optional[str] = None
+                        source: Optional[str] = None
+                        target: Optional[str] = None
+                        type: Optional[Literal["local"]] = None
+                        vmtype: Optional[Literal["qemu", "lxc"]] = None
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Replication._Get"
 
@@ -31387,6 +34580,7 @@ class ProxmoxAPI:
                             "ballooning-target": NotRequired[int],
                             "description": NotRequired[str],
                             "digest": NotRequired[str],
+                            "location": NotRequired[str],
                             "startall-onboot-delay": NotRequired[int],
                             "wakeonlan": NotRequired[str],
                         },
@@ -31402,6 +34596,7 @@ class ProxmoxAPI:
                         )
                         description: Optional[str] = None
                         digest: Optional[str] = None
+                        location: Optional[str] = None
                         startall_onboot_delay: Optional[int] = pydantic.Field(
                             alias="startall-onboot-delay", default=None
                         )
@@ -32480,7 +35675,7 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "mode": Literal["efi", "legacy-bios"],
-                                "secureboot": NotRequired[bool],
+                                "secureboot": NotRequired[PveBool],
                             },
                         )
 
@@ -32599,10 +35794,12 @@ class ProxmoxAPI:
                             "cpu": float,
                             "cpuinfo": "ProxmoxAPI.Nodes.Node.Status._Get._Cpuinfo.TypedDict",
                             "current-kernel": "ProxmoxAPI.Nodes.Node.Status._Get._CurrentKernel.TypedDict",
+                            "idle": NotRequired[int],
                             "loadavg": list[str],
                             "memory": "ProxmoxAPI.Nodes.Node.Status._Get._Memory.TypedDict",
                             "pveversion": str,
                             "rootfs": "ProxmoxAPI.Nodes.Node.Status._Get._Rootfs.TypedDict",
+                            "uptime": NotRequired[int],
                         },
                     )
 
@@ -32615,10 +35812,12 @@ class ProxmoxAPI:
                         current_kernel: (
                             "ProxmoxAPI.Nodes.Node.Status._Get._CurrentKernel.Model"
                         ) = pydantic.Field(alias="current-kernel")
+                        idle: Optional[int] = None
                         loadavg: list[str]
                         memory: "ProxmoxAPI.Nodes.Node.Status._Get._Memory.Model"
                         pveversion: str
                         rootfs: "ProxmoxAPI.Nodes.Node.Status._Get._Rootfs.Model"
+                        uptime: Optional[int] = None
 
                     Model.__name__ = "ProxmoxAPI.Nodes.Node.Status._Get"
 
@@ -33080,6 +36279,7 @@ class ProxmoxAPI:
                         "TypedDict",
                         {
                             "cert": str,
+                            "password": NotRequired[str],
                             "port": int,
                             "ticket": str,
                             "upid": str,
@@ -33089,6 +36289,7 @@ class ProxmoxAPI:
 
                     class Model(BaseModel):
                         cert: str
+                        password: Optional[str] = None
                         port: int
                         ticket: str
                         upid: str
@@ -34501,9 +37702,9 @@ class ProxmoxAPI:
 
                         userid: str
 
-                        def __call__(self, *args: Any, **kwargs: Any) -> bool:
+                        def __call__(self, *args: Any, **kwargs: Any) -> PveBool:
                             data: Any = self.proxmox_api.access.users(self.userid)("unlock-tfa").put(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                            return typing.cast(bool, data)
+                            return typing.cast(PveBool, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> bool:
                             class validate(pydantic.BaseModel):
@@ -34568,7 +37769,7 @@ class ProxmoxAPI:
                                 {
                                     "comment": NotRequired[str],
                                     "expire": NotRequired[int],
-                                    "privsep": NotRequired[bool],
+                                    "privsep": NotRequired[PveBool],
                                 },
                             )
 
@@ -34614,7 +37815,7 @@ class ProxmoxAPI:
                                     {
                                         "comment": NotRequired[str],
                                         "expire": NotRequired[int],
-                                        "privsep": NotRequired[bool],
+                                        "privsep": NotRequired[PveBool],
                                     },
                                 )
 
@@ -34680,14 +37881,20 @@ class ProxmoxAPI:
                                 {
                                     "comment": NotRequired[str],
                                     "expire": NotRequired[int],
-                                    "privsep": NotRequired[bool],
+                                    "full-tokenid": NotRequired[str],
+                                    "privsep": NotRequired[PveBool],
+                                    "value": NotRequired[str],
                                 },
                             )
 
                             class Model(BaseModel):
                                 comment: Optional[str] = None
                                 expire: Optional[int] = None
+                                full_tokenid: Optional[str] = pydantic.Field(
+                                    alias="full-tokenid", default=None
+                                )
                                 privsep: Optional[bool] = None
+                                value: Optional[str] = None
 
                             Model.__name__ = (
                                 "ProxmoxAPI.Access.Users.Userid.Token.Tokenid._Put"
@@ -34785,7 +37992,7 @@ class ProxmoxAPI:
                             {
                                 "comment": NotRequired[str],
                                 "expire": NotRequired[int],
-                                "privsep": NotRequired[bool],
+                                "privsep": NotRequired[PveBool],
                                 "tokenid": str,
                             },
                         )
@@ -34868,7 +38075,7 @@ class ProxmoxAPI:
                         {
                             "comment": NotRequired[str],
                             "email": NotRequired[str],
-                            "enable": NotRequired[bool],
+                            "enable": NotRequired[PveBool],
                             "expire": NotRequired[int],
                             "firstname": NotRequired[str],
                             "groups": NotRequired[list[str]],
@@ -34980,7 +38187,7 @@ class ProxmoxAPI:
                         {
                             "comment": NotRequired[str],
                             "expire": NotRequired[int],
-                            "privsep": NotRequired[bool],
+                            "privsep": NotRequired[PveBool],
                             "tokenid": str,
                         },
                     )
@@ -35000,7 +38207,7 @@ class ProxmoxAPI:
                     {
                         "comment": NotRequired[str],
                         "email": NotRequired[str],
-                        "enable": NotRequired[bool],
+                        "enable": NotRequired[PveBool],
                         "expire": NotRequired[int],
                         "firstname": NotRequired[str],
                         "groups": NotRequired[str],
@@ -35011,7 +38218,7 @@ class ProxmoxAPI:
                         "tokens": NotRequired[
                             list["ProxmoxAPI.Access.Users._Get._Tokens.TypedDict"]
                         ],
-                        "totp-locked": NotRequired[bool],
+                        "totp-locked": NotRequired[PveBool],
                         "userid": str,
                     },
                 )
@@ -35326,53 +38533,53 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "Datastore.Allocate": NotRequired[bool],
-                            "Datastore.AllocateSpace": NotRequired[bool],
-                            "Datastore.AllocateTemplate": NotRequired[bool],
-                            "Datastore.Audit": NotRequired[bool],
-                            "Group.Allocate": NotRequired[bool],
-                            "Mapping.Audit": NotRequired[bool],
-                            "Mapping.Modify": NotRequired[bool],
-                            "Mapping.Use": NotRequired[bool],
-                            "Permissions.Modify": NotRequired[bool],
-                            "Pool.Allocate": NotRequired[bool],
-                            "Pool.Audit": NotRequired[bool],
-                            "Realm.Allocate": NotRequired[bool],
-                            "Realm.AllocateUser": NotRequired[bool],
-                            "SDN.Allocate": NotRequired[bool],
-                            "SDN.Audit": NotRequired[bool],
-                            "SDN.Use": NotRequired[bool],
-                            "Sys.AccessNetwork": NotRequired[bool],
-                            "Sys.Audit": NotRequired[bool],
-                            "Sys.Console": NotRequired[bool],
-                            "Sys.Incoming": NotRequired[bool],
-                            "Sys.Modify": NotRequired[bool],
-                            "Sys.PowerMgmt": NotRequired[bool],
-                            "Sys.Syslog": NotRequired[bool],
-                            "User.Modify": NotRequired[bool],
-                            "VM.Allocate": NotRequired[bool],
-                            "VM.Audit": NotRequired[bool],
-                            "VM.Backup": NotRequired[bool],
-                            "VM.Clone": NotRequired[bool],
-                            "VM.Config.CDROM": NotRequired[bool],
-                            "VM.Config.CPU": NotRequired[bool],
-                            "VM.Config.Cloudinit": NotRequired[bool],
-                            "VM.Config.Disk": NotRequired[bool],
-                            "VM.Config.HWType": NotRequired[bool],
-                            "VM.Config.Memory": NotRequired[bool],
-                            "VM.Config.Network": NotRequired[bool],
-                            "VM.Config.Options": NotRequired[bool],
-                            "VM.Console": NotRequired[bool],
-                            "VM.GuestAgent.Audit": NotRequired[bool],
-                            "VM.GuestAgent.FileRead": NotRequired[bool],
-                            "VM.GuestAgent.FileSystemMgmt": NotRequired[bool],
-                            "VM.GuestAgent.FileWrite": NotRequired[bool],
-                            "VM.GuestAgent.Unrestricted": NotRequired[bool],
-                            "VM.Migrate": NotRequired[bool],
-                            "VM.PowerMgmt": NotRequired[bool],
-                            "VM.Replicate": NotRequired[bool],
-                            "VM.Snapshot": NotRequired[bool],
-                            "VM.Snapshot.Rollback": NotRequired[bool],
+                            "Datastore.Allocate": NotRequired[PveBool],
+                            "Datastore.AllocateSpace": NotRequired[PveBool],
+                            "Datastore.AllocateTemplate": NotRequired[PveBool],
+                            "Datastore.Audit": NotRequired[PveBool],
+                            "Group.Allocate": NotRequired[PveBool],
+                            "Mapping.Audit": NotRequired[PveBool],
+                            "Mapping.Modify": NotRequired[PveBool],
+                            "Mapping.Use": NotRequired[PveBool],
+                            "Permissions.Modify": NotRequired[PveBool],
+                            "Pool.Allocate": NotRequired[PveBool],
+                            "Pool.Audit": NotRequired[PveBool],
+                            "Realm.Allocate": NotRequired[PveBool],
+                            "Realm.AllocateUser": NotRequired[PveBool],
+                            "SDN.Allocate": NotRequired[PveBool],
+                            "SDN.Audit": NotRequired[PveBool],
+                            "SDN.Use": NotRequired[PveBool],
+                            "Sys.AccessNetwork": NotRequired[PveBool],
+                            "Sys.Audit": NotRequired[PveBool],
+                            "Sys.Console": NotRequired[PveBool],
+                            "Sys.Incoming": NotRequired[PveBool],
+                            "Sys.Modify": NotRequired[PveBool],
+                            "Sys.PowerMgmt": NotRequired[PveBool],
+                            "Sys.Syslog": NotRequired[PveBool],
+                            "User.Modify": NotRequired[PveBool],
+                            "VM.Allocate": NotRequired[PveBool],
+                            "VM.Audit": NotRequired[PveBool],
+                            "VM.Backup": NotRequired[PveBool],
+                            "VM.Clone": NotRequired[PveBool],
+                            "VM.Config.CDROM": NotRequired[PveBool],
+                            "VM.Config.CPU": NotRequired[PveBool],
+                            "VM.Config.Cloudinit": NotRequired[PveBool],
+                            "VM.Config.Disk": NotRequired[PveBool],
+                            "VM.Config.HWType": NotRequired[PveBool],
+                            "VM.Config.Memory": NotRequired[PveBool],
+                            "VM.Config.Network": NotRequired[PveBool],
+                            "VM.Config.Options": NotRequired[PveBool],
+                            "VM.Console": NotRequired[PveBool],
+                            "VM.GuestAgent.Audit": NotRequired[PveBool],
+                            "VM.GuestAgent.FileRead": NotRequired[PveBool],
+                            "VM.GuestAgent.FileSystemMgmt": NotRequired[PveBool],
+                            "VM.GuestAgent.FileWrite": NotRequired[PveBool],
+                            "VM.GuestAgent.Unrestricted": NotRequired[PveBool],
+                            "VM.Migrate": NotRequired[PveBool],
+                            "VM.PowerMgmt": NotRequired[PveBool],
+                            "VM.Replicate": NotRequired[PveBool],
+                            "VM.Snapshot": NotRequired[PveBool],
+                            "VM.Snapshot.Rollback": NotRequired[PveBool],
                         },
                     )
 
@@ -35608,7 +38815,7 @@ class ProxmoxAPI:
                     {
                         "privs": NotRequired[str],
                         "roleid": str,
-                        "special": NotRequired[bool],
+                        "special": NotRequired[PveBool],
                     },
                 )
 
@@ -35687,7 +38894,7 @@ class ProxmoxAPI:
                     "TypedDict",
                     {
                         "path": str,
-                        "propagate": NotRequired[bool],
+                        "propagate": NotRequired[PveBool],
                         "roleid": str,
                         "type": Literal["user", "group", "token"],
                         "ugid": str,
@@ -36174,7 +39381,7 @@ class ProxmoxAPI:
                             {
                                 "created": int,
                                 "description": str,
-                                "enable": NotRequired[bool],
+                                "enable": NotRequired[PveBool],
                                 "id": str,
                                 "type": Literal[
                                     "totp", "u2f", "webauthn", "recovery", "yubico"
@@ -36289,7 +39496,7 @@ class ProxmoxAPI:
                         {
                             "created": int,
                             "description": str,
-                            "enable": NotRequired[bool],
+                            "enable": NotRequired[PveBool],
                             "id": str,
                             "type": Literal[
                                 "totp", "u2f", "webauthn", "recovery", "yubico"
@@ -36410,7 +39617,7 @@ class ProxmoxAPI:
                         {
                             "created": int,
                             "description": str,
-                            "enable": NotRequired[bool],
+                            "enable": NotRequired[PveBool],
                             "id": str,
                             "type": Literal[
                                 "totp", "u2f", "webauthn", "recovery", "yubico"
@@ -36436,7 +39643,7 @@ class ProxmoxAPI:
                             "ProxmoxAPI.Access.Tfa._Get._Entries.TypedDict"
                         ],
                         "tfa-locked-until": NotRequired[int],
-                        "totp-locked": NotRequired[bool],
+                        "totp-locked": NotRequired[PveBool],
                         "userid": str,
                     },
                 )

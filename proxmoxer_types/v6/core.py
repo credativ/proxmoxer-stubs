@@ -9,6 +9,8 @@ from dataclasses import dataclass
 from functools import cached_property, lru_cache
 from typing import Any, Literal, Optional, NotRequired, TYPE_CHECKING
 
+from .. import PveBool
+
 if TYPE_CHECKING:
     from ..v6 import ProxmoxAPI as ProxmoxerProxmoxAPI
 else:
@@ -322,7 +324,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "disable": bool,
+                            "disable": PveBool,
                             "id": str,
                             "port": int,
                             "server": str,
@@ -1606,7 +1608,7 @@ class ProxmoxAPI:
                                 "cidr": str,
                                 "comment": NotRequired[str],
                                 "digest": str,
-                                "nomatch": NotRequired[bool],
+                                "nomatch": NotRequired[PveBool],
                             },
                         )
 
@@ -1971,7 +1973,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "ebtables": NotRequired[bool],
+                            "ebtables": NotRequired[PveBool],
                             "enable": NotRequired[int],
                             "log_ratelimit": NotRequired[str],
                             "policy_in": NotRequired[
@@ -2213,7 +2215,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "id": str,
-                                        "included": bool,
+                                        "included": PveBool,
                                         "name": str,
                                         "reason": str,
                                     },
@@ -3833,9 +3835,9 @@ class ProxmoxAPI:
 
                         flag: str
 
-                        def __call__(self, *args: Any, **kwargs: Any) -> bool:
+                        def __call__(self, *args: Any, **kwargs: Any) -> PveBool:
                             data: Any = self.proxmox_api.cluster.ceph.flags(self.flag).get(*args, **kwargs)  # type: ignore[operator, unused-ignore]
-                            return typing.cast(bool, data)
+                            return typing.cast(PveBool, data)
 
                         def model(self, *args: Any, **kwargs: Any) -> bool:
                             class validate(pydantic.BaseModel):
@@ -5403,12 +5405,12 @@ class ProxmoxAPI:
                         "id": str,
                         "ip": NotRequired[str],
                         "level": NotRequired[str],
-                        "local": NotRequired[bool],
+                        "local": NotRequired[PveBool],
                         "name": str,
                         "nodeid": NotRequired[int],
                         "nodes": NotRequired[int],
-                        "online": NotRequired[bool],
-                        "quorate": NotRequired[bool],
+                        "online": NotRequired[PveBool],
+                        "quorate": NotRequired[PveBool],
                         "type": Literal["cluster", "node"],
                         "version": NotRequired[int],
                     },
@@ -6268,7 +6270,7 @@ class ProxmoxAPI:
                                             "cidr": str,
                                             "comment": NotRequired[str],
                                             "digest": str,
-                                            "nomatch": NotRequired[bool],
+                                            "nomatch": NotRequired[PveBool],
                                         },
                                     )
 
@@ -6504,9 +6506,9 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "dhcp": NotRequired[bool],
-                                        "enable": NotRequired[bool],
-                                        "ipfilter": NotRequired[bool],
+                                        "dhcp": NotRequired[PveBool],
+                                        "enable": NotRequired[PveBool],
+                                        "ipfilter": NotRequired[PveBool],
                                         "log_level_in": NotRequired[
                                             Literal[
                                                 "emerg",
@@ -6533,15 +6535,15 @@ class ProxmoxAPI:
                                                 "nolog",
                                             ]
                                         ],
-                                        "macfilter": NotRequired[bool],
-                                        "ndp": NotRequired[bool],
+                                        "macfilter": NotRequired[PveBool],
+                                        "ndp": NotRequired[PveBool],
                                         "policy_in": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
                                         "policy_out": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
-                                        "radv": NotRequired[bool],
+                                        "radv": NotRequired[PveBool],
                                     },
                                 )
 
@@ -7990,11 +7992,11 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "err-data": NotRequired[str],
-                                        "err-truncated": NotRequired[bool],
+                                        "err-truncated": NotRequired[PveBool],
                                         "exitcode": NotRequired[int],
-                                        "exited": bool,
+                                        "exited": PveBool,
                                         "out-data": NotRequired[str],
-                                        "out-truncated": NotRequired[bool],
+                                        "out-truncated": NotRequired[PveBool],
                                         "signal": NotRequired[int],
                                     },
                                 )
@@ -8073,7 +8075,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "content": str,
-                                        "truncated": NotRequired[bool],
+                                        "truncated": NotRequired[PveBool],
                                     },
                                 )
 
@@ -8377,12 +8379,12 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "acpi": NotRequired[bool],
+                                    "acpi": NotRequired[PveBool],
                                     "agent": NotRequired[str],
                                     "arch": NotRequired[Literal["x86_64", "aarch64"]],
                                     "args": NotRequired[str],
                                     "audio0": NotRequired[str],
-                                    "autostart": NotRequired[bool],
+                                    "autostart": NotRequired[PveBool],
                                     "balloon": NotRequired[int],
                                     "bios": NotRequired[Literal["seabios", "ovmf"]],
                                     "boot": NotRequired[str],
@@ -8401,7 +8403,7 @@ class ProxmoxAPI:
                                     "description": NotRequired[str],
                                     "digest": str,
                                     "efidisk0": NotRequired[str],
-                                    "freeze": NotRequired[bool],
+                                    "freeze": NotRequired[PveBool],
                                     "hookscript": NotRequired[str],
                                     "hostpci[n]": NotRequired[str],
                                     "hotplug": NotRequired[str],
@@ -8411,7 +8413,7 @@ class ProxmoxAPI:
                                     "ide[n]": NotRequired[str],
                                     "ipconfig[n]": NotRequired[str],
                                     "ivshmem": NotRequired[str],
-                                    "keephugepages": NotRequired[bool],
+                                    "keephugepages": NotRequired[PveBool],
                                     "keyboard": NotRequired[
                                         Literal[
                                             "de",
@@ -8441,8 +8443,8 @@ class ProxmoxAPI:
                                             "tr",
                                         ]
                                     ],
-                                    "kvm": NotRequired[bool],
-                                    "localtime": NotRequired[bool],
+                                    "kvm": NotRequired[PveBool],
+                                    "localtime": NotRequired[PveBool],
                                     "lock": NotRequired[
                                         Literal[
                                             "backup",
@@ -8463,9 +8465,9 @@ class ProxmoxAPI:
                                     "name": NotRequired[str],
                                     "nameserver": NotRequired[str],
                                     "net[n]": NotRequired[str],
-                                    "numa": NotRequired[bool],
+                                    "numa": NotRequired[PveBool],
                                     "numa[n]": NotRequired[str],
-                                    "onboot": NotRequired[bool],
+                                    "onboot": NotRequired[PveBool],
                                     "ostype": NotRequired[
                                         Literal[
                                             "other",
@@ -8483,8 +8485,8 @@ class ProxmoxAPI:
                                         ]
                                     ],
                                     "parallel[n]": NotRequired[str],
-                                    "protection": NotRequired[bool],
-                                    "reboot": NotRequired[bool],
+                                    "protection": NotRequired[PveBool],
+                                    "reboot": NotRequired[PveBool],
                                     "rng0": NotRequired[str],
                                     "sata[n]": NotRequired[str],
                                     "scsi[n]": NotRequired[str],
@@ -8508,10 +8510,10 @@ class ProxmoxAPI:
                                     "sshkeys": NotRequired[str],
                                     "startdate": NotRequired[str],
                                     "startup": NotRequired[str],
-                                    "tablet": NotRequired[bool],
+                                    "tablet": NotRequired[PveBool],
                                     "tags": NotRequired[str],
-                                    "tdf": NotRequired[bool],
-                                    "template": NotRequired[bool],
+                                    "tdf": NotRequired[PveBool],
+                                    "template": NotRequired[PveBool],
                                     "unused[n]": NotRequired[str],
                                     "usb[n]": NotRequired[str],
                                     "vcpus": NotRequired[int],
@@ -9243,7 +9245,7 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "agent": NotRequired[bool],
+                                        "agent": NotRequired[PveBool],
                                         "cpus": NotRequired[float],
                                         "ha": dict[str, Any],
                                         "lock": NotRequired[str],
@@ -9254,7 +9256,7 @@ class ProxmoxAPI:
                                         "qmpstatus": NotRequired[str],
                                         "running-machine": NotRequired[str],
                                         "running-qemu": NotRequired[str],
-                                        "spice": NotRequired[bool],
+                                        "spice": NotRequired[PveBool],
                                         "status": Literal["stopped", "running"],
                                         "tags": NotRequired[str],
                                         "uptime": NotRequired[int],
@@ -9793,7 +9795,7 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "hasFeature": bool,
+                                    "hasFeature": PveBool,
                                     "nodes": list[str],
                                 },
                             )
@@ -9962,7 +9964,7 @@ class ProxmoxAPI:
                                     "local_disks": list[Any],
                                     "local_resources": list[Any],
                                     "not_allowed_nodes": NotRequired[dict[str, Any]],
-                                    "running": bool,
+                                    "running": PveBool,
                                 },
                             )
 
@@ -10399,7 +10401,7 @@ class ProxmoxAPI:
                                     "name": str,
                                     "parent": NotRequired[str],
                                     "snaptime": NotRequired[int],
-                                    "vmstate": NotRequired[bool],
+                                    "vmstate": NotRequired[PveBool],
                                 },
                             )
 
@@ -10817,7 +10819,7 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "custom": bool,
+                            "custom": PveBool,
                             "name": str,
                             "vendor": str,
                         },
@@ -10892,11 +10894,11 @@ class ProxmoxAPI:
                                     "cmode": NotRequired[
                                         Literal["shell", "console", "tty"]
                                     ],
-                                    "console": NotRequired[bool],
+                                    "console": NotRequired[PveBool],
                                     "cores": NotRequired[int],
                                     "cpulimit": NotRequired[float],
                                     "cpuunits": NotRequired[int],
-                                    "debug": NotRequired[bool],
+                                    "debug": NotRequired[PveBool],
                                     "description": NotRequired[str],
                                     "digest": str,
                                     "features": NotRequired[str],
@@ -10921,7 +10923,7 @@ class ProxmoxAPI:
                                     "mp[n]": NotRequired[str],
                                     "nameserver": NotRequired[str],
                                     "net[n]": NotRequired[str],
-                                    "onboot": NotRequired[bool],
+                                    "onboot": NotRequired[PveBool],
                                     "ostype": NotRequired[
                                         Literal[
                                             "debian",
@@ -10936,16 +10938,16 @@ class ProxmoxAPI:
                                             "unmanaged",
                                         ]
                                     ],
-                                    "protection": NotRequired[bool],
+                                    "protection": NotRequired[PveBool],
                                     "rootfs": NotRequired[str],
                                     "searchdomain": NotRequired[str],
                                     "startup": NotRequired[str],
                                     "swap": NotRequired[int],
                                     "tags": NotRequired[str],
-                                    "template": NotRequired[bool],
+                                    "template": NotRequired[PveBool],
                                     "timezone": NotRequired[str],
                                     "tty": NotRequired[int],
-                                    "unprivileged": NotRequired[bool],
+                                    "unprivileged": NotRequired[PveBool],
                                     "unused[n]": NotRequired[str],
                                 },
                             )
@@ -12620,7 +12622,7 @@ class ProxmoxAPI:
                                             "cidr": str,
                                             "comment": NotRequired[str],
                                             "digest": str,
-                                            "nomatch": NotRequired[bool],
+                                            "nomatch": NotRequired[PveBool],
                                         },
                                     )
 
@@ -12856,9 +12858,9 @@ class ProxmoxAPI:
                                 TypedDict = typing.TypedDict(
                                     "TypedDict",
                                     {
-                                        "dhcp": NotRequired[bool],
-                                        "enable": NotRequired[bool],
-                                        "ipfilter": NotRequired[bool],
+                                        "dhcp": NotRequired[PveBool],
+                                        "enable": NotRequired[PveBool],
+                                        "ipfilter": NotRequired[PveBool],
                                         "log_level_in": NotRequired[
                                             Literal[
                                                 "emerg",
@@ -12885,15 +12887,15 @@ class ProxmoxAPI:
                                                 "nolog",
                                             ]
                                         ],
-                                        "macfilter": NotRequired[bool],
-                                        "ndp": NotRequired[bool],
+                                        "macfilter": NotRequired[PveBool],
+                                        "ndp": NotRequired[PveBool],
                                         "policy_in": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
                                         "policy_out": NotRequired[
                                             Literal["ACCEPT", "REJECT", "DROP"]
                                         ],
-                                        "radv": NotRequired[bool],
+                                        "radv": NotRequired[PveBool],
                                     },
                                 )
 
@@ -13679,7 +13681,7 @@ class ProxmoxAPI:
                             TypedDict = typing.TypedDict(
                                 "TypedDict",
                                 {
-                                    "hasFeature": bool,
+                                    "hasFeature": PveBool,
                                 },
                             )
 
@@ -14558,7 +14560,7 @@ class ProxmoxAPI:
                                 "host": NotRequired[str],
                                 "name": dict[str, Any],
                                 "rank": NotRequired[int],
-                                "standby_replay": NotRequired[bool],
+                                "standby_replay": NotRequired[PveBool],
                                 "state": str,
                             },
                         )
@@ -15055,16 +15057,16 @@ class ProxmoxAPI:
                                     "application_list": NotRequired[list[Any]],
                                     "autoscale_status": NotRequired[dict[str, Any]],
                                     "crush_rule": NotRequired[str],
-                                    "fast_read": bool,
-                                    "hashpspool": bool,
+                                    "fast_read": PveBool,
+                                    "hashpspool": PveBool,
                                     "id": int,
                                     "min_size": NotRequired[int],
                                     "name": str,
-                                    "nodeep-scrub": bool,
-                                    "nodelete": bool,
-                                    "nopgchange": bool,
-                                    "noscrub": bool,
-                                    "nosizechange": bool,
+                                    "nodeep-scrub": PveBool,
+                                    "nodelete": PveBool,
+                                    "nopgchange": PveBool,
+                                    "noscrub": PveBool,
+                                    "nosizechange": PveBool,
                                     "pg_autoscale_mode": NotRequired[
                                         Literal["on", "off", "warn"]
                                     ],
@@ -15075,8 +15077,8 @@ class ProxmoxAPI:
                                     "statistics": NotRequired[dict[str, Any]],
                                     "target_size": NotRequired[str],
                                     "target_size_ratio": NotRequired[float],
-                                    "use_gmt_hitset": bool,
-                                    "write_fadvise_dontneed": bool,
+                                    "use_gmt_hitset": PveBool,
+                                    "write_fadvise_dontneed": PveBool,
                                 },
                             )
 
@@ -15328,7 +15330,7 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "dev": str,
-                                "gpt": bool,
+                                "gpt": PveBool,
                                 "model": NotRequired[str],
                                 "osdid": int,
                                 "serial": NotRequired[str],
@@ -15440,7 +15442,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "can_update_at_runtime": bool,
+                                "can_update_at_runtime": PveBool,
                                 "level": str,
                                 "mask": str,
                                 "name": str,
@@ -16026,7 +16028,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "all": NotRequired[bool],
+                                "all": NotRequired[PveBool],
                                 "bwlimit": NotRequired[int],
                                 "compress": NotRequired[
                                     Literal["0", "1", "gzip", "lzo", "zstd"]
@@ -16048,12 +16050,12 @@ class ProxmoxAPI:
                                 "pigz": NotRequired[int],
                                 "pool": NotRequired[str],
                                 "prune-backups": NotRequired[str],
-                                "quiet": NotRequired[bool],
-                                "remove": NotRequired[bool],
+                                "quiet": NotRequired[PveBool],
+                                "remove": NotRequired[PveBool],
                                 "script": NotRequired[str],
                                 "size": NotRequired[int],
-                                "stdexcludes": NotRequired[bool],
-                                "stop": NotRequired[bool],
+                                "stdexcludes": NotRequired[PveBool],
+                                "stop": NotRequired[PveBool],
                                 "stopwait": NotRequired[int],
                                 "storage": NotRequired[str],
                                 "tmpdir": NotRequired[str],
@@ -18041,7 +18043,7 @@ class ProxmoxAPI:
                                 "device_name": NotRequired[str],
                                 "id": str,
                                 "iommugroup": int,
-                                "mdev": NotRequired[bool],
+                                "mdev": NotRequired[PveBool],
                                 "subsystem_device": NotRequired[str],
                                 "subsystem_device_name": NotRequired[str],
                                 "subsystem_vendor": NotRequired[str],
@@ -18862,7 +18864,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "filepath": str,
-                                        "leaf": bool,
+                                        "leaf": PveBool,
                                         "mtime": NotRequired[int],
                                         "size": NotRequired[int],
                                         "text": str,
@@ -19275,11 +19277,11 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "active": NotRequired[bool],
+                            "active": NotRequired[PveBool],
                             "avail": NotRequired[int],
                             "content": str,
-                            "enabled": NotRequired[bool],
-                            "shared": NotRequired[bool],
+                            "enabled": NotRequired[PveBool],
+                            "shared": NotRequired[PveBool],
                             "storage": str,
                             "total": NotRequired[int],
                             "type": str,
@@ -19359,7 +19361,7 @@ class ProxmoxAPI:
                                     "TypedDict",
                                     {
                                         "free": int,
-                                        "leaf": bool,
+                                        "leaf": PveBool,
                                         "name": str,
                                         "size": int,
                                     },
@@ -19386,7 +19388,7 @@ class ProxmoxAPI:
                                         ]
                                     ],
                                     "free": int,
-                                    "leaf": bool,
+                                    "leaf": PveBool,
                                     "name": str,
                                     "size": int,
                                 },
@@ -19417,7 +19419,7 @@ class ProxmoxAPI:
                                 "children": list[
                                     "ProxmoxAPI.Nodes.Node.Disks.Lvm._Get._Children.TypedDict"
                                 ],
-                                "leaf": bool,
+                                "leaf": PveBool,
                             },
                         )
 
@@ -19917,7 +19919,7 @@ class ProxmoxAPI:
                             "TypedDict",
                             {
                                 "devpath": str,
-                                "gpt": bool,
+                                "gpt": PveBool,
                                 "health": NotRequired[str],
                                 "model": NotRequired[str],
                                 "osdid": int,
@@ -20628,7 +20630,7 @@ class ProxmoxAPI:
                         TypedDict = typing.TypedDict(
                             "TypedDict",
                             {
-                                "enable": NotRequired[bool],
+                                "enable": NotRequired[PveBool],
                                 "log_level_in": NotRequired[
                                     Literal[
                                         "emerg",
@@ -20655,16 +20657,16 @@ class ProxmoxAPI:
                                         "nolog",
                                     ]
                                 ],
-                                "log_nf_conntrack": NotRequired[bool],
-                                "ndp": NotRequired[bool],
-                                "nf_conntrack_allow_invalid": NotRequired[bool],
+                                "log_nf_conntrack": NotRequired[PveBool],
+                                "ndp": NotRequired[PveBool],
+                                "nf_conntrack_allow_invalid": NotRequired[PveBool],
                                 "nf_conntrack_max": NotRequired[int],
                                 "nf_conntrack_tcp_timeout_established": NotRequired[
                                     int
                                 ],
                                 "nf_conntrack_tcp_timeout_syn_recv": NotRequired[int],
-                                "nosmurfs": NotRequired[bool],
-                                "protection_synflood": NotRequired[bool],
+                                "nosmurfs": NotRequired[PveBool],
+                                "protection_synflood": NotRequired[PveBool],
                                 "protection_synflood_burst": NotRequired[int],
                                 "protection_synflood_rate": NotRequired[int],
                                 "smurf_log_level": NotRequired[
@@ -20693,7 +20695,7 @@ class ProxmoxAPI:
                                         "nolog",
                                     ]
                                 ],
-                                "tcpflags": NotRequired[bool],
+                                "tcpflags": NotRequired[PveBool],
                             },
                         )
 
@@ -23658,7 +23660,7 @@ class ProxmoxAPI:
                                 {
                                     "comment": NotRequired[str],
                                     "expire": NotRequired[int],
-                                    "privsep": NotRequired[bool],
+                                    "privsep": NotRequired[PveBool],
                                 },
                             )
 
@@ -23704,7 +23706,7 @@ class ProxmoxAPI:
                                     {
                                         "comment": NotRequired[str],
                                         "expire": NotRequired[int],
-                                        "privsep": NotRequired[bool],
+                                        "privsep": NotRequired[PveBool],
                                     },
                                 )
 
@@ -23770,7 +23772,7 @@ class ProxmoxAPI:
                                 {
                                     "comment": NotRequired[str],
                                     "expire": NotRequired[int],
-                                    "privsep": NotRequired[bool],
+                                    "privsep": NotRequired[PveBool],
                                 },
                             )
 
@@ -23875,7 +23877,7 @@ class ProxmoxAPI:
                             {
                                 "comment": NotRequired[str],
                                 "expire": NotRequired[int],
-                                "privsep": NotRequired[bool],
+                                "privsep": NotRequired[PveBool],
                                 "tokenid": str,
                             },
                         )
@@ -23958,7 +23960,7 @@ class ProxmoxAPI:
                         {
                             "comment": NotRequired[str],
                             "email": NotRequired[str],
-                            "enable": NotRequired[bool],
+                            "enable": NotRequired[PveBool],
                             "expire": NotRequired[int],
                             "firstname": NotRequired[str],
                             "groups": NotRequired[list[str]],
@@ -24070,7 +24072,7 @@ class ProxmoxAPI:
                         {
                             "comment": NotRequired[str],
                             "expire": NotRequired[int],
-                            "privsep": NotRequired[bool],
+                            "privsep": NotRequired[PveBool],
                             "tokenid": str,
                         },
                     )
@@ -24090,7 +24092,7 @@ class ProxmoxAPI:
                     {
                         "comment": NotRequired[str],
                         "email": NotRequired[str],
-                        "enable": NotRequired[bool],
+                        "enable": NotRequired[PveBool],
                         "expire": NotRequired[int],
                         "firstname": NotRequired[str],
                         "groups": NotRequired[str],
@@ -24404,41 +24406,41 @@ class ProxmoxAPI:
                     TypedDict = typing.TypedDict(
                         "TypedDict",
                         {
-                            "Datastore.Allocate": NotRequired[bool],
-                            "Datastore.AllocateSpace": NotRequired[bool],
-                            "Datastore.AllocateTemplate": NotRequired[bool],
-                            "Datastore.Audit": NotRequired[bool],
-                            "Group.Allocate": NotRequired[bool],
-                            "Permissions.Modify": NotRequired[bool],
-                            "Pool.Allocate": NotRequired[bool],
-                            "Realm.Allocate": NotRequired[bool],
-                            "Realm.AllocateUser": NotRequired[bool],
-                            "SDN.Allocate": NotRequired[bool],
-                            "SDN.Audit": NotRequired[bool],
-                            "Sys.Audit": NotRequired[bool],
-                            "Sys.Console": NotRequired[bool],
-                            "Sys.Modify": NotRequired[bool],
-                            "Sys.PowerMgmt": NotRequired[bool],
-                            "Sys.Syslog": NotRequired[bool],
-                            "User.Modify": NotRequired[bool],
-                            "VM.Allocate": NotRequired[bool],
-                            "VM.Audit": NotRequired[bool],
-                            "VM.Backup": NotRequired[bool],
-                            "VM.Clone": NotRequired[bool],
-                            "VM.Config.CDROM": NotRequired[bool],
-                            "VM.Config.CPU": NotRequired[bool],
-                            "VM.Config.Cloudinit": NotRequired[bool],
-                            "VM.Config.Disk": NotRequired[bool],
-                            "VM.Config.HWType": NotRequired[bool],
-                            "VM.Config.Memory": NotRequired[bool],
-                            "VM.Config.Network": NotRequired[bool],
-                            "VM.Config.Options": NotRequired[bool],
-                            "VM.Console": NotRequired[bool],
-                            "VM.Migrate": NotRequired[bool],
-                            "VM.Monitor": NotRequired[bool],
-                            "VM.PowerMgmt": NotRequired[bool],
-                            "VM.Snapshot": NotRequired[bool],
-                            "VM.Snapshot.Rollback": NotRequired[bool],
+                            "Datastore.Allocate": NotRequired[PveBool],
+                            "Datastore.AllocateSpace": NotRequired[PveBool],
+                            "Datastore.AllocateTemplate": NotRequired[PveBool],
+                            "Datastore.Audit": NotRequired[PveBool],
+                            "Group.Allocate": NotRequired[PveBool],
+                            "Permissions.Modify": NotRequired[PveBool],
+                            "Pool.Allocate": NotRequired[PveBool],
+                            "Realm.Allocate": NotRequired[PveBool],
+                            "Realm.AllocateUser": NotRequired[PveBool],
+                            "SDN.Allocate": NotRequired[PveBool],
+                            "SDN.Audit": NotRequired[PveBool],
+                            "Sys.Audit": NotRequired[PveBool],
+                            "Sys.Console": NotRequired[PveBool],
+                            "Sys.Modify": NotRequired[PveBool],
+                            "Sys.PowerMgmt": NotRequired[PveBool],
+                            "Sys.Syslog": NotRequired[PveBool],
+                            "User.Modify": NotRequired[PveBool],
+                            "VM.Allocate": NotRequired[PveBool],
+                            "VM.Audit": NotRequired[PveBool],
+                            "VM.Backup": NotRequired[PveBool],
+                            "VM.Clone": NotRequired[PveBool],
+                            "VM.Config.CDROM": NotRequired[PveBool],
+                            "VM.Config.CPU": NotRequired[PveBool],
+                            "VM.Config.Cloudinit": NotRequired[PveBool],
+                            "VM.Config.Disk": NotRequired[PveBool],
+                            "VM.Config.HWType": NotRequired[PveBool],
+                            "VM.Config.Memory": NotRequired[PveBool],
+                            "VM.Config.Network": NotRequired[PveBool],
+                            "VM.Config.Options": NotRequired[PveBool],
+                            "VM.Console": NotRequired[PveBool],
+                            "VM.Migrate": NotRequired[PveBool],
+                            "VM.Monitor": NotRequired[PveBool],
+                            "VM.PowerMgmt": NotRequired[PveBool],
+                            "VM.Snapshot": NotRequired[PveBool],
+                            "VM.Snapshot.Rollback": NotRequired[PveBool],
                         },
                     )
 
@@ -24638,7 +24640,7 @@ class ProxmoxAPI:
                     {
                         "privs": NotRequired[str],
                         "roleid": str,
-                        "special": NotRequired[bool],
+                        "special": NotRequired[PveBool],
                     },
                 )
 
@@ -24717,7 +24719,7 @@ class ProxmoxAPI:
                     "TypedDict",
                     {
                         "path": str,
-                        "propagate": NotRequired[bool],
+                        "propagate": NotRequired[PveBool],
                         "roleid": str,
                         "type": Literal["user", "group", "token"],
                         "ugid": str,
